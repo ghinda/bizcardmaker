@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="920"
+   height="680"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="chrome-tile-large.svg"
+   inkscape:export-filename="/media/Mokush/Dev/bizcardmaker/_artwork/chrome-tile-large.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <linearGradient
+       id="linearGradient3831">
+      <stop
+         style="stop-color:#2e384a;stop-opacity:1;"
+         offset="0"
+         id="stop3833" />
+      <stop
+         style="stop-color:#212834;stop-opacity:1;"
+         offset="1"
+         id="stop3835" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3884"
+       id="linearGradient3890"
+       x1="200"
+       y1="772.36218"
+       x2="-19.999998"
+       y2="992.36218"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3884">
+      <stop
+         style="stop-color:#122648;stop-opacity:1;"
+         offset="0"
+         id="stop3886" />
+      <stop
+         style="stop-color:#122648;stop-opacity:0;"
+         offset="1"
+         id="stop3888" />
+    </linearGradient>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3870">
+      <path
+         mask="none"
+         sodipodi:nodetypes="cccccccc"
+         inkscape:connector-curvature="0"
+         id="path3872"
+         d="M 61.349337,687.7096 -165.71098,914.7699 52.939695,1129.2158 280,902.15544 254.77106,876.92653 69.758977,889.54099 l 0,-201.83139 z"
+         style="opacity:0.61702127;fill:url(#linearGradient3874);fill-opacity:1;stroke:none" />
+    </clipPath>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3884"
+       id="linearGradient3045"
+       gradientUnits="userSpaceOnUse"
+       x1="200"
+       y1="772.36218"
+       x2="-19.999998"
+       y2="992.36218" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3831"
+       id="radialGradient3837"
+       cx="663.58038"
+       cy="187.32571"
+       fx="663.58038"
+       fy="187.32571"
+       r="460"
+       gradientTransform="matrix(-0.9103665,0.4138029,-0.43478255,-0.95652173,1349.1277,162.50357)"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="407.46527"
+     inkscape:cy="325.97844"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1234"
+     inkscape:window-height="800"
+     inkscape:window-x="46"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:snap-bbox="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3012"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-63.580357,-117.91394)">
+    <rect
+       style="fill:url(#radialGradient3837);fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="rect3906"
+       width="920"
+       height="680"
+       x="63.580357"
+       y="117.91394" />
+    <g
+       id="g3035"
+       transform="matrix(0.82548813,0,0,0.82548813,-201.08766,-36.743277)">
+      <rect
+         ry="30"
+         rx="30"
+         y="356.94907"
+         x="623.86609"
+         height="324.7869"
+         width="507.99997"
+         id="rect2989"
+         style="fill:#2854a1;fill-opacity:1;stroke:none" />
+      <rect
+         clip-path="url(#clipPath3870)"
+         style="opacity:0.35;fill:url(#linearGradient3045);fill-opacity:1;stroke:none"
+         id="rect3868"
+         width="507.99997"
+         height="324.7869"
+         x="2.0000324"
+         y="633.96875"
+         rx="30"
+         ry="30"
+         transform="translate(621.86605,-277.01969)" />
+      <path
+         sodipodi:nodetypes="cccccccccc"
+         inkscape:connector-curvature="0"
+         id="rect3014"
+         d="m 683.14838,410.70068 0,214.50081 218.71768,0 0,-214.51158 z m 25.23665,25.2259 168.24437,0 0,164.03826 -168.24437,0 z"
+         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:28.26667023;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="rect3784-9"
+         d="m 941.86606,410.68991 125.00004,0 0,25.23667 -125.00004,0 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:none" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:none"
+         d="m 941.86606,456.95712 125.00004,0 0,25.23665 -125.00004,0 z"
+         id="path2995"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path2997"
+         d="m 941.86606,503.22432 79.91604,0 0,25.23665 -79.91604,0 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:none" />
+      <path
+         style="fill:#ffffff;fill-opacity:1;stroke:none"
+         d="m 941.86606,549.49152 79.91604,0 0,25.23665 -79.91604,0 z"
+         id="path2999"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccc" />
+      <path
+         sodipodi:nodetypes="ccccc"
+         inkscape:connector-curvature="0"
+         id="path3001"
+         d="m 941.86606,599.96484 79.91604,0 0,25.23665 -79.91604,0 z"
+         style="fill:#ffffff;fill-opacity:1;stroke:none" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:57.38707352px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:-1.64008427px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="254.71223"
+       y="641.88318"
+       id="text3922"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3924"
+         x="254.71223"
+         y="641.88318"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;letter-spacing:-1.64008427px;fill:#ffffff;font-family:Open Sans;-inkscape-font-specification:Open Sans">Business Card Maker</tspan></text>
+  </g>
+</svg>

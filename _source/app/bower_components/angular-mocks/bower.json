@@ -1,0 +1,8 @@
+{
+  "name": "angular-mocks",
+  "version": "1.2.12-build.2216+sha.5850e61",
+  "main": "./angular-mocks.js",
+  "dependencies": {
+    "angular": "1.2.12-build.2216+sha.5850e61"
+  }
+}

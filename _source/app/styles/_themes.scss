@@ -1,0 +1,573 @@
+/* Themes
+ */
+
+/* Custom gradient for html2canvas support
+ */
+@mixin custom-gradient($pos, $gradients...) {
+	$prefixes: webkit, moz, ms, o;
+	@each $prefix in $prefixes {
+		background-image: -#{$prefix}-linear-gradient($pos, $gradients);
+	}
+}
+
+/* General styles for Dark/Light themes
+ */
+$white: #fff;
+$black: #333;
+
+@mixin theme($type) {
+	@if $type == dark {
+		$color: $white;
+	}
+	@else if $type == light {
+		$color: $black;
+	}
+
+	color: $color;
+
+	a,
+	.card-picture,
+	.card-picture:hover {
+		color: $color;
+	}
+
+	.card-picture:hover {
+		border-color: $color;
+	}
+
+	.vcard li:hover {
+		background-color: rgba($color, .1);
+	}
+}
+
+/* simple-black
+ */
+.simple-black,
+.simple-black-thumb .theme-preview {
+	background-color: #222;
+}
+
+.simple-black {
+	@include theme(dark);
+}
+
+/* simple-blue
+ */
+.simple-blue,
+.simple-blue-thumb .theme-preview {
+	background-color: #3498db;
+}
+
+.simple-blue {
+	@include theme(dark);
+}
+
+/* simple-white
+ */
+.simple-white,
+.simple-white-thumb .theme-preview {
+	background-color: #fff;
+}
+
+.simple-white {
+	@include theme(light);
+}
+
+/* simple-red
+ */
+.simple-red,
+.simple-red-thumb .theme-preview {
+	background-color: #c0392b;
+}
+
+.simple-red {
+	@include theme(dark);
+}
+
+/* simple-dark-blue
+ */
+.simple-dark-blue,
+.simple-dark-blue-thumb .theme-preview {
+	background-color: #2c3e50;
+}
+
+.simple-dark-blue {
+	@include theme(dark);
+}
+
+/* turquoise
+ */
+.simple-turquoise,
+.simple-turquoise-thumb .theme-preview {
+	background-color: #1ABC9C;
+}
+
+.simple-turquoise {
+	@include theme(dark);
+}
+
+/* black-corners
+ */
+.black-corners,
+.black-corners-thumb .theme-preview {
+	background-color: #000;
+}
+
+.black-corners-thumb {
+	.theme-preview:before,
+	.theme-preview:after {
+		content: '';
+		display: block;
+		width: emCalc(30);
+		height: emCalc(4);
+		position: absolute;
+		top: emCalc(15);
+		right: emCalc(15);
+		background-color: lighten(#000, 20%);
+	}
+
+	.theme-preview:before {
+		left: emCalc(15);
+		bottom: emCalc(15);
+		top: auto;
+		right: auto;
+	}
+}
+
+
+.black-corners {
+	@include theme(dark);
+
+	.card-picture {
+		left: emCalc(20);
+		top: auto;
+		bottom: emCalc(20);
+	}
+
+	.vcard {
+		left: auto;
+		right: emCalc(20);
+		top: emCalc(20);
+
+		font-size: emCalc(20);
+		font-weight: bold;
+		text-align: right;
+		letter-spacing: emCalc(-0.5);
+
+		p {
+			line-height: 1em;
+		}
+	}
+}
+
+/* black-white
+ */
+.black-white,
+.black-white-thumb .theme-preview {
+	@include background-image(
+		linear-gradient(
+			left,
+			#000 0%,
+			#000 50%,
+			$white 50%,
+			$white 100%
+		)
+	);
+
+	/* Funky notation for html2canvas - until it implements w3c gradients
+	 */
+	@include custom-gradient(
+		left,
+		#000 0%,
+		#000 50%,
+		$white 50%,
+		$white 100%
+	);
+}
+
+.black-white {
+	@include theme(dark);
+
+	.card-picture {
+		left: emCalc(65);
+		top: emCalc(20);
+	}
+
+	.vcard {
+		left: 55%;
+		top: auto;
+		bottom: emCalc(20);
+
+		color: #000;
+
+		a {
+			color: #000;
+		}
+
+		p {
+			line-height: 1.2em;
+		}
+
+		li:hover {
+			background-color: rgba($black, .1);
+		}
+	}
+}
+
+/* diagonals
+ */
+.diagonals,
+.diagonals-thumb .theme-preview {
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVAQMAAACT2TfVAAAABlBMVEUAAAD///+l2Z/dAAAANklEQVQIWx3DwQkAIAwEweMaN6VZSkrIMw8xLg6M17RDbf3F5LYmKOvysFlMbnmCki8Pm8WUHhEDFuFJix/eAAAAAElFTkSuQmCC');
+}
+
+.diagonals {
+	@include theme(light);
+
+	.card-picture {
+		background-color: $white;
+		left: emCalc(65);
+		top: emCalc(30);
+
+		opacity: 1 !important;
+	}
+
+	.vcard {
+		left: 55%;
+		top: emCalc(30);
+
+		color: #000;
+
+		a {
+			color: #000;
+		}
+
+		p {
+			line-height: 1.2em;
+		}
+
+		li {
+			padding: emCalc(4);
+			background-color: $white;
+
+			&:hover {
+				background-color: darken($white, 10%);
+			}
+		}
+
+	}
+}
+
+/* black-border
+ */
+.black-border,
+.black-border-thumb .theme-preview {
+	position: relative;
+	background-color: #fff;
+	padding: 0 !important;
+}
+
+.black-border-thumb .theme-preview:after {
+	position: absolute;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: emCalc(12) solid #000;
+	background: transparent;
+}
+
+.black-border {
+	@include theme(light);
+
+	text-align: center;
+
+	.card-picture {
+		position: relative;
+		z-index: 2;
+		top: auto;
+		left: auto;
+		margin: emCalc(36) auto;
+		min-height: emCalc(100);
+	}
+
+	&.card-big .no-picture {
+		display: block !important;
+		opacity: 0;
+	}
+
+	.vcard {
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		border: emCalc(12) solid #000;
+		z-index: 1;
+		padding: emCalc(136) emCalc(8) 0;
+
+		text-align: center;
+		color: #000;
+
+		p {
+			line-height: 1em;
+		}
+
+		.person {
+			display: block;
+			margin: 0;
+			background-color: #fff;
+
+			font-size: emCalc(20);
+		}
+
+		.title {
+			font-size: .8em;
+		}
+
+		.details {
+			display: none;
+			clear: both;
+		}
+
+		.email,
+		.url {
+			display: inline-block;
+			margin-right: emCalc(-6);
+			background-color: #000;
+
+			font-size: emCalc(12);
+			color: #fff;
+
+			&:hover {
+				color: #fff;
+				background-color: #000;
+			}
+		}
+
+		> li {
+			padding: emCalc(2) emCalc(8);
+		}
+
+	}
+}
+
+
+/* asphalt-half
+ */
+.asphalt-half,
+.asphalt-half-thumb .theme-preview {
+	@include background-image(
+		linear-gradient(
+			left,
+			#34495E 0%,
+			#34495E 60%,
+			#3498DB 60%,
+			#3498DB 100%
+		)
+	);
+
+	/* Funky notation for html2canvas - until it implements w3c gradients
+	 */
+	@include custom-gradient(
+		left,
+		#34495E 0%,
+		#34495E 60%,
+		#3498DB 60%,
+		#3498DB 100%
+	);
+}
+
+.asphalt-half {
+	@include theme(dark);
+
+	.card-picture {
+		width: emCalc(200);
+		height: emCalc(120);
+		top: auto;
+		left: emCalc(80);
+		bottom: emCalc(40);
+
+		font-size: emCalc(10);
+	}
+
+	.vcard {
+		position: relative;
+		left: 0;
+		top: 0;
+		bottom: 0;
+
+		color: #000;
+
+		.person {
+			left: emCalc(40);
+			top: emCalc(40);
+			width: emCalc(220);
+
+			color: #fff;
+
+			.fn {
+				font-size: emCalc(18);
+			}
+
+			.title {
+				display: inline-block;
+				border-bottom: 3px solid #fff;
+			}
+		}
+
+		.details,
+		.email,
+		.url {
+			top: emCalc(50);
+			left: emCalc(330);
+			width: emCalc(170);
+
+			color: darken(#3498DB, 37%);
+			font-size: emCalc(14);
+		}
+
+		.email {
+			top: emCalc(160);
+		}
+
+		.url {
+			top: emCalc(188);
+		}
+
+		a {
+			color: #000;
+		}
+
+		p {
+			line-height: 1.2em;
+		}
+
+		> li {
+			position: absolute;
+			display: block;
+		}
+
+		> li:hover {
+			background-color: rgba($black, .1);
+		}
+	}
+}
+
+/* line-one
+ */
+@mixin line-one($color) {
+	$white: #fff;
+	$color2: lighten(saturate($color, 95%), 30%);
+
+	color: $white;
+	background-color: $color;
+
+	.theme-preview {
+		background-color: $color;
+
+		&:after {
+			content: '';
+			display: block;
+			width: 60%;
+			position: absolute;
+			top: 50%;
+			left: 20%;
+			margin: 0 auto;
+			border-bottom: 1px solid $color2;
+		}
+	}
+
+	@include theme(dark);
+
+	.card-picture {
+		width: emCalc(150);
+		height: emCalc(50);
+		top: emCalc(40);
+		left: emCalc(40);
+
+		&.no-picture {
+			padding: emCalc(8) 0;
+		}
+
+		i, span {
+			font-size: emCalc(12);
+		}
+	}
+
+	.vcard {
+		position: absolute;
+		left: emCalc(40);
+		top: emCalc(100);
+		display: block;
+		width: emCalc(390);
+		height: emCalc(100);
+
+		color: #000;
+		vertical-align: baseline;
+
+		@include clearfix;
+
+		.person {
+			width: 100%;
+			padding-bottom: emCalc(12);
+			border-bottom: 1px solid $color2;
+
+			color: $white;
+
+			.fn {
+				letter-spacing: emCalc(1);
+				font-weight: normal;
+			}
+
+			.title {
+				display: inline-block;
+				position: absolute;
+				top: 0;
+				right: 0;
+
+				text-align: right;
+			}
+		}
+
+		.details {
+			display: none;
+		}
+
+		.email,
+		.url {
+			top: emCalc(56);
+			width: 50%;
+
+			color: lighten($color, 50%);
+			font-size: emCalc(10);
+		}
+
+		.email {
+			left: 0;
+			border-right: 1px solid $color2;
+		}
+
+		.url {
+			right: 0;
+			text-align: right;
+		}
+
+		p {
+			line-height: .9em;
+		}
+
+		> li {
+			position: absolute;
+			display: block;
+		}
+	}
+}
+
+.line-one,
+.line-one-thumb {
+	@include line-one(#2C3E50);
+}

@@ -1,0 +1,13 @@
+{
+  "name": "jspdf",
+  "homepage": "https://github.com/MrRio/jsPDF",
+  "_release": "e4f25c6a44",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "e4f25c6a4454ccbbd80036c7a8a3c898a6d6eb65"
+  },
+  "_source": "git://github.com/MrRio/jsPDF.git",
+  "_target": "*",
+  "_originalSource": "jspdf"
+}

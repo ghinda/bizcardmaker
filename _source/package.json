@@ -1,0 +1,31 @@
+{
+	"name": "bizcardmaker",
+	"version": "0.0.0",
+	"dependencies": {},
+	"devDependencies": {
+		"grunt": "~0.4.x",
+		"grunt-contrib-copy": "~0.5.x",
+		"grunt-contrib-concat": "~0.3.x",
+		"grunt-contrib-uglify": "~0.3.x",
+		"grunt-contrib-jshint": "~0.8.x",
+		"grunt-contrib-cssmin": "~0.7.x",
+		"grunt-contrib-connect": "~0.6.x",
+		"grunt-contrib-clean": "~0.5.x",
+		"grunt-contrib-htmlmin": "~0.1.x",
+		"grunt-contrib-imagemin": "~0.5.x",
+		"grunt-contrib-watch": "~0.5.x",
+		"grunt-usemin": "~2.x",
+		"grunt-rev": "~0.1.x",
+		"grunt-karma": "~0.6.x",
+		"grunt-concurrent": "~0.4.x",
+		"matchdep": "~0.3.x",
+		"connect-livereload": "~0.3.x",
+		"grunt-ngmin": "~0.0.x",
+		"grunt-angular-templates": "~0.5.x",
+		"grunt-sass": "~0",
+		"assemble": "~0"
+	},
+	"engines": {
+		"node": ">=0.8.0"
+	}
+}

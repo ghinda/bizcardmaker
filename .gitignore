@@ -1,0 +1,9 @@
+node_modules
+.tmp
+.sass-cache
+
+# Editor
+.kateproject
+.kateconfig
+.kateproject.d
+*.kate-swp

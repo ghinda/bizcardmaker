@@ -1,0 +1,157 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Business Card Maker: Free, fast and easy business cards in seconds, using high quality professional designs</title>
+	<meta name="description" content="Easily create your own business cards in seconds, for free, using high quality professional designs.">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+
+	<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
+
+	<link rel="stylesheet" href="/styles/b2f6d7cc.main.css"/>
+</head>
+<body>
+
+	<!--[if lt IE 9]>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<header>
+
+		<div class="row">
+			<div class="medium-8 columns">
+
+				<h1 class="brand">
+					<a href="/index.html">
+						<img src="/images/c33f7b46.bizcardmaker-logo.png" alt="Business Card Maker Logo">
+						Business Card Maker
+					</a>
+				</h1>
+
+				<div class="row">
+					<div class="medium-8 columns">
+
+						<p class="tagline">Easily create business cards in seconds, <strong>for free</strong>, using high quality professional designs. </p>
+
+					</div>
+					<div class="medium-4 columns">
+						<a href="/index.html" class="button expand radius secondary js-guide-btn">
+							Get started
+						</a>
+					</div>
+				</div>
+
+			</div>
+			<div class="medium-4 columns">
+				<ul class="inline-list top-menu right show-for-medium-up">
+					<li>
+						<a href="/about.html">About</a>
+					</li>
+					<li>
+						<a href="/faq.html">FAQ</a>
+					</li>
+					<li>
+						<a href="/news.html">News</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+	</header>
+
+	
+
+<div ng-app="businessCardMaker">
+	<div ng-view=""></div>
+</div>
+
+
+	<footer class="row">
+
+		<div class="large-7 columns">
+
+			<ul class="inline-list">
+				<li>
+					<a href="/index.html">Home</a>
+				</li>
+				<li>
+					<a href="/about.html">About</a>
+				</li>
+				<li>
+					<a href="/faq.html">FAQ</a>
+				</li>
+				<li>
+					<a href="/news.html">News</a>
+				</li>
+			</ul>
+
+			<p>
+				<a href="http://bizcardmaker.com" class="copy">Business Card Maker</a> is a project by <a href="http://ghinda.net">Ionuț Colceriu</a>.
+				Font families from <a href="https://www.google.com/fonts/">Google Fonts</a>.
+			</p>
+
+		</div>
+
+		<div class="large-5 columns">
+
+			<p class="text-right chrome-app">
+
+				<a href="https://chrome.google.com/webstore/detail/business-card-maker/dpchnngplfnmejdkfgpmfhifccngoiih" title="Get the Chrome app, for easier access.">
+					<img src="images/1bb0f3e4.chrome-app.png" alt="Available in the Chrome Web Store">
+				</a>
+
+			</p>
+
+		</div>
+
+	</footer>
+
+	<script>
+		// Include the UserVoice JavaScript SDK (only needed once on a page)
+		UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/0TaFw9YxP0BwgMYOQ860KA.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+
+		// Set colors
+		UserVoice.push(['set', {
+			accent_color: '#6aba2e',
+			trigger_color: 'white',
+			trigger_background_color: '#6aba2e'
+		}]);
+
+		// Add default trigger to the bottom-right corner of the window:
+		UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'bottom-right' }]);
+		UserVoice.push(['autoprompt', {}]);
+	</script>
+
+	<script src="/scripts/1bd9e569.plugins.js"></script>
+
+	<script src="/scripts/f0b3f993.app.js"></script>
+
+	<script src="/scripts/43c5e7df.website.js"></script>
+
+	<script>
+		/* analytics
+		 */
+		analytics.initialize({
+			'Google Analytics': {
+				trackingId: 'UA-44456311-1'
+			},
+			'Mixpanel': {
+				token: '67b8936faebf1d0e7c1efd029a110fdf',
+				people: true
+			}
+		});
+
+		var userId = 'user' + new Date().getTime();
+		analytics.identify(userId, {
+			username: userId
+		});
+	</script>
+
+</body>
+</html>

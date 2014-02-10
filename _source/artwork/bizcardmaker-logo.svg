@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="512"
+   height="512"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="bizcardmaker-logo.svg"
+   inkscape:export-filename="/media/Mokush/Dev/cardmaker/_artwork/bizcardmaker-logo.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.49497475"
+     inkscape:cx="182.84216"
+     inkscape:cy="168.06268"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1320"
+     inkscape:window-height="768"
+     inkscape:window-x="46"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3025"
+       empspacing="5"
+       visible="true"
+       enabled="true"
+       snapvisiblegridlinesonly="true" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-540.36218)">
+    <g
+       id="g3758"
+       transform="matrix(1.7003724,0,0,1.7003724,-101.0782,490.51968)">
+      <path
+         id="rect3027"
+         d="m 64.5,112.375 c -2.527405,0.25514 -4.5,2.40313 -4.5,5 l 0,150 c 0,2.77 2.23,5 5,5 l 290,0 c 2.77,0 5,-2.23 5,-5 l 0,-150 c 0,-2.77 -2.23,-5 -5,-5 l -290,0 c -0.173125,0 -0.331506,-0.017 -0.5,0 z m 30.53125,40.03125 70,0 0,70 -70,0 0,-70 z m 90,0 140,0 0,20 -140,0 0,-20 z m 0,30.09375 109.96875,0 0,9.90625 -109.96875,0 0,-9.90625 z m 0,19.96875 109.96875,0 0,9.90625 -109.96875,0 0,-9.90625 z"
+         style="fill:#2980b9;fill-opacity:1;stroke:none"
+         inkscape:connector-curvature="0" />
+      <rect
+         style="fill:#2980b9;fill-opacity:1;stroke:none"
+         id="rect3797"
+         width="259.97589"
+         height="9.9292126"
+         x="80.013649"
+         y="97.399292" />
+      <rect
+         y="87.360901"
+         x="100.78491"
+         height="4.9415841"
+         width="219.18781"
+         id="rect3799"
+         style="fill:#2980b9;fill-opacity:1;stroke:none" />
+    </g>
+  </g>
+</svg>

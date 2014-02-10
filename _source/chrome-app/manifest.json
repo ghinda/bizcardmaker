@@ -1,0 +1,20 @@
+ {
+	"manifest_version": 2,
+	"name": "Business Card Maker",
+	"description": "Easily create your own FREE business cards in seconds, using high quality professional designs.",
+	"version": "1.0.1",
+	"icons": {
+		"16": "bizcardmaker-icon-16.png",
+		"48": "bizcardmaker-icon-48.png",
+		"128": "bizcardmaker-icon-128.png"
+	},
+	"app": {
+		"urls": [
+			"http://bizcardmaker.com/"
+		],
+		"launch": {
+			"web_url": "http://bizcardmaker.com/"
+		}
+	},
+	"permissions": []
+}

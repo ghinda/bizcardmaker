@@ -1,0 +1,149 @@
+<section class="themes-box">
+
+	<div class="row">
+		<div class="large-12 columns">
+			<h2>Choose a design</h2>
+		</div>
+	</div>
+
+	<div class="themes-row" id="js-themes">
+
+		<a ng-href="#/?theme={{ $index }}" class="theme-item {{ theme.name }}-thumb" ng-repeat="theme in model.themes" ng-class="{ active: $index == model.activeTheme }">
+			<div class="theme-preview-container">
+				<div class="theme-preview"></div>
+			</div>
+		</a>
+
+	</div>
+
+</section>
+
+<section class="card-editor">
+
+	<div class="row">
+
+		<div class="large-8 columns">
+
+			<h2>Customize your business card</h2>
+			<p>
+				Just click on any of the details on the card, to edit them. <br>
+				Double click or select the text to change its style, size or font.
+			</p>
+
+			<div class="card-edit-container" ng-class="{ 'card-big': model.generatingCard, 'card-print': model.generatingPdf, 'ios': model.iOS }">
+
+				<div class="card-container" id="js-card-container">
+					<div class="card-preview {{ model.themes[model.activeTheme].name }}">
+
+						<input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
+						<label for="picture-upload" class="card-picture" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
+
+							<i class="fa fa-picture-o"></i>
+							<span>Upload your logo</span>
+
+							<img ng-src="{{ model.cardPicture }}">
+
+						</label>
+
+						<ul class="vcard">
+
+							<li class="person" meditor>
+								<p class="fn">
+									John Doe
+								</p>
+								<p class="title">
+									Position
+								</p>
+							</li>
+
+							<li class="details" meditor>
+								<p class="org">
+									Organization
+								</p>
+								<p>
+									<span class="locality">City</span>,
+									<span class="state">State</span>
+								</p>
+								<p class="tel">
+									(123) 555-1234
+								</p>
+							</li>
+
+							<li class="email" meditor>
+								john.doe@cmail.com
+							</li>
+
+							<li class="url" meditor>
+								www.john-doe.com
+							</li>
+						</ul>
+
+					</div>
+				</div>
+
+
+				<ul class="button-group download-buttons">
+					<li>
+
+						<form class="download-form">
+							<button type="button" class="button" id="js-download-button" ng-click="downloadPdf()">
+								<i class="fa fa-file-text"></i>
+								Download PDF
+								<small>For printing at home, or at your local printer. </small>
+							</button>
+						</form>
+
+					</li>
+					<li>
+
+						<form class="download-form">
+							<button type="button" class="button secondary" id="js-download-picture-button" ng-click="downloadPicture()">
+								<i class="fa fa-picture-o"></i>
+								Download picture
+
+								<small>For posting online or sharing with other people. </small>
+							</button>
+						</form>
+
+					</li>
+				</ul>
+
+			</div>
+
+		</div>
+
+		<div class="large-4 columns">
+
+			<div class="panel buy-block">
+				<h4>
+					Want to use <br>
+					<strong>Business Card Maker</strong><br>
+					in your app or website?
+				</h4>
+				<p>Business Card Maker is free for open-source and non-commercial projects. </p>
+				<p>For commercial projects, you can buy an individual developer license for $40. </p>
+				<p>Contact me at <a href="mailto:contact@bizcardmaker.com">contact@bizcardmaker.com</a> for more details. </p>
+			</div>
+
+		</div>
+
+	</div>
+
+</section>
+
+<ol class="joyride-list" data-joyride>
+	<li data-id="js-themes" data-text="Next">
+		<p>Select one of the available templates for your business card. </p>
+	</li>
+	<li data-id="js-card-container" data-text="Next">
+		<p>Edit all of the details on the business card by simply clicking on them. </p>
+		<p>You can also upload your own logo or picture, by clicking the picture icon. </p>
+	</li>
+	<li data-id="js-download-button" data-button="Next">
+		<p>Once you're done editing and your business card looks just right, simply press the <strong>Download PDF</strong> button and print the resulting PDF. </p>
+	</li>
+	<li data-id="js-download-picture-button" data-button="Done">
+		<p>You can also download your business card as a picture, if you want to share it online with others. </p>
+	</li>
+</ol>
+
