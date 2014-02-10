@@ -91,7 +91,6 @@ module.exports = function (grunt) {
 					src: [
 						'*',
 						'!**/_source/**',
-						'!**CNAME**',
 						'_source/.tmp'
 					]
 				}]
@@ -204,8 +203,8 @@ module.exports = function (grunt) {
 					cwd: '<%= yeoman.app %>',
 					dest: '<%= yeoman.dist %>',
 					src: [
-						'*.{ico,png,txt,php,html}',
-						'.htaccess',
+						'*.{ico,png,txt,md,php,html}',
+						'{README,CNAME}',
 						'bower_components/**/*',
 						'images/{,*/}*.{gif,webp,svg}',
 						'styles/fonts/*'
