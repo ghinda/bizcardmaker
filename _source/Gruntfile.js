@@ -141,7 +141,7 @@ module.exports = function (grunt) {
 				},
 				files: {
 					'.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss',
-					'.tmp/styles/whitelabel.css': '<%= yeoman.app %>/styles/whitelabel.scss'
+					'.tmp/styles/app.css': '<%= yeoman.app %>/styles/app.scss'
 				}
 			}
 		},
@@ -290,7 +290,7 @@ module.exports = function (grunt) {
 		'ngtemplates',
 		'copy',
 		'concat',
-		'ngmin',
+		//'ngmin',
 		'cssmin',
 		'uglify',
 		'rev',
