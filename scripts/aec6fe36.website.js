@@ -1,0 +1,1 @@
+!function(){"use strict";var a=function(){return $(".card-preview").length?($(document).foundation({joyride:{scroll_speed:500}}),$(document).foundation("joyride","start"),!1):void 0};$(document).ready(function(){$(".js-guide-btn").click(a)})}();

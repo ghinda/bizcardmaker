@@ -5,7 +5,7 @@ Easily create your own business cards in seconds, *for free*, using high quality
 
 ## Architecture
 
-* Angular 1.2, without any templates, just inline `ng-controller`s
+* Angular
 * Foundation
 * HTML2Canvas
 * jsPDF
@@ -14,3 +14,11 @@ Easily create your own business cards in seconds, *for free*, using high quality
 
 	grunt server
 
+## Build
+
+	grunt
+
+## Contributing
+
+1. Use tabs
+2. Don't edit anything outside the `_source` folder

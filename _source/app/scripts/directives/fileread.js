@@ -1,9 +1,11 @@
 app.directive('fileread', [function () {
+	'use strict';
+
 	return {
 		scope: {
 			fileread: '='
 		},
-		link: function (scope, element, attributes) {
+		link: function (scope, element) {
 			element.bind('change', function (changeEvent) {
 				scope.$apply(function () {
 					scope.fileread = changeEvent.target.files[0];
@@ -12,5 +14,5 @@ app.directive('fileread', [function () {
 				});
 			});
 		}
-	}
+	};
 }]);

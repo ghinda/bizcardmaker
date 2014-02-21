@@ -144,6 +144,16 @@
 	<script src="/bower_components/analytics/analytics.js"></script>
 	<!-- endbuild -->
 
+	<script>
+		/* analytics.js setup
+		 */
+		analytics.initialize({
+			'Google Analytics': {
+				trackingId: 'UA-44456311-1'
+			}
+		});
+	</script>
+
 	<!-- build:js({.tmp,app}) /scripts/app.js -->
 	<script src="/scripts/app.js"></script>
 	<script src="/scripts/directives/fileread.js"></script>
@@ -153,26 +163,6 @@
 	<!-- build:js({.tmp,app}) /scripts/website.js -->
 	<script src="/scripts/website.js"></script>
 	<!-- endbuild -->
-
-	<script>
-		/* analytics
-		 */
-		analytics.initialize({
-			'Google Analytics': {
-				trackingId: 'UA-44456311-1'
-			},
-			'Mixpanel': {
-				token: '67b8936faebf1d0e7c1efd029a110fdf',
-				people: true
-			}
-		});
-
-		var userId = 'user' + new Date().getTime();
-		analytics.identify(userId, {
-			username: userId
-		});
-	</script>
-
 
 </body>
 </html>

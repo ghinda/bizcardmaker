@@ -1,6 +1,7 @@
 'use strict';
 var LIVERELOAD_PORT = 35729;
 var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
+
 var mountFolder = function (connect, dir) {
 	return connect.static(require('path').resolve(dir));
 };
@@ -74,7 +75,7 @@ module.exports = function (grunt) {
 				options: {
 					middleware: function (connect) {
 						return [
-						mountFolder(connect, yeomanConfig.dist)
+							mountFolder(connect, yeomanConfig.dist)
 						];
 					}
 				}
@@ -130,15 +131,11 @@ module.exports = function (grunt) {
 		sass: {
 			dist: {
 				files: {
-					'.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
+					'.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss',
+					'.tmp/styles/app.css': '<%= yeoman.app %>/styles/app.scss'
 				}
 			},
 			server: {
-				options: {
-					includePaths: [
-						''
-					]
-				},
 				files: {
 					'.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss',
 					'.tmp/styles/app.css': '<%= yeoman.app %>/styles/app.scss'
@@ -249,7 +246,7 @@ module.exports = function (grunt) {
 				dest: '.tmp/scripts/templates.js'
 			}
 		},
-		 ngmin: {
+		ngmin: {
 			dist: {
 				files: [{
 					expand: true,
@@ -290,7 +287,7 @@ module.exports = function (grunt) {
 		'ngtemplates',
 		'copy',
 		'concat',
-		//'ngmin',
+		'ngmin',
 		'cssmin',
 		'uglify',
 		'rev',
@@ -299,7 +296,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('default', [
 		'jshint',
-		'test',
+		//'test',
 		'build'
 	]);
 };

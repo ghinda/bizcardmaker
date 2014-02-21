@@ -2,6 +2,7 @@
  */
 
 (function() {
+	'use strict';
 
 	var showGuide = function() {
 		// check if card editor page
