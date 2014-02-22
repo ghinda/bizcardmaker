@@ -171,15 +171,10 @@ $card-border: 1px solid darken($white, 10%);
 	left: emCalc(30);
 
 	width: emCalc(180);
-	border: 3px dotted transparent;
+	color: $color1;
 
 	vertical-align: top;
 	text-align: center;
-
-	&:hover {
-		color: $color1;
-		border-color: $color1;
-	}
 
 	i {
 		font-size: 3em;
@@ -197,7 +192,18 @@ $card-border: 1px solid darken($white, 10%);
 		max-height: 100%;
 	}
 
-	&.no-picture {
+	label {
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: relative;
+
+		&:hover {
+			background-color: rgba($color1, .1);
+		}
+	}
+
+	.no-picture {
 		padding: emCalc(20);
 		opacity: .8;
 
@@ -210,6 +216,12 @@ $card-border: 1px solid darken($white, 10%);
 			display: none;
 		}
 
+	}
+
+	&:hover {
+		.drag-handle {
+			border-color: $color1;
+		}
 	}
 }
 
@@ -251,8 +263,44 @@ $card-border: 1px solid darken($white, 10%);
 		text-decoration: none;
 	}
 
+	li,
+	li p {
+		position: relative;
+	}
+
 	li:hover {
 		background-color: rgba($color1, .3);
+
+		.drag-handle {
+			border-color: $color1;
+		}
+	}
+}
+
+.drag-handle {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 0;
+	opacity: .5;
+
+	@include box-sizing(content-box);
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 5px;
+	margin: -10px;
+	border: 5px dotted transparent;
+
+	cursor: move;
+
+	@include transition(all .1s ease-in-out);
+	@include transition-delay(0.5s);
+
+	&:hover,
+	.drag-handle-show {
+		border-color: $color1;
+		@include transition-delay(0s);
 	}
 }
 

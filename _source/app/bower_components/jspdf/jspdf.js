@@ -1,5 +1,5 @@
-/** @preserve jsPDF 1.0.0-trunk ( ${buildDate} ${commitID} )
-Copyright (c) 2010-2014 James Hall, james@parall.ax, https://github.com/MrRio/jsPDF
+/** @preserve jsPDF 0.9.0rc2 ( ${buildDate} ${commitID} )
+Copyright (c) 2010-2012 James Hall, james@snapshotmedia.co.uk, https://github.com/MrRio/jsPDF
 Copyright (c) 2012 Willow Systems Corporation, willow-systems.com
 MIT license.
 */
@@ -32,11 +32,11 @@ Creates new jsPDF document object instance
 @class
 @param orientation One of "portrait" or "landscape" (or shortcuts "p" (Default), "l")
 @param unit Measurement unit to be used when coordinates are specified. One of "pt" (points), "mm" (Default), "cm", "in"
-@param format One of 'a0', 'a1', 'a2', 'a3', 'a4' (Default) etc to 'a10', 'b0' to 'b10', 'c0' to 'c10', 'letter', 'government-letter', 'legal', 'junior-legal', 'ledger' or 'tabloid'
+@param format One of 'a3', 'a4' (Default),'a5' ,'letter' ,'legal'
 @returns {jsPDF}
 @name jsPDF
 */
-var jsPDF = (function (global) {
+var jsPDF = (function () {
     'use strict';
     /*jslint browser:true, plusplus: true, bitwise: true, nomen: true */
     /*global document: false, btoa, atob, zpipe, Uint8Array, ArrayBuffer, Blob, saveAs, adler32cs, Deflater */
@@ -326,16 +326,6 @@ PubSub implementation
 @private
 */
     function jsPDF(orientation, unit, format, compressPdf) { /** String orientation, String unit, String format, Boolean compressed */
-        var options = {};
-
-        if (typeof orientation === 'object') {
-            options = orientation;
-
-            orientation = options.orientation;
-            unit        = options.unit;
-            format      = options.format;
-            compressPdf = options.compress || options.compressPdf;
-        }
 
         // Default parameter values
         if (typeof orientation === 'undefined') {
@@ -348,65 +338,30 @@ PubSub implementation
         if (typeof compressPdf === 'undefined' && typeof zpipe === 'undefined') { compressPdf = false; }
 
         var format_as_string = format.toString().toLowerCase(),
-            version = '1.0.0-trunk',
+            version = '0.9.0rc2',
             content = [],
             content_length = 0,
             compress = compressPdf,
             pdfVersion = '1.3', // PDF Version
             pageFormats = { // Size in pt of various paper formats
-                'a0': [2383.94, 3370.39],
-                'a1': [1683.78, 2383.94],
-                'a2': [1190.55, 1683.78],
-                'a3': [841.89,  1190.55],
-                'a4': [595.28,  841.89],
-                'a5': [419.53,  595.28],
-                'a6': [297.64,  419.53],
-                'a7': [209.76,  297.64],
-                'a8': [147.4 ,  209.76],
-                'a9': [104.88,  147.4],
-                'a10': [73.7,  104.88],
-                'b0': [2834.65, 4008.19],
-                'b1': [2004.09, 2834.65],
-                'b2': [1417.32, 2004.09],
-                'b3': [1000.63, 1417.32],
-                'b4': [708.66,  1000.63],
-                'b5': [498.9,  708.66],
-                'b6': [354.33,  498.9],
-                'b7': [249.45,  354.33],
-                'b8': [175.75,  249.45],
-                'b9': [124.72,  175.75],
-                'b10': [87.87,  124.72],
-                'c0': [2599.37, 3676.54],
-                'c1': [1836.85, 2599.37],
-                'c2': [1298.27, 1836.85],
-                'c3': [918.43,  1298.27],
-                'c4': [649.13,  918.43],
-                'c5': [459.21,  649.13],
-                'c6': [323.15,  459.21],
-                'c7': [229.61,  323.15],
-                'c8': [161.57,  229.61],
-                'c9': [113.39,  161.57],
-                'c10': [79.37,   113.39],
+                'a3': [841.89, 1190.55],
+                'a4': [595.28, 841.89],
+                'a5': [420.94, 595.28],
                 'letter': [612, 792],
-                'government-letter': [576, 756],
-                'legal': [612, 1008],
-                'junior-legal': [576, 360],
-                'ledger': [1224, 792],
-                'tabloid': [792, 1224]
+                'legal': [612, 1008]
             },
             textColor = '0 g',
             drawColor = '0 G',
             page = 0,
             pages = [],
             objectNumber = 2, // 'n' Current object number
-            outToPages = !!options.outToPages, // switches where out() prints. outToPages true = push to pages obj. outToPages false = doc builder content
+            outToPages = false, // switches where out() prints. outToPages true = push to pages obj. outToPages false = doc builder content
             offsets = [], // List of offsets. Activated and reset by buildDocument(). Pupulated by various calls buildDocument makes.
             fonts = {}, // collection of font objects, where key is fontKey - a dynamically created label for a given font.
             fontmap = {}, // mapping structure fontName > fontStyle > font key - performance layer. See addFont()
             activeFontSize = 16,
             activeFontKey, // will be string representing the KEY of the font as combination of fontName + fontStyle
-            lineWidth = options.lineWidth || 0.200025, // 2mm
-            lineHeightProportion = options.lineHeight || 1.15,
+            lineWidth = 0.200025, // 2mm
             pageHeight,
             pageWidth,
             k, // Scale factor
@@ -976,21 +931,7 @@ PubSub implementation
                 }
                 return op;
             },
-            getBlob = function () {
-                var data, length, array, i, blob;
-                data = buildDocument();
 
-                // Need to add the file to BlobBuilder as a Uint8Array
-                length = data.length;
-                array = new Uint8Array(new ArrayBuffer(length));
-
-                for (i = 0; i < length; i++) {
-                    array[i] = data.charCodeAt(i);
-                }
-
-                blob = new Blob([array], {type: "application/pdf"});
-                return blob;
-            },
             /**
             Generates the PDF document.
             Possible values:
@@ -1007,7 +948,7 @@ PubSub implementation
             @name output
             */
             output = function (type, options) {
-                var undef;
+                var undef, data, length, array, i, blob;
                 switch (type) {
                 case undef:
                     return buildDocument();
@@ -1019,10 +960,20 @@ PubSub implementation
                             return API.output('dataurlnewwindow');
                         }
                     }
-                    saveAs(getBlob(), options);
+                    data = buildDocument();
+
+                    // Need to add the file to BlobBuilder as a Uint8Array
+                    length = data.length;
+                    array = new Uint8Array(new ArrayBuffer(length));
+
+                    for (i = 0; i < length; i++) {
+                        array[i] = data.charCodeAt(i);
+                    }
+
+                    blob = new Blob([array], {type: "application/pdf"});
+
+                    saveAs(blob, options);
                     break;
-                case 'blob':
-                    return getBlob();
                 case 'datauristring':
                 case 'dataurlstring':
                     return 'data:application/pdf;base64,' + btoa(buildDocument());
@@ -1104,7 +1055,6 @@ PubSub implementation
             */
             'getFont': function () { return fonts[getFont.apply(API, arguments)]; },
             'getFontSize': function () { return activeFontSize;    },
-            'getLineHeight': function () { return activeFontSize * lineHeightProportion;    },
             'btoa': btoa,
             'write': function (string1, string2, string3, etc) {
                 out(
@@ -1131,9 +1081,7 @@ PubSub implementation
             'pageSize': {'width': pageWidth, 'height': pageHeight},
             'output': function (type, options) {
                 return output(type, options);
-            },
-            'getNumberOfPages': function () {return pages.length - 1; },
-            'pages': pages
+            }
         };
 
         /**
@@ -1236,7 +1184,7 @@ PubSub implementation
             out(
                 'BT\n/' +
                     activeFontKey + ' ' + activeFontSize + ' Tf\n' + // font face, style, size
-                    (activeFontSize * lineHeightProportion) + ' TL\n' + // line spacing
+                    activeFontSize + ' TL\n' + // line spacing
                     textColor +
                     '\n' + f2(x * k) + ' ' + f2((pageHeight - y) * k) + ' Td\n(' +
                     str +
@@ -1265,14 +1213,12 @@ PubSub implementation
         @param {Number} x Coordinate (in units declared at inception of PDF document) against left edge of the page
         @param {Number} y Coordinate (in units declared at inception of PDF document) against upper edge of the page
         @param {Number} scale (Defaults to [1.0,1.0]) x,y Scaling factor for all vectors. Elements can be any floating number Sub-one makes drawing smaller. Over-one grows the drawing. Negative flips the direction.
-        @param {String} style One of 'S' (the default), 'F', 'FD' or 'DF'.  'S' draws just the curve. 'F' fills the region defined by the curves. 'DF' or 'FD' draws the curves and fills the region. 
-        @param {Boolean} closed If true, the path is closed with a straight line from the end of the last curve to the starting point. 
         @function
         @returns {jsPDF}
         @methodOf jsPDF#
         @name lines
          */
-        API.lines = function (lines, x, y, scale, style, closed) {
+        API.lines = function (lines, x, y, scale, style) {
             var undef, _first, _second, _third, scalex, scaley, i, l, leg, x2, y2, x3, y3, x4, y4;
 
             // Pre-August-2012 the order of arguments was function(x, y, lines, scale, style)
@@ -1330,11 +1276,6 @@ PubSub implementation
                     );
                 }
             }
-
-            if (closed == true) {
-                out(' h');
-            }
-
             // stroking / filling / both the path
             out(style);
             return this;
@@ -1391,8 +1332,7 @@ PubSub implementation
                 x1,
                 y1, // start of path
                 [1, 1],
-                style,
-                true
+                style
             );
             return this;
         };
@@ -1762,7 +1702,7 @@ PubSub implementation
         If only one, first argument is given,
         treats the value as gray-scale color value.
 
-        @param {Number} r Red channel color value in range 0-255 or {String} r color value in hexadecimal, example: '#FFFFFF'
+        @param {Number} r Red channel color value in range 0-255
         @param {Number} g Green channel color value in range 0-255
         @param {Number} b Blue channel color value in range 0-255
         @function
@@ -1771,15 +1711,6 @@ PubSub implementation
         @name setTextColor
         */
         API.setTextColor = function (r, g, b) {
-            var patt = /#[0-9A-Fa-f]{6}/;
-            if ((typeof r == 'string') && patt.test(r)) {
-                var hex = r.replace('#','');
-                var bigint = parseInt(hex, 16);
-                r = (bigint >> 16) & 255;
-                g = (bigint >> 8) & 255;
-                b = bigint & 255;
-            }
-
             if ((r === 0 && g === 0 && b === 0) || (typeof g === 'undefined')) {
                 textColor = f3(r / 255) + ' g';
             } else {
@@ -1801,7 +1732,7 @@ PubSub implementation
             0: 0,
             'butt': 0,
             'but': 0,
-            'miter': 0,
+            'bevel': 0,
             1: 1,
             'round': 1,
             'rounded': 1,
@@ -1810,7 +1741,7 @@ PubSub implementation
             'projecting': 2,
             'project': 2,
             'square': 2,
-            'bevel': 2
+            'milter': 2
         };
 
         /**
@@ -1953,5 +1884,5 @@ Examples:
 */
     jsPDF.API = {'events': []};
 
-    return global.jsPDF = jsPDF;
-}(this));
+    return jsPDF;
+}());

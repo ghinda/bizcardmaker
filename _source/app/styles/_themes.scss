@@ -26,13 +26,9 @@ $black: #333;
 	color: $color;
 
 	a,
-	.card-picture,
-	.card-picture:hover {
+	.card-picture label,
+	.card-picture:hover label {
 		color: $color;
-	}
-
-	.card-picture:hover {
-		border-color: $color;
 	}
 
 	.vcard li:hover {

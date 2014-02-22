@@ -110,10 +110,33 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 			children = e.querySelectorAll('*');
 			parentStyle = window.getComputedStyle(e, null);
 			angular.forEach(children, function(c) {
-				style = window.getComputedStyle(c, null);
-				c.style.fontSize = parseInt(style.fontSize) / parseInt(parentStyle.fontSize) + 'em';
+				if(c.style.fontSize.indexOf('em') === -1) {
+					style = window.getComputedStyle(c, null);
+					c.style.fontSize = parseInt(style.fontSize, 10) / parseInt(parentStyle.fontSize, 10) + 'em';
+				}
 			});
 		});
+
+		// fix dragged possitions
+		var lists = container.querySelectorAll('li[style]'),
+			picture = container.querySelector('.card-picture[style]');
+
+		angular.forEach(lists, function(li) {
+			if(li.style.left.indexOf('em') === -1) {
+				parentStyle = window.getComputedStyle(li.parentNode, null);
+				li.style.left = (parseInt(li.style.left, 10) / parseInt(parentStyle.fontSize, 10)) + 'em';
+				li.style.top = (parseInt(li.style.top, 10) / parseInt(parentStyle.fontSize, 10)) + 'em';
+			}
+		});
+
+		if(picture) {
+			if(picture.style.left.indexOf('em') === -1) {
+				parentStyle = window.getComputedStyle(picture.parentNode, null);
+
+				picture.style.left = (parseInt(picture.style.left, 10) / parseInt(parentStyle.fontSize, 10)) + 'em';
+				picture.style.top = (parseInt(picture.style.top, 10) / parseInt(parentStyle.fontSize, 10)) + 'em';
+			}
+		}
 
 	};
 
@@ -221,5 +244,38 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 		});
 
 	};
+
+	$scope.$on('$viewContentLoaded', function() {
+
+		var $preview = $('.card-preview'),
+			$picture = $preview.find('.card-picture'),
+			$li = $preview.find('li');
+
+		new Draggabilly($picture.get(0), {
+			containment: $preview.get(0),
+			handle: '.drag-handle',
+			grid: [ 20, 20 ]
+		});
+
+		$li.each(function(i, li) {
+			setTimeout(function() {
+				var liDrag = new Draggabilly(li, {
+					containment: $preview.get(0),
+					handle: '.drag-handle',
+					grid: [ 20, 20 ]
+				});
+
+				liDrag.on('dragStart', function() {
+					$(li).addClass('drag-handle-show');
+				});
+
+				liDrag.on('dragEnd', function() {
+					$(li).removeClass('drag-handle-show');
+				});
+
+			}, 1000);
+		});
+
+	});
 
 });

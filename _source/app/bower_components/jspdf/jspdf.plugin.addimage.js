@@ -55,14 +55,7 @@ var getJpegSize = function(imgData) {
 		if (imgData.charCodeAt(i) !== 0xff) {
 			throw new Error('getJpegSize could not find the size of the image');
 		}
-		if (imgData.charCodeAt(i+1) === 0xc0 || //(SOF) Huffman  - Baseline DCT
-		    imgData.charCodeAt(i+1) === 0xc1 || //(SOF) Huffman  - Extended sequential DCT 
-		    imgData.charCodeAt(i+1) === 0xc2 || // Progressive DCT (SOF2)
-		    imgData.charCodeAt(i+1) === 0xc3 || // Spatial (sequential) lossless (SOF3)
-		    imgData.charCodeAt(i+1) === 0xc4 || // Differential sequential DCT (SOF5)
-		    imgData.charCodeAt(i+1) === 0xc5 || // Differential progressive DCT (SOF6)
-		    imgData.charCodeAt(i+1) === 0xc6 || // Differential spatial (SOF7)
-		    imgData.charCodeAt(i+1) === 0xc7) {
+		if (imgData.charCodeAt(i+1) === 0xc0) {
 			height = imgData.charCodeAt(i+5)*256 + imgData.charCodeAt(i+6);
 			width = imgData.charCodeAt(i+7)*256 + imgData.charCodeAt(i+8);
 			return [width, height];
@@ -140,13 +133,10 @@ var getJpegSize = function(imgData) {
 
 jsPDFAPI.addImage = function(imageData, format, x, y, w, h) {
 	'use strict'
-	if(typeof imageData === 'string' && imageData.substr(0,14) === 'data:image/jpg') {
-		imageData = imageData.replace('data:image/jpg','data:image/jpeg');
-	}
 	if (typeof imageData === 'object' && imageData.nodeType === 1) {
         var canvas = document.createElement('canvas');
-        canvas.width = imageData.clientWidth || imageData.width;
-	    canvas.height = imageData.clientHeight || imageData.height;
+        canvas.width = imageData.clientWidth;
+	    canvas.height = imageData.clientHeight;
 
         var ctx = canvas.getContext('2d');
         if (!ctx) {
@@ -230,4 +220,4 @@ jsPDFAPI.addImage = function(imageData, format, x, y, w, h) {
 
 	return this 
 }
-})(jsPDF.API);
+})(jsPDF.API)
