@@ -911,15 +911,15 @@ exports.parse = function(url){
   a.href = url;
   return {
     href: a.href,
-    host: a.host,
-    port: a.port,
+    host: a.host || location.host,
+    port: ('0' === a.port || '' === a.port) ? port(a.protocol) : a.port,
     hash: a.hash,
-    hostname: a.hostname,
-    pathname: a.pathname,
-    protocol: a.protocol,
+    hostname: a.hostname || location.hostname,
+    pathname: a.pathname.charAt(0) != '/' ? '/' + a.pathname : a.pathname,
+    protocol: !a.protocol || ':' == a.protocol ? location.protocol : a.protocol,
     search: a.search,
     query: a.search.slice(1)
-  }
+  };
 };
 
 /**
@@ -931,9 +931,7 @@ exports.parse = function(url){
  */
 
 exports.isAbsolute = function(url){
-  if (0 == url.indexOf('//')) return true;
-  if (~url.indexOf('://')) return true;
-  return false;
+  return 0 == url.indexOf('//') || !!~url.indexOf('://');
 };
 
 /**
@@ -945,7 +943,7 @@ exports.isAbsolute = function(url){
  */
 
 exports.isRelative = function(url){
-  return ! exports.isAbsolute(url);
+  return !exports.isAbsolute(url);
 };
 
 /**
@@ -958,10 +956,29 @@ exports.isRelative = function(url){
 
 exports.isCrossDomain = function(url){
   url = exports.parse(url);
-  return url.hostname != location.hostname
-    || url.port != location.port
-    || url.protocol != location.protocol;
+  return url.hostname !== location.hostname
+    || url.port !== location.port
+    || url.protocol !== location.protocol;
 };
+
+/**
+ * Return default port for `protocol`.
+ *
+ * @param  {String} protocol
+ * @return {String}
+ * @api private
+ */
+function port (protocol){
+  switch (protocol) {
+    case 'http:':
+      return 80;
+    case 'https:':
+      return 443;
+    default:
+      return location.port;
+  }
+}
+
 });
 require.register("component-bind/index.js", function(exports, require, module){
 /**
@@ -1009,8 +1026,13 @@ module.exports = function (obj) {
 });
 require.register("ianstormtaylor-bind/index.js", function(exports, require, module){
 
-var bind = require('bind')
-  , bindAll = require('bind-all');
+try {
+  var bind = require('bind');
+} catch (e) {
+  var bind = require('bind-component');
+}
+
+var bindAll = require('bind-all');
 
 
 /**
@@ -3204,8 +3226,12 @@ Bugsnag.prototype.loaded = function () {
  */
 
 Bugsnag.prototype.load = function (callback) {
-  var script = load('//d2wy8f7a9ursnm.cloudfront.net/bugsnag-1.0.10.min.js', callback);
-  script.setAttribute('data-apikey', this.options.apiKey);
+  var apiKey = this.options.apiKey;
+  load('//d2wy8f7a9ursnm.cloudfront.net/bugsnag-2.min.js', function(err){
+    if (err) return callback(err);
+    window.Bugsnag.apiKey = apiKey;
+    callback();
+  });
 };
 
 
@@ -3330,15 +3356,15 @@ var has = Object.prototype.hasOwnProperty;
  * Supported events
  */
 
-var supported = [
-  'activation',
-  'changePlan',
-  'register',
-  'refund',
-  'charge',
-  'cancel',
-  'login',
-];
+var supported = {
+  activation: true,
+  changePlan: true,
+  register: true,
+  refund: true,
+  charge: true,
+  cancel: true,
+  login: true,
+};
 
 /**
  * Expose plugin.
@@ -3402,7 +3428,7 @@ ChurnBee.prototype.track = function(track){
   var events = this.options.events;
   var event = track.event();
   if (has.call(events, event)) event = events[event];
-  if (!~supported.indexOf(event)) return;
+  if (true != supported[event]) return;
   push(event, track.properties({ revenue: 'amount' }));
 };
 
@@ -3780,6 +3806,7 @@ var integration = require('integration');
 var Track = require('facade').Track;
 var iso = require('to-iso-string');
 var load = require('load-script');
+var extend = require('extend');
 var clone = require('clone');
 var each = require('each');
 
@@ -3807,7 +3834,13 @@ var Curebit = exports.Integration = integration('Curebit')
   .global('_curebitq')
   .global('curebit')
   .option('siteId', '')
-  .option('server', '');
+  .option('iframeWidth', 0)
+  .option('iframeHeight', 0)
+  .option('iframeBorder', 0)
+  .option('iframeId', '')
+  .option('responsive', true)
+  .option('device', '')
+  .option('server', 'https://www.curebit.com');
 
 /**
  * Initialize
@@ -3842,6 +3875,34 @@ Curebit.prototype.loaded = function(){
 
 Curebit.prototype.load = function(fn){
   load('//d2jjzw81hqbuqv.cloudfront.net/assets/api/all-0.6.js', fn);
+};
+
+/**
+ * Identify.
+ *
+ * http://www.curebit.com/docs/affiliate/registration
+ *
+ * @param {Identify} identify
+ * @api public
+ */
+
+Curebit.prototype.identify = function(identify){
+  push('register_affiliate', {
+    responsive: this.options.responsive,
+    device: this.options.device,
+    iframe: {
+      width: this.options.iframeWidth,
+      height: this.options.iframeHeight,
+      id: this.options.iframeId,
+      frameborder: this.options.iframeBorder
+    },
+    affiliate_member: {
+      email: identify.email(),
+      first_name: identify.firstName(),
+      last_name: identify.lastName(),
+      customer_id: identify.userId()
+    },
+  });
 };
 
 /**
@@ -4774,6 +4835,7 @@ var push = require('global-queue')('_gaq');
 var Track = require('facade').Track;
 var type = require('type');
 var url = require('url');
+var user;
 
 
 /**
@@ -4782,6 +4844,7 @@ var url = require('url');
 
 module.exports = exports = function (analytics) {
   analytics.addIntegration(GA);
+  user = analytics.user();
 };
 
 
@@ -4808,7 +4871,8 @@ var GA = exports.Integration = integration('Google Analytics')
   .option('siteSpeedSampleRate', null)
   .option('trackingId', '')
   .option('trackNamedPages', true)
-  .option('trackCategorizedPages', true);
+  .option('trackCategorizedPages', true)
+  .option('sendUserId', false);
 
 
 /**
@@ -4849,6 +4913,11 @@ GA.prototype.initialize = function () {
     siteSpeedSampleRate: opts.siteSpeedSampleRate,
     allowLinker: true
   });
+
+  // send global id
+  if (this.options.sendUserId && user.id()) {
+    window.ga('set', '&uid', user.id());
+  }
 
   // anonymize after initializing, otherwise a warning is shown
   // in google analytics debugger
@@ -5961,7 +6030,6 @@ var Intercom = exports.Integration = integration('Intercom')
   .global('Intercom')
   .option('activator', '#IntercomDefaultWidget')
   .option('appId', '')
-  .option('counter', true)
   .option('inbox', false);
 
 
@@ -6024,8 +6092,6 @@ Intercom.prototype.identify = function (identify) {
 
   // name
   if (name) traits.name = name;
-  delete traits.firstName;
-  delete traits.lastName;
 
   // handle dates
   if (companyCreated) traits.company.created = companyCreated;
@@ -6046,8 +6112,7 @@ Intercom.prototype.identify = function (identify) {
   if (opts.user_hash) traits.user_hash = opts.user_hash;
   if (this.options.inbox) {
     traits.widget = {
-      activator: this.options.activator,
-      use_counter: this.options.counter
+      activator: this.options.activator
     };
   }
 
@@ -10803,6 +10868,8 @@ Facade.prototype.active = function () {
  * Setup some basic proxies.
  */
 
+Facade.prototype.userId = Facade.field('userId');
+Facade.prototype.sessionId = Facade.field('sessionId');
 Facade.prototype.channel = Facade.field('channel');
 Facade.prototype.timestamp = Facade.field('timestamp');
 Facade.prototype.ip = Facade.proxy('options.ip');
@@ -10854,7 +10921,6 @@ Group.prototype.action = function () {
  */
 
 Group.prototype.groupId = Facade.field('groupId');
-Group.prototype.userId  = Facade.field('userId');
 
 /**
  * Get created or createdAt.
@@ -11062,13 +11128,6 @@ inherit(Identify, Facade);
 Identify.prototype.action = function () {
   return 'identify';
 };
-
-/**
- * Setup some basic proxies.
- */
-
-Identify.prototype.userId = Facade.field('userId');
-Identify.prototype.sessionId = Facade.field('sessionId');
 
 /**
  * Get the user's traits.
@@ -11294,8 +11353,6 @@ Track.prototype.action = function () {
  * Setup some basic proxies.
  */
 
-Track.prototype.userId = Facade.field('userId');
-Track.prototype.sessionId = Facade.field('sessionId');
 Track.prototype.event = Facade.field('event');
 Track.prototype.value = Facade.proxy('properties.value');
 
@@ -11322,6 +11379,18 @@ Track.prototype.total = Facade.proxy('properties.total');
 Track.prototype.coupon = Facade.proxy('properties.coupon');
 Track.prototype.orderId = Facade.proxy('properties.orderId');
 Track.prototype.shipping = Facade.proxy('properties.shipping');
+
+/**
+ * Order id.
+ *
+ * @return {String}
+ * @api public
+ */
+
+Track.prototype.orderId = function(){
+  return this.proxy('properties.id')
+    || this.proxy('properties.orderId');
+};
 
 /**
  * Get subtotal.
@@ -12659,7 +12728,7 @@ analytics.require = require;
  * Expose `VERSION`.
  */
 
-exports.VERSION = '1.3.3';
+exports.VERSION = '1.3.7';
 
 
 /**
