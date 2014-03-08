@@ -153,10 +153,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 		model.generatingCard = true;
 
-		if(model.iOS) {
-			var popupWindow = window.open('/generating.html', '_blank');
-		}
-
 		html2canvas($cardPreview, {
 			letterRendering: true,
 			onrendered: function(canvas) {
@@ -196,6 +192,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 			if(model.iOS) {
 				// mobile devices
+				var popupWindow = window.open('', '_blank');
 				popupWindow.location.href = doc.output('dataurlstring');
 			} else {
 				doc.save(model.pdfFilename);
@@ -219,6 +216,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 				// mobile devices
 				model.imageData = canvas.toDataURL('image/jpeg', 1.0);
+
+				var popupWindow = window.open('', '_blank');
 				popupWindow.location.href = model.imageData;
 
 			} else {
