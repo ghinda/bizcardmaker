@@ -195,6 +195,7 @@ module.exports = function (grunt) {
 					cwd: '<%= yeoman.app %>',
 					dest: '<%= yeoman.dist %>',
 					src: [
+						'CNAME',
 						'*.*',
 						'bower_components/**/*',
 						'images/{,*/}*.{gif,webp,svg}',
