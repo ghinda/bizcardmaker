@@ -261,7 +261,7 @@ module.exports = function (grunt) {
 			pages: {
 				options: {
 					remote: 'git@github.com:ghinda/bizcardmaker.git',
-					branch: 'gh-pages2'
+					branch: 'gh-pages'
 				}
 			}
 		}
