@@ -21,4 +21,4 @@ Easily create your own business cards in seconds, *for free*, using high quality
 ## Contributing
 
 1. Use tabs
-2. Don't edit anything outside the `_source` folder
+2. Don't use the `gh-pages` branch
