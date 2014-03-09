@@ -30,70 +30,73 @@
 				Double click or select the text to change its style, size or font.
 			</p>
 
-			<div class="card-edit-container" ng-class="{ 'card-big': model.generatingCard, 'card-print': model.generatingPdf, 'ios': model.iOS }">
+			<div class="card-edit-container">
 
-				<div class="card-container" id="js-card-container">
+				<div class="card-container" ng-class="{ 'card-big': model.generatingCard, 'card-print': model.generatingPdf, 'ios': model.iOS }" id="js-card-container">
 					<div class="card-preview {{ model.themes[model.activeTheme].name }}">
 
-						<input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
+						<div class="card-content">
 
-						<div class="card-picture">
-							<div class="drag-handle"></div>
+							<input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
 
-							<label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
+							<div class="card-picture">
+								<div class="drag-handle"></div>
 
-								<i class="fa fa-picture-o"></i>
-								<span>Upload your logo</span>
+								<label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
 
-								<img ng-src="{{ model.cardPicture }}">
+									<i class="fa fa-picture-o"></i>
+									<span>Upload your logo</span>
 
-							</label>
+									<img ng-src="{{ model.cardPicture }}">
+
+								</label>
+							</div>
+
+							<ul class="vcard">
+
+								<li class="person" meditor>
+									<div class="drag-handle"></div>
+
+									<p class="fn">
+										John Doe
+									</p>
+									<p class="title">
+										Position
+									</p>
+								</li>
+
+								<li class="details" meditor>
+									<div class="drag-handle"></div>
+
+									<p class="org">
+										Organization
+									</p>
+									<p>
+										<span class="locality">City</span>,
+										<span class="state">State</span>
+									</p>
+									<p class="tel">
+										(123) 555-1234
+									</p>
+								</li>
+
+								<li class="email" meditor>
+									<div class="drag-handle"></div>
+
+									<p>john.doe@cmail.com</p>
+								</li>
+
+								<li class="url" meditor>
+									<div class="drag-handle"></div>
+
+									<p>www.john-doe.com</p>
+								</li>
+							</ul>
+
 						</div>
-
-						<ul class="vcard">
-
-							<li class="person" meditor>
-								<div class="drag-handle"></div>
-
-								<p class="fn">
-									John Doe
-								</p>
-								<p class="title">
-									Position
-								</p>
-							</li>
-
-							<li class="details" meditor>
-								<div class="drag-handle"></div>
-
-								<p class="org">
-									Organization
-								</p>
-								<p>
-									<span class="locality">City</span>,
-									<span class="state">State</span>
-								</p>
-								<p class="tel">
-									(123) 555-1234
-								</p>
-							</li>
-
-							<li class="email" meditor>
-								<div class="drag-handle"></div>
-
-								<p>john.doe@cmail.com</p>
-							</li>
-
-							<li class="url" meditor>
-								<div class="drag-handle"></div>
-
-								<p>www.john-doe.com</p>
-							</li>
-						</ul>
 
 					</div>
 				</div>
-
 
 				<ul class="button-group download-buttons">
 					<li>

@@ -22,6 +22,14 @@ $white: #fff;
 /* Main
  */
 
+.card-maker {
+	*,
+	*:after,
+	*:before {
+		@include box-sizing(border-box);
+	}
+}
+
 /* Themes
  */
 .themes-box {
@@ -87,60 +95,57 @@ $white: #fff;
 /* Editor
  */
 .card-edit-container {
-	font-size: 1.25em;
-
-	@include breakpoint(mama-bear) {
-		min-width: emCalc(460);
-	}
-
-	*,
-	*:after,
-	*:before {
-		@include box-sizing(border-box);
-	}
-
-	> div,
-	> ul {
-		max-width: emCalc(460);
-	}
 
 }
 
 $card-border: 1px solid darken($white, 10%);
 
+// 3.75 x 2.25 in - full bleed at 96ppi
 .card-container {
 	position: relative;
 	margin-bottom: emCalc(20);
 
-	min-width: emCalc(460);
-	height: emCalc(270);
+	width: emCalc(360);
+	height: emCalc(216);
 
 	border: $card-border;
 	box-shadow: 0 2px 1px darken($white, 5%);
+
+	font-size: 1.75em;
 }
 
+// padding 0.25 in for bleed
 .card-preview {
 	position: relative;
 	width: 100%;
 	height: 100%;
-	padding: emCalc(10);
+	padding: emCalc(24);
 
 	@include transition(background 0.1s ease-in);
 	@include clearfix;
+
+	font-size: .75em;
 
 	* {
 		font-size: 1em;
 	}
 }
 
+.card-content {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
 /* Enlarged card for high-quality generation
  */
-.card-edit-container.card-big {
+.card-container.card-big {
 	position: relative;
 	z-index: 999;
 	border-width: 0;
 
-	font-size: 3em;
+	font-size: 3.5em;
 
 	.no-picture {
 		display: none;
@@ -235,7 +240,6 @@ $card-border: 1px solid darken($white, 10%);
 	padding: 0;
 	margin: 0;
 
-	font-size: 1em;
 	vertical-align: top;
 
 	.person {
@@ -345,7 +349,7 @@ $card-border: 1px solid darken($white, 10%);
 	}
 
 	@include breakpoint(baby-bear) {
-		font-size: 1em;
+		font-size: 1.25em;
 
 		li {
 			width: 50%;

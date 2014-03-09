@@ -250,19 +250,21 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 		// extremely hacky way to implement dragging
 		var $preview = $('.card-preview'),
+			$containment = $('.card-content', $preview).get(0),
 			$picture = $preview.find('.card-picture'),
 			$li = $preview.find('li');
 
 		new Draggabilly($picture.get(0), {
-			containment: $preview.get(0),
+			containment: $containment,
 			handle: '.drag-handle',
 			grid: [ 20, 20 ]
 		});
 
 		$li.each(function(i, li) {
 			setTimeout(function() {
+
 				var liDrag = new Draggabilly(li, {
-					containment: $preview.get(0),
+					containment: $containment,
 					handle: '.drag-handle',
 					grid: [ 20, 20 ]
 				});
