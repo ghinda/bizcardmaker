@@ -170,12 +170,14 @@ $card-border: 1px solid darken($white, 10%);
     left: -9999px;
 }
 
+$color-handle: desaturate($color1, 60%);
+
 .card-picture {
 	position: absolute;
-	top: emCalc(30);
-	left: emCalc(30);
+	top: 8%;
+	left: 8%;
 
-	width: emCalc(180);
+	width: 36%;
 	color: $color1;
 
 	vertical-align: top;
@@ -183,6 +185,10 @@ $card-border: 1px solid darken($white, 10%);
 
 	i {
 		font-size: 3em;
+	}
+
+	span {
+		font-size: emCalc(12);
 	}
 
 	i,
@@ -225,7 +231,7 @@ $card-border: 1px solid darken($white, 10%);
 
 	&:hover {
 		.drag-handle {
-			border-color: $color1;
+			border-color: $color-handle;
 		}
 	}
 }
@@ -234,8 +240,8 @@ $card-border: 1px solid darken($white, 10%);
  */
 .vcard {
 	position: absolute;
-	top: emCalc(30);
-	left: emCalc(250);
+	top: 8%;
+	left: 56%;
 	border: 0;
 	padding: 0;
 	margin: 0;
@@ -243,7 +249,7 @@ $card-border: 1px solid darken($white, 10%);
 	vertical-align: top;
 
 	.person {
-		margin-bottom: emCalc(16);
+		margin-bottom: 16%;
 	}
 
 	.fn {
@@ -276,7 +282,7 @@ $card-border: 1px solid darken($white, 10%);
 		background-color: rgba($color1, .3);
 
 		.drag-handle {
-			border-color: $color1;
+			border-color: $color-handle;
 		}
 	}
 }

@@ -135,15 +135,16 @@ $black: #333;
 	@include theme(dark);
 
 	.card-picture {
-		left: emCalc(20);
+		width: 36%;
+		left: 8%;
 		top: auto;
-		bottom: emCalc(20);
+		bottom: 8%;
 	}
 
 	.vcard {
 		left: auto;
-		right: emCalc(20);
-		top: emCalc(20);
+		right: 8%;
+		top: 8%;
 
 		font-size: emCalc(20);
 		font-weight: bold;
@@ -185,8 +186,9 @@ $black: #333;
 	@include theme(dark);
 
 	.card-picture {
-		left: emCalc(65);
-		top: emCalc(20);
+		left: 8%;
+		top: 8%;
+		width: 36%;
 	}
 
 	.vcard {
@@ -222,15 +224,12 @@ $black: #333;
 
 	.card-picture {
 		background-color: $white;
-		left: emCalc(65);
-		top: emCalc(30);
 
 		opacity: 1 !important;
 	}
 
 	.vcard {
 		left: 55%;
-		top: emCalc(30);
 
 		color: #000;
 
@@ -284,9 +283,9 @@ $black: #333;
 	.card-picture {
 		position: relative;
 		z-index: 2;
-		top: auto;
+		top: emCalc(44);
 		left: auto;
-		margin: emCalc(36) auto;
+		margin: 0 auto;
 		min-height: emCalc(100);
 	}
 
@@ -303,7 +302,7 @@ $black: #333;
 		height: 100%;
 		border: emCalc(12) solid #000;
 		z-index: 1;
-		padding: emCalc(136) emCalc(8) 0;
+		padding: emCalc(160) emCalc(8) 0;
 
 		text-align: center;
 		color: #000;
@@ -384,10 +383,10 @@ $black: #333;
 		width: emCalc(200);
 		height: emCalc(120);
 		top: auto;
-		left: emCalc(80);
-		bottom: emCalc(40);
+		left: emCalc(28);
+		bottom: emCalc(20);
 
-		font-size: emCalc(10);
+		font-size: emCalc(12);
 	}
 
 	.vcard {
@@ -399,7 +398,7 @@ $black: #333;
 		color: #000;
 
 		.person {
-			left: emCalc(40);
+			left: emCalc(20);
 			top: emCalc(40);
 			width: emCalc(220);
 
@@ -418,7 +417,7 @@ $black: #333;
 		.details,
 		.email,
 		.url {
-			top: emCalc(50);
+			top: emCalc(48);
 			left: emCalc(330);
 			width: emCalc(170);
 
@@ -482,11 +481,13 @@ $black: #333;
 	.card-picture {
 		width: emCalc(150);
 		height: emCalc(50);
-		top: emCalc(40);
-		left: emCalc(40);
+		top: emCalc(20);
+		left: emCalc(20);
 
-		&.no-picture {
+		.no-picture {
 			padding: emCalc(8) 0;
+
+			text-align: left;
 		}
 
 		i, span {
@@ -496,7 +497,7 @@ $black: #333;
 
 	.vcard {
 		position: absolute;
-		left: emCalc(40);
+		left: emCalc(20);
 		top: emCalc(100);
 		display: block;
 		width: emCalc(390);

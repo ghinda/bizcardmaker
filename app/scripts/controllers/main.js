@@ -181,12 +181,15 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 			var imgData = canvas.toDataURL('image/jpeg', 1.0);
 
-			// full bleed size 92 x 54
+			// full bleed size 3.75 x 2.25 (in) / 95.25 x 57.15 (mm)
+
+			var width = 95.25,
+				height = 57.15;
 
 			// place images on page
 			for(var i = 0; i < 2; i++) {
 				for(var j = 0; j < 5; j++) {
-					doc.addImage(imgData, 'JPEG', 10 + i * 93, 10 + j * 55, 92, 54);
+					doc.addImage(imgData, 'JPEG', 4 + i * (width + 0.5), 4 + j * (height + 0.5), width, height);
 				}
 			}
 
