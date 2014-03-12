@@ -1,4 +1,4 @@
-app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
+app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
 	'use strict';
 
 	var model = $scope.model = {};
@@ -215,6 +215,15 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 					// FileSaver is included in jsPdf
 					saveAs(blob, model.imageFilename);
 
+					// TODO just for testing
+					var imgData = canvas.toDataURL('image/jpeg', 1.0);
+
+					data.SendOrder({
+						image: imgData
+					}).then(function(resp) {
+						console.log(resp);
+					});
+
 				},
 				'image/jpeg'
 			);
@@ -230,6 +239,9 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 	};
 
 	$scope.$on('$viewContentLoaded', function() {
+
+		// init foundation plugins
+		$(document).foundation();
 
 		// extremely hacky way to implement dragging
 		var $preview = $('.card-preview'),

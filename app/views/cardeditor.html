@@ -101,32 +101,52 @@
 				<ul class="button-group download-buttons">
 					<li>
 
-						<a href="#" data-dropdown="drop1" class="button dropdown">Dropdown Button</a><br>
-						<ul id="drop1" data-dropdown-content class="f-dropdown">
-							<li><a href="#">This is a link</a></li>
-							<li><a href="#">This is another</a></li>
-							<li><a href="#">Yet another</a></li>
+						<a data-dropdown="drop-downloads" class="button muted dropdown">
+							<i class="fa fa-arrow-circle-o-down"></i>
+							Download files
+							<small>To print them yourself or use them online. </small>
+						</a>
+
+						<ul id="drop-downloads" data-dropdown-content class="f-dropdown">
+							<li>
+								<a ng-click="DownloadPdf()">
+									<i class="fa fa-file-text"></i>
+									Download PDF
+									<small>For printing at home, or at your local printer. </small>
+								</a>
+							</li>
+							<li>
+								<a ng-click="DownloadPicture()">
+									<i class="fa fa-picture-o"></i>
+									Download picture
+
+									<small>For posting online or sharing with other people. </small>
+								</a>
+							</li>
 						</ul>
 
-
-						<button type="button" class="button" id="js-download-button" ng-click="DownloadPdf()">
+						<!--<button type="button" class="button" id="js-download-button" ng-click="DownloadPdf()">
 							<i class="fa fa-file-text"></i>
 							Download PDF
 							<small>For printing at home, or at your local printer. </small>
-						</button>
+						</button>-->
 
 					</li>
 					<li>
 
-						<button type="button" class="button secondary" id="js-download-picture-button" ng-click="DownloadPicture()">
-							<i class="fa fa-picture-o"></i>
-							Download picture
+						<button type="button" class="button secondary" id="js-download-picture-button" data-reveal-id="modal-order" data-reveal>
+							<i class="fa fa-shopping-cart"></i>
+							Order prints
 
-							<small>For posting online or sharing with other people. </small>
+							<small>Get professional prints delivered right at your door. </small>
 						</button>
 
 					</li>
 				</ul>
+
+				<p class="region-notice">
+					Ordering prints is only available in the USA and Canada for now.
+				</p>
 
 			</div>
 
@@ -165,3 +185,87 @@
 	</li>
 </ol>
 
+<div id="modal-order" class="reveal-modal" data-reveal>
+
+	<a class="close-reveal-modal">&#215;</a>
+
+	<h2>Order prints</h2>
+	<p class="lead">Quickly order prints at the best prices, and have them delivered at your door! </p>
+
+	<div class="row">
+
+		<div class="large-6 columns">
+			<label>Choose one of our exclusive offers: </label>
+			<input type="radio" name="pokemon" value="Red" id="pokemonRed"><label for="pokemonRed">Red</label>
+			<input type="radio" name="pokemon" value="Blue" id="pokemonBlue"><label for="pokemonBlue">Blue</label>
+		</div>
+
+		<div class="large-6 columns">
+
+			<form>
+				<div class="row">
+					<div class="large-12 columns">
+					<label>
+						Your location
+						<input type="text" placeholder="" />
+
+						<small>* We ship to the US and Canada</small>
+					</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="large-4 columns">
+					<label>Input Label
+						<input type="text" placeholder="large-4.columns" />
+					</label>
+					</div>
+					<div class="large-4 columns">
+					<label>Input Label
+						<input type="text" placeholder="large-4.columns" />
+					</label>
+					</div>
+					<div class="large-4 columns">
+					<div class="row collapse">
+						<label>Input Label</label>
+						<div class="small-9 columns">
+						<input type="text" placeholder="small-9.columns" />
+						</div>
+						<div class="small-3 columns">
+						<span class="postfix">.com</span>
+						</div>
+					</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+					<label>Select Box
+						<select>
+						<option value="husker">Husker</option>
+						<option value="starbuck">Starbuck</option>
+						<option value="hotdog">Hot Dog</option>
+						<option value="apollo">Apollo</option>
+						</select>
+					</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-6 columns">
+					<label>Check these out</label>
+					<input id="checkbox1" type="checkbox"><label for="checkbox1">Checkbox 1</label>
+					<input id="checkbox2" type="checkbox"><label for="checkbox2">Checkbox 2</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+					<label>Textarea Label
+						<textarea placeholder="small-12.columns"></textarea>
+					</label>
+					</div>
+				</div>
+				</form>
+
+		</div>
+	</div>
+
+</div>

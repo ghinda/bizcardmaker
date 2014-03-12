@@ -95,7 +95,7 @@ $white: #fff;
 /* Editor
  */
 .card-edit-container {
-
+	@include clearfix;
 }
 
 $card-border: 1px solid darken($white, 10%);
@@ -348,24 +348,35 @@ $color-handle: desaturate($color1, 60%);
 
 	small {
 		display: block;
+	}
+
+	> li > .button > small {
+		display: block;
 		padding-top: emCalc(4);
 		padding-left: emCalc(44);
 
 		color: rgba($white, 0.8);
 	}
 
+	.f-dropdown {
+
+		li {
+			font-size: emCalc(24);
+		}
+	}
+
 	@include breakpoint(baby-bear) {
 		font-size: 1.25em;
 
-		li {
+		> li {
 			width: 50%;
 		}
 
-		li:first-child .button {
+		> li:first-child .button {
 			border-radius: 3px 0 0 3px;
 		}
 
-		li:last-child .button {
+		> li:last-child .button {
 			border-radius: 0 3px 3px 0;
 		}
 	}
@@ -394,5 +405,19 @@ $color-handle: desaturate($color1, 60%);
 
 	code {
 		color: $color1;
+	}
+}
+
+.region-notice {
+	display: block;
+
+	color: darken($white, 60%);
+	font-size: emCalc(12);
+
+	@include breakpoint(baby-bear) {
+		float: right;
+
+		width: 50%;
+		padding: 0 emCalc(40) 0 emCalc(88);
 	}
 }
