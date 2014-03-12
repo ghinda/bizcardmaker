@@ -21,4 +21,10 @@ var app = angular.module('businessCardMaker', [
 	analytics.page();
 });
 
-app.run(function(){});
+app.run(function($rootScope){
+
+	var root = $rootScope.root = {};
+
+	root.smallScreen = (screen.width <= 1024);
+
+});

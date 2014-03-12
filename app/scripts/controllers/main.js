@@ -3,8 +3,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 	var model = $scope.model = {};
 
-	model.iOS = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
-
 	model.cardPictureFile = '';
 	model.cardPicture = '';
 	model.generatingCard = false;
@@ -193,13 +191,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 				}
 			}
 
-			if(model.iOS) {
-				// mobile devices
-				var popupWindow = window.open('', '_blank');
-				popupWindow.location.href = doc.output('dataurlstring');
-			} else {
-				doc.save(model.pdfFilename);
-			}
+			doc.save(model.pdfFilename);
 		});
 
 		// track analytics
@@ -215,30 +207,18 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 		generatePicture().then(function(canvas) {
 
-			if(model.iOS) {
+			// make the canvas a blob, so we can download it with downloadify
+			canvas.toBlob(
+				function (blob) {
 
-				// mobile devices
-				model.imageData = canvas.toDataURL('image/jpeg', 1.0);
+					// saveAs is global from FileSaver.js
+					// FileSaver is included in jsPdf
+					saveAs(blob, model.imageFilename);
 
-				var popupWindow = window.open('', '_blank');
-				popupWindow.location.href = model.imageData;
+				},
+				'image/jpeg'
+			);
 
-			} else {
-
-				// make the canvas a blob, so we can download it with downloadify
-				canvas.toBlob(
-					function (blob) {
-
-						// saveAs is global from Downloadify and FileSaver.js
-						// Downloadify is included in jsPDF
-						// FileSaver included from bower_components
-						saveAs(blob, model.imageFilename);
-
-					},
-					'image/jpeg'
-				);
-
-			}
 		});
 
 		// track analytics

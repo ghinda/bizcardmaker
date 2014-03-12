@@ -32,7 +32,7 @@
 
 			<div class="card-edit-container">
 
-				<div class="card-container" ng-class="{ 'card-big': model.generatingCard, 'card-print': model.generatingPdf, 'ios': model.iOS }" id="js-card-container">
+				<div class="card-container" ng-class="{ 'card-big': model.generatingCard, 'card-print': model.generatingPdf }" id="js-card-container">
 					<div class="card-preview {{ model.themes[model.activeTheme].name }}">
 
 						<div class="card-content">
@@ -101,25 +101,29 @@
 				<ul class="button-group download-buttons">
 					<li>
 
-						<form class="download-form">
-							<button type="button" class="button" id="js-download-button" ng-click="DownloadPdf()">
-								<i class="fa fa-file-text"></i>
-								Download PDF
-								<small>For printing at home, or at your local printer. </small>
-							</button>
-						</form>
+						<a href="#" data-dropdown="drop1" class="button dropdown">Dropdown Button</a><br>
+						<ul id="drop1" data-dropdown-content class="f-dropdown">
+							<li><a href="#">This is a link</a></li>
+							<li><a href="#">This is another</a></li>
+							<li><a href="#">Yet another</a></li>
+						</ul>
+
+
+						<button type="button" class="button" id="js-download-button" ng-click="DownloadPdf()">
+							<i class="fa fa-file-text"></i>
+							Download PDF
+							<small>For printing at home, or at your local printer. </small>
+						</button>
 
 					</li>
 					<li>
 
-						<form class="download-form">
-							<button type="button" class="button secondary" id="js-download-picture-button" ng-click="DownloadPicture()">
-								<i class="fa fa-picture-o"></i>
-								Download picture
+						<button type="button" class="button secondary" id="js-download-picture-button" ng-click="DownloadPicture()">
+							<i class="fa fa-picture-o"></i>
+							Download picture
 
-								<small>For posting online or sharing with other people. </small>
-							</button>
-						</form>
+							<small>For posting online or sharing with other people. </small>
+						</button>
 
 					</li>
 				</ul>

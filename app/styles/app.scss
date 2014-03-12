@@ -156,11 +156,11 @@ $card-border: 1px solid darken($white, 10%);
 	border: $card-border;
 }
 
-/* iOS data uri limitation fix
+/* mobile borwser data uri limitation fix
  * Print low-quality
  */
-/*.card-edit-container.card-big.card-print.ios {
-	font-size: .8em;
+/*.card-small-screen .card-big {
+	font-size: .1em;
 }*/
 
 /* Picture upload
