@@ -911,15 +911,15 @@ exports.parse = function(url){
   a.href = url;
   return {
     href: a.href,
-    host: a.host || location.host,
-    port: ('0' === a.port || '' === a.port) ? port(a.protocol) : a.port,
+    host: a.host,
+    port: a.port,
     hash: a.hash,
-    hostname: a.hostname || location.hostname,
-    pathname: a.pathname.charAt(0) != '/' ? '/' + a.pathname : a.pathname,
-    protocol: !a.protocol || ':' == a.protocol ? location.protocol : a.protocol,
+    hostname: a.hostname,
+    pathname: a.pathname,
+    protocol: a.protocol,
     search: a.search,
     query: a.search.slice(1)
-  };
+  }
 };
 
 /**
@@ -931,7 +931,9 @@ exports.parse = function(url){
  */
 
 exports.isAbsolute = function(url){
-  return 0 == url.indexOf('//') || !!~url.indexOf('://');
+  if (0 == url.indexOf('//')) return true;
+  if (~url.indexOf('://')) return true;
+  return false;
 };
 
 /**
@@ -943,7 +945,7 @@ exports.isAbsolute = function(url){
  */
 
 exports.isRelative = function(url){
-  return !exports.isAbsolute(url);
+  return ! exports.isAbsolute(url);
 };
 
 /**
@@ -956,29 +958,10 @@ exports.isRelative = function(url){
 
 exports.isCrossDomain = function(url){
   url = exports.parse(url);
-  return url.hostname !== location.hostname
-    || url.port !== location.port
-    || url.protocol !== location.protocol;
+  return url.hostname != location.hostname
+    || url.port != location.port
+    || url.protocol != location.protocol;
 };
-
-/**
- * Return default port for `protocol`.
- *
- * @param  {String} protocol
- * @return {String}
- * @api private
- */
-function port (protocol){
-  switch (protocol) {
-    case 'http:':
-      return 80;
-    case 'https:':
-      return 443;
-    default:
-      return location.port;
-  }
-}
-
 });
 require.register("component-bind/index.js", function(exports, require, module){
 /**
@@ -1184,13 +1167,8 @@ function isEmpty (val) {
 });
 require.register("ianstormtaylor-is/index.js", function(exports, require, module){
 
-var isEmpty = require('is-empty');
-
-try {
-  var typeOf = require('type');
-} catch (e) {
-  var typeOf = require('component-type');
-}
+var isEmpty = require('is-empty')
+  , typeOf = require('type');
 
 
 /**
@@ -2022,6 +2000,57 @@ module.exports = function loadScript (options, callback) {
 };
 
 });
+require.register("segmentio-script-onload/index.js", function(exports, require, module){
+
+// https://github.com/thirdpartyjs/thirdpartyjs-code/blob/master/examples/templates/02/loading-files/index.html
+
+/**
+ * Invoke `fn(err)` when the given `el` script loads.
+ *
+ * @param {Element} el
+ * @param {Function} fn
+ * @api public
+ */
+
+module.exports = function(el, fn){
+  return el.addEventListener
+    ? add(el, fn)
+    : attach(el, fn);
+};
+
+/**
+ * Add event listener to `el`, `fn()`.
+ *
+ * @param {Element} el
+ * @param {Function} fn
+ * @api private
+ */
+
+function add(el, fn){
+  el.addEventListener('load', function(_, e){ fn(null, e); }, false);
+  el.addEventListener('error', function(e){
+    var err = new Error('failed to load the script "' + el.src + '"');
+    err.event = e;
+    fn(err);
+  }, false);
+}
+
+/**
+ * Attach evnet.
+ *
+ * @param {Element} el
+ * @param {Function} fn
+ * @api private
+ */
+
+function attach(el, fn){
+  el.attachEvent('onreadystatechange', function(e){
+    if (!/complete|loaded/.test(el.readyState)) return;
+    fn(null, e);
+  });
+}
+
+});
 require.register("segmentio-on-body/index.js", function(exports, require, module){
 var each = require('each');
 
@@ -2477,6 +2506,30 @@ function error(fn, message, img){
 }
 
 });
+require.register("segmentio-replace-document-write/index.js", function(exports, require, module){
+var domify = require('domify');
+
+/**
+ * Replace document.write until a url is written matching the url fragment
+ *
+ * @param {String} match
+ * @param {Function} fn optional callback function
+ */
+
+module.exports = function(match, fn){
+  var write = document.write;
+  document.write = append;
+
+  function append(str){
+    var el = domify(str)
+    if (!el.src) return write(str);
+    if (el.src.indexOf(match) === -1) return write(str);
+    document.body.appendChild(el);
+    document.write = write;
+    fn && fn();
+  }
+}
+});
 require.register("segmentio-analytics.js-integrations/index.js", function(exports, require, module){
 
 var integrations = require('./lib/slugs');
@@ -2576,8 +2629,10 @@ AdRoll.prototype.load = function (callback) {
 });
 require.register("segmentio-analytics.js-integrations/lib/adwords.js", function(exports, require, module){
 
-var load = require('load-pixel')('//www.googleadservices.com/pagead/conversion/:id');
+var onbody = require('on-body');
 var integration = require('integration');
+var load = require('load-script');
+var domify = require('domify');
 
 /**
  * Expose plugin
@@ -2586,12 +2641,6 @@ var integration = require('integration');
 module.exports = exports = function(analytics){
   analytics.addIntegration(AdWords);
 };
-
-/**
- * Expose `load`.
- */
-
-exports.load = load;
 
 /**
  * HOP
@@ -2604,14 +2653,37 @@ var has = Object.prototype.hasOwnProperty;
  */
 
 var AdWords = exports.Integration = integration('AdWords')
-  .readyOnInitialize()
+  .readyOnLoad()
   .option('conversionId', '')
   .option('events', {});
+
+/**
+ * Load
+ *
+ * @param {Function} fn
+ * @api public
+ */
+
+AdWords.prototype.load = function(fn){
+  onbody(fn);
+};
+
+/**
+ * Loaded.
+ *
+ * @return {Boolean}
+ * @api public
+ */
+
+AdWords.prototype.loaded = function(){
+  return !! document.body;
+};
 
 /**
  * Track.
  *
  * @param {Track}
+ * @api public
  */
 
 AdWords.prototype.track = function(track){
@@ -2619,11 +2691,61 @@ AdWords.prototype.track = function(track){
   var events = this.options.events;
   var event = track.event();
   if (!has.call(events, event)) return;
-  return exports.load({
+  return this.conversion({
     value: track.revenue() || 0,
     label: events[event],
-    script: 0
-  }, { id: id });
+    conversionId: id,
+  });
+};
+
+/**
+ * Report AdWords conversion.
+ *
+ * @param {Object} globals
+ * @api private
+ */
+
+AdWords.prototype.conversion = function(obj, fn){
+  if (this.reporting) return this.wait(obj);
+  this.reporting = true;
+  this.debug('sending %o', obj);
+  var self = this;
+  var write = document.write;
+  document.write = append;
+  window.google_conversion_id = obj.conversionId;
+  window.google_conversion_language = 'en';
+  window.google_conversion_format = '3';
+  window.google_conversion_color = 'ffffff';
+  window.google_conversion_label = obj.label;
+  window.google_conversion_value = obj.value;
+  window.google_remarketing_only = false;
+  load('//www.googleadservices.com/pagead/conversion.js', fn);
+
+  function append(str){
+    var el = domify(str);
+    if (!el.src) return write(str);
+    if (!/googleadservices/.test(el.src)) return write(str);
+    self.debug('append %o', el);
+    document.body.appendChild(el);
+    document.write = write;
+    self.reporting = null;
+  }
+};
+
+/**
+ * Wait until a conversion is sent with `obj`.
+ *
+ * @param {Object} obj
+ * @param {Function} fn
+ * @api private
+ */
+
+AdWords.prototype.wait = function(obj){
+  var self = this;
+  var id = setTimeout(function(){
+    clearTimeout(id);
+    self.conversion(obj);
+  }, 50);
 };
 
 });
@@ -3801,14 +3923,17 @@ CrazyEgg.prototype.load = function (callback) {
 require.register("segmentio-analytics.js-integrations/lib/curebit.js", function(exports, require, module){
 
 var push = require('global-queue')('_curebitq');
+var replace = require('replace-document-write');
 var Identify = require('facade').Identify;
 var integration = require('integration');
 var Track = require('facade').Track;
 var iso = require('to-iso-string');
-var load = require('load-script');
+var onload = require('script-onload');
 var extend = require('extend');
 var clone = require('clone');
 var each = require('each');
+var type = require('type');
+
 
 /**
  * User reference
@@ -3826,6 +3951,12 @@ module.exports = exports = function(analytics){
 };
 
 /**
+ * HOP
+ */
+
+var has = Object.prototype.hasOwnProperty;
+
+/**
  * Expose `Curebit` integration
  */
 
@@ -3834,12 +3965,14 @@ var Curebit = exports.Integration = integration('Curebit')
   .global('_curebitq')
   .global('curebit')
   .option('siteId', '')
-  .option('iframeWidth', 0)
-  .option('iframeHeight', 0)
+  .option('iframeWidth', '100%')
+  .option('iframeHeight', '480')
   .option('iframeBorder', 0)
   .option('iframeId', '')
   .option('responsive', true)
   .option('device', '')
+  .option('insertIntoId', 'curebit-frame')
+  .option('campaigns', {})
   .option('server', 'https://www.curebit.com');
 
 /**
@@ -3853,7 +3986,9 @@ Curebit.prototype.initialize = function(){
     site_id: this.options.siteId,
     server: this.options.server
   });
+  replace(this.options.server);
   this.load();
+  this.registerAffiliate();
 };
 
 /**
@@ -3869,25 +4004,51 @@ Curebit.prototype.loaded = function(){
 /**
  * Load
  *
+ * Custom load script because Curebit's javascript needs to be injected
+ * right next to where the iframe will appear.
+ *
  * @param {Function} fn
  * @api private
  */
 
 Curebit.prototype.load = function(fn){
-  load('//d2jjzw81hqbuqv.cloudfront.net/assets/api/all-0.6.js', fn);
+  var script = document.createElement('script');
+  script.src = '//d2jjzw81hqbuqv.cloudfront.net/assets/api/all-0.6.js';
+  var el = document.getElementById(this.options.insertIntoId);
+  if (!el) el = document.body;
+  el.appendChild(script);
+  onload(script, fn);
 };
 
 /**
- * Identify.
+ * Campaign tags.
+ *
+ * @api private
+ */
+
+Curebit.prototype.campaignTags = function(){
+  var campaigns = this.options.campaigns;
+  var path = window.location.pathname;
+  if (!has.call(campaigns, path)) return [];
+  var str = campaigns[path] || '';
+  return str.split(',');
+};
+
+/**
+ * Register affiliate.
  *
  * http://www.curebit.com/docs/affiliate/registration
  *
- * @param {Identify} identify
- * @api public
+ * @api private
  */
 
-Curebit.prototype.identify = function(identify){
-  push('register_affiliate', {
+Curebit.prototype.registerAffiliate = function(){
+  // Get the campaign tags for this url.
+  var tags = this.campaignTags();
+  if (!tags) return;
+
+  // Set up the basic iframe rendering.
+  var data = {
     responsive: this.options.responsive,
     device: this.options.device,
     iframe: {
@@ -3896,13 +4057,24 @@ Curebit.prototype.identify = function(identify){
       id: this.options.iframeId,
       frameborder: this.options.iframeBorder
     },
-    affiliate_member: {
+    campaign_tags: tags
+  };
+
+  // Add affiliate member info if available.
+  var identify = new Identify({
+    userId: user.id(),
+    traits: user.traits()
+  });
+  if (identify.email()) {
+    data.affiliate_member = {
       email: identify.email(),
       first_name: identify.firstName(),
       last_name: identify.lastName(),
       customer_id: identify.userId()
-    },
-  });
+    };
+  }
+
+  push('register_affiliate', data);
 };
 
 /**
@@ -12728,7 +12900,7 @@ analytics.require = require;
  * Expose `VERSION`.
  */
 
-exports.VERSION = '1.3.7';
+exports.VERSION = '1.3.9';
 
 
 /**
@@ -13906,6 +14078,8 @@ module.exports.User = User;
 
 
 
+
+
 require.register("segmentio-analytics.js-integrations/lib/slugs.json", function(exports, require, module){
 module.exports = [
   "adroll",
@@ -13978,6 +14152,8 @@ module.exports = [
 ]
 
 });
+
+
 
 
 
@@ -14409,6 +14585,9 @@ require.alias("segmentio-load-date/index.js", "segmentio-analytics.js-integratio
 require.alias("segmentio-load-script/index.js", "segmentio-analytics.js-integrations/deps/load-script/index.js");
 require.alias("component-type/index.js", "segmentio-load-script/deps/type/index.js");
 
+require.alias("segmentio-script-onload/index.js", "segmentio-analytics.js-integrations/deps/script-onload/index.js");
+require.alias("segmentio-script-onload/index.js", "segmentio-analytics.js-integrations/deps/script-onload/index.js");
+require.alias("segmentio-script-onload/index.js", "segmentio-script-onload/index.js");
 require.alias("segmentio-on-body/index.js", "segmentio-analytics.js-integrations/deps/on-body/index.js");
 require.alias("component-each/index.js", "segmentio-on-body/deps/each/index.js");
 require.alias("component-type/index.js", "component-each/deps/type/index.js");
@@ -14441,6 +14620,11 @@ require.alias("segmentio-substitute/index.js", "segmentio-load-pixel/deps/substi
 require.alias("segmentio-substitute/index.js", "segmentio-load-pixel/deps/substitute/index.js");
 require.alias("segmentio-substitute/index.js", "segmentio-substitute/index.js");
 require.alias("segmentio-load-pixel/index.js", "segmentio-load-pixel/index.js");
+require.alias("segmentio-replace-document-write/index.js", "segmentio-analytics.js-integrations/deps/replace-document-write/index.js");
+require.alias("segmentio-replace-document-write/index.js", "segmentio-analytics.js-integrations/deps/replace-document-write/index.js");
+require.alias("component-domify/index.js", "segmentio-replace-document-write/deps/domify/index.js");
+
+require.alias("segmentio-replace-document-write/index.js", "segmentio-replace-document-write/index.js");
 require.alias("segmentio-canonical/index.js", "analytics/deps/canonical/index.js");
 require.alias("segmentio-canonical/index.js", "canonical/index.js");
 

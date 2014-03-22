@@ -238,7 +238,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 	};
 
-	$scope.$on('$viewContentLoaded', function() {
+	$scope.$on('$includeContentLoaded', function() {
 
 		// init foundation plugins
 		$(document).foundation();

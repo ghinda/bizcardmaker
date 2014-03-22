@@ -18,6 +18,15 @@ app.factory('data', function($rootScope, $http, $q) {
 // 		deferred.resolve('Hello, ' + name + '!');
 // 		deferred.reject('Greeting ' + name + ' is not allowed.');
 
+		deferred.resolve([
+			{
+				title: 'test'
+			},
+			{
+				title: 'test2'
+			}
+		]);
+
 		return deferred.promise;
 	};
 

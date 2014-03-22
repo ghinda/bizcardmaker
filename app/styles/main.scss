@@ -205,29 +205,77 @@ footer {
 	}
 }
 
+/* Right sidebar
+ */
+.instructions-block {
+	margin-top: emCalc(60);
+	margin-bottom: emCalc(40);
+
+	p {
+		font-size: emCalc(14);
+		color: darken($grey, 60%);
+	}
+}
+
 /* Buy block
  */
 .buy-block {
-	background-color: $color1;
-	border: 0;
-	border-radius: 5px;
+	padding-top: emCalc(40);
+	border-top: 1px solid $grey;
 
 	h4 {
-		margin-bottom: emCalc(28);
-		color: lighten($color1, 40%);
+		margin-bottom: emCalc(16);
+
+		line-height: emCalc(16);
 
 		strong {
-			color: lighten($color1, 80%);
+			color: $color1;
 		}
 	}
 
 	p {
-		color: $white;
 		font-size: emCalc(14);
 	}
+}
 
-	a {
-		color: lighten($color1, 30%);
+/* Order modal
+ */
+
+.loading-indicator {
+	display: block;
+
+	color: $grey;
+	font-size: emCalc(24);
+	text-align: center;
+}
+
+.modal-order {
+
+	h2 {
+		margin-bottom: emCalc(12);
+	}
+
+	.row {
+		margin: 0 emCalc(-12);
+	}
+
+}
+
+.offers-list {
+	margin: emCalc(20) 0 0;
+	list-style-type: none;
+
+	li {
+		display: inline-block;
+		width: 20%;
+		height: emCalc(100);
+
+		text-align: center;
+
+		input {
+			display: block;
+			margin: 0 auto;
+		}
 	}
 }
 
