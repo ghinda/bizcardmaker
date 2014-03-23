@@ -78,20 +78,20 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 		model.offers = offers;
 	});
 
-	var initDatepicker = function() {
-
-		var $datepicker = $('.datepicker');
-
-		new Pikaday({
-			field: $datepicker.get(0),
-			format: 'D MMM YYYY',
-			onSelect: function() {
-				console.log('wat');
-			}
-		});
-
-	};
-
-	initDatepicker();
+// 	var initDatepicker = function() {
+//
+// 		var $datepicker = $('.datepicker');
+//
+// 		new Pikaday({
+// 			field: $datepicker.get(0),
+// 			format: 'D MMM YYYY',
+// 			onSelect: function() {
+// 				console.log('wat');
+// 			}
+// 		});
+//
+// 	};
+//
+// 	initDatepicker();
 
 });

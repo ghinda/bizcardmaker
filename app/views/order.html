@@ -11,7 +11,7 @@
 
 	<div class="row">
 
-		<div class="large-6 columns">
+		<div class="large-4 columns">
 			<label>Choose one of our exclusive offers</label>
 
 			<ul class="offers-list">
@@ -33,55 +33,89 @@
 			</ul>
 		</div>
 
-		<div class="large-6 columns">
+		<div class="large-8 columns">
 
 			<form>
 				<div class="row">
-					<div class="large-12 columns">
-					<label>
-						Your e-mail
-						<input type="email" placeholder="" />
-					</label>
-					</div>
-				</div>
-
-				<div class="row">
-					<div class="large-12 columns">
-					<label>
-						When
-						<input type="text" class="datepicker" />
-					</label>
-					</div>
-				</div>
-
-				<div class="row">
 					<div class="large-4 columns">
+						<label>
+							Your e-mail
+							<input type="email" placeholder="" />
+						</label>
+					</div>
+					<div class="large-4 columns">
+						<label>
+							Full name
+							<input type="text" placeholder="" />
+						</label>
+					</div>
+					<div class="large-4 columns">
+						<label>
+							Phone
+							<input type="text" placeholder="" />
+						</label>
+					</div>
+				</div>
+
+				<h4 class="form-section">
+					Billing details
+				</h4>
+
+				<div class="row">
+					<div class="large-3 columns">
 						<label>
 							Country
 							<select ng-model="model.form.country" ng-options="c.name for c in model.countries"></select>
 						</label>
+						<small>We only ship to the US and Canada</small>
 					</div>
-					<div class="large-4 columns">
+					<div class="large-3 columns">
 						<label>
-							State
+							Region
 							<select ng-model="model.form.state" ng-options="s.name for s in model.states"></select>
 						</label>
 					</div>
-					<div class="large-4 columns">
+					<div class="large-3 columns">
 						<label>
 							City
+							<input type="text" placeholder="" />
+						</label>
+					</div>
+					<div class="large-3 columns">
+						<label>
+							Postal code
 							<input type="text" placeholder="" />
 						</label>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="large-12 columns">
-					<label>
-						Address
-						<textarea placeholder=""></textarea>
-						<p>* We ship only to the US and Canada</p>
-					</label>
+					<div class="large-6 columns">
+						<label>
+							Address line 1
+							<input type="text" placeholder="" />
+						</label>
+					</div>
+					<div class="large-6 columns">
+						<label>
+							Address line 2
+							<input type="text" placeholder="" />
+						</label>
+					</div>
+				</div>
+
+				<h4 class="form-section">
+					Shipping details
+				</h4>
+
+				<div class="row">
+					<div class="large-6 columns">
+						<input type="radio" name="pokemon" value="Red" id="pokemonRed">
+						<label for="pokemonRed">Use the same details as for Billing</label>
+					</div>
+					<div class="large-6 columns">
+						<input type="radio" name="pokemon" value="Blue" id="pokemonBlue">
+						<label for="pokemonBlue">Use different details</label>
 					</div>
 				</div>
 
