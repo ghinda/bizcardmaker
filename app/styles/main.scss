@@ -234,6 +234,20 @@ footer {
 		margin-bottom: emCalc(12);
 	}
 
+	h4 {
+		margin: emCalc(20) 0 emCalc(12) 0;
+
+		color: $color1;
+		font-weight: bold;
+		font-size: emCalc(12);
+		text-transform: uppercase;
+	}
+
+	form small {
+		display: block;
+		margin: emCalc(-12) 0 emCalc(20) 0;
+	}
+
 	.row {
 		margin: 0 emCalc(-12);
 	}
@@ -246,8 +260,8 @@ footer {
 
 	li {
 		display: inline-block;
-		width: 20%;
-		height: emCalc(100);
+		width: 48%;
+		margin: 0 2% 2% 0;
 
 		text-align: center;
 
@@ -256,5 +270,35 @@ footer {
 			margin: 0 auto;
 		}
 	}
+
+	label {
+		display: block;
+		height: emCalc(100);
+		padding: emCalc(12);
+		margin: 2%;
+	}
+
+	.active {
+		background-color: $grey;
+	}
 }
 
+.order-summary {
+	margin-top: emCalc(20);
+	padding-top: emCalc(20);
+	border-top: 1px solid $grey;
+
+	table {
+		width: 100%;
+		border: 1px solid $color1;
+
+		thead,
+		tfoot {
+			background: none;
+		}
+
+		thead th {
+			color: darken($grey, 40%);
+		}
+	}
+}

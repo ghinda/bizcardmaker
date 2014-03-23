@@ -238,6 +238,26 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 	};
 
+	model.openedModal = false;
+	model.order = {};
+	$scope.CopyCardDetails = function() {
+
+		// if this is the first time we're opening the modal copy the details
+		// to be use in the order form.
+		// if the modal was previously opened, leave the details alone
+		if(!model.openedModal) {
+
+			var $vcard = $('.vcard');
+			model.order.email = $('.email p', $vcard).text().trim();
+			model.order.name = $('.fn', $vcard).text().trim();
+			model.order.tel = $('.tel', $vcard).text().trim();
+			model.order.city = $('.locality', $vcard).text().trim();
+
+			model.openedModal = true;
+		}
+
+	};
+
 	$scope.$on('$includeContentLoaded', function() {
 
 		// init foundation plugins

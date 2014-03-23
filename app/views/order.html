@@ -23,10 +23,11 @@
 
 				<li ng-repeat="offer in model.offers">
 
-					<label for="{{ offer.id }}">
-						<span ng-bind="offer.title"></span>
+					<label ng-class="{ 'active' : model.order.selectedOffer == $index }">
+						<h3 ng-bind="offer.title"></h3>
+
+						<input type="radio" name="offers" ng-value="$index" ng-model="model.order.selectedOffer">
 					</label>
-					<input type="radio" name="offers" ng-value="offer.title" id="{{ offer.id }}">
 
 				</li>
 
@@ -40,24 +41,24 @@
 					<div class="large-4 columns">
 						<label>
 							Your e-mail
-							<input type="email" placeholder="" />
+							<input type="email" ng-model="model.order.email" required>
 						</label>
 					</div>
 					<div class="large-4 columns">
 						<label>
 							Full name
-							<input type="text" placeholder="" />
+							<input type="text" ng-model="model.order.name" required>
 						</label>
 					</div>
 					<div class="large-4 columns">
 						<label>
 							Phone
-							<input type="text" placeholder="" />
+							<input type="text" ng-model="model.order.tel" required>
 						</label>
 					</div>
 				</div>
 
-				<h4 class="form-section">
+				<h4>
 					Billing details
 				</h4>
 
@@ -65,38 +66,48 @@
 					<div class="large-3 columns">
 						<label>
 							Country
-							<select ng-model="model.form.country" ng-options="c.name for c in model.countries"></select>
+							<select ng-model="model.order.country" ng-options="c.name for c in model.countries" required></select>
 						</label>
 						<small>We only ship to the US and Canada</small>
 					</div>
 					<div class="large-3 columns">
 						<label>
-							Region
-							<select ng-model="model.form.state" ng-options="s.name for s in model.states"></select>
+
+							<span ng-show="model.order.country.id=='US'">
+								State
+							</span>
+							<span ng-show="model.order.country.id=='CA'">
+								Province
+							</span>
+
+							<select ng-model="model.order.region" ng-options="s.name for s in model.regions[model.order.country.id]" required></select>
 						</label>
 					</div>
 					<div class="large-3 columns">
 						<label>
 							City
-							<input type="text" placeholder="" />
+							<input type="text" ng-model="model.order.city" required/>
 						</label>
 					</div>
 					<div class="large-3 columns">
 						<label>
 							Postal code
-							<input type="text" placeholder="" />
+							<input type="text" placeholder="" required/>
 						</label>
 					</div>
 				</div>
 
 				<div class="row">
-					<div class="large-6 columns">
+					<div class="large-12 columns">
 						<label>
 							Address line 1
-							<input type="text" placeholder="" />
+							<input type="text" placeholder="" required/>
 						</label>
 					</div>
-					<div class="large-6 columns">
+				</div>
+
+				<div class="row">
+					<div class="large-12 columns">
 						<label>
 							Address line 2
 							<input type="text" placeholder="" />
@@ -104,22 +115,156 @@
 					</div>
 				</div>
 
-				<h4 class="form-section">
+				<h4>
+					Payment
+				</h4>
+
+				<div class="row">
+					<div class="large-4 columns">
+						<label>
+							Credit Card number
+							<input type="text" placeholder="" required/>
+						</label>
+					</div>
+					<div class="large-4 columns">
+						<label>
+							Expiry date
+						</label>
+
+						<select class="large-6 columns" required></select>
+						<select class="large-6 columns" required></select>
+					</div>
+					<div class="large-4 columns">
+						<label>
+							Security code (CVV)
+							<input type="text" placeholder="" required/>
+						</label>
+						<small>
+							<strong>Last 3 digits</strong> on the back of your credit card
+						</small>
+					</div>
+				</div>
+
+				<h4>
 					Shipping details
 				</h4>
 
 				<div class="row">
 					<div class="large-6 columns">
-						<input type="radio" name="pokemon" value="Red" id="pokemonRed">
-						<label for="pokemonRed">Use the same details as for Billing</label>
+						<input type="radio" name="shipping-details" value="same" id="shipping-standard" ng-model="model.order.shippingDetailsType" selected>
+						<label for="shipping-standard">Use the same details as for Billing</label>
 					</div>
 					<div class="large-6 columns">
-						<input type="radio" name="pokemon" value="Blue" id="pokemonBlue">
-						<label for="pokemonBlue">Use different details</label>
+						<input type="radio" name="shipping-details" value="custom" id="shipping-custom" ng-model="model.order.shippingDetailsType">
+						<label for="shipping-custom">Use different details</label>
 					</div>
 				</div>
 
-				<button type="submit" class="button radius">Send Order</button>
+				<div class="shipping-details-extra" ng-show="model.order.shippingDetailsType == 'custom'">
+
+					<div class="row">
+						<div class="large-6 columns">
+							<label>
+								Full name
+								<input type="text" placeholder="" />
+							</label>
+						</div>
+						<div class="large-6 columns">
+							<label>
+								Phone
+								<input type="text" placeholder="" />
+							</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="large-3 columns">
+							<label>
+								Country
+								<select ng-model="model.order.country" ng-options="c.name for c in model.countries"></select>
+							</label>
+							<small>We only ship to the US and Canada</small>
+						</div>
+						<div class="large-3 columns">
+							<label>
+								Region
+								<select ng-model="model.order.state" ng-options="s.name for s in model.states"></select>
+							</label>
+						</div>
+						<div class="large-3 columns">
+							<label>
+								City
+								<input type="text" placeholder="" />
+							</label>
+						</div>
+						<div class="large-3 columns">
+							<label>
+								Postal code
+								<input type="text" placeholder="" />
+							</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="large-12 columns">
+							<label>
+								Address line 1
+								<input type="text" placeholder="" />
+							</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="large-12 columns">
+							<label>
+								Address line 2
+								<input type="text" placeholder="" />
+							</label>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="order-summary">
+
+					<h4>
+						Order summary
+					</h4>
+
+					<table>
+						<thead>
+							<tr>
+								<th></th>
+								<th>Quantity</th>
+								<th>Price</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Business Cards</td>
+								<td>30</td>
+								<td>$100</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th></th>
+								<th>
+									<strong>Total</strong>
+								</th>
+								<th>
+									<strong>$100</strong>
+								</th>
+							</tr>
+						</tfoot>
+					</table>
+
+				</div>
+
+				<button type="submit" class="button radius">
+					<i class="fa fa-shopping-cart"></i>
+					Send Order - $100
+				</button>
 			</form>
 
 		</div>
