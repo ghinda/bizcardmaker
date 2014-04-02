@@ -1167,8 +1167,13 @@ function isEmpty (val) {
 });
 require.register("ianstormtaylor-is/index.js", function(exports, require, module){
 
-var isEmpty = require('is-empty')
-  , typeOf = require('type');
+var isEmpty = require('is-empty');
+
+try {
+  var typeOf = require('type');
+} catch (e) {
+  var typeOf = require('component-type');
+}
 
 
 /**
@@ -2260,6 +2265,36 @@ function check () {
   );
 }
 });
+require.register("segmentio-when/index.js", function(exports, require, module){
+
+var callback = require('callback');
+
+
+/**
+ * Expose `when`.
+ */
+
+module.exports = when;
+
+
+/**
+ * Loop on a short interval until `condition()` is true, then call `fn`.
+ *
+ * @param {Function} condition
+ * @param {Function} fn
+ * @param {Number} interval (optional)
+ */
+
+function when (condition, fn, interval) {
+  if (condition()) return callback.async(fn);
+
+  var ref = setInterval(function () {
+    if (!condition()) return;
+    callback(fn);
+    clearInterval(ref);
+  }, interval || 10);
+}
+});
 require.register("visionmedia-batch/index.js", function(exports, require, module){
 /**
  * Module dependencies.
@@ -2513,21 +2548,44 @@ var domify = require('domify');
  * Replace document.write until a url is written matching the url fragment
  *
  * @param {String} match
+ * @param {Element} parent to appendChild onto
  * @param {Function} fn optional callback function
  */
 
-module.exports = function(match, fn){
+module.exports = function(match, parent, fn){
   var write = document.write;
   document.write = append;
+  if (typeof parent === 'function') fn = parent, parent = null;
+  if (!parent) parent = document.body;
 
   function append(str){
     var el = domify(str)
-    if (!el.src) return write(str);
+    var src = el.src || '';
     if (el.src.indexOf(match) === -1) return write(str);
-    document.body.appendChild(el);
+    if ('SCRIPT' == el.tagName) el = recreate(el);
+    parent.appendChild(el);
     document.write = write;
     fn && fn();
   }
+};
+
+/**
+ * Re-create the given `script`.
+ *
+ * domify() actually adds the script to he dom
+ * and then immediately removes it so the script
+ * will never be loaded :/
+ *
+ * @param {Element} script
+ * @api public
+ */
+
+function recreate(script){
+  var ret = document.createElement('script');
+  ret.src = script.src;
+  ret.async = script.async;
+  ret.defer = script.defer;
+  return ret;
 }
 });
 require.register("segmentio-analytics.js-integrations/index.js", function(exports, require, module){
@@ -2746,6 +2804,71 @@ AdWords.prototype.wait = function(obj){
     clearTimeout(id);
     self.conversion(obj);
   }, 50);
+};
+
+});
+require.register("segmentio-analytics.js-integrations/lib/alexa.js", function(exports, require, module){
+
+var integration = require('integration');
+var load = require('load-script');
+
+/**
+ * Expose plugin.
+ */
+
+module.exports = exports = function (analytics) {
+  analytics.addIntegration(Alexa);
+};
+
+/**
+ * Expose Alexa integration.
+ */
+
+var Alexa = exports.Integration = integration('Alexa')
+  .assumesPageview()
+  .readyOnLoad()
+  .global('_atrk_opts')
+  .option('atrk_acct', null)
+  .option('domain', '')
+  .option('dynamic', true);
+
+/**
+ * Initialize.
+ *
+ * @param {Object} page
+ */
+
+Alexa.prototype.initialize = function (page) {
+  window._atrk_opts = {
+    atrk_acct: this.options.atrk_acct,
+    domain: this.options.domain,
+    dynamic: this.options.dynamic
+  };
+  this.load();
+};
+
+/**
+ * Loaded?
+ *
+ * @return {Boolean}
+ */
+
+Alexa.prototype.loaded = function () {
+  return !! window.atrk;
+};
+
+/**
+ * Load the Alexa library.
+ *
+ * @param {Function} callback
+ */
+
+Alexa.prototype.load = function (callback) {
+  load('//d31qbv1cthcecs.cloudfront.net/atrk.js', function(err){
+    if (err) return callback(err);
+    window.atrk();
+    callback();
+  });
 };
 
 });
@@ -3933,6 +4056,8 @@ var extend = require('extend');
 var clone = require('clone');
 var each = require('each');
 var type = require('type');
+var when = require('when');
+var load = require('load-script');
 
 
 /**
@@ -3986,7 +4111,6 @@ Curebit.prototype.initialize = function(){
     site_id: this.options.siteId,
     server: this.options.server
   });
-  replace(this.options.server);
   this.load();
   this.registerAffiliate();
 };
@@ -4012,12 +4136,39 @@ Curebit.prototype.loaded = function(){
  */
 
 Curebit.prototype.load = function(fn){
-  var script = document.createElement('script');
-  script.src = '//d2jjzw81hqbuqv.cloudfront.net/assets/api/all-0.6.js';
-  var el = document.getElementById(this.options.insertIntoId);
-  if (!el) el = document.body;
-  el.appendChild(script);
-  onload(script, fn);
+  var url = '//d2jjzw81hqbuqv.cloudfront.net/assets/api/all-0.6.js';
+  var tags = this.campaignTags();
+  if (!tags.length) {
+    replace(this.options.server);
+    load(url, fn);
+  } else {
+    this.injectIntoId(url, this.options.insertIntoId, fn);
+  }
+};
+
+/**
+ * Insert script into element with ID.
+ *
+ * If we *are* loading a campaign, we need to wait for this element to exist.
+ *
+ * @param {String} url
+ * @param {String} id
+ * @param {Function} fn
+ * @api private
+ */
+
+Curebit.prototype.injectIntoId = function(url, id, fn) {
+  var server = this.options.server;
+  when(function () {
+    return document.getElementById(id);
+  }, function () {
+    var script = document.createElement('script');
+    script.src = url;
+    var parent = document.getElementById(id);
+    replace(server, parent);
+    parent.appendChild(script);
+    onload(script, fn);
+  });
 };
 
 /**
@@ -4045,7 +4196,7 @@ Curebit.prototype.campaignTags = function(){
 Curebit.prototype.registerAffiliate = function(){
   // Get the campaign tags for this url.
   var tags = this.campaignTags();
-  if (!tags) return;
+  if (!tags.length) return;
 
   // Set up the basic iframe rendering.
   var data = {
@@ -5811,6 +5962,70 @@ Heap.prototype.track = function (track) {
 };
 
 });
+require.register("segmentio-analytics.js-integrations/lib/hellobar.js", function(exports, require, module){
+
+var integration = require('integration');
+var load = require('load-script');
+
+/**
+ * Expose plugin.
+ */
+
+module.exports = exports = function (analytics) {
+  analytics.addIntegration(Hellobar);
+};
+
+
+/**
+ * Expose `hellobar.com` integration.
+ */
+
+var Hellobar = exports.Integration = integration('Hellobar')
+  .assumesPageview()
+  .readyOnInitialize()
+  .global('_hbq')
+  .option('apiKey', '');
+
+
+/**
+ * Initialize.
+ *
+ * https://s3.amazonaws.com/scripts.hellobar.com/bb900665a3090a79ee1db98c3af21ea174bbc09f.js
+ *
+ * @param {Object} page
+ */
+
+Hellobar.prototype.initialize = function(page) {
+  window._hbq = window._hbq || [];
+  this.load();
+};
+
+
+/**
+ * Load.
+ *
+ * @param {Function} callback
+ */
+
+Hellobar.prototype.load = function (callback) {
+  var url = '//s3.amazonaws.com/scripts.hellobar.com/' + this.options.apiKey + '.js';
+  load(url, callback);
+};
+
+
+/**
+ * Loaded?
+ *
+ * @return {Boolean}
+ */
+
+Hellobar.prototype.loaded = function () {
+  return !! (window._hbq && window._hbq.push !== Array.prototype.push);
+};
+
+
+
+});
 require.register("segmentio-analytics.js-integrations/lib/hittail.js", function(exports, require, module){
 
 var integration = require('integration');
@@ -7312,7 +7527,7 @@ Mixpanel.prototype.identify = function (identify) {
   if (nametag) window.mixpanel.name_tag(nametag);
 
   // traits
-  traits = identify.traits(traitAliases);
+  var traits = identify.traits(traitAliases);
   window.mixpanel.register(traits);
   if (this.options.people) window.mixpanel.people.set(traits);
 };
@@ -9593,7 +9808,6 @@ module.exports = exports = function (analytics) {
  */
 
 var Vero = exports.Integration = integration('Vero')
-  .assumesPageview()
   .readyOnInitialize()
   .global('_veroq')
   .option('apiKey', '');
@@ -9634,6 +9848,17 @@ Vero.prototype.load = function (callback) {
   load('//d3qxef4rp70elm.cloudfront.net/m.js', callback);
 };
 
+/**
+ * Page.
+ *
+ * https://www.getvero.com/knowledge-base#/questions/71768-Does-Vero-track-pageviews
+ *
+ * @param {Page} page
+ */
+
+Vero.prototype.page = function(page){
+  push('trackPageview');
+};
 
 /**
  * Identify.
@@ -12900,7 +13125,7 @@ analytics.require = require;
  * Expose `VERSION`.
  */
 
-exports.VERSION = '1.3.9';
+exports.VERSION = '1.3.16';
 
 
 /**
@@ -14080,6 +14305,7 @@ module.exports.User = User;
 
 
 
+
 require.register("segmentio-analytics.js-integrations/lib/slugs.json", function(exports, require, module){
 module.exports = [
   "adroll",
@@ -14110,6 +14336,7 @@ module.exports = [
   "google-tag-manager",
   "gosquared",
   "heap",
+  "hellobar",
   "hittail",
   "hubspot",
   "improvely",
@@ -14152,6 +14379,7 @@ module.exports = [
 ]
 
 });
+
 
 
 
@@ -14328,6 +14556,7 @@ require.alias("segmentio-analytics.js-integration/lib/index.js", "segmentio-anal
 require.alias("segmentio-analytics.js-integrations/index.js", "analytics/deps/integrations/index.js");
 require.alias("segmentio-analytics.js-integrations/lib/adroll.js", "analytics/deps/integrations/lib/adroll.js");
 require.alias("segmentio-analytics.js-integrations/lib/adwords.js", "analytics/deps/integrations/lib/adwords.js");
+require.alias("segmentio-analytics.js-integrations/lib/alexa.js", "analytics/deps/integrations/lib/alexa.js");
 require.alias("segmentio-analytics.js-integrations/lib/amplitude.js", "analytics/deps/integrations/lib/amplitude.js");
 require.alias("segmentio-analytics.js-integrations/lib/awesm.js", "analytics/deps/integrations/lib/awesm.js");
 require.alias("segmentio-analytics.js-integrations/lib/awesomatic.js", "analytics/deps/integrations/lib/awesomatic.js");
@@ -14354,6 +14583,7 @@ require.alias("segmentio-analytics.js-integrations/lib/google-analytics.js", "an
 require.alias("segmentio-analytics.js-integrations/lib/google-tag-manager.js", "analytics/deps/integrations/lib/google-tag-manager.js");
 require.alias("segmentio-analytics.js-integrations/lib/gosquared.js", "analytics/deps/integrations/lib/gosquared.js");
 require.alias("segmentio-analytics.js-integrations/lib/heap.js", "analytics/deps/integrations/lib/heap.js");
+require.alias("segmentio-analytics.js-integrations/lib/hellobar.js", "analytics/deps/integrations/lib/hellobar.js");
 require.alias("segmentio-analytics.js-integrations/lib/hittail.js", "analytics/deps/integrations/lib/hittail.js");
 require.alias("segmentio-analytics.js-integrations/lib/hubspot.js", "analytics/deps/integrations/lib/hubspot.js");
 require.alias("segmentio-analytics.js-integrations/lib/improvely.js", "analytics/deps/integrations/lib/improvely.js");
@@ -14599,6 +14829,10 @@ require.alias("segmentio-to-iso-string/index.js", "segmentio-analytics.js-integr
 require.alias("segmentio-to-unix-timestamp/index.js", "segmentio-analytics.js-integrations/deps/to-unix-timestamp/index.js");
 
 require.alias("segmentio-use-https/index.js", "segmentio-analytics.js-integrations/deps/use-https/index.js");
+
+require.alias("segmentio-when/index.js", "segmentio-analytics.js-integrations/deps/when/index.js");
+require.alias("ianstormtaylor-callback/index.js", "segmentio-when/deps/callback/index.js");
+require.alias("timoxley-next-tick/index.js", "ianstormtaylor-callback/deps/next-tick/index.js");
 
 require.alias("timoxley-next-tick/index.js", "segmentio-analytics.js-integrations/deps/next-tick/index.js");
 

@@ -1,3 +1,7 @@
+/* fileread directive
+ * for uploading files
+ */
+
 app.directive('fileread', [function () {
 	'use strict';
 

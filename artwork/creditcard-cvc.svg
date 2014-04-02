@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="81.047829"
+   height="59.801712"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="creditcard-cvc.svg">
+  <defs
+     id="defs4">
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3867">
+      <path
+         transform="translate(0.35714286,-1.25)"
+         d="m 413.12501,431.78183 a 26.741072,26.741072 0 1 1 -53.48214,0 26.741072,26.741072 0 1 1 53.48214,0 z"
+         sodipodi:ry="26.741072"
+         sodipodi:rx="26.741072"
+         sodipodi:cy="431.78183"
+         sodipodi:cx="386.38394"
+         id="path3869"
+         style="opacity:0.53012049;fill:#1e3f78;fill-opacity:1;stroke:none"
+         sodipodi:type="arc" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="-83.484975"
+     inkscape:cy="61.279218"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:snap-global="false"
+     inkscape:window-width="1874"
+     inkscape:window-height="1080"
+     inkscape:window-x="46"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-332.93433,-403.29076)">
+    <g
+       id="g3893"
+       style="opacity:0.8">
+      <rect
+         ry="4.9681735"
+         rx="4.9976864"
+         y="426.59247"
+         x="333.43433"
+         height="36"
+         width="60"
+         id="rect2985"
+         style="fill:#254f96;fill-opacity:1;fill-rule:evenodd;stroke:#000031;stroke-width:1;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none" />
+      <rect
+         y="431.81302"
+         x="333.43433"
+         height="7.8571429"
+         width="60"
+         id="rect3843"
+         style="fill:#1a1a1a;fill-opacity:1;stroke:none" />
+      <rect
+         style="opacity:0.53413653999999999;fill:#ffffff;fill-opacity:1;stroke:none"
+         id="rect3845"
+         width="54.285717"
+         height="5.9821429"
+         x="336.69644"
+         y="441.38004" />
+    </g>
+    <g
+       id="g3887">
+      <path
+         transform="translate(0.35714286,-1.25)"
+         d="m 413.12501,431.78183 c 0,14.76869 -11.97238,26.74107 -26.74107,26.74107 -14.76868,0 -26.74107,-11.97238 -26.74107,-26.74107 0,-14.76869 11.97239,-26.74107 26.74107,-26.74107 14.76869,0 26.74107,11.97238 26.74107,26.74107 z"
+         sodipodi:ry="26.741072"
+         sodipodi:rx="26.741072"
+         sodipodi:cy="431.78183"
+         sodipodi:cx="386.38394"
+         id="path3861"
+         style="fill:#005ead;fill-opacity:1;stroke:#003d6e;stroke-opacity:1"
+         sodipodi:type="arc" />
+      <rect
+         transform="translate(0.56821081,0)"
+         clip-path="url(#clipPath3867)"
+         y="419.23718"
+         x="353.75"
+         height="23.125"
+         width="49.107143"
+         id="rect3863"
+         style="opacity:0.77510041;fill:#ffffff;fill-opacity:1;stroke:none" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text3871"
+         y="428.35248"
+         x="362.1167"
+         style="font-size:7.89823341px;font-style:normal;font-weight:bold;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Oxygen-Sans Bold Italic"
+         xml:space="preserve"><tspan
+           style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Oxygen-Sans;-inkscape-font-specification:Oxygen-Sans Bold Italic"
+           y="428.35248"
+           x="362.1167"
+           id="tspan3873"
+           sodipodi:role="line">0000 000</tspan></text>
+    </g>
+  </g>
+</svg>
