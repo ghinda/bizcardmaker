@@ -131,16 +131,20 @@ app.factory('data', function($rootScope, $http, $q) {
 
 		deferred.resolve([
 			{
-				title: 'Offer 1'
+				title: 'Offer 1',
+				price: '$300'
 			},
 			{
-				title: 'Offer 2'
+				title: 'Offer 2',
+				price: '$200'
 			},
 			{
-				title: 'Offer 3'
+				title: 'Offer 3',
+				price: '$100'
 			},
 			{
-				title: 'Offer 4'
+				title: 'Offer 4',
+				price: '$50'
 			}
 		]);
 

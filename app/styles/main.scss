@@ -246,6 +246,17 @@ footer {
 	form small {
 		display: block;
 		margin: emCalc(-12) 0 emCalc(20) 0;
+		
+		line-height: 1.4em;
+	}
+	
+	.cvc-help {
+		overflow: hidden;
+		
+		img {
+			float: right;
+			margin-left: emCalc(12);
+		}
 	}
 
 	.row {
@@ -274,13 +285,14 @@ footer {
 
 	label {
 		display: block;
-		height: emCalc(100);
 		padding: emCalc(12);
 		margin: 2%;
+		border: 1px solid transparent;
 	}
 
 	.active {
-		background-color: $grey;
+		background-color: lighten($grey, 8%);
+		border-color: $grey;
 	}
 }
 
@@ -301,5 +313,37 @@ footer {
 		thead th {
 			color: darken($grey, 40%);
 		}
+		
+		td:last-child {
+			width: emCalc(100);
+		}
 	}
+}
+
+/* Form Validation
+ */
+
+/* Need !important because of Foundation :focus styles
+ */
+body input.cc-number {
+	padding-left: 20px;
+	
+	background-repeat: no-repeat !important;
+	background-position: -12px center !important;
+}
+
+.visa {
+	background-image: url(/images/visa.png) !important;
+}
+
+.amex {
+	background-image: url(/images/amex.png) !important;
+}
+
+.mastercard {
+	background-image: url(/images/mastercard.png) !important;
+}
+
+input.ng-invalid {
+	border: 1px solid #c0392b !important;
 }

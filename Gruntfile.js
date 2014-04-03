@@ -210,7 +210,8 @@ module.exports = function (grunt) {
 						'CNAME',
 						'*.*',
 						'bower_components/**/*',
-						'images/{,*/}*.{gif,webp,svg}',
+						//'images/{,*/}*.{gif,webp,svg}',
+						'images/{,*/}*.*',
 						'styles/fonts/*'
 					]
 				}, {
@@ -308,7 +309,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('build', [
 		'clean:dist',
 		'concurrent:dist',
-		'imagemin',
+		//'imagemin',
 		'htmlmin',
 		'useminPrepare',
 		'ngtemplates',
