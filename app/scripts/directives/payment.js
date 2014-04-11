@@ -25,8 +25,6 @@ app.directive('payment', [function () {
 				
 				scope.cardType = $.payment.cardType(val);
 				
-				console.log(scope.cardType);
-				
 				if($.payment.validateCardNumber(val)) {
 					ctrl.$setValidity('payment', true);
 				} else {

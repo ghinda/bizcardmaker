@@ -139,7 +139,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 	};
 
 	// place business card on a canvas
-	var generatePicture = function() {
+	$scope.generatePicture = function() {
 
 		var deferred = $q.defer();
 
@@ -172,7 +172,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 		model.generatingPdf = true;
 
-		generatePicture().then(function(canvas) {
+		$scope.generatePicture().then(function(canvas) {
 			model.generatingPdf = false;
 
 			var doc = new jsPDF();
@@ -205,7 +205,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 	$scope.DownloadPicture = function() {
 
-		generatePicture().then(function(canvas) {
+		$scope.generatePicture().then(function(canvas) {
 
 			// make the canvas a blob, so we can download it with downloadify
 			canvas.toBlob(
@@ -243,14 +243,14 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 	$scope.CopyCardDetails = function() {
 
 		// if this is the first time we're opening the modal copy the details
-		// to be use in the order form.
+		// to be used in the order form.
 		// if the modal was previously opened, leave the details alone
 		if(!model.openedModal) {
 
 			var $vcard = $('.vcard');
 			model.order.email = $('.email p', $vcard).text().trim();
 			model.order.name = $('.fn', $vcard).text().trim();
-			model.order.tel = $('.tel', $vcard).text().trim();
+			model.order.phone = $('.tel', $vcard).text().trim();
 			model.order.city = $('.locality', $vcard).text().trim();
 
 			model.openedModal = true;

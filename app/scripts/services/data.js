@@ -4,7 +4,8 @@
 
 app.factory('data', function($rootScope, $http, $q) {
 
-	var baseUrl = 'http://localhost:8080';
+	var printchompUrl = 'https://sandbox.printchomp.com';
+	var apiUrl = 'http://localhost:8080/api/v1';
 
 	// local model
 	var model = {
@@ -13,7 +14,7 @@ app.factory('data', function($rootScope, $http, $q) {
 
 	// regions
 	model.regions = {
-		'US': [
+		'United States': [
 			{"name":"Alabama","id":"AL"},
 			{"name":"Alaska","id":"AK"},
 			{"name":"Arizona","id":"AZ"},
@@ -66,59 +67,20 @@ app.factory('data', function($rootScope, $http, $q) {
 			{"name":"Wisconsin","id":"WI"},
 			{"name":"Wyoming","id":"WY"}
 		],
-		'CA': [
-			{
-				"name":"Alberta",
-				"id":"AB"
-			},
-			{
-				"name":"British Columbia",
-				"id":"BC"
-			},
-			{
-				"name":"Manitoba",
-				"id":"MB"
-			},
-			{
-				"name":"New Brunswick",
-				"id":"NB"
-			},
-			{
-				"name":"Newfoundland",
-				"id":"NL"
-			},
-			{
-				"name":"Northwest Territories",
-				"id":"NT"
-			},
-			{
-				"name":"Nova Scotia",
-				"id":"NS"
-			},
-			{
-				"name":"Nunavut",
-				"id":"NU"
-			},
-			{
-				"name":"Ontario",
-				"id":"ON"
-			},
-			{
-				"name":"Prince Edward Island",
-				"id":"PE"
-			},
-			{
-				"name":"Quebec",
-				"id":"QC"
-			},
-			{
-				"name":"Saskatchewan",
-				"id":"SK"
-			},
-			{
-				"name":"Yukon Territory",
-				"id":"YT"
-			}
+		'Canada': [
+			{"name":"Alberta", "id":"AB"},
+			{"name":"British Columbia","id":"BC"},
+			{"name":"Manitoba","id":"MB"},
+			{"name":"New Brunswick","id":"NB"},
+			{"name":"Newfoundland","id":"NL"},
+			{"name":"Northwest Territories","id":"NT"},
+			{"name":"Nova Scotia","id":"NS"},
+			{"name":"Nunavut","id":"NU"},
+			{"name":"Ontario","id":"ON"},
+			{"name":"Prince Edward Island","id":"PE"},
+			{"name":"Quebec","id":"QC"},
+			{"name":"Saskatchewan","id":"SK"},
+			{"name":"Yukon Territory","id":"YT"}
 		]
 	};
 
@@ -126,27 +88,16 @@ app.factory('data', function($rootScope, $http, $q) {
 	var GetOffers = function(params) {
 		var deferred = $q.defer();
 
-// 		deferred.resolve('Hello, ' + name + '!');
-// 		deferred.reject('Greeting ' + name + ' is not allowed.');
-
-		deferred.resolve([
-			{
-				title: 'Offer 1',
-				price: '$300'
-			},
-			{
-				title: 'Offer 2',
-				price: '$200'
-			},
-			{
-				title: 'Offer 3',
-				price: '$100'
-			},
-			{
-				title: 'Offer 4',
-				price: '$50'
-			}
-		]);
+		$http.get(apiUrl + '/offers')
+		.success(function(response) {
+			
+			deferred.resolve(response);
+			
+		}).error(function(err) {
+			
+			deferred.reject(err);
+			
+		});
 
 		return deferred.promise;
 	};
@@ -154,27 +105,18 @@ app.factory('data', function($rootScope, $http, $q) {
 	var SendOrder = function(params) {
 		var deferred = $q.defer();
 
-		// TODO upload blob
-// 		var xhr = new XMLHttpRequest();
-// 		xhr.open('POST', 'upload/binary/jpeg', true);
-// 		xhr.setRequestHeader('Content-Type', 'image/jpeg');
-// 		xhr.send(blob);
-
-		$http.post(baseUrl + '/upload', {
-			image: params.image
-		}).success(function(response) {
+		$http.post(apiUrl + '/orders', params)
+		.success(function(response) {
 			deferred.resolve(response);
 		}).error(function(err) {
 			deferred.reject(err);
 		});
 
-// 		deferred.resolve('Hello, ' + name + '!');
-// 		deferred.reject('Greeting ' + name + ' is not allowed.');
-
 		return deferred.promise;
 	};
 
 	return {
+		printchompUrl: printchompUrl,
 		model: model,
 		GetOffers: GetOffers,
 		SendOrder: SendOrder
