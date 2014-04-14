@@ -318,7 +318,7 @@ module.exports = function (grunt) {
 		'ngmin',
 		'cssmin',
 		'uglify',
-		'rev',
+		//'rev',
 		'usemin'
 	]);
 
