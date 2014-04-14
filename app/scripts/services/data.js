@@ -4,8 +4,20 @@
 
 app.factory('data', function($rootScope, $http, $q) {
 
+	// local testing urls
 	var printchompUrl = 'https://sandbox.printchomp.com';
-	var apiUrl = 'http://localhost:8080/api/v1';
+	var apiUrl = 'http://localhost:8080';
+	
+	// staging
+	if(document.domain === 'dev.bizcardmaker.com') {
+		apiUrl = 'api.bizcardmaker.com';
+	}
+	
+	// live
+	if(document.domain === 'www.bizcardmaker.com') {
+		apiUrl = 'api.bizcardmaker.com';
+		printchompUrl = 'https://printchomp.com';
+	}
 
 	// local model
 	var model = {
@@ -88,7 +100,7 @@ app.factory('data', function($rootScope, $http, $q) {
 	var GetOffers = function(params) {
 		var deferred = $q.defer();
 
-		$http.get(apiUrl + '/offers')
+		$http.get(apiUrl + '/api/v1/offers')
 		.success(function(response) {
 			
 			deferred.resolve(response);
@@ -105,7 +117,7 @@ app.factory('data', function($rootScope, $http, $q) {
 	var SendOrder = function(params) {
 		var deferred = $q.defer();
 
-		$http.post(apiUrl + '/orders', params)
+		$http.post(apiUrl + '/api/v1/orders', params)
 		.success(function(response) {
 			deferred.resolve(response);
 		}).error(function(err) {

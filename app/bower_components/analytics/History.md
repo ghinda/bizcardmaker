@@ -1,4 +1,36 @@
 
+1.3.22 / 2014-04-11 
+==================
+
+ * upgrade integrations to 0.5.4
+
+1.3.21 / 2014-04-10 
+==================
+
+ * add "invoke" event
+
+1.3.20 / 2014-04-07 
+==================
+
+ * upgrade integrations to 0.5.3
+
+1.3.19 / 2014-04-05
+==================
+
+ * upgrade querystring to 1.2.0
+
+1.3.18 / 2014-04-05
+==================
+
+ * upgrade integrations to 0.5.1
+
+1.3.17 / 2014-04-04
+==================
+
+ * upgrade integrations to 0.5.0
+ * fix: add .search to .url when url is pulled from canonical tag
+ * tests: upgrade gravy to 0.2.0
+
 1.3.16 / 2014-04-01
 ==================
 

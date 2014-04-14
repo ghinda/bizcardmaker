@@ -865,6 +865,7 @@ exports.parse = function(str){
 
   str = trim(str);
   if ('' == str) return {};
+  if ('?' == str.charAt(0)) str = str.slice(1);
 
   var obj = {};
   var pairs = str.split('&');
@@ -2752,7 +2753,7 @@ AdWords.prototype.track = function(track){
   return this.conversion({
     value: track.revenue() || 0,
     label: events[event],
-    conversionId: id,
+    conversionId: id
   });
 };
 
@@ -2828,7 +2829,7 @@ var Alexa = exports.Integration = integration('Alexa')
   .assumesPageview()
   .readyOnLoad()
   .global('_atrk_opts')
-  .option('atrk_acct', null)
+  .option('account', null)
   .option('domain', '')
   .option('dynamic', true);
 
@@ -2840,7 +2841,7 @@ var Alexa = exports.Integration = integration('Alexa')
 
 Alexa.prototype.initialize = function (page) {
   window._atrk_opts = {
-    atrk_acct: this.options.atrk_acct,
+    atrk_acct: this.options.account,
     domain: this.options.domain,
     dynamic: this.options.dynamic
   };
@@ -3608,7 +3609,7 @@ var supported = {
   refund: true,
   charge: true,
   cancel: true,
-  login: true,
+  login: true
 };
 
 /**
@@ -4136,14 +4137,12 @@ Curebit.prototype.loaded = function(){
  */
 
 Curebit.prototype.load = function(fn){
-  var url = '//d2jjzw81hqbuqv.cloudfront.net/assets/api/all-0.6.js';
+  var url = '//d2jjzw81hqbuqv.cloudfront.net/integration/curebit-1.0.min.js';
   var tags = this.campaignTags();
-  if (!tags.length) {
-    replace(this.options.server);
+  if (!tags.length)
     load(url, fn);
-  } else {
+  else
     this.injectIntoId(url, this.options.insertIntoId, fn);
-  }
 };
 
 /**
@@ -4165,7 +4164,6 @@ Curebit.prototype.injectIntoId = function(url, id, fn) {
     var script = document.createElement('script');
     script.src = url;
     var parent = document.getElementById(id);
-    replace(server, parent);
     parent.appendChild(script);
     onload(script, fn);
   });
@@ -4206,7 +4204,8 @@ Curebit.prototype.registerAffiliate = function(){
       width: this.options.iframeWidth,
       height: this.options.iframeHeight,
       id: this.options.iframeId,
-      frameborder: this.options.iframeBorder
+      frameborder: this.options.iframeBorder,
+      container: this.options.insertIntoId
     },
     campaign_tags: tags
   };
@@ -5237,8 +5236,13 @@ GA.prototype.initialize = function () {
     allowLinker: true
   });
 
+  // display advertising
+  if (opts.doubleClick) {
+    window.ga('require', 'displayfeatures');
+  }
+
   // send global id
-  if (this.options.sendUserId && user.id()) {
+  if (opts.sendUserId && user.id()) {
     window.ga('set', '&uid', user.id());
   }
 
@@ -5980,7 +5984,7 @@ module.exports = exports = function (analytics) {
  * Expose `hellobar.com` integration.
  */
 
-var Hellobar = exports.Integration = integration('Hellobar')
+var Hellobar = exports.Integration = integration('Hello Bar')
   .assumesPageview()
   .readyOnInitialize()
   .global('_hbq')
@@ -6466,6 +6470,7 @@ Intercom.prototype.load = function (callback) {
 
 Intercom.prototype.identify = function (identify) {
   var traits = identify.traits({ userId: 'user_id' });
+  var activator = this.options.activator;
   var opts = identify.options(this.name);
   var companyCreated = identify.companyCreated();
   var created = identify.created();
@@ -6497,10 +6502,13 @@ Intercom.prototype.identify = function (identify) {
   if (opts.increments) traits.increments = opts.increments;
   if (opts.userHash) traits.user_hash = opts.userHash;
   if (opts.user_hash) traits.user_hash = opts.user_hash;
-  if (this.options.inbox) {
-    traits.widget = {
-      activator: this.options.activator
-    };
+
+  // Intercom, will force the widget to appear
+  // if the selector is #IntercomDefaultWidget
+  // so no need to check inbox, just need to check
+  // that the selector isn't #IntercomDefaultWidget.
+  if ('#IntercomDefaultWidget' != activator) {
+    traits.widget = { activator: activator };
   }
 
   var method = this._id !== id ? 'boot': 'update';
@@ -6673,6 +6681,156 @@ Keen.prototype.identify = function (identify) {
 
 Keen.prototype.track = function (track) {
   window.Keen.addEvent(track.event(), track.properties());
+};
+
+});
+require.register("segmentio-analytics.js-integrations/lib/kenshoo.js", function(exports, require, module){
+
+var integration = require('integration');
+var load = require('load-script');
+var is = require('is');
+
+/**
+ * Expose plugin.
+ */
+
+module.exports = exports = function (analytics) {
+  analytics.addIntegration(Kenshoo);
+};
+
+/**
+ * Expose `Kenshoo` integration.
+ */
+
+var Kenshoo = exports.Integration = integration('Kenshoo')
+  .readyOnLoad()
+  .global('k_trackevent')
+  .option('cid', '')
+  .option('subdomain', '')
+  .option('trackNamedPages', true)
+  .option('trackCategorizedPages', true);
+
+/**
+ * Initialize.
+ *
+ * See https://gist.github.com/justinboyle/7875832
+ *
+ * @param {Object} page
+ */
+
+Kenshoo.prototype.initialize = function(page) {
+  this.load();
+};
+
+/**
+ * Loaded? (checks if the tracking function is set)
+ *
+ * @return {Boolean}
+ */
+
+Kenshoo.prototype.loaded = function() {
+  return is.fn(window.k_trackevent);
+};
+
+/**
+ * Load Kenshoo script.
+ *
+ * @param {Function} callback
+ */
+
+Kenshoo.prototype.load = function(callback) {
+  var url = '//' + this.options.subdomain + '.xg4ken.com/media/getpx.php?cid=' + this.options.cid;
+  load(url, callback);
+};
+
+/**
+ * Completed order.
+ *
+ * https://github.com/jorgegorka/the_tracker/blob/master/lib/the_tracker/trackers/kenshoo.rb
+ *
+ * @param {Track} track
+ * @api private
+ */
+
+Kenshoo.prototype.completedOrder = function(track) {
+  this._track(track, { val: track.total() });
+};
+
+/**
+ * Page.
+ *
+ * @param {Page} page
+ */
+
+Kenshoo.prototype.page = function(page) {
+  var category = page.category();
+  var name = page.name();
+  var fullName = page.fullName();
+  var isNamed = (name && this.options.trackNamedPages);
+  var isCategorized = (category && this.options.trackCategorizedPages);
+  var track;
+
+  if (name && ! this.options.trackNamedPages) {
+    return;
+  }
+
+  if (category && ! this.options.trackCategorizedPages) {
+    return;
+  }
+
+  if (isNamed && isCategorized) {
+    track = page.track(fullName);
+  } else if (isNamed) {
+    track = page.track(name);
+  } else if (isCategorized) {
+    track = page.track(category);
+  } else {
+    track = page.track();
+  }
+
+  this._track(track);
+};
+
+/**
+ * Track.
+ *
+ * https://github.com/jorgegorka/the_tracker/blob/master/lib/the_tracker/trackers/kenshoo.rb
+ *
+ * @param {Track} event
+ */
+
+Kenshoo.prototype.track = function(track) {
+  this._track(track);
+};
+
+/**
+ * Track a Kenshoo event.
+ *
+ * Private method for sending an event. We use it because `completedOrder`
+ * can't call track directly (would result in an infinite loop).
+ *
+ * @param {track} event
+ * @param {options} object
+ */
+
+Kenshoo.prototype._track = function(track, options) {
+  options = options || { val: track.revenue() };
+
+  var params = [
+    'id=' + this.options.cid,
+    'type=' + track.event(),
+    'val=' + (options.val || '0.0'),
+    'orderId=' + (track.orderId() || ''),
+    'promoCode=' + (track.coupon() || ''),
+    'valueCurrency=' + (track.currency() || ''),
+
+    // Live tracking fields. Ignored for now (until we get documentation).
+    'GCID=',
+    'kw=',
+    'product='
+  ];
+
+  window.k_trackevent(params, this.options.subdomain);
 };
 
 });
@@ -7598,7 +7756,7 @@ module.exports = exports = function (analytics) {
 
 var Mojn = exports.Integration = integration('Mojn')
   .option('customerCode', '')
-  .global('_agTrack')
+  .global('_mojnTrack')
   .readyOnInitialize();
 
 /**
@@ -7608,8 +7766,8 @@ var Mojn = exports.Integration = integration('Mojn')
  */
 
 Mojn.prototype.initialize = function(){
-  window._agTrack = window._agTrack || [];
-  window._agTrack.push({ cid: this.options.customerCode });
+  window._mojnTrack = window._mojnTrack || [];
+  window._mojnTrack.push({ cid: this.options.customerCode });
   this.load();
 };
 
@@ -7630,7 +7788,7 @@ Mojn.prototype.load = function(fn) {
  */
 
 Mojn.prototype.loaded = function () {
-  return is.object(window._agTrack);
+  return is.object(window._mojnTrack);
 };
 
 /**
@@ -7661,7 +7819,7 @@ Mojn.prototype.track = function(track) {
   var currency = properties.currency || '';
   var conv = currency + revenue;
   if (!revenue) return;
-  window._agTrack.push({ conv: conv });
+  window._mojnTrack.push({ conv: conv });
   return conv;
 };
 
@@ -7859,6 +8017,83 @@ MouseStats.prototype.identify = function (identify) {
   each(identify.traits(), function (key, value) {
     window.MouseStatsVisitorPlaybacks.customVariable(key, value);
   });
+};
+
+});
+require.register("segmentio-analytics.js-integrations/lib/navilytics.js", function(exports, require, module){
+
+/**
+ * Module dependencies.
+ */
+
+var integration = require('integration');
+var load = require('load-script');
+var push = require('global-queue')('__nls');
+
+/**
+ * Expose plugin.
+ */
+
+module.exports = exports = function (analytics) {
+  analytics.addIntegration(Navilytics);
+};
+
+/**
+ * Expose `Navilytics` integration.
+ */
+
+var Navilytics = exports.Integration = integration('Navilytics')
+  .assumesPageview()
+  .readyOnLoad()
+  .global('__nls')
+  .option('memberId', '')
+  .option('projectId', '');
+
+/**
+ * Initialize.
+ *
+ * https://www.navilytics.com/member/code_settings
+ *
+ * @param {Object} page
+ */
+
+Navilytics.prototype.initialize = function (page) {
+  this.load();
+};
+
+/**
+ * Loaded?
+ *
+ * @return {Boolean}
+ */
+
+Navilytics.prototype.loaded = function () {
+  return !! (window.__nls && [].push != window.__nls.push);
+};
+
+/**
+ * Load the Navilytics library.
+ *
+ * @param {Function} callback
+ */
+
+Navilytics.prototype.load = function (callback) {
+  var mid = this.options.memberId;
+  var pid = this.options.projectId;
+  var url = '//www.navilytics.com/nls.js?mid=' + mid + '&pid=' + pid;
+  load(url, callback);
+};
+
+/**
+ * Track.
+ *
+ * https://www.navilytics.com/docs#tags
+ *
+ * @param {Track} track
+ */
+
+Navilytics.prototype.track = function (track) {
+  push('tagRecording', track.event());
 };
 
 });
@@ -8268,6 +8503,75 @@ Pingdom.prototype.load = function (callback) {
   load('//rum-static.pingdom.net/prum.min.js', callback);
 };
 });
+require.register("segmentio-analytics.js-integrations/lib/piwik.js", function(exports, require, module){
+
+/**
+ * Module dependencies.
+ */
+
+var integration = require('integration');
+var load = require('load-script');
+var push = require('global-queue')('_paq');
+
+/**
+ * Expose plugin
+ */
+module.exports = exports = function (analytics) {
+  analytics.addIntegration(Piwik);
+};
+
+/**
+ * Expose `Piwik` integration.
+ */
+
+var Piwik = exports.Integration = integration('Piwik')
+  .global('_paq')
+  .option('url', null)
+  .option('id', '')
+  .assumesPageview()
+  .readyOnInitialize();
+
+/**
+ * Initialize.
+ *
+ * http://piwik.org/docs/javascript-tracking/#toc-asynchronous-tracking
+ */
+
+Piwik.prototype.initialize = function () {
+  window._paq = window._paq || [];
+  push('setSiteId', this.options.id);
+  push('setTrackerUrl', this.options.url + '/piwik.php');
+  push('enableLinkTracking');
+  this.load();
+};
+
+/**
+ * Load the Piwik Analytics library.
+ */
+
+Piwik.prototype.load = function (callback) {
+  load(this.options.url + "/piwik.js", callback);
+};
+
+/**
+ * Check if Piwik is loaded
+ */
+
+Piwik.prototype.loaded = function () {
+  return !! (window._paq && window._paq.push != [].push);
+};
+
+/**
+ * Page
+ *
+ * @param {Page} page
+ */
+
+Piwik.prototype.page = function (page) {
+  push('trackPageView');
+};
+
+});
 require.register("segmentio-analytics.js-integrations/lib/preact.js", function(exports, require, module){
 
 var alias = require('alias');
@@ -8603,8 +8907,11 @@ Quantcast.prototype.load = function (callback) {
  */
 
 Quantcast.prototype.page = function (page) {
+  var category = page.category();
+  var name = page.name();
   var settings = {
     event: 'refresh',
+    labels: labels('Page', category, name),
     qacct: this.options.pCode,
   };
   if (user.id()) settings.uid = user.id();
@@ -8636,61 +8943,108 @@ Quantcast.prototype.identify = function (identify) {
  */
 
 Quantcast.prototype.track = function (track) {
+  var name = track.event();
+  var revenue = track.revenue();
   var settings = {
     event: 'click',
+    labels: labels('Event', name),
     qacct: this.options.pCode
   };
+  if (revenue !== null) settings.revenue = (revenue+''); // convert to string
   if (user.id()) settings.uid = user.id();
   push(settings);
 };
 
+
+/**
+ * Completed Order.
+ *
+ * @param {Track} track
+ * @api private
+ */
+
+Quantcast.prototype.completedOrder = function(track){
+  var name = track.event();
+  var revenue = track.total();
+  var settings = {
+    event: 'refresh', // the example Quantcast sent has completed order send refresh not click
+    labels: labels('Event', name),
+    revenue: (revenue+''), // convert to string
+    orderid: track.orderId(),
+    qacct: this.options.pCode
+  };
+  push(settings);
+};
+
+/**
+ * Generate a period-separated label string in Quantcast's style.
+ *
+ * @param {String} label
+ * @param {String} label2
+ * ....
+ */
+
+function labels(){
+  var args = [];
+
+  for (var i = 0; i < arguments.length; ++i) {
+    if (!arguments[i]) continue;
+    var val = String(arguments[i]);
+    args.push(val.replace(/,/g, ';'));
+  }
+
+  var basic = args.join('.');
+  return [basic, ['_fp', basic].join('.')].join(',');
+}
+
 });
 require.register("segmentio-analytics.js-integrations/lib/rollbar.js", function(exports, require, module){
 
-var callback = require('callback');
-var clone = require('clone');
-var extend = require('extend');
-var integration = require('integration');
-var load = require('load-script');
-var onError = require('on-error');
+/**
+ * Module dependencies.
+ */
 
+var integration = require('integration');
+var is = require('is');
+var extend = require('extend');
 
 /**
  * Expose plugin.
  */
 
-module.exports = exports = function (analytics) {
-  analytics.addIntegration(Rollbar);
+module.exports = exports = function(analytics) {
+  analytics.addIntegration(RollbarIntegration);
 };
-
 
 /**
  * Expose `Rollbar` integration.
  */
 
-var Rollbar = exports.Integration = integration('Rollbar')
+var RollbarIntegration = exports.Integration = integration('Rollbar')
   .readyOnInitialize()
-  .assumesPageview()
-  .global('_rollbar')
+  .global('Rollbar')
+  .option('identify', true)
   .option('accessToken', '')
-  .option('identify', true);
-
+  .option('environment', 'unknown')
+  .option('captureUncaught', true);
 
 /**
  * Initialize.
  *
- * https://rollbar.com/docs/notifier/rollbar.js/
- *
  * @param {Object} page
  */
+RollbarIntegration.prototype.initialize = function(page) {
+  var _rollbarConfig = this.config = {
+    accessToken: this.options.accessToken,
+    captureUncaught: this.options.captureUncaught,
+    payload: {
+      environment: this.options.environment
+    }
+  };
 
-Rollbar.prototype.initialize = function (page) {
-  var options = this.options;
-  window._rollbar = window._rollbar || window._ratchet || [options.accessToken, options];
-  onError(function() { window._rollbar.push.apply(window._rollbar, arguments); });
+  !function(a){function b(b){this.shimId=++g,this.notifier=null,this.parentShim=b,this.logger=function(){},a.console&&void 0===a.console.shimId&&(this.logger=a.console.log)}function c(b,c,d){!d[4]&&a._rollbarWrappedError&&(d[4]=a._rollbarWrappedError,a._rollbarWrappedError=null),b.uncaughtError.apply(b,d),c&&c.apply(a,d)}function d(c){var d=b;return f(function(){if(this.notifier)return this.notifier[c].apply(this.notifier,arguments);var b=this,e="scope"===c;e&&(b=new d(this));var f=Array.prototype.slice.call(arguments,0),g={shim:b,method:c,args:f,ts:new Date};return a._rollbarShimQueue.push(g),e?b:void 0})}function e(a,b){if(b.hasOwnProperty&&b.hasOwnProperty("addEventListener")){var c=b.addEventListener;b.addEventListener=function(b,d,e){c.call(this,b,a.wrap(d),e)};var d=b.removeEventListener;b.removeEventListener=function(a,b,c){d.call(this,a,b._wrapped||b,c)}}}function f(a,b){return b=b||this.logger,function(){try{return a.apply(this,arguments)}catch(c){b("Rollbar internal error:",c)}}}var g=0;b.init=function(a,d){var g=d.globalAlias||"Rollbar";if("object"==typeof a[g])return a[g];a._rollbarShimQueue=[],a._rollbarWrappedError=null,d=d||{};var h=new b;return f(function(){if(h.configure(d),d.captureUncaught){var b=a.onerror;a.onerror=function(){var a=Array.prototype.slice.call(arguments,0);c(h,b,a)};var f,i,j=["EventTarget","Window","Node","ApplicationCache","AudioTrackList","ChannelMergerNode","CryptoOperation","EventSource","FileReader","HTMLUnknownElement","IDBDatabase","IDBRequest","IDBTransaction","KeyOperation","MediaController","MessagePort","ModalWindow","Notification","SVGElementInstance","Screen","TextTrack","TextTrackCue","TextTrackList","WebSocket","WebSocketWorker","Worker","XMLHttpRequest","XMLHttpRequestEventTarget","XMLHttpRequestUpload"];for(f=0;f<j.length;++f)i=j[f],a[i]&&a[i].prototype&&e(h,a[i].prototype)}return a[g]=h,h},h.logger)()},b.prototype.loadFull=function(a,b,c,d,e){var g=f(function(){var a=b.createElement("script"),e=b.getElementsByTagName("script")[0];a.src=d.rollbarJsUrl,a.async=!c,a.onload=h,e.parentNode.insertBefore(a,e)},this.logger),h=f(function(){var b;if(void 0===a._rollbarPayloadQueue){var c,d,f,g;for(b=new Error("rollbar.js did not load");c=a._rollbarShimQueue.shift();)for(f=c.args,g=0;g<f.length;++g)if(d=f[g],"function"==typeof d){d(b);break}}e&&e(b)},this.logger);f(function(){c?g():a.addEventListener?a.addEventListener("load",g,!1):a.attachEvent("onload",g)},this.logger)()},b.prototype.wrap=function(b){if("function"!=typeof b)return b;if(b._isWrap)return b;if(!b._wrapped){b._wrapped=function(){try{return b.apply(this,arguments)}catch(c){throw a._rollbarWrappedError=c,c}},b._wrapped._isWrap=!0;for(var c in b)b.hasOwnProperty(c)&&(b._wrapped[c]=b[c])}return b._wrapped};for(var h="log,debug,info,warn,warning,error,critical,global,configure,scope,uncaughtError".split(","),i=0;i<h.length;++i)b.prototype[h[i]]=d(h[i]);var j="//d37gvrvc0wt4s1.cloudfront.net/js/v1.0/rollbar.min.js";_rollbarConfig.rollbarJsUrl=_rollbarConfig.rollbarJsUrl||j,b.init(a,_rollbarConfig)}(window,document);
   this.load();
 };
-
 
 /**
  * Loaded?
@@ -8698,10 +9052,9 @@ Rollbar.prototype.initialize = function (page) {
  * @return {Boolean}
  */
 
-Rollbar.prototype.loaded = function () {
-  return !! (window._rollbar && window._rollbar.push !== Array.prototype.push);
+RollbarIntegration.prototype.loaded = function() {
+  return is.object(window.Rollbar) && null == window.Rollbar.shimId;
 };
-
 
 /**
  * Load.
@@ -8709,28 +9062,27 @@ Rollbar.prototype.loaded = function () {
  * @param {Function} callback
  */
 
-Rollbar.prototype.load = function (callback) {
-  load('//d37gvrvc0wt4s1.cloudfront.net/js/1/rollbar.min.js', callback);
+RollbarIntegration.prototype.load = function(callback) {
+  window.Rollbar.loadFull(window, document, true, this.config, callback);
 };
-
 
 /**
  * Identify.
  *
  * @param {Identify} identify
  */
-
-Rollbar.prototype.identify = function (identify) {
+RollbarIntegration.prototype.identify = function(identify) {
+  // do stuff with `id` or `traits`
   if (!this.options.identify) return;
 
-  var traits = identify.traits();
-  var rollbar = window._rollbar;
-  var params = rollbar.shift
-    ? rollbar[1] = rollbar[1] || {}
-    : rollbar.extraParams = rollbar.extraParams || {};
+  // Don't allow identify without a user id
+  var uid = identify.userId();
+  if (uid === null || uid === undefined) return;
 
-  params.person = params.person || {};
-  extend(params.person, traits);
+  var rollbar = window.Rollbar;
+  var person = {id: uid};
+  extend(person, identify.traits());
+  rollbar.configure({payload: {person: person}});
 };
 
 });
@@ -13125,7 +13477,7 @@ analytics.require = require;
  * Expose `VERSION`.
  */
 
-exports.VERSION = '1.3.16';
+exports.VERSION = '1.3.22';
 
 
 /**
@@ -13505,7 +13857,6 @@ Analytics.prototype.page = function (category, name, properties, options, fn) {
     path: canonicalPath(),
     referrer: document.referrer,
     title: document.title,
-    url: canonicalUrl(),
     search: location.search
   };
 
@@ -13514,6 +13865,7 @@ Analytics.prototype.page = function (category, name, properties, options, fn) {
 
   properties = clone(properties) || {};
   defaults(properties, defs);
+  properties.url = properties.url || canonicalUrl(properties.search);
 
   this._invoke('page', new Page({
     properties: properties,
@@ -13658,6 +14010,8 @@ Analytics.prototype._callback = function (fn) {
 Analytics.prototype._invoke = function (method, facade) {
   var options = facade.options();
 
+  this.emit('invoke', facade);
+
   each(this._integrations, function (name, integration) {
     if (!facade.enabled(name)) return;
     integration.invoke.call(integration, method, facade);
@@ -13709,18 +14063,21 @@ function canonicalPath () {
 }
 
 /**
- * Return the canonical URL for the page, without the hash.
+ * Return the canonical URL for the page concat the given `search`
+ * and strip the hash.
  *
+ * @param {String} search
  * @return {String}
  */
 
-function canonicalUrl () {
+function canonicalUrl (search) {
   var canon = canonical();
-  if (canon) return canon;
+  if (canon) return ~canon.indexOf('?') ? canon : canon + search;
   var url = window.location.href;
   var i = url.indexOf('#');
   return -1 == i ? url : url.slice(0, i);
 }
+
 });
 require.register("analytics/lib/cookie.js", function(exports, require, module){
 
@@ -14310,6 +14667,7 @@ require.register("segmentio-analytics.js-integrations/lib/slugs.json", function(
 module.exports = [
   "adroll",
   "adwords",
+  "alexa",
   "amplitude",
   "awesm",
   "awesomatic",
@@ -14343,6 +14701,7 @@ module.exports = [
   "inspectlet",
   "intercom",
   "keen-io",
+  "kenshoo",
   "kissmetrics",
   "klaviyo",
   "leadlander",
@@ -14353,10 +14712,12 @@ module.exports = [
   "mojn",
   "mouseflow",
   "mousestats",
+  "navilytics",
   "olark",
   "optimizely",
   "perfect-audience",
   "pingdom",
+  "piwik",
   "preact",
   "qualaroo",
   "quantcast",
@@ -14590,6 +14951,7 @@ require.alias("segmentio-analytics.js-integrations/lib/improvely.js", "analytics
 require.alias("segmentio-analytics.js-integrations/lib/inspectlet.js", "analytics/deps/integrations/lib/inspectlet.js");
 require.alias("segmentio-analytics.js-integrations/lib/intercom.js", "analytics/deps/integrations/lib/intercom.js");
 require.alias("segmentio-analytics.js-integrations/lib/keen-io.js", "analytics/deps/integrations/lib/keen-io.js");
+require.alias("segmentio-analytics.js-integrations/lib/kenshoo.js", "analytics/deps/integrations/lib/kenshoo.js");
 require.alias("segmentio-analytics.js-integrations/lib/kissmetrics.js", "analytics/deps/integrations/lib/kissmetrics.js");
 require.alias("segmentio-analytics.js-integrations/lib/klaviyo.js", "analytics/deps/integrations/lib/klaviyo.js");
 require.alias("segmentio-analytics.js-integrations/lib/leadlander.js", "analytics/deps/integrations/lib/leadlander.js");
@@ -14600,10 +14962,12 @@ require.alias("segmentio-analytics.js-integrations/lib/mixpanel.js", "analytics/
 require.alias("segmentio-analytics.js-integrations/lib/mojn.js", "analytics/deps/integrations/lib/mojn.js");
 require.alias("segmentio-analytics.js-integrations/lib/mouseflow.js", "analytics/deps/integrations/lib/mouseflow.js");
 require.alias("segmentio-analytics.js-integrations/lib/mousestats.js", "analytics/deps/integrations/lib/mousestats.js");
+require.alias("segmentio-analytics.js-integrations/lib/navilytics.js", "analytics/deps/integrations/lib/navilytics.js");
 require.alias("segmentio-analytics.js-integrations/lib/olark.js", "analytics/deps/integrations/lib/olark.js");
 require.alias("segmentio-analytics.js-integrations/lib/optimizely.js", "analytics/deps/integrations/lib/optimizely.js");
 require.alias("segmentio-analytics.js-integrations/lib/perfect-audience.js", "analytics/deps/integrations/lib/perfect-audience.js");
 require.alias("segmentio-analytics.js-integrations/lib/pingdom.js", "analytics/deps/integrations/lib/pingdom.js");
+require.alias("segmentio-analytics.js-integrations/lib/piwik.js", "analytics/deps/integrations/lib/piwik.js");
 require.alias("segmentio-analytics.js-integrations/lib/preact.js", "analytics/deps/integrations/lib/preact.js");
 require.alias("segmentio-analytics.js-integrations/lib/qualaroo.js", "analytics/deps/integrations/lib/qualaroo.js");
 require.alias("segmentio-analytics.js-integrations/lib/quantcast.js", "analytics/deps/integrations/lib/quantcast.js");

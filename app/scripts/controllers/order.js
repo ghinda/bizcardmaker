@@ -61,53 +61,16 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 		}
 	});
 	
-	$scope.SendOrder = function() {
+	// only for testing
+// 	model.order.postcode = '35801';
+// 	model.order.address1 = 'H';
+// 	model.order.card.number = '4242424242424242';
+// 	model.order.card.exp = '12/2020';
+// 	model.order.card.csc = '123';
+	
+	$scope.SendOrder = function(event) {
 		
-// 			order: {
-// 				billing: {
-// 					name:   'John Doe',
-// 					phone: '15192223333',
-// 					address: {
-// 						street:      '123 Main St.',
-// 						street2:     '',
-// 						city:        'Springfield',
-// 						region:      'KY',
-// 						country:     'United States',
-// 						postal_code: '40069'
-// 					},
-// 					amount: {
-// 						subtotal:  1000,
-// 						tax1:         0, 
-// 						tax2:         0,
-// 						shipping:     0, 
-// 						total:     1000,
-// 						currency: 'CAD'
-// 					},
-// 					credit_card: {
-// 						number:       4030000010001234,
-// 						verification: 123,
-// 						expiry: {
-// 							month: 6, 
-// 							year:  2016
-// 						}
-// 					}
-// 				},
-// 				shipping:  {
-// 					name:   'John Doe',
-// 					phone: '15192223333',
-// 					address: {
-// 						street:      '123 Main St.',
-// 						street2:     '',
-// 						city:        'Springfield',
-// 						region:      'KY',
-// 						country:     'United States',
-// 						postal_code: '40069'
-// 					}
-// 				}
-// 			}
-// 		};
-		
-		// make sure form is valid
+		// make sure the form is valid
 		if(!$scope.orderForm.$valid) {
 			return false;
 		}
@@ -116,7 +79,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 		
 		// generate base64 picture
 		$scope.generatePicture().then(function(canvas) {
-
+			
 			// send the canvas as a b64 jpeg
 			var jpegUrl = canvas.toDataURL('image/jpeg');
 			orderData.image = jpegUrl;
@@ -183,6 +146,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 			model.orderLoading = true;
 		
 			data.SendOrder(orderData).then(function(response) {
+				
 				console.log('success', response);
 				
 				model.orderLoading = false;
@@ -190,6 +154,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 				model.error = '';
 				model.orderSuccess = true;
 				
+				// hide the modal in 5s
 				$timeout(function() {
 					$('#modal-order').foundation('reveal', 'close');
 				}, 5000);
@@ -200,28 +165,20 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 				
 				model.error = err.error;
 				model.orderLoading = false;
+				
 			});
+			
+			// scroll back to the bottom, because html2canvas takes us to the top*
+			window.scrollTo(0, document.body.scrollHeight - 950);
 			
 		});
 		
-		return false;
+		
+		// prevent form submission
+		// for some weird reason, angular doesn't prevent submission automatically
+		// only after I do a regular submit and a ? search param is set
+		event.preventDefault();
 		
 	};
-
-// 	var initDatepicker = function() {
-//
-// 		var $datepicker = $('.datepicker');
-//
-// 		new Pikaday({
-// 			field: $datepicker.get(0),
-// 			format: 'D MMM YYYY',
-// 			onSelect: function() {
-// 				console.log('wat');
-// 			}
-// 		});
-//
-// 	};
-//
-// 	initDatepicker();
 
 });

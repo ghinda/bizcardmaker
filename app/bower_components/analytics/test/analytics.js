@@ -244,6 +244,17 @@ describe('Analytics', function () {
       analytics._invoke('identify', facade);
       assert(!Test.prototype.invoke.called);
     });
+
+    it('should emit "invoke" with facade', function(done){
+      var opts = { All: false };
+      var identify = new Identify({ options: opts });
+      analytics.on('invoke', function(msg){
+        assert(identify == msg);
+        assert('identify' == msg.action());
+        done();
+      });
+      analytics._invoke('identify', identify);
+    })
   });
 
   describe('#_options', function () {
@@ -324,6 +335,35 @@ describe('Analytics', function () {
       analytics.page();
       var page = analytics._invoke.args[0][1];
       assert(page instanceof Page);
+    })
+
+    it('should default .url to .location.href', function(){
+      analytics.page();
+      var page = analytics._invoke.args[0][1];
+      var href = window.location.href;
+      assert(href == page.properties().url);
+    });
+
+    it('should respect canonical', function(){
+      var el = document.createElement('link');
+      el.rel = 'canonical';
+      el.href = 'baz.com';
+      document.head.appendChild(el);
+      analytics.page();
+      var page = analytics._invoke.args[0][1];
+      assert('baz.com' == page.properties().url);
+      el.parentNode.removeChild(el);
+    });
+
+    it('should append querystring to canonical url', function(){
+      var el = document.createElement('link');
+      el.rel = 'canonical';
+      el.href = 'baz.com';
+      document.head.appendChild(el);
+      analytics.page({ search: '?querystring' });
+      var page = analytics._invoke.args[0][1];
+      assert('baz.com?querystring' == page.properties().url);
+      el.parentNode.removeChild(el);
     })
 
     it('should accept (category, name, properties, options, callback)', function (done) {

@@ -97,7 +97,7 @@
 				<ul class="button-group download-buttons">
 					<li>
 
-						<a data-dropdown="drop-downloads" class="button muted dropdown">
+						<a data-dropdown="drop-downloads" class="button muted dropdown" id="js-download-button">
 							<i class="fa fa-arrow-circle-o-down"></i>
 							Download files
 							<small>To print them yourself or use online. </small>
@@ -124,7 +124,7 @@
 					</li>
 					<li>
 
-						<button type="button" class="button secondary" id="js-download-picture-button" ng-click="CopyCardDetails()" data-reveal-id="modal-order" data-reveal>
+						<button type="button" class="button secondary" id="js-order-button" ng-click="CopyCardDetails()" data-reveal-id="modal-order" data-reveal>
 							<i class="fa fa-shopping-cart"></i>
 							Order Cards
 
@@ -135,7 +135,7 @@
 				</ul>
 
 				<p class="region-notice">
-					Ordering prints is only available in the USA and Canada.
+					Ordering cards is only available in the USA and Canada.
 				</p>
 
 			</div>
@@ -170,11 +170,11 @@
 		<p>Edit all of the details on the business card by simply clicking on them. </p>
 		<p>You can also upload your own logo or picture, by clicking the picture icon. </p>
 	</li>
-	<li data-id="js-download-button" data-button="Next">
-		<p>Once you're done editing and your business card looks just right, simply press the <strong>Download PDF</strong> button and print the resulting PDF. </p>
+	<li data-id="js-order-button" data-button="Next" data-options="tip_location: top">
+		<p>Once you're done editing, choose one of our high quality exclusive offers and have the cards delivered to you! </p>
 	</li>
-	<li data-id="js-download-picture-button" data-button="Done">
-		<p>You can also download your business card as a picture, if you want to share it online with others. </p>
+	<li data-id="js-download-button" data-button="Done" data-options="tip_location: top">
+		<p>You can also download the business card as JPEG or PDF, to use online or print yourself. </p>
 	</li>
 </ol>
 
