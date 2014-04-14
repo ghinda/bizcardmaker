@@ -10,12 +10,12 @@ app.factory('data', function($rootScope, $http, $q) {
 	
 	// staging
 	if(document.domain === 'dev.bizcardmaker.com') {
-		apiUrl = 'api.bizcardmaker.com';
+		apiUrl = 'http://devapi.bizcardmaker.com';
 	}
 	
 	// live
 	if(document.domain === 'www.bizcardmaker.com') {
-		apiUrl = 'api.bizcardmaker.com';
+		apiUrl = 'http://api.bizcardmaker.com';
 		printchompUrl = 'https://printchomp.com';
 	}
 
