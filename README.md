@@ -32,10 +32,9 @@ For `imagemin` to work:
 
 ## TODO
 
-* Fix rev issues with cached angular templates, in gruntfile
 * Save all edits in localstorage automatically (hoodie?)
 * Create directive for draggable (see example at http://docs.angularjs.org/guide/directive) with position as models
-
+* Bugfixes for meditor
 
 Later
 
