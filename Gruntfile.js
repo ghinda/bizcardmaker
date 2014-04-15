@@ -160,8 +160,17 @@ module.exports = function (grunt) {
 		usemin: {
 			html: ['<%= yeoman.dist %>/{,*/}*.html'],
 			css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+			js: ['<%= yeoman.dist %>/scripts/*.js'],
 			options: {
-				dirs: ['<%= yeoman.dist %>']
+				assetsDirs: [
+					'<%= yeoman.dist %>',
+					'<%= yeoman.dist %>/images'
+				],
+				patterns: {
+					js: [
+						[/(images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm]
+					]
+				}
 			}
 		},
 		imagemin: {
@@ -309,7 +318,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('build', [
 		'clean:dist',
 		'concurrent:dist',
-		//'imagemin',
+		'imagemin',
 		'htmlmin',
 		'useminPrepare',
 		'ngtemplates',
@@ -318,7 +327,7 @@ module.exports = function (grunt) {
 		'ngmin',
 		'cssmin',
 		'uglify',
-		//'rev',
+		'rev',
 		'usemin'
 	]);
 
