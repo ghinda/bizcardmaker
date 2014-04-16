@@ -269,31 +269,31 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 			$picture = $preview.find('.card-picture'),
 			$li = $preview.find('li');
 
-		new Draggabilly($picture.get(0), {
-			containment: $containment,
-			handle: '.drag-handle',
-			grid: [ 20, 20 ]
-		});
+		// new Draggabilly($picture.get(0), {
+		// 	containment: $containment,
+		// 	handle: '.drag-handle',
+		// 	grid: [ 20, 20 ]
+		// });
 
-		$li.each(function(i, li) {
-			setTimeout(function() {
+		// $li.each(function(i, li) {
+		// 	setTimeout(function() {
 
-				var liDrag = new Draggabilly(li, {
-					containment: $containment,
-					handle: '.drag-handle',
-					grid: [ 20, 20 ]
-				});
+		// 		var liDrag = new Draggabilly(li, {
+		// 			containment: $containment,
+		// 			handle: '.drag-handle',
+		// 			grid: [ 20, 20 ]
+		// 		});
 
-				liDrag.on('dragStart', function() {
-					$(li).addClass('drag-handle-show');
-				});
+		// 		liDrag.on('dragStart', function() {
+		// 			$(li).addClass('drag-handle-show');
+		// 		});
 
-				liDrag.on('dragEnd', function() {
-					$(li).removeClass('drag-handle-show');
-				});
+		// 		liDrag.on('dragEnd', function() {
+		// 			$(li).removeClass('drag-handle-show');
+		// 		});
 
-			}, 1000);
-		});
+		// 	}, 1000);
+		// });
 
 	});
 
