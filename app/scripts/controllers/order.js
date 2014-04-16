@@ -163,7 +163,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
 				console.log('error', err);
 
-				model.error = err.error;
+				model.error = err.error || 'Please try again later.';
 				model.orderLoading = false;
 
 			});
