@@ -8,45 +8,97 @@ app.directive('drag', ['$document', function ($document) {
 	return {
 		link: function (scope, element) {
 			var startX = 0, startY = 0, x = 0, y = 0;
-			var dragHandle = element.find('.drag-handle');
-			
-			var containerWidth = $('.card-content').width();
-			var containerHeight = $('.card-content').height();
-			var containerX = $('.card-content').offset().left;
-			var containerY = $('.card-content').offset().top;
-			var maxX = containerX + containerWidth;
-			var maxY = containerY + containerHeight;
+      var minX = 0, maxX = 0, minY = 0, maxY = 0;
 
-			console.log(maxX);
-			console.log(maxY);
+      var startX = 0, startY = 0, x = 0, y = 0;
+      var minX = 0, maxX = 0, minY = 0, maxY = 0;
 
-			
-			dragHandle.on('mousedown', function (e) {
-				e.preventDefault();
-				startX = e.pageX - x;
-				startY = e.pageY - y;
+      var dragSize, containerSize, dragStartY, dragStartX;
 
-				$document.on('mousemove', mousemove);
-				$document.on('mouseup', mouseup);
-			});
+      var drag = element.find('.drag-handle');
+      var container = $('.card-content');
+      
+      var grid = 10;
 
-			var mousemove = function (e) {
-				x = e.pageX - startX;
-				y = e.pageY - startY;
-				
-				if (x + element.width() < maxX) {
-					if ( x%10 == 0) { element.css('left', x); }	
-				}
-				
-				if (y + element.height() < maxY) {
-					if ( y%10 == 0) { element.css('top', y); }
-				}
-			};
+      setTimeout( function () {
+        dragSize = getElementSize(drag);
+        containerSize = getElementSize(container);
+        setContainment();
+        
+      }, 1000);
 
-			var mouseup = function () {
-				$document.unbind('mousemove', mousemove);
-				$document.unbind('mouseup', mouseup);
-			};
+      var setContainment = function (argument) {
+                
+        dragStartY = drag.offset().top;
+        dragStartX = drag.offset().left;
+
+        minY = dragStartY - container.offset().top;
+        minY = 0 - maxGrid(minY);
+
+        maxY = (container.offset().top + containerSize.height) - dragStartY - dragSize.height;
+        maxY = maxGrid(maxY);
+
+        minX = dragStartX - container.offset().left;
+        minX =  0 - maxGrid(minX);
+
+        maxX = (container.offset().left + containerSize.width) - dragStartX - dragSize.width;
+        maxX = maxGrid(maxX);
+      }
+
+      var getElementSize = function (elem) {
+        return {
+          width: elem.width(),
+          height: elem.height()
+        }
+      }
+
+      var restrictGrid = function (val) {
+        return (val % grid == 0) ? val : val - val%grid; 
+      }
+
+      var maxGrid = function (val) {
+        return Math.floor(val/grid) * grid;
+      };
+
+      drag.on('mousedown', function (e) {
+
+        startX = e.pageX - x;
+        startY = e.pageY - y;
+
+        $document.on('mousemove', mousemove);
+        $document.on('mouseup', mouseup);
+      });
+
+      var mousemove = function (e) {
+
+        x = e.pageX - startX;
+        y = e.pageY - startY;
+        
+        x = restrictGrid(x);
+        y = restrictGrid(y);
+
+        if (x < minX) {
+          x = minX;
+        }
+        if (x > maxX) {
+          x = maxX;
+        }
+        if (y < minY) {
+          y = minY;
+        }
+        if (y > maxY) {
+          y = maxY;
+        }
+        
+        element.css('webkitTransform', 'translate(' + x + 'px ,' + y + 'px)');  
+        
+      };
+
+      var mouseup = function (e) {
+        $document.off('mousemove', mousemove);
+        $document.off('mouseup', mouseup);
+      }
+
 		}
 	};
 }]);

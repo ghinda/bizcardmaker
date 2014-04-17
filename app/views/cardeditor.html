@@ -35,7 +35,7 @@
 
 							<input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
 
-							<div class="card-picture">
+							<div class="card-picture" drag>
 								<div class="drag-handle"></div>
 
 								<label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
@@ -61,7 +61,7 @@
 									</p>
 								</li>
 
-								<li class="details" meditor>
+								<li class="details" meditor drag>
 									<div class="drag-handle"></div>
 
 									<p class="org">
@@ -76,13 +76,13 @@
 									</p>
 								</li>
 
-								<li class="email" meditor>
+								<li class="email" meditor drag>
 									<div class="drag-handle"></div>
 
 									<p>john.doe@cmail.com</p>
 								</li>
 
-								<li class="url" meditor>
+								<li class="url" meditor drag>
 									<div class="drag-handle"></div>
 
 									<p>www.john-doe.com</p>
