@@ -30,17 +30,3 @@ For `imagemin` to work:
 1. Use tabs for indents
 2. Don't use the `gh-pages` branch
 
-## TODO
-
-* Save all edits in localstorage automatically (hoodie?)
-* Create directive for draggable (see example at http://docs.angularjs.org/guide/directive) with position as models
-* Bugfixes for meditor
-
-Later
-
-* Use angular-foundation for all foundation components (https://github.com/madmimi/angular-foundation)
-* Testing with protractor
-* Color schemes for each template
-* New layout
-* Chrome offline app
-

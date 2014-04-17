@@ -273,6 +273,11 @@ footer {
 			margin: 0;
 		}
 	}
+	
+	.privacy-agree {
+		font-size: emCalc(12);
+		color: darken($grey, 40%);
+	}
 
 }
 
