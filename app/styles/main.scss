@@ -305,6 +305,11 @@ footer {
 
 }
 
+.joyride-modal-bg {
+	background: #000;
+	opacity: .5;
+}
+
 .joyride-content-wrapper p a {
 	color: lighten(saturate($color1, 60%), 40%);
 }
