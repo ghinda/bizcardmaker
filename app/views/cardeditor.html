@@ -35,9 +35,10 @@
 
 							<input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
 
-							<div class="card-picture" drag>
-								<div class="drag-handle"></div>
-
+							<div class="card-picture" 
+                  drag 
+                  drag-container=".card-content"
+                  drag-model="dragModel.cardPicture">
 								<label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
 
 									<i class="fa fa-picture-o"></i>
@@ -47,52 +48,62 @@
 
 								</label>
 							</div>
+							<div class="vcard">
+                <div
+                  drag 
+                  drag-container=".card-content"
+                  drag-model="dragModel.person">
+                  
+                  <div class="li person" meditor>
+  									<p class="fn">
+  										John Doe
+  									</p>
+  									<p class="title">
+  										Position
+  									</p>
+  								</div>
+                </div>
 
-							<ul class="vcard">
+                <div
+                  drag 
+                  drag-container=".card-content"
+                  drag-model="dragModel.details">
+                  <div class="li details" meditor>
+  									<p class="org">
+  										Organization
+  									</p>
+  									<p>
+  										<span class="locality">City</span>,
+  										<span class="state">State</span>
+  									</p>
+  									<p class="tel">
+  										(123) 555-1234
+  									</p>
+  								</div>
+                </div>
 
-								<li class="person" meditor drag>
-									<div class="drag-handle"></div>
+                <div
+                  drag 
+                  drag-container=".card-content"
+                  drag-model="dragModel.email">
+  								<div class="li email" meditor>
+  									<p>john.doe@cmail.com</p>
+  								</div>
+                </div>
 
-									<p class="fn">
-										John Doe
-									</p>
-									<p class="title">
-										Position
-									</p>
-								</li>
+                <div
+                  drag 
+                  drag-container=".card-content"
+                  drag-model="dragModel.url">
+  								<div class="li url" meditor>
+  									<p>www.john-doe.com</p>
+  								</div>
+                </div>
 
-								<li class="details" meditor drag>
-									<div class="drag-handle"></div>
-
-									<p class="org">
-										Organization
-									</p>
-									<p>
-										<span class="locality">City</span>,
-										<span class="state">State</span>
-									</p>
-									<p class="tel">
-										(123) 555-1234
-									</p>
-								</li>
-
-								<li class="email" meditor drag>
-									<div class="drag-handle"></div>
-
-									<p>john.doe@cmail.com</p>
-								</li>
-
-								<li class="url" meditor drag>
-									<div class="drag-handle"></div>
-
-									<p>www.john-doe.com</p>
-								</li>
-							</ul>
-
-						</div>
-
-					</div>
-				</div>
+							</div> <!-- .vcard -->
+						</div> <!-- .card-content -->
+					</div> <!-- .card-preview -->
+				</div> <!-- .card-container -->
 
 				<ul class="button-group download-buttons">
 					<li>

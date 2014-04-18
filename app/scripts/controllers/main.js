@@ -1,7 +1,44 @@
 app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
 	'use strict';
-
-	var model = $scope.model = {};
+  
+  var dragModel = $scope.dragModel = {
+    cardPicture: {
+      position: {
+        x: 0,
+        y: 0
+      },
+      description: ''
+    },
+    person: {
+      position: {
+        x: 0,
+        y: 0
+      },
+      description: ''
+    },
+    details: {
+      position: {
+        x: 0,
+        y: 0
+      },
+      description: ''
+    },
+    email: {
+      position: {
+        x: 0,
+        y: 0
+      },
+      description: ''
+    },
+    url: {
+      position: {
+        x: 0,
+        y: 0
+      },
+      description: ''
+    }
+  };
+	var model = $scope.model = [];
 
 	model.cardPictureFile = '';
 	model.cardPicture = '';

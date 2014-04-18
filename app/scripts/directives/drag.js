@@ -6,8 +6,20 @@ app.directive('drag', ['$document', function ($document) {
 	'use strict';
 
 	return {
+    template: '<div class="drag-handle"></div> <div ng-transclude></div>',
+    scope: {
+      dragContainer: '@',
+      dragModel: '='
+    },
+    transclude: true,
 		link: function (scope, element) {
-			var startX = 0, startY = 0, x = 0, y = 0;
+
+      scope.dragContainer = scope.dragContainer || 'body';
+
+      
+
+
+      var startX = 0, startY = 0, x = 0, y = 0;
       var minX = 0, maxX = 0, minY = 0, maxY = 0;
 
       var startX = 0, startY = 0, x = 0, y = 0;
@@ -15,22 +27,21 @@ app.directive('drag', ['$document', function ($document) {
 
       var dragSize, containerSize, dragStartY, dragStartX;
 
-      var drag = element.find('.drag-handle');
-      var container = $('.card-content');
+      var dragHandle = element.find('.drag-handle');
+      var container = $(scope.dragContainer);
       
       var grid = 10;
 
       setTimeout( function () {
-        dragSize = getElementSize(drag);
+        dragSize = getElementSize(dragHandle);
         containerSize = getElementSize(container);
-        setContainment();
-        
+        setContainment();  
       }, 1000);
 
       var setContainment = function (argument) {
                 
-        dragStartY = drag.offset().top;
-        dragStartX = drag.offset().left;
+        dragStartY = dragHandle.offset().top;
+        dragStartX = dragHandle.offset().left;
 
         minY = dragStartY - container.offset().top;
         minY = 0 - maxGrid(minY);
@@ -60,7 +71,7 @@ app.directive('drag', ['$document', function ($document) {
         return Math.floor(val/grid) * grid;
       };
 
-      drag.on('mousedown', function (e) {
+      dragHandle.on('mousedown', function (e) {
 
         startX = e.pageX - x;
         startY = e.pageY - y;
@@ -90,15 +101,18 @@ app.directive('drag', ['$document', function ($document) {
           y = maxY;
         }
         
-        element.css('webkitTransform', 'translate(' + x + 'px ,' + y + 'px)');  
+        element.css('webkitTransform', 'translate(' + x + 'px ,' + y + 'px)');
         
       };
-
+      console.log('mere');
       var mouseup = function (e) {
+        scope.dragModel.position.x = x;
+        scope.dragModel.position.y = y;
+        console.log(scope.dragModel.position);
+
         $document.off('mousemove', mousemove);
         $document.off('mouseup', mouseup);
       }
-
 		}
 	};
 }]);
