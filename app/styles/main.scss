@@ -305,6 +305,10 @@ footer {
 
 }
 
+.joyride-content-wrapper p a {
+	color: lighten(saturate($color1, 60%), 40%);
+}
+
 .offers-list {
 	margin: emCalc(20) 0 0;
 	list-style-type: none;
