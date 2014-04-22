@@ -7,14 +7,17 @@ app.factory('data', function($rootScope, $http, $q) {
 	// local testing urls
 	var printchompUrl = 'https://sandbox.printchomp.com';
 	var apiUrl = 'http://localhost:8080';
+	var devDomain = 'dev.bizcardmaker.com';
+	//var liveDomain = 'www.bizcardmaker.com';
+	var liveDomain = 'dev.bizcardmaker.com';
 	
 	// staging
-	if(document.domain === 'dev.bizcardmaker.com') {
+	if(document.domain === devDomain) {
 		apiUrl = 'http://devapi.bizcardmaker.com';
 	}
 	
 	// live
-	if(document.domain === 'www.bizcardmaker.com') {
+	if(document.domain === liveDomain) {
 		apiUrl = 'http://api.bizcardmaker.com';
 		printchompUrl = 'https://printchomp.com';
 	}
