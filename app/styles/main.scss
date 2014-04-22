@@ -364,6 +364,14 @@ footer {
 			font-weight: bold;
 			text-align: right;
 		}
+		
+		.details {
+			margin: 0;
+			
+			font-size: emCalc(14);
+			font-style: italic;
+			text-align: right;
+		}
 	}
 	
 	.active {
