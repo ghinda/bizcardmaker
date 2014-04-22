@@ -45,8 +45,8 @@
 
 						<p class="price">
 							Price:
-							<span ng-bind="offer.amount.total"></span>
 							<span ng-bind="offer.amount.currency"></span>
+							<span ng-bind="(offer.amount.total / 100).toFixed(2)"></span>
 						</p>
 
 					</label>
@@ -398,8 +398,8 @@
 								</td>
 								<td>
 									<strong>
-										<span ng-bind="model.offers[model.order.selectedOffer].amount.total"></span>
 										<span ng-bind="model.offers[model.order.selectedOffer].amount.currency"></span>
+										<span ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
 									</strong>
 								</td>
 							</tr>
@@ -412,8 +412,8 @@
 					<i class="fa fa-shopping-cart"></i>
 					Send Order -
 					<strong>
-						<span ng-bind="model.offers[model.order.selectedOffer].amount.total"></span>
 						<span ng-bind="model.offers[model.order.selectedOffer].amount.currency"></span>
+						<span ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
 					</strong>
 				</button>
 				

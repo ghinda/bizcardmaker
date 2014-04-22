@@ -147,8 +147,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
 			data.SendOrder(orderData).then(function(response) {
 
-				console.log('success', response);
-
 				model.orderLoading = false;
 
 				model.error = '';
@@ -160,8 +158,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 				}, 5000);
 
 			}, function(err) {
-
-				console.log('error', err);
 
 				model.error = err.error || 'Please try again later.';
 				model.orderLoading = false;
