@@ -156,11 +156,23 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 				$timeout(function() {
 					$('#modal-order').foundation('reveal', 'close');
 				}, 5000);
+				
+				// track analytics
+				analytics.track('Successful order', {
+					category: 'Orders',
+					label: orderData.offer.id
+				});
 
 			}, function(err) {
 
 				model.error = err.error || 'Please try again later.';
 				model.orderLoading = false;
+				
+				// track analytics
+				analytics.track('Order error', {
+					category: 'Orders',
+					label: model.error
+				});
 
 			});
 
