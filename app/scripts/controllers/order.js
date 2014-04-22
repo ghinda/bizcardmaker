@@ -62,11 +62,11 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 	});
 
 	// only for testing
-	model.order.postcode = '35801';
-	model.order.address1 = 'H';
-	model.order.card.number = '4030000010001234';
-	model.order.card.exp = '6 / 2016';
-	model.order.card.csc = '123';
+// 	model.order.postcode = '35801';
+// 	model.order.address1 = 'H';
+// 	model.order.card.number = '4030000010001234';
+// 	model.order.card.exp = '6 / 2016';
+// 	model.order.card.csc = '123';
 
 	$scope.SendOrder = function(event) {
 

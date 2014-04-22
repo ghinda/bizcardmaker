@@ -8,8 +8,7 @@ app.factory('data', function($rootScope, $http, $q) {
 	var printchompUrl = 'https://sandbox.printchomp.com';
 	var apiUrl = 'http://localhost:8080';
 	var devDomain = 'dev.bizcardmaker.com';
-	//var liveDomain = 'www.bizcardmaker.com';
-	var liveDomain = 'dev.bizcardmaker.com';
+	var liveDomain = 'www.bizcardmaker.com';
 	
 	// staging
 	if(document.domain === devDomain) {
@@ -17,10 +16,10 @@ app.factory('data', function($rootScope, $http, $q) {
 	}
 	
 	// live
-	if(document.domain === liveDomain) {
+	//if(document.domain === liveDomain) {
 		apiUrl = 'http://api.bizcardmaker.com';
 		printchompUrl = 'https://printchomp.com';
-	}
+	//}
 
 	// local model
 	var model = {
