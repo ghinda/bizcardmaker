@@ -408,7 +408,7 @@
 
 				</div>
 
-				<button type="submit" class="button radius" ng-disabled="!model.offers.length">
+				<button type="submit" class="button radius button-send" ng-disabled="!model.offers.length">
 					<i class="fa fa-shopping-cart"></i>
 					Send Order -
 					<strong>
@@ -416,6 +416,11 @@
 						<span ng-bind="model.offers[model.order.selectedOffer].amount.currency"></span>
 					</strong>
 				</button>
+				
+				<p class="printchomp-text">
+					Orders are processed by
+					<a href="https://www.printchomp.com/" target="_blank">Printchomp</a>
+				</p>
 				
 				<p class="privacy-agree">
 					By sending the order you agree to the 

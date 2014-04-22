@@ -329,9 +329,15 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 		// 			$(li).removeClass('drag-handle-show');
 		// 		});
 
+
 		// 	}, 1000);
 		// });
-
+		// show the print promo in 1s after loading
+		$timeout(function() {
+			// be safe
+			if(showPrintpromo) {
+				showPrintpromo();
+			}
+		});
 	});
-
 });

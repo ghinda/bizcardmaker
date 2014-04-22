@@ -276,9 +276,42 @@ footer {
 	
 	.privacy-agree {
 		font-size: emCalc(12);
-		color: darken($grey, 40%);
+		color: darken($grey, 30%);
+	}
+	
+	.button-send {
+		margin-bottom: emCalc(32);
+	}
+	
+	.printchomp-text {
+		display: inline-block;
+		margin: 0 0 0 emCalc(20);
+		
+		color: #479CAB;
+		font-size: emCalc(14);
+		
+		a {
+			display: inline-block;
+			width: 100px;
+			height: 33px;
+			margin-left: emCalc(8);
+			overflow: hidden;
+			background: url(../images/printchomp-logo.png);
+			
+			text-indent: -100%;
+			vertical-align: middle;
+		}
 	}
 
+}
+
+.joyride-modal-bg {
+	background: #000;
+	opacity: .5;
+}
+
+.joyride-content-wrapper p a {
+	color: lighten(saturate($color1, 60%), 40%);
 }
 
 .offers-list {
