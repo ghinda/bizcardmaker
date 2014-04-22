@@ -104,11 +104,10 @@ app.directive('drag', ['$document', function ($document) {
         element.css('webkitTransform', 'translate(' + x + 'px ,' + y + 'px)');
         
       };
-      console.log('mere');
+      
       var mouseup = function (e) {
         scope.dragModel.position.x = x;
         scope.dragModel.position.y = y;
-        console.log(scope.dragModel.position);
 
         $document.off('mousemove', mousemove);
         $document.off('mouseup', mouseup);
