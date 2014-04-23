@@ -17,7 +17,7 @@ app.factory('data', function($rootScope, $http, $q) {
 	
 	// live
 	//if(document.domain === liveDomain) {
-		apiUrl = 'http://api.bizcardmaker.com';
+		apiUrl = 'https://live-bizcardmaker.rhcloud.com';
 		printchompUrl = 'https://printchomp.com';
 	//}
 
