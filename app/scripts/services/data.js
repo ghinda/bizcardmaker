@@ -10,16 +10,19 @@ app.factory('data', function($rootScope, $http, $q) {
 	var devDomain = 'dev.bizcardmaker.com';
 	var liveDomain = 'www.bizcardmaker.com';
 	
+	// testing only
+	//liveDomain = devDomain;
+	
 	// staging
 	if(document.domain === devDomain) {
 		apiUrl = 'http://devapi.bizcardmaker.com';
 	}
 	
 	// live
-	//if(document.domain === liveDomain) {
+	if(document.domain === liveDomain) {
 		apiUrl = 'https://live-bizcardmaker.rhcloud.com';
 		printchompUrl = 'https://printchomp.com';
-	//}
+	}
 
 	// local model
 	var model = {

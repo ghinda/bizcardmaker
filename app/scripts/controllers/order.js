@@ -62,11 +62,11 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 	});
 
 	// only for testing
-// 	model.order.postcode = '35801';
-// 	model.order.address1 = 'H';
-// 	model.order.card.number = '4030000010001234';
-// 	model.order.card.exp = '6 / 2016';
-// 	model.order.card.csc = '123';
+	model.order.postcode = '35801';
+	model.order.address1 = 'H';
+	model.order.card.number = '4030000010001234';
+	model.order.card.exp = '6 / 2016';
+	model.order.card.csc = '123';
 
 	$scope.SendOrder = function(event) {
 
@@ -118,6 +118,12 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 			var exp = model.order.card.exp.replace(/ /g, '').split('/');
 			orderData.billing.credit_card.expiry = {};
 			orderData.billing.credit_card.expiry.month = exp[0];
+			
+			// if year is only two digits, prepend 20
+			if(exp[1].length === 2) {
+				exp[1] = '20' + exp[1];
+			}
+			
 			orderData.billing.credit_card.expiry.year = exp[1];
 
 			// shipping details
