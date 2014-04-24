@@ -25,7 +25,7 @@ app.factory('data', function($rootScope, $http, $q) {
 	}
 	
 	if(env === 'dev') {
-		apiUrl = 'https://dev-bizcardmaker.rhcloud.com.';
+		apiUrl = 'https://dev-bizcardmaker.rhcloud.com';
 	}
 	
 	if(env === 'live' || env === 'stage') {
