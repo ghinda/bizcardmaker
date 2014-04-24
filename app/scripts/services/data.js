@@ -24,13 +24,13 @@ app.factory('data', function($rootScope, $http, $q) {
 		env = 'live';
 	}
 	
+	if(env === 'dev') {
+		apiUrl = 'https://dev-bizcardmaker.rhcloud.com.';
+	}
+	
 	if(env === 'live' || env === 'stage') {
 		apiUrl = 'https://live-bizcardmaker.rhcloud.com';
 		printchompUrl = 'https://printchomp.com';
-	}
-	
-	if(env === 'dev') {
-		apiUrl = 'https://dev-bizcardmaker.rhcloud.com.';
 	}
 
 	// local model

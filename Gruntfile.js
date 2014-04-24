@@ -286,6 +286,12 @@ module.exports = function (grunt) {
 					branch: 'gh-pages'
 				}
 			},
+			stage: {
+				options: {
+					remote: 'git@github.com:ghinda/bizcardmaker-dev.git',
+					branch: 'master'
+				}
+			},
 			dist: {
 				options: {
 					remote: 'git@github.com:ghinda/bizcardmaker.git',
@@ -344,6 +350,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('devdeploy', [
 		'copy:dev',
-		'buildcontrol:dev'
+		'buildcontrol:dev',
+		'buildcontrol:stage'
 	]);
 };
