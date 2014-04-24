@@ -400,7 +400,7 @@
 
 				</div>
 
-				<div class="order-summary">
+				<div class="order-summary" ng-show="model.offers[model.order.selectedOffer]">
 
 					<h4>
 						Order summary
@@ -425,12 +425,17 @@
 				</div>
 
 				<button type="submit" class="button radius button-send" ng-disabled="!model.offers.length">
+					
 					<i class="fa fa-shopping-cart"></i>
-					Send Order -
-					<strong>
+					Send Order
+					
+					<strong ng-show="model.offers[model.order.selectedOffer]">
+						- 
+						
 						<span ng-bind="model.offers[model.order.selectedOffer].amount.currency"></span>
 						<span ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
 					</strong>
+					
 				</button>
 				
 				<p class="printchomp-text">

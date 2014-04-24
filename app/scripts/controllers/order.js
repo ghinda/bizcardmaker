@@ -77,6 +77,8 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 			return false;
 		}
 
+		model.orderLoading = true;
+		
 		var orderData = {};
 
 		// generate base64 picture
@@ -150,8 +152,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 				orderData.shipping.address = orderData.billing.address;
 
 			}
-
-			model.orderLoading = true;
 
 			data.SendOrder(orderData).then(function(response) {
 
