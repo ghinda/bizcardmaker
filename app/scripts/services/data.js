@@ -7,21 +7,30 @@ app.factory('data', function($rootScope, $http, $q) {
 	// local testing urls
 	var printchompUrl = 'http://sandbox.printchomp.com';
 	var apiUrl = 'http://localhost:8080';
-	var devDomain = 'dev.bizcardmaker.com';
-	var liveDomain = 'www.bizcardmaker.com';
+	var env = 'local';
 	
-	// testing only
-	//liveDomain = devDomain;
+	// dev
+	if(document.domain === 'dev.bizcardmaker.com') {
+		env = 'dev';
+	}
 	
-	// staging
-	if(document.domain === devDomain) {
-		apiUrl = 'http://devapi.bizcardmaker.com';
+	// stage
+	if(document.domain === 'stage.bizcardmaker.com') {
+		env = 'stage';
 	}
 	
 	// live
-	if(document.domain === liveDomain) {
+	if(document.domain === 'www.bizcardmaker.com') {
+		env = 'live';
+	}
+	
+	if(env === 'live' || env === 'stage') {
 		apiUrl = 'https://live-bizcardmaker.rhcloud.com';
 		printchompUrl = 'https://printchomp.com';
+	}
+	
+	if(env === 'dev') {
+		apiUrl = 'https://dev-bizcardmaker.rhcloud.com.';
 	}
 
 	// local model
@@ -134,6 +143,8 @@ app.factory('data', function($rootScope, $http, $q) {
 
 	return {
 		printchompUrl: printchompUrl,
+		env: env,
+		
 		model: model,
 		GetOffers: GetOffers,
 		SendOrder: SendOrder
