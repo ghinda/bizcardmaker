@@ -142,7 +142,8 @@ $card-border: 1px solid darken($white, 10%);
  */
 .card-container.card-big {
 	position: relative;
-	z-index: 999;
+/* 	z-index: 999; */
+	z-index: -1;
 	border-width: 0;
 	pointer-events: none;
 

@@ -5,7 +5,7 @@
 app.factory('data', function($rootScope, $http, $q) {
 
 	// local testing urls
-	var printchompUrl = 'https://sandbox.printchomp.com';
+	var printchompUrl = 'http://sandbox.printchomp.com';
 	var apiUrl = 'http://localhost:8080';
 	var devDomain = 'dev.bizcardmaker.com';
 	var liveDomain = 'www.bizcardmaker.com';
