@@ -325,11 +325,13 @@ $color-handle: desaturate($color1, 60%);
 
 	.button {
 		width: 100%;
+		min-height: emCalc(72);
 		margin: 0;
 		border: 0;
 
 		font-size: 1.1em;
 		text-align: left;
+		vertical-align: top;
 	}
 
 	li:first-child .button {

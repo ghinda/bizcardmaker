@@ -1,13 +1,34 @@
 {
   "name": "classie",
-  "main": "./classie.js",
-  "version": "1.0.0",
+  "main": "classie.js",
+  "version": "1.0.1",
   "homepage": "https://github.com/desandro/classie",
-  "_release": "1.0.0",
+  "authors": [
+    "David DeSandro"
+  ],
+  "description": "class helper",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "class"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "component.json"
+  ],
+  "_release": "1.0.1",
   "_resolution": {
     "type": "version",
-    "tag": "v1.0.0",
-    "commit": "aa8aed93872114cef75686be028fa8db017ebe8c"
+    "tag": "v1.0.1",
+    "commit": "2bd6dd1c02d45924dee7e6c283df9668d2276322"
   },
   "_source": "git://github.com/desandro/classie.git",
   "_target": "*",

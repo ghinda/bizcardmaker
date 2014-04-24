@@ -5,10 +5,9 @@
  * (C) 2013 Segment.io Inc.
  */
 
-var Analytics = require('./analytics');
-var createIntegration = require('integration');
-var each = require('each');
 var Integrations = require('integrations');
+var Analytics = require('./analytics');
+var each = require('each');
 
 
 /**
@@ -27,7 +26,7 @@ analytics.require = require;
  * Expose `VERSION`.
  */
 
-exports.VERSION = '1.3.22';
+exports.VERSION = '1.3.27';
 
 
 /**

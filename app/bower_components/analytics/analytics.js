@@ -850,7 +850,10 @@ require.register("component-querystring/index.js", function(exports, require, mo
  * Module dependencies.
  */
 
+var encode = encodeURIComponent;
+var decode = decodeURIComponent;
 var trim = require('trim');
+var type = require('type');
 
 /**
  * Parse the given query `str`.
@@ -871,9 +874,18 @@ exports.parse = function(str){
   var pairs = str.split('&');
   for (var i = 0; i < pairs.length; i++) {
     var parts = pairs[i].split('=');
+    var key = decode(parts[0]);
+    var m;
+
+    if (m = /(\w+)\[(\d+)\]/.exec(key)) {
+      obj[m[1]] = obj[m[1]] || [];
+      obj[m[1]][m[2]] = decode(parts[1]);
+      continue;
+    }
+
     obj[parts[0]] = null == parts[1]
       ? ''
-      : decodeURIComponent(parts[1]);
+      : decode(parts[1]);
   }
 
   return obj;
@@ -890,9 +902,20 @@ exports.parse = function(str){
 exports.stringify = function(obj){
   if (!obj) return '';
   var pairs = [];
+
   for (var key in obj) {
-    pairs.push(encodeURIComponent(key) + '=' + encodeURIComponent(obj[key]));
+    var value = obj[key];
+
+    if ('array' == type(value)) {
+      for (var i = 0; i < value.length; ++i) {
+        pairs.push(encode(key + '[' + i + ']') + '=' + encode(value[i]));
+      }
+      continue;
+    }
+
+    pairs.push(encode(key) + '=' + encode(obj[key]));
   }
+
   return pairs.join('&');
 };
 
@@ -1257,415 +1280,6 @@ module.exports = function after (times, func) {
   };
 };
 });
-require.register("yields-slug/index.js", function(exports, require, module){
-
-/**
- * Generate a slug from the given `str`.
- *
- * example:
- *
- *        generate('foo bar');
- *        // > foo-bar
- *
- * @param {String} str
- * @param {Object} options
- * @config {String|RegExp} [replace] characters to replace, defaulted to `/[^a-z0-9]/g`
- * @config {String} [separator] separator to insert, defaulted to `-`
- * @return {String}
- */
-
-module.exports = function (str, options) {
-  options || (options = {});
-  return str.toLowerCase()
-    .replace(options.replace || /[^a-z0-9]/g, ' ')
-    .replace(/^ +| +$/g, '')
-    .replace(/ +/g, options.separator || '-')
-};
-
-});
-require.register("segmentio-analytics.js-integration/lib/index.js", function(exports, require, module){
-
-var bind = require('bind');
-var callback = require('callback');
-var clone = require('clone');
-var debug = require('debug');
-var defaults = require('defaults');
-var protos = require('./protos');
-var slug = require('slug');
-var statics = require('./statics');
-
-
-/**
- * Expose `createIntegration`.
- */
-
-module.exports = createIntegration;
-
-
-/**
- * Create a new Integration constructor.
- *
- * @param {String} name
- */
-
-function createIntegration (name) {
-
-  /**
-   * Initialize a new `Integration`.
-   *
-   * @param {Object} options
-   */
-
-  function Integration (options) {
-    this.debug = debug('analytics:integration:' + slug(name));
-    this.options = defaults(clone(options) || {}, this.defaults);
-    this._queue = [];
-    this.once('ready', bind(this, this.flush));
-
-    Integration.emit('construct', this);
-    this._wrapInitialize();
-    this._wrapLoad();
-    this._wrapPage();
-    this._wrapTrack();
-  }
-
-  Integration.prototype.defaults = {};
-  Integration.prototype.globals = [];
-  Integration.prototype.name = name;
-  for (var key in statics) Integration[key] = statics[key];
-  for (var key in protos) Integration.prototype[key] = protos[key];
-  return Integration;
-}
-
-});
-require.register("segmentio-analytics.js-integration/lib/protos.js", function(exports, require, module){
-
-var after = require('after');
-var callback = require('callback');
-var Emitter = require('emitter');
-var tick = require('next-tick');
-var events = require('./events');
-
-
-/**
- * Mixin emitter.
- */
-
-Emitter(exports);
-
-/**
- * Initialize.
- */
-
-exports.initialize = function () {
-  this.load();
-};
-
-
-/**
- * Loaded?
- *
- * @return {Boolean}
- * @api private
- */
-
-exports.loaded = function () {
-  return false;
-};
-
-
-/**
- * Load.
- *
- * @param {Function} cb
- */
-
-exports.load = function (cb) {
-  callback.async(cb);
-};
-
-
-/**
- * Page.
- *
- * @param {Page} page
- */
-
-exports.page = function(page){};
-
-/**
- * Track.
- *
- * @param {Track} track
- */
-
-exports.track = function(track){};
-
-/**
- * Invoke a `method` that may or may not exist on the prototype with `args`,
- * queueing or not depending on whether the integration is "ready". Don't
- * trust the method call, since it contains integration party code.
- *
- * @param {String} method
- * @param {Mixed} args...
- * @api private
- */
-
-exports.invoke = function (method) {
-  if (!this[method]) return;
-  var args = [].slice.call(arguments, 1);
-  if (!this._ready) return this.queue(method, args);
-
-  try {
-    this.debug('%s with %o', method, args);
-    this[method].apply(this, args);
-  } catch (e) {
-    this.debug('error %o calling %s with %o', e, method, args);
-  }
-};
-
-
-/**
- * Queue a `method` with `args`. If the integration assumes an initial
- * pageview, then let the first call to `page` pass through.
- *
- * @param {String} method
- * @param {Array} args
- * @api private
- */
-
-exports.queue = function (method, args) {
-  if ('page' == method && this._assumesPageview && !this._initialized) {
-    return this.page.apply(this, args);
-  }
-
-  this._queue.push({ method: method, args: args });
-};
-
-
-/**
- * Flush the internal queue.
- *
- * @api private
- */
-
-exports.flush = function () {
-  this._ready = true;
-  var call;
-  while (call = this._queue.shift()) this[call.method].apply(this, call.args);
-};
-
-
-/**
- * Reset the integration, removing its global variables.
- *
- * @api private
- */
-
-exports.reset = function () {
-  for (var i = 0, key; key = this.globals[i]; i++) window[key] = undefined;
-};
-
-
-/**
- * Wrap the initialize method in an exists check, so we don't have to do it for
- * every single integration.
- *
- * @api private
- */
-
-exports._wrapInitialize = function () {
-  var initialize = this.initialize;
-  this.initialize = function () {
-    this.debug('initialize');
-    this._initialized = true;
-    initialize.apply(this, arguments);
-    this.emit('initialize');
-
-    var self = this;
-    if (this._readyOnInitialize) {
-      tick(function () {
-        self.emit('ready');
-      });
-    }
-  };
-
-  if (this._assumesPageview) this.initialize = after(2, this.initialize);
-};
-
-
-/**
- * Wrap the load method in `debug` calls, so every integration gets them
- * automatically.
- *
- * @api private
- */
-
-exports._wrapLoad = function () {
-  var load = this.load;
-  this.load = function (callback) {
-    var self = this;
-    this.debug('loading');
-
-    if (this.loaded()) {
-      this.debug('already loaded');
-      tick(function () {
-        if (self._readyOnLoad) self.emit('ready');
-        callback && callback();
-      });
-      return;
-    }
-
-    load.call(this, function (err, e) {
-      self.debug('loaded');
-      self.emit('load');
-      if (self._readyOnLoad) self.emit('ready');
-      callback && callback(err, e);
-    });
-  };
-};
-
-
-/**
- * Wrap the page method to call `initialize` instead if the integration assumes
- * a pageview.
- *
- * @api private
- */
-
-exports._wrapPage = function () {
-  var page = this.page;
-  this.page = function () {
-    if (this._assumesPageview && !this._initialized) {
-      return this.initialize({
-        category: arguments[0],
-        name: arguments[1],
-        properties: arguments[2],
-        options: arguments[3]
-      });
-    }
-    page.apply(this, arguments);
-  };
-};
-
-/**
- * Wrap the track method to call other ecommerce methods if
- * available depending on the `track.event()`.
- *
- * @api private
- */
-
-exports._wrapTrack = function(){
-  var t = this.track;
-  this.track = function(track){
-    var event = track.event();
-    var called;
-
-    for (var method in events) {
-      var regexp = events[method];
-      if (!this[method]) continue;
-      if (!regexp.test(event)) continue;
-      this[method].apply(this, arguments);
-      called = true;
-      break;
-    }
-
-    if (!called) t.apply(this, arguments);
-  };
-};
-
-});
-require.register("segmentio-analytics.js-integration/lib/events.js", function(exports, require, module){
-
-/**
- * Expose `events`
- */
-
-module.exports = {
-  removedProduct: /removed product/i,
-  viewedProduct: /viewed product/i,
-  addedProduct: /added product/i,
-  completedOrder: /completed order/i
-};
-
-});
-require.register("segmentio-analytics.js-integration/lib/statics.js", function(exports, require, module){
-
-var after = require('after');
-var Emitter = require('emitter');
-
-
-/**
- * Mixin emitter.
- */
-
-Emitter(exports);
-
-
-/**
- * Add a new option to the integration by `key` with default `value`.
- *
- * @param {String} key
- * @param {Mixed} value
- * @return {Integration}
- */
-
-exports.option = function (key, value) {
-  this.prototype.defaults[key] = value;
-  return this;
-};
-
-
-/**
- * Register a new global variable `key` owned by the integration, which will be
- * used to test whether the integration is already on the page.
- *
- * @param {String} global
- * @return {Integration}
- */
-
-exports.global = function (key) {
-  this.prototype.globals.push(key);
-  return this;
-};
-
-
-/**
- * Mark the integration as assuming an initial pageview, so to defer loading
- * the script until the first `page` call, noop the first `initialize`.
- *
- * @return {Integration}
- */
-
-exports.assumesPageview = function () {
-  this.prototype._assumesPageview = true;
-  return this;
-};
-
-
-/**
- * Mark the integration as being "ready" once `load` is called.
- *
- * @return {Integration}
- */
-
-exports.readyOnLoad = function () {
-  this.prototype._readyOnLoad = true;
-  return this;
-};
-
-
-/**
- * Mark the integration as being "ready" once `load` is called.
- *
- * @return {Integration}
- */
-
-exports.readyOnInitialize = function () {
-  this.prototype._readyOnInitialize = true;
-  return this;
-};
-});
 require.register("component-domify/index.js", function(exports, require, module){
 
 /**
@@ -1862,6 +1476,392 @@ function aliasByFunction (obj, convert) {
   for (var key in obj) output[convert(key)] = obj[key];
   return output;
 }
+});
+require.register("segmentio-analytics.js-integration/lib/index.js", function(exports, require, module){
+
+var bind = require('bind');
+var callback = require('callback');
+var clone = require('clone');
+var debug = require('debug');
+var defaults = require('defaults');
+var protos = require('./protos');
+var slug = require('slug');
+var statics = require('./statics');
+
+
+/**
+ * Expose `createIntegration`.
+ */
+
+module.exports = createIntegration;
+
+
+/**
+ * Create a new Integration constructor.
+ *
+ * @param {String} name
+ */
+
+function createIntegration (name) {
+
+  /**
+   * Initialize a new `Integration`.
+   *
+   * @param {Object} options
+   */
+
+  function Integration (options) {
+    this.debug = debug('analytics:integration:' + slug(name));
+    this.options = defaults(clone(options) || {}, this.defaults);
+    this._queue = [];
+    this.once('ready', bind(this, this.flush));
+
+    Integration.emit('construct', this);
+    this._wrapInitialize();
+    this._wrapLoad();
+    this._wrapPage();
+    this._wrapTrack();
+  }
+
+  Integration.prototype.defaults = {};
+  Integration.prototype.globals = [];
+  Integration.prototype.name = name;
+  for (var key in statics) Integration[key] = statics[key];
+  for (var key in protos) Integration.prototype[key] = protos[key];
+  return Integration;
+}
+
+});
+require.register("segmentio-analytics.js-integration/lib/protos.js", function(exports, require, module){
+
+var after = require('after');
+var callback = require('callback');
+var Emitter = require('emitter');
+var tick = require('next-tick');
+var events = require('./events');
+
+
+/**
+ * Mixin emitter.
+ */
+
+Emitter(exports);
+
+/**
+ * Initialize.
+ */
+
+exports.initialize = function () {
+  this.load();
+};
+
+
+/**
+ * Loaded?
+ *
+ * @return {Boolean}
+ * @api private
+ */
+
+exports.loaded = function () {
+  return false;
+};
+
+
+/**
+ * Load.
+ *
+ * @param {Function} cb
+ */
+
+exports.load = function (cb) {
+  callback.async(cb);
+};
+
+
+/**
+ * Page.
+ *
+ * @param {Page} page
+ */
+
+exports.page = function(page){};
+
+/**
+ * Track.
+ *
+ * @param {Track} track
+ */
+
+exports.track = function(track){};
+
+/**
+ * Invoke a `method` that may or may not exist on the prototype with `args`,
+ * queueing or not depending on whether the integration is "ready". Don't
+ * trust the method call, since it contains integration party code.
+ *
+ * @param {String} method
+ * @param {Mixed} args...
+ * @api private
+ */
+
+exports.invoke = function (method) {
+  if (!this[method]) return;
+  var args = [].slice.call(arguments, 1);
+  if (!this._ready) return this.queue(method, args);
+  var ret;
+
+  try {
+    this.debug('%s with %o', method, args);
+    ret = this[method].apply(this, args);
+  } catch (e) {
+    this.debug('error %o calling %s with %o', e, method, args);
+  }
+
+  return ret;
+};
+
+
+/**
+ * Queue a `method` with `args`. If the integration assumes an initial
+ * pageview, then let the first call to `page` pass through.
+ *
+ * @param {String} method
+ * @param {Array} args
+ * @api private
+ */
+
+exports.queue = function (method, args) {
+  if ('page' == method && this._assumesPageview && !this._initialized) {
+    return this.page.apply(this, args);
+  }
+
+  this._queue.push({ method: method, args: args });
+};
+
+
+/**
+ * Flush the internal queue.
+ *
+ * @api private
+ */
+
+exports.flush = function () {
+  this._ready = true;
+  var call;
+  while (call = this._queue.shift()) this[call.method].apply(this, call.args);
+};
+
+
+/**
+ * Reset the integration, removing its global variables.
+ *
+ * @api private
+ */
+
+exports.reset = function () {
+  for (var i = 0, key; key = this.globals[i]; i++) window[key] = undefined;
+};
+
+
+/**
+ * Wrap the initialize method in an exists check, so we don't have to do it for
+ * every single integration.
+ *
+ * @api private
+ */
+
+exports._wrapInitialize = function () {
+  var initialize = this.initialize;
+  this.initialize = function () {
+    this.debug('initialize');
+    this._initialized = true;
+    var ret = initialize.apply(this, arguments);
+    this.emit('initialize');
+
+    var self = this;
+    if (this._readyOnInitialize) {
+      tick(function () {
+        self.emit('ready');
+      });
+    }
+    
+    return ret;
+  };
+
+  if (this._assumesPageview) this.initialize = after(2, this.initialize);
+};
+
+
+/**
+ * Wrap the load method in `debug` calls, so every integration gets them
+ * automatically.
+ *
+ * @api private
+ */
+
+exports._wrapLoad = function () {
+  var load = this.load;
+  this.load = function (callback) {
+    var self = this;
+    this.debug('loading');
+
+    if (this.loaded()) {
+      this.debug('already loaded');
+      tick(function () {
+        if (self._readyOnLoad) self.emit('ready');
+        callback && callback();
+      });
+      return;
+    }
+
+    return load.call(this, function (err, e) {
+      self.debug('loaded');
+      self.emit('load');
+      if (self._readyOnLoad) self.emit('ready');
+      callback && callback(err, e);
+    });
+  };
+};
+
+
+/**
+ * Wrap the page method to call `initialize` instead if the integration assumes
+ * a pageview.
+ *
+ * @api private
+ */
+
+exports._wrapPage = function () {
+  var page = this.page;
+  this.page = function () {
+    if (this._assumesPageview && !this._initialized) {
+      return this.initialize.apply(this, arguments);
+    }
+    
+    return page.apply(this, arguments);
+  };
+};
+
+/**
+ * Wrap the track method to call other ecommerce methods if
+ * available depending on the `track.event()`.
+ *
+ * @api private
+ */
+
+exports._wrapTrack = function(){
+  var t = this.track;
+  this.track = function(track){
+    var event = track.event();
+    var called;
+    var ret;
+
+    for (var method in events) {
+      var regexp = events[method];
+      if (!this[method]) continue;
+      if (!regexp.test(event)) continue;
+      ret = this[method].apply(this, arguments);
+      called = true;
+      break;
+    }
+
+    if (!called) ret = t.apply(this, arguments);
+    return ret;
+  };
+};
+
+});
+require.register("segmentio-analytics.js-integration/lib/events.js", function(exports, require, module){
+
+/**
+ * Expose `events`
+ */
+
+module.exports = {
+  removedProduct: /removed product/i,
+  viewedProduct: /viewed product/i,
+  addedProduct: /added product/i,
+  completedOrder: /completed order/i
+};
+
+});
+require.register("segmentio-analytics.js-integration/lib/statics.js", function(exports, require, module){
+
+var after = require('after');
+var Emitter = require('emitter');
+
+
+/**
+ * Mixin emitter.
+ */
+
+Emitter(exports);
+
+
+/**
+ * Add a new option to the integration by `key` with default `value`.
+ *
+ * @param {String} key
+ * @param {Mixed} value
+ * @return {Integration}
+ */
+
+exports.option = function (key, value) {
+  this.prototype.defaults[key] = value;
+  return this;
+};
+
+
+/**
+ * Register a new global variable `key` owned by the integration, which will be
+ * used to test whether the integration is already on the page.
+ *
+ * @param {String} global
+ * @return {Integration}
+ */
+
+exports.global = function (key) {
+  this.prototype.globals.push(key);
+  return this;
+};
+
+
+/**
+ * Mark the integration as assuming an initial pageview, so to defer loading
+ * the script until the first `page` call, noop the first `initialize`.
+ *
+ * @return {Integration}
+ */
+
+exports.assumesPageview = function () {
+  this.prototype._assumesPageview = true;
+  return this;
+};
+
+
+/**
+ * Mark the integration as being "ready" once `load` is called.
+ *
+ * @return {Integration}
+ */
+
+exports.readyOnLoad = function () {
+  this.prototype._readyOnLoad = true;
+  return this;
+};
+
+
+/**
+ * Mark the integration as being "ready" once `load` is called.
+ *
+ * @return {Integration}
+ */
+
+exports.readyOnInitialize = function () {
+  this.prototype._readyOnInitialize = true;
+  return this;
+};
 });
 require.register("segmentio-convert-dates/index.js", function(exports, require, module){
 
@@ -2296,6 +2296,32 @@ function when (condition, fn, interval) {
   }, interval || 10);
 }
 });
+require.register("yields-slug/index.js", function(exports, require, module){
+
+/**
+ * Generate a slug from the given `str`.
+ *
+ * example:
+ *
+ *        generate('foo bar');
+ *        // > foo-bar
+ *
+ * @param {String} str
+ * @param {Object} options
+ * @config {String|RegExp} [replace] characters to replace, defaulted to `/[^a-z0-9]/g`
+ * @config {String} [separator] separator to insert, defaulted to `-`
+ * @return {String}
+ */
+
+module.exports = function (str, options) {
+  options || (options = {});
+  return str.toLowerCase()
+    .replace(options.replace || /[^a-z0-9]/g, ' ')
+    .replace(/^ +| +$/g, '')
+    .replace(/ +/g, options.separator || '-')
+};
+
+});
 require.register("visionmedia-batch/index.js", function(exports, require, module){
 /**
  * Module dependencies.
@@ -2618,6 +2644,11 @@ var load = require('load-script');
 
 var user;
 
+/**
+ * HOP
+ */
+
+var has = Object.prototype.hasOwnProperty;
 
 /**
  * Expose plugin.
@@ -2640,6 +2671,7 @@ var AdRoll = exports.Integration = integration('AdRoll')
   .global('adroll_adv_id')
   .global('adroll_pix_id')
   .global('adroll_custom_data')
+  .option('events', {})
   .option('advId', '')
   .option('pixId', '');
 
@@ -2685,6 +2717,25 @@ AdRoll.prototype.load = function (callback) {
     https: 'https://s.adroll.com/j/roundtrip.js'
   }, callback);
 };
+
+/**
+ * Track.
+ * 
+ * @param {Track} track
+ */
+
+AdRoll.prototype.track = function(track){
+  var events = this.options.events;
+  var total = track.revenue() || track.total();
+  var event = track.event();
+  if (has.call(events, event)) event = events[event];
+  window.__adroll.record_user({
+    adroll_conversion_value_in_dollars: total || 0,
+    order_id: track.orderId() || 0,
+    adroll_segments: event
+  });
+};
+
 });
 require.register("segmentio-analytics.js-integrations/lib/adwords.js", function(exports, require, module){
 
@@ -2912,7 +2963,7 @@ var Amplitude = exports.Integration = integration('Amplitude')
  */
 
 Amplitude.prototype.initialize = function (page) {
-  (function(e,t){var r=e.amplitude||{}; r._q=[];function i(e){r[e]=function(){r._q.push([e].concat(Array.prototype.slice.call(arguments,0)));};} var s=["init","logEvent","setUserId","setGlobalUserProperties","setVersionName"]; for(var c=0;c<s.length;c++){i(s[c]);}e.amplitude=r;})(window,document);
+  (function(e,t){var r=e.amplitude||{}; r._q=[];function i(e){r[e]=function(){r._q.push([e].concat(Array.prototype.slice.call(arguments,0)));};} var s=["init","logEvent","setUserId","setGlobalUserProperties","setVersionName","setDomain"]; for(var c=0;c<s.length;c++){i(s[c]);}e.amplitude=r;})(window,document);
   window.amplitude.init(this.options.apiKey);
   this.load();
 };
@@ -2936,7 +2987,7 @@ Amplitude.prototype.loaded = function () {
  */
 
 Amplitude.prototype.load = function (callback) {
-  load('https://d24n15hnbwhuhn.cloudfront.net/libs/amplitude-1.0-min.js', callback);
+  load('https://d24n15hnbwhuhn.cloudfront.net/libs/amplitude-1.1-min.js', callback);
 };
 
 
@@ -4998,6 +5049,232 @@ function ecommerce(event, track, arr){
 
 
 });
+require.register("segmentio-analytics.js-integrations/lib/frontleaf.js", function(exports, require, module){
+
+var callback = require('callback');
+var integration = require('integration');
+var is = require('is');
+var load = require('load-script');
+
+/**
+ * Expose plugin.
+ */
+
+module.exports = exports = function (analytics) {
+  analytics.addIntegration(Frontleaf);
+};
+
+
+/**
+ * Expose `Frontleaf` integration.
+ */
+
+var Frontleaf = exports.Integration = integration('Frontleaf')
+  .assumesPageview()
+  .readyOnInitialize()
+  .global('_fl')
+  .global('_flBaseUrl')
+  .option('baseUrl', 'https://api.frontleaf.com')
+  .option('token', '')
+  .option('stream', '');
+
+
+/**
+ * Initialize.
+ *
+ * http://docs.frontleaf.com/#/technical-implementation/tracking-customers/tracking-beacon
+ *
+ * @param {Object} page
+ */
+
+Frontleaf.prototype.initialize = function (page) {
+  window._fl = window._fl || [];
+  window._flBaseUrl = window._flBaseUrl || this.options.baseUrl;
+
+  this._push('setApiToken', this.options.token);
+  this._push('setStream', this.options.stream);
+
+  this.load();
+};
+
+
+/**
+ * Loaded?
+ *
+ * @return {Boolean}
+ */
+
+Frontleaf.prototype.loaded = function () {
+  return is.array(window._fl) && window._fl.ready === true ;
+};
+
+
+/**
+ * Load.
+ *
+ * @param {Function} fn
+ */
+
+Frontleaf.prototype.load = function (fn) {
+  if (document.getElementById('_fl')) return callback.async(fn);
+
+  var script = load(window._flBaseUrl + '/lib/tracker.js', fn);
+  script.id = '_fl';
+};
+
+
+/**
+ * Identify.
+ *
+ * @param {Identify} identify
+ */
+
+Frontleaf.prototype.identify = function (identify) {
+  var userId = identify.userId();
+  if (userId) {
+    this._push('setUser', {
+      id : userId,
+      name : identify.name() || identify.username(),
+      data : clean(identify.traits())
+    });
+  }
+};
+
+
+/**
+ * Group.
+ *
+ * @param {Group} group
+ */
+
+Frontleaf.prototype.group = function (group) {
+  var groupId = group.groupId();
+  if (groupId) {
+    this._push('setAccount', {
+      id : groupId,
+      name : group.proxy('traits.name'),
+      data : clean(group.traits())
+    });
+  }
+};
+
+
+/**
+ * Track.
+ *
+ * @param {Track} track
+ */
+
+Frontleaf.prototype.track = function (track) {
+  var event = track.event();
+  if (event) {
+    this._push('event', event, clean(track.properties()));
+  }
+};
+
+
+/**
+ * Push a command onto the global Frontleaf queue.
+ *
+ * @param {String} command
+ * @return {Object} args
+ * @api private
+ */
+
+Frontleaf.prototype._push = function (command) {
+  var args = [].slice.call(arguments, 1);
+  window._fl.push(function(t) { t[command].apply(command, args); });
+}
+
+
+/**
+ * Clean all nested objects and arrays.
+ *
+ * @param {Object} obj
+ * @return {Object}
+ * @api private
+ */
+
+function clean(obj) {
+  var ret = {};
+
+  // Remove traits/properties that are already represented
+  // outside of the data container
+  var excludeKeys = ["id","name","firstName","lastName"];
+  var len = excludeKeys.length;
+  for (var i = 0; i < len; i++) {
+    clear(obj, excludeKeys[i]);
+  }
+
+  // Flatten nested hierarchy, preserving arrays
+  obj = flatten(obj);
+
+  // Discard nulls, represent arrays as comma-separated strings
+  for (var key in obj) {
+    var val = obj[key];
+    if (null == val) {
+      continue;
+    }
+
+    if (is.array(val)) {
+      ret[key] = val.toString();
+      continue;
+    }
+
+    ret[key] = val;
+  }
+
+  return ret;
+}
+
+/**
+ * Remove a property from an object if set.
+ *
+ * @param {Object} obj
+ * @param {String} key
+ * @api private
+ */
+
+function clear(obj, key) {
+  if (obj.hasOwnProperty(key)) {
+    delete obj[key];
+  }
+}
+
+
+/**
+ * Flatten a nested object into a single level space-delimited
+ * hierarchy.
+ *
+ * Based on https://github.com/hughsk/flat
+ *
+ * @param {Object} source
+ * @return {Object}
+ * @api private
+ */
+
+function flatten(source) {
+  var output = {};
+
+  function step(object, prev) {
+    for (var key in object) {
+      var value = object[key];
+      var newKey = prev ? prev + ' ' + key : key;
+
+      if (!is.array(value) && is.object(value)) {
+        return step(value, newKey);
+      }
+
+      output[newKey] = value;
+    }
+  }
+
+  step(source);
+
+  return output;
+}
+
+});
 require.register("segmentio-analytics.js-integrations/lib/gauges.js", function(exports, require, module){
 
 var callback = require('callback');
@@ -6538,7 +6815,7 @@ Intercom.prototype.group = function (group) {
  */
 
 Intercom.prototype.track = function(track){
-  window.Intercom('trackUserEvent', track.event(), track.traits());
+  window.Intercom('trackEvent', track.event(), track.properties());
 };
 
 /**
@@ -7228,6 +7505,7 @@ var each = require('each');
 var integration = require('integration');
 var load = require('load-script');
 var clone = require('clone');
+var when = require('when');
 
 
 /**
@@ -7247,6 +7525,9 @@ var LiveChat = exports.Integration = integration('LiveChat')
   .assumesPageview()
   .readyOnLoad()
   .global('__lc')
+  .global('__lc_inited')
+  .global('LC_API')
+  .global('LC_Invite')
   .option('group', 0)
   .option('license', '');
 
@@ -7261,7 +7542,6 @@ var LiveChat = exports.Integration = integration('LiveChat')
 
 LiveChat.prototype.initialize = function (page) {
   window.__lc = clone(this.options);
-  this.isLoaded = false;
   this.load();
 };
 
@@ -7273,7 +7553,7 @@ LiveChat.prototype.initialize = function (page) {
  */
 
 LiveChat.prototype.loaded = function () {
-  return this.isLoaded;
+  return !!(window.LC_API && window.LC_Invite);
 };
 
 
@@ -7287,8 +7567,9 @@ LiveChat.prototype.load = function (callback) {
   var self = this;
   load('//cdn.livechatinc.com/tracking.js', function(err){
     if (err) return callback(err);
-    self.isLoaded = true;
-    callback();
+    when(function(){
+      return self.loaded();
+    }, callback);
   });
 };
 
@@ -7539,7 +7820,7 @@ var dates = require('convert-dates');
 var integration = require('integration');
 var iso = require('to-iso-string');
 var load = require('load-script');
-
+var indexof = require('indexof');
 
 /**
  * Expose plugin.
@@ -7557,6 +7838,7 @@ module.exports = exports = function (analytics) {
 var Mixpanel = exports.Integration = integration('Mixpanel')
   .readyOnLoad()
   .global('mixpanel')
+  .option('increments', [])
   .option('cookieName', '')
   .option('nameTag', true)
   .option('pageview', false)
@@ -7585,6 +7867,7 @@ var optionsAliases = {
 
 Mixpanel.prototype.initialize = function () {
   (function (c, a) {window.mixpanel = a; var b, d, h, e; a._i = []; a.init = function (b, c, f) {function d(a, b) {var c = b.split('.'); 2 == c.length && (a = a[c[0]], b = c[1]); a[b] = function () {a.push([b].concat(Array.prototype.slice.call(arguments, 0))); }; } var g = a; 'undefined' !== typeof f ? g = a[f] = [] : f = 'mixpanel'; g.people = g.people || []; h = ['disable', 'track', 'track_pageview', 'track_links', 'track_forms', 'register', 'register_once', 'unregister', 'identify', 'alias', 'name_tag', 'set_config', 'people.set', 'people.increment', 'people.track_charge', 'people.append']; for (e = 0; e < h.length; e++) d(g, h[e]); a._i.push([b, c, f]); }; a.__SV = 1.2; })(document, window.mixpanel || []);
+  this.options.increments = lowercase(this.options.increments);
   var options = alias(this.options, optionsAliases);
   window.mixpanel.init(options.token, options);
   this.load();
@@ -7701,11 +7984,21 @@ Mixpanel.prototype.identify = function (identify) {
  */
 
 Mixpanel.prototype.track = function (track) {
+  var increments = this.options.increments;
+  var increment = track.event().toLowerCase();
+  var people = this.options.people;
   var props = track.properties();
   var revenue = track.revenue();
+
+  if (people && ~indexof(increments, increment)) {
+    window.mixpanel.people.increment(track.event());
+    window.mixpanel.people.set('Last ' + track.event(), new Date);
+  }
+
   props = dates(props, iso);
   window.mixpanel.track(track.event(), props);
-  if (revenue && this.options.people) {
+
+  if (revenue && people) {
     window.mixpanel.people.track_charge(revenue);
   }
 };
@@ -7729,6 +8022,24 @@ Mixpanel.prototype.alias = function (alias) {
   // although undocumented, mixpanel takes an optional original id
   mp.alias(to, alias.from());
 };
+
+/**
+ * Lowercase the given `arr`.
+ * 
+ * @param {Array} arr
+ * @return {Array}
+ * @api private
+ */
+
+function lowercase(arr){
+  var ret = new Array(arr.length);
+
+  for (var i = 0; i < arr.length; ++i) {
+    ret[i] = String(arr[i]).toLowerCase();
+  }
+
+  return ret;
+}
 
 });
 require.register("segmentio-analytics.js-integrations/lib/mojn.js", function(exports, require, module){
@@ -8527,7 +8838,7 @@ module.exports = exports = function (analytics) {
 var Piwik = exports.Integration = integration('Piwik')
   .global('_paq')
   .option('url', null)
-  .option('id', '')
+  .option('siteId', '')
   .assumesPageview()
   .readyOnInitialize();
 
@@ -8539,7 +8850,7 @@ var Piwik = exports.Integration = integration('Piwik')
 
 Piwik.prototype.initialize = function () {
   window._paq = window._paq || [];
-  push('setSiteId', this.options.id);
+  push('setSiteId', this.options.siteId);
   push('setTrackerUrl', this.options.url + '/piwik.php');
   push('enableLinkTracking');
   this.load();
@@ -8848,7 +9159,7 @@ var Quantcast = exports.Integration = integration('Quantcast')
   .global('_qevents')
   .global('__qc')
   .option('pCode', null)
-  .option('labelPages', false);
+  .option('advertise', false);
 
 
 /**
@@ -8857,18 +9168,21 @@ var Quantcast = exports.Integration = integration('Quantcast')
  * https://www.quantcast.com/learning-center/guides/using-the-quantcast-asynchronous-tag/
  * https://www.quantcast.com/help/cross-platform-audience-measurement-guide/
  *
- * @param {Object} page
+ * @param {Page} page
  */
 
 Quantcast.prototype.initialize = function (page) {
-  page = page || {};
   window._qevents = window._qevents || [];
 
   var opts = this.options;
   var settings = { qacct: opts.pCode };
   if (user.id()) settings.uid = user.id();
-  push(settings);
 
+  if (page) {
+    settings.labels = this.labels('page', page.category(), page.name());
+  }
+
+  push(settings);
   this.load();
 };
 
@@ -8911,7 +9225,7 @@ Quantcast.prototype.page = function (page) {
   var name = page.name();
   var settings = {
     event: 'refresh',
-    labels: labels('Page', category, name),
+    labels: this.labels('page', category, name),
     qacct: this.options.pCode,
   };
   if (user.id()) settings.uid = user.id();
@@ -8947,10 +9261,10 @@ Quantcast.prototype.track = function (track) {
   var revenue = track.revenue();
   var settings = {
     event: 'click',
-    labels: labels('Event', name),
+    labels: this.labels('event', name),
     qacct: this.options.pCode
   };
-  if (revenue !== null) settings.revenue = (revenue+''); // convert to string
+  if (null != revenue) settings.revenue = (revenue+''); // convert to string
   if (user.id()) settings.uid = user.id();
   push(settings);
 };
@@ -8966,9 +9280,16 @@ Quantcast.prototype.track = function (track) {
 Quantcast.prototype.completedOrder = function(track){
   var name = track.event();
   var revenue = track.total();
+  var labels = this.labels('event', name);
+  var category = track.category();
+
+  if (this.options.advertise && category) {
+    labels += ',' + this.labels('pcat', category);
+  }
+
   var settings = {
     event: 'refresh', // the example Quantcast sent has completed order send refresh not click
-    labels: labels('Event', name),
+    labels: labels,
     revenue: (revenue+''), // convert to string
     orderid: track.orderId(),
     qacct: this.options.pCode
@@ -8977,25 +9298,41 @@ Quantcast.prototype.completedOrder = function(track){
 };
 
 /**
- * Generate a period-separated label string in Quantcast's style.
- *
- * @param {String} label
- * @param {String} label2
- * ....
+ * Generate quantcast labels.
+ * 
+ * Example:
+ * 
+ *    options.advertise = false;
+ *    labels('event', 'my event');
+ *    // => "event.my event"
+ * 
+ *    options.advertise = true;
+ *    labels('event', 'my event');
+ *    // => "_fp.event.my event"
+ * 
+ * @param {String} type
+ * @param {String} ...
+ * @return {String}
+ * @api private
  */
 
-function labels(){
-  var args = [];
+Quantcast.prototype.labels = function(type){
+  var args = [].slice.call(arguments, 1);
+  var advertise = this.options.advertise;
+  var ret = [];
 
-  for (var i = 0; i < arguments.length; ++i) {
-    if (!arguments[i]) continue;
-    var val = String(arguments[i]);
-    args.push(val.replace(/,/g, ';'));
+  if (advertise && 'page' == type) type = 'event';
+  if (advertise) type = '_fp.' + type;
+
+  for (var i = 0; i < args.length; ++i) {
+    if (null == args[i]) continue;
+    var value = String(args[i]);
+    ret.push(value.replace(/,/g, ';'));
   }
 
-  var basic = args.join('.');
-  return [basic, ['_fp', basic].join('.')].join(',');
-}
+  ret = advertise ? ret.join(' ') : ret.join('.');
+  return [type, ret].join('.');
+};
 
 });
 require.register("segmentio-analytics.js-integrations/lib/rollbar.js", function(exports, require, module){
@@ -12660,12 +12997,10 @@ require.register("component-json-fallback/index.js", function(exports, require, 
 // Create a JSON object only if one does not already exist. We create the
 // methods in a closure to avoid creating global variables.
 
-if (typeof JSON !== 'object') {
-    JSON = {};
-}
-
 (function () {
     'use strict';
+
+    var JSON = module.exports = {};
 
     function f(n) {
         // Format integers to have at least two digits.
@@ -12989,14 +13324,16 @@ if (typeof JSON !== 'object') {
     }
 }());
 
-module.exports = JSON;
-
 });
 require.register("segmentio-json/index.js", function(exports, require, module){
 
-module.exports = 'undefined' == typeof JSON
-  ? require('json-fallback')
-  : JSON;
+var json = window.JSON || {};
+var stringify = json.stringify;
+var parse = json.parse;
+
+module.exports = parse && stringify
+  ? JSON
+  : require('json-fallback');
 
 });
 require.register("segmentio-new-date/lib/index.js", function(exports, require, module){
@@ -13455,10 +13792,9 @@ require.register("analytics/lib/index.js", function(exports, require, module){
  * (C) 2013 Segment.io Inc.
  */
 
-var Analytics = require('./analytics');
-var createIntegration = require('integration');
-var each = require('each');
 var Integrations = require('integrations');
+var Analytics = require('./analytics');
+var each = require('each');
 
 
 /**
@@ -13477,7 +13813,7 @@ analytics.require = require;
  * Expose `VERSION`.
  */
 
-exports.VERSION = '1.3.22';
+exports.VERSION = '1.3.27';
 
 
 /**
@@ -14663,6 +14999,7 @@ module.exports.User = User;
 
 
 
+
 require.register("segmentio-analytics.js-integrations/lib/slugs.json", function(exports, require, module){
 module.exports = [
   "adroll",
@@ -14688,6 +15025,7 @@ module.exports = [
   "evergage",
   "facebook-ads",
   "foxmetrics",
+  "frontleaf",
   "gauges",
   "get-satisfaction",
   "google-analytics",
@@ -14823,6 +15161,7 @@ module.exports = [
 
 
 
+
 require.alias("avetisk-defaults/index.js", "analytics/deps/defaults/index.js");
 require.alias("avetisk-defaults/index.js", "defaults/index.js");
 
@@ -14854,6 +15193,8 @@ require.alias("component-querystring/index.js", "analytics/deps/querystring/inde
 require.alias("component-querystring/index.js", "querystring/index.js");
 require.alias("component-trim/index.js", "component-querystring/deps/trim/index.js");
 
+require.alias("component-type/index.js", "component-querystring/deps/type/index.js");
+
 require.alias("component-url/index.js", "analytics/deps/url/index.js");
 require.alias("component-url/index.js", "url/index.js");
 
@@ -14879,41 +15220,6 @@ require.alias("ianstormtaylor-is-empty/index.js", "ianstormtaylor-is/deps/is-emp
 require.alias("segmentio-after/index.js", "analytics/deps/after/index.js");
 require.alias("segmentio-after/index.js", "after/index.js");
 
-require.alias("segmentio-analytics.js-integration/lib/index.js", "analytics/deps/integration/lib/index.js");
-require.alias("segmentio-analytics.js-integration/lib/protos.js", "analytics/deps/integration/lib/protos.js");
-require.alias("segmentio-analytics.js-integration/lib/events.js", "analytics/deps/integration/lib/events.js");
-require.alias("segmentio-analytics.js-integration/lib/statics.js", "analytics/deps/integration/lib/statics.js");
-require.alias("segmentio-analytics.js-integration/lib/index.js", "analytics/deps/integration/index.js");
-require.alias("segmentio-analytics.js-integration/lib/index.js", "integration/index.js");
-require.alias("avetisk-defaults/index.js", "segmentio-analytics.js-integration/deps/defaults/index.js");
-
-require.alias("component-clone/index.js", "segmentio-analytics.js-integration/deps/clone/index.js");
-require.alias("component-type/index.js", "component-clone/deps/type/index.js");
-
-require.alias("component-emitter/index.js", "segmentio-analytics.js-integration/deps/emitter/index.js");
-require.alias("component-indexof/index.js", "component-emitter/deps/indexof/index.js");
-
-require.alias("ianstormtaylor-bind/index.js", "segmentio-analytics.js-integration/deps/bind/index.js");
-require.alias("component-bind/index.js", "ianstormtaylor-bind/deps/bind/index.js");
-
-require.alias("segmentio-bind-all/index.js", "ianstormtaylor-bind/deps/bind-all/index.js");
-require.alias("component-bind/index.js", "segmentio-bind-all/deps/bind/index.js");
-
-require.alias("component-type/index.js", "segmentio-bind-all/deps/type/index.js");
-
-require.alias("ianstormtaylor-callback/index.js", "segmentio-analytics.js-integration/deps/callback/index.js");
-require.alias("timoxley-next-tick/index.js", "ianstormtaylor-callback/deps/next-tick/index.js");
-
-require.alias("segmentio-after/index.js", "segmentio-analytics.js-integration/deps/after/index.js");
-
-require.alias("timoxley-next-tick/index.js", "segmentio-analytics.js-integration/deps/next-tick/index.js");
-
-require.alias("yields-slug/index.js", "segmentio-analytics.js-integration/deps/slug/index.js");
-
-require.alias("visionmedia-debug/index.js", "segmentio-analytics.js-integration/deps/debug/index.js");
-require.alias("visionmedia-debug/debug.js", "segmentio-analytics.js-integration/deps/debug/debug.js");
-
-require.alias("segmentio-analytics.js-integration/lib/index.js", "segmentio-analytics.js-integration/index.js");
 require.alias("segmentio-analytics.js-integrations/index.js", "analytics/deps/integrations/index.js");
 require.alias("segmentio-analytics.js-integrations/lib/adroll.js", "analytics/deps/integrations/lib/adroll.js");
 require.alias("segmentio-analytics.js-integrations/lib/adwords.js", "analytics/deps/integrations/lib/adwords.js");
@@ -14938,6 +15244,7 @@ require.alias("segmentio-analytics.js-integrations/lib/errorception.js", "analyt
 require.alias("segmentio-analytics.js-integrations/lib/evergage.js", "analytics/deps/integrations/lib/evergage.js");
 require.alias("segmentio-analytics.js-integrations/lib/facebook-ads.js", "analytics/deps/integrations/lib/facebook-ads.js");
 require.alias("segmentio-analytics.js-integrations/lib/foxmetrics.js", "analytics/deps/integrations/lib/foxmetrics.js");
+require.alias("segmentio-analytics.js-integrations/lib/frontleaf.js", "analytics/deps/integrations/lib/frontleaf.js");
 require.alias("segmentio-analytics.js-integrations/lib/gauges.js", "analytics/deps/integrations/lib/gauges.js");
 require.alias("segmentio-analytics.js-integrations/lib/get-satisfaction.js", "analytics/deps/integrations/lib/get-satisfaction.js");
 require.alias("segmentio-analytics.js-integrations/lib/google-analytics.js", "analytics/deps/integrations/lib/google-analytics.js");
@@ -15214,6 +15521,8 @@ require.alias("segmentio-load-pixel/index.js", "segmentio-analytics.js-integrati
 require.alias("component-querystring/index.js", "segmentio-load-pixel/deps/querystring/index.js");
 require.alias("component-trim/index.js", "component-querystring/deps/trim/index.js");
 
+require.alias("component-type/index.js", "component-querystring/deps/type/index.js");
+
 require.alias("segmentio-substitute/index.js", "segmentio-load-pixel/deps/substitute/index.js");
 require.alias("segmentio-substitute/index.js", "segmentio-load-pixel/deps/substitute/index.js");
 require.alias("segmentio-substitute/index.js", "segmentio-substitute/index.js");
@@ -15223,6 +15532,8 @@ require.alias("segmentio-replace-document-write/index.js", "segmentio-analytics.
 require.alias("component-domify/index.js", "segmentio-replace-document-write/deps/domify/index.js");
 
 require.alias("segmentio-replace-document-write/index.js", "segmentio-replace-document-write/index.js");
+require.alias("component-indexof/index.js", "segmentio-analytics.js-integrations/deps/indexof/index.js");
+
 require.alias("segmentio-canonical/index.js", "analytics/deps/canonical/index.js");
 require.alias("segmentio-canonical/index.js", "canonical/index.js");
 

@@ -1,4 +1,25 @@
 
+1.3.26 / 2014-04-17 
+==================
+
+ * upgrade integrations to 0.5.8
+
+1.3.25 / 2014-04-16 
+==================
+
+ * upgrade integrations to 0.5.6
+
+1.3.24 / 2014-04-15 
+==================
+
+ * move analytics.js-integration to dev deps
+
+1.3.23 / 2014-04-14 
+==================
+
+ * upgrade integrations to 0.5.5
+ * update querystring to 1.3.0
+
 1.3.22 / 2014-04-11 
 ==================
 
