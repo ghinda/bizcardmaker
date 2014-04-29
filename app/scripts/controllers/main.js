@@ -1,4 +1,4 @@
-app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
+app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
 	'use strict';
 
 	var model = $scope.model = {};
@@ -214,15 +214,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 					// saveAs is global from FileSaver.js
 					// FileSaver is included in jsPdf
 					saveAs(blob, model.imageFilename);
-
-					// TODO just for testing
-					var imgData = canvas.toDataURL('image/jpeg', 1.0);
-
-					data.SendOrder({
-						image: imgData
-					}).then(function(resp) {
-						console.log(resp);
-					});
 
 				},
 				'image/jpeg'
