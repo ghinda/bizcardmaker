@@ -39,7 +39,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
 	$scope.ImageUrl = function(url) {
 		return data.printchompUrl + url;
-	}
+	};
 
 	data.GetOffers().then(function(offers) {
 		model.offers = offers.offers;
@@ -78,7 +78,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 		}
 
 		model.orderLoading = true;
-		
+
 		var orderData = {};
 
 		// generate base64 picture
@@ -122,12 +122,12 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 			var exp = model.order.card.exp.replace(/ /g, '').split('/');
 			orderData.billing.credit_card.expiry = {};
 			orderData.billing.credit_card.expiry.month = exp[0];
-			
+
 			// if year is only two digits, prepend 20
 			if(exp[1].length === 2) {
 				exp[1] = '20' + exp[1];
 			}
-			
+
 			orderData.billing.credit_card.expiry.year = exp[1];
 
 			// shipping details
@@ -153,7 +153,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
 			}
 
-			data.SendOrder(orderData).then(function(response) {
+			data.SendOrder(orderData).then(function() {
 
 				model.orderLoading = false;
 
@@ -164,7 +164,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 				$timeout(function() {
 					$('#modal-order').foundation('reveal', 'close');
 				}, 5000);
-				
+
 				// track analytics
 				analytics.track('Successful order', {
 					category: 'Orders',
@@ -175,7 +175,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
 				model.error = err.error || 'Please try again later.';
 				model.orderLoading = false;
-				
+
 				// track analytics
 				analytics.track('Order error', {
 					category: 'Orders',

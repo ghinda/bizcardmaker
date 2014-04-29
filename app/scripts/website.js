@@ -7,17 +7,17 @@
 	var $cardPage,
 		$printPromo,
 		$tour;
-	
+
 	var init = function() {
-		
+
 		$cardPage = $('.card-maker');
 		$printPromo = $('.print-promo');
 		$tour = $('.tutorial-tour');
-		
+
 		$('.js-guide-btn').click(showGuide);
-		
+
 	};
-	
+
 	var showGuide = function() {
 		// check if card editor page
 		if($cardPage.length) {
@@ -26,7 +26,7 @@
 			return false;
 		}
 	};
-	
+
 	// foundation properties
 	$(document).foundation({
 		joyride: {
@@ -38,9 +38,10 @@
 
 })();
 
-// print promo 
-var showPrintpromo = function() {
-	
+// print promo
+window.showPrintpromo = function() {
+	'use strict';
+
 	$('.print-promo').foundation('joyride', 'start');
-	
+
 };

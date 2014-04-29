@@ -22,6 +22,7 @@ var app = angular.module('businessCardMaker', [
 });
 
 app.run(function($rootScope){
+	'use strict';
 
 	var root = $rootScope.root = {};
 
