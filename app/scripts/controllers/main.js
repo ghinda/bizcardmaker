@@ -247,6 +247,11 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 			model.openedModal = true;
 		}
 
+		// track analytics
+		analytics.track('Begin order', {
+			category: 'Orders'
+		});
+
 	};
 
 	$scope.$on('$includeContentLoaded', function() {

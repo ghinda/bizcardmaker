@@ -74,6 +74,12 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
 		// make sure the form is valid
 		if(!$scope.orderForm.$valid) {
+
+			// track analytics
+			analytics.track('Invalid order form', {
+				category: 'Orders'
+			});
+
 			return false;
 		}
 
