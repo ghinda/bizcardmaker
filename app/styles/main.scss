@@ -203,9 +203,9 @@ footer {
 	p {
 		font-size: .8em;
 	}
-	
+
 	.follow-button {
-		
+
 	}
 }
 
@@ -250,13 +250,13 @@ footer {
 	form small {
 		display: block;
 		margin: emCalc(-12) 0 emCalc(20) 0;
-		
+
 		line-height: 1.4em;
 	}
-	
+
 	.cvc-help {
 		overflow: hidden;
-		
+
 		img {
 			float: right;
 			margin-left: emCalc(12);
@@ -267,29 +267,29 @@ footer {
 		max-width: 100%;
 		margin: 0 emCalc(-12);
 	}
-	
+
 	.alert-box {
 		p {
 			margin: 0;
 		}
 	}
-	
+
 	.privacy-agree {
 		font-size: emCalc(12);
 		color: darken($grey, 30%);
 	}
-	
+
 	.button-send {
 		margin-bottom: emCalc(32);
 	}
-	
+
 	.printchomp-text {
 		display: inline-block;
 		margin: 0 0 0 emCalc(20);
-		
+
 		color: #479CAB;
 		font-size: emCalc(14);
-		
+
 		a {
 			display: inline-block;
 			width: 100px;
@@ -297,7 +297,7 @@ footer {
 			margin-left: emCalc(8);
 			overflow: hidden;
 			background: url(../images/printchomp-logo.png);
-			
+
 			text-indent: -100%;
 			vertical-align: middle;
 		}
@@ -328,56 +328,56 @@ footer {
 		padding: emCalc(12) emCalc(12) emCalc(12) emCalc(40);
 		margin: 0 0 2% 0;
 		border: 1px solid transparent;
-		
+
 		input {
 			position: absolute;
 			top: 50%;
 			left: emCalc(12);
 		}
-		
+
 		h3 {
 			margin-bottom: emCalc(8);
-			
+
 			color: $color1;
 			font-size: emCalc(20);
 			line-height: 1.2em;
 		}
-		
+
 		.description {
 			overflow: hidden;
 			margin-bottom: emCalc(8);
-			
+
 			font-size: emCalc(14);
 			line-height: 1.4em;
 		}
-		
+
 		.icon {
 			float: left;
 			margin-right: emCalc(8);
 			width: emCalc(80);
 		}
-		
+
 		.price {
 			margin: 0;
-			
+
 			font-size: emCalc(14);
 			font-weight: bold;
 			text-align: right;
 		}
-		
+
 		.details {
 			margin: 0;
-			
+
 			font-size: emCalc(14);
 			font-style: italic;
 			text-align: right;
 		}
 	}
-	
+
 	.active {
 		background-color: lighten($color1, 16%);
 		color: $white;
-		
+
 		h3 {
 			color: $white;
 		}
@@ -401,10 +401,10 @@ footer {
 		thead th {
 			color: darken($grey, 40%);
 		}
-		
+
 		td:last-child {
 			width: emCalc(120);
-			
+
 			text-align: right;
 		}
 	}
@@ -421,9 +421,9 @@ footer {
 	width: 100%;
 	height: 100%;
 	padding-top: emCalc(300);
-	
+
 	text-align: center;
-	
+
 	h2 {
 		font-size: emCalc(32);
 	}
@@ -435,7 +435,7 @@ footer {
 
 .order-success {
 	background-color: rgba(#1d9d74, .95);
-	
+
 	h2,
 	p {
 		color: #fff;
@@ -449,7 +449,7 @@ footer {
  */
 body input.cc-number {
 	padding-left: 20px;
-	
+
 	background-repeat: no-repeat !important;
 	background-position: -12px center !important;
 }
@@ -475,6 +475,82 @@ input.ng-invalid {
 .reveal-modal {
 	max-width: emCalc(1200);
 	margin-left: 0;
-	
+
 	@include transform(translateX(-50%));
+}
+
+/* AB testing
+ */
+
+.index2,
+.index3,
+.index4 {
+
+	.printchomp-text {
+		display: inline-block;
+		margin: emCalc(20) 0 0 emCalc(80);
+
+		color: #479CAB;
+		font-size: emCalc(11);
+
+		a {
+			display: inline-block;
+			width: 100px;
+			height: 33px;
+			margin-left: emCalc(8);
+			overflow: hidden;
+			background: url(../images/printchomp-logo.png);
+
+			text-indent: -100%;
+			vertical-align: middle;
+		}
+	}
+
+}
+
+/* index2
+ */
+
+.index2 {
+
+	.download-buttons .secondary {
+		background-color: #27AE61;
+
+		box-shadow: inset 0 -2px 1px darken(#27AE61, 20%);
+	}
+
+}
+
+/* index3
+ */
+
+.index3 {
+
+	.download-buttons > li .button {
+		border-radius: 5px !important;
+	}
+
+	.download-buttons > li:last-child {
+		width: 48%;
+		margin-left: 2%;
+
+		font-size: .8em;
+	}
+
+}
+
+/* index4
+ */
+
+.index4 {
+
+	.download-buttons > li:first-child {
+		width: 42%;
+	}
+
+	.download-buttons > li:last-child {
+		width: 58%;
+	}
+
+
 }
