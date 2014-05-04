@@ -550,6 +550,10 @@ input.ng-invalid {
 
 	.download-buttons > li:last-child {
 		width: 58%;
+
+		.button {
+			padding-right: emCalc(12);
+		}
 	}
 
 
