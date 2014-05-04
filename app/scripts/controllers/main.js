@@ -3,8 +3,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 	var model = $scope.model = {};
 
-	model.iOS = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
-
 	model.cardPictureFile = '';
 	model.cardPicture = '';
 	model.generatingCard = false;
@@ -141,7 +139,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 	};
 
 	// place business card on a canvas
-	var generatePicture = function() {
+	$scope.generatePicture = function() {
 
 		var deferred = $q.defer();
 
@@ -174,29 +172,26 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 		model.generatingPdf = true;
 
-		generatePicture().then(function(canvas) {
+		$scope.generatePicture().then(function(canvas) {
 			model.generatingPdf = false;
 
 			var doc = new jsPDF();
 
 			var imgData = canvas.toDataURL('image/jpeg', 1.0);
 
-			// full bleed size 92 x 54
+			// full bleed size 3.75 x 2.25 (in) / 95.25 x 57.15 (mm)
+
+			var width = 95.25,
+				height = 57.15;
 
 			// place images on page
 			for(var i = 0; i < 2; i++) {
 				for(var j = 0; j < 5; j++) {
-					doc.addImage(imgData, 'JPEG', 10 + i * 93, 10 + j * 55, 92, 54);
+					doc.addImage(imgData, 'JPEG', 4 + i * (width + 0.5), 4 + j * (height + 0.5), width, height);
 				}
 			}
 
-			if(model.iOS) {
-				// mobile devices
-				var popupWindow = window.open('', '_blank');
-				popupWindow.location.href = doc.output('dataurlstring');
-			} else {
-				doc.save(model.pdfFilename);
-			}
+			doc.save(model.pdfFilename);
 		});
 
 		// track analytics
@@ -210,32 +205,20 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 	$scope.DownloadPicture = function() {
 
-		generatePicture().then(function(canvas) {
+		$scope.generatePicture().then(function(canvas) {
 
-			if(model.iOS) {
+			// make the canvas a blob, so we can download it with downloadify
+			canvas.toBlob(
+				function (blob) {
 
-				// mobile devices
-				model.imageData = canvas.toDataURL('image/jpeg', 1.0);
+					// saveAs is global from FileSaver.js
+					// FileSaver is included in jsPdf
+					saveAs(blob, model.imageFilename);
 
-				var popupWindow = window.open('', '_blank');
-				popupWindow.location.href = model.imageData;
+				},
+				'image/jpeg'
+			);
 
-			} else {
-
-				// make the canvas a blob, so we can download it with downloadify
-				canvas.toBlob(
-					function (blob) {
-
-						// saveAs is global from Downloadify and FileSaver.js
-						// Downloadify is included in jsPDF
-						// FileSaver included from bower_components
-						saveAs(blob, model.imageFilename);
-
-					},
-					'image/jpeg'
-				);
-
-			}
 		});
 
 		// track analytics
@@ -246,23 +229,53 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 	};
 
-	$scope.$on('$viewContentLoaded', function() {
+	model.openedModal = false;
+	model.order = {};
+	$scope.CopyCardDetails = function() {
+
+		// if this is the first time we're opening the modal copy the details
+		// to be used in the order form.
+		// if the modal was previously opened, leave the details alone
+		if(!model.openedModal) {
+
+			var $vcard = $('.vcard');
+			model.order.email = $('.email p', $vcard).text().trim();
+			model.order.name = $('.fn', $vcard).text().trim();
+			model.order.phone = $('.tel', $vcard).text().trim();
+			model.order.city = $('.locality', $vcard).text().trim();
+
+			model.openedModal = true;
+		}
+
+		// track analytics
+		analytics.track('Begin order', {
+			category: 'Orders'
+		});
+
+	};
+
+	$scope.$on('$includeContentLoaded', function() {
+
+		// init foundation plugins
+		$(document).foundation();
 
 		// extremely hacky way to implement dragging
 		var $preview = $('.card-preview'),
+			$containment = $('.card-content', $preview).get(0),
 			$picture = $preview.find('.card-picture'),
 			$li = $preview.find('li');
 
 		new Draggabilly($picture.get(0), {
-			containment: $preview.get(0),
+			containment: $containment,
 			handle: '.drag-handle',
 			grid: [ 20, 20 ]
 		});
 
 		$li.each(function(i, li) {
 			setTimeout(function() {
+
 				var liDrag = new Draggabilly(li, {
-					containment: $preview.get(0),
+					containment: $containment,
 					handle: '.drag-handle',
 					grid: [ 20, 20 ]
 				});
@@ -277,6 +290,15 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 			}, 1000);
 		});
+
+		// show the print promo in 1s after loading
+		$timeout(function() {
+			// be safe
+			if(window.showPrintpromo) {
+				window.showPrintpromo();
+			}
+		});
+
 
 	});
 

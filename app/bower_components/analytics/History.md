@@ -1,4 +1,102 @@
 
+1.3.26 / 2014-04-17 
+==================
+
+ * upgrade integrations to 0.5.8
+
+1.3.25 / 2014-04-16 
+==================
+
+ * upgrade integrations to 0.5.6
+
+1.3.24 / 2014-04-15 
+==================
+
+ * move analytics.js-integration to dev deps
+
+1.3.23 / 2014-04-14 
+==================
+
+ * upgrade integrations to 0.5.5
+ * update querystring to 1.3.0
+
+1.3.22 / 2014-04-11 
+==================
+
+ * upgrade integrations to 0.5.4
+
+1.3.21 / 2014-04-10 
+==================
+
+ * add "invoke" event
+
+1.3.20 / 2014-04-07 
+==================
+
+ * upgrade integrations to 0.5.3
+
+1.3.19 / 2014-04-05
+==================
+
+ * upgrade querystring to 1.2.0
+
+1.3.18 / 2014-04-05
+==================
+
+ * upgrade integrations to 0.5.1
+
+1.3.17 / 2014-04-04
+==================
+
+ * upgrade integrations to 0.5.0
+ * fix: add .search to .url when url is pulled from canonical tag
+ * tests: upgrade gravy to 0.2.0
+
+1.3.16 / 2014-04-01
+==================
+
+ * upgrade integrations to 0.4.14
+
+1.3.15 / 2014-03-26
+==================
+
+ * upgrade integrations to 0.4.13
+
+1.3.14 / 2014-03-26
+==================
+
+ * upgrade integrations to 0.4.12
+
+1.3.13 / 2014-03-25
+==================
+
+ * upgrade integrations to 0.4.11
+
+1.3.12 / 2014-03-19
+==================
+
+ * upgrade integrations to 0.4.10
+
+1.3.11 / 2014-03-14
+===================
+
+ * upgrade integrations to 0.4.9
+
+1.3.10 / 2014-03-14
+===================
+
+ * upgrade integrations to 0.4.8
+
+1.3.9 / 2014-03-14
+==================
+
+ * upgrade integrations to 0.4.7
+
+1.3.8 / 2014-03-13
+==================
+
+ * upgrade integrations to 0.4.6
+
 1.3.7 / 2014-03-06
 ==================
 

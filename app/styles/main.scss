@@ -10,6 +10,7 @@
 $color1: #2854a1;
 $color2: lighten(saturate($color1, 40%), 20%);
 $white: #fff;
+$grey: #e6e6e6;
 
 /* Foundation
  */
@@ -87,6 +88,31 @@ a {
 			box-shadow: inset 0 2px 1px darken($color2, 20%);
 		}
 	}
+
+	&.muted {
+		background-color: $grey;
+		box-shadow: inset 0 -2px 0 darken($grey, 10%);
+
+		color: #444;
+
+		* {
+			color: #444 !important;
+		}
+
+		&:before {
+			border-color: #444 transparent transparent transparent;
+		}
+
+		&:hover {
+			background-color: lighten($grey, 5%);
+		}
+
+		&:active {
+			background-color: darken($grey, 10%);
+
+			box-shadow: inset 0 2px 1px darken($grey, 20%);
+		}
+	}
 }
 
 /* Sections
@@ -101,7 +127,7 @@ section {
  */
 header {
 	position: relative;
-	padding: emCalc(72) 0;
+	padding: emCalc(64) 0;
 	background: url(../images/header-background.jpg) no-repeat center center;
 	background-size: cover;
 	border-bottom: 1px solid darken($color1, 10%);
@@ -177,31 +203,278 @@ footer {
 	p {
 		font-size: .8em;
 	}
+	
+	.follow-button {
+		
+	}
 }
 
-/* Buy block
+/* Right sidebar
  */
-.buy-block {
-	background-color: $color1;
-	border: 0;
-	border-radius: 5px;
+.instructions-block {
+	margin-top: emCalc(60);
+	margin-bottom: emCalc(40);
+
+	p {
+		font-size: emCalc(14);
+		color: darken($grey, 60%);
+	}
+}
+
+/* Order modal
+ */
+
+.loading-indicator {
+	display: block;
+
+	color: $grey;
+	font-size: emCalc(24);
+	text-align: center;
+}
+
+.modal-order {
+
+	h2 {
+		margin-bottom: emCalc(12);
+	}
 
 	h4 {
-		margin-bottom: emCalc(28);
-		color: lighten($color1, 40%);
+		margin: emCalc(20) 0 emCalc(12) 0;
 
-		strong {
-			color: lighten($color1, 80%);
+		color: $color1;
+		font-weight: bold;
+		font-size: emCalc(12);
+		text-transform: uppercase;
+	}
+
+	form small {
+		display: block;
+		margin: emCalc(-12) 0 emCalc(20) 0;
+		
+		line-height: 1.4em;
+	}
+	
+	.cvc-help {
+		overflow: hidden;
+		
+		img {
+			float: right;
+			margin-left: emCalc(12);
 		}
 	}
 
-	p {
-		color: $white;
+	.row {
+		max-width: 100%;
+		margin: 0 emCalc(-12);
+	}
+	
+	.alert-box {
+		p {
+			margin: 0;
+		}
+	}
+	
+	.privacy-agree {
+		font-size: emCalc(12);
+		color: darken($grey, 30%);
+	}
+	
+	.button-send {
+		margin-bottom: emCalc(32);
+	}
+	
+	.printchomp-text {
+		display: inline-block;
+		margin: 0 0 0 emCalc(20);
+		
+		color: #479CAB;
 		font-size: emCalc(14);
+		
+		a {
+			display: inline-block;
+			width: 100px;
+			height: 33px;
+			margin-left: emCalc(8);
+			overflow: hidden;
+			background: url(../images/printchomp-logo.png);
+			
+			text-indent: -100%;
+			vertical-align: middle;
+		}
 	}
 
-	a {
-		color: lighten($color1, 30%);
+}
+
+.joyride-modal-bg {
+	background: #000;
+	opacity: .5;
+}
+
+.joyride-content-wrapper p a {
+	color: lighten(saturate($color1, 60%), 40%);
+}
+
+.offers-list {
+	margin: emCalc(20) 0 0;
+	list-style-type: none;
+
+	li {
+		display: block;
+	}
+
+	label {
+		position: relative;
+		display: block;
+		padding: emCalc(12) emCalc(12) emCalc(12) emCalc(40);
+		margin: 0 0 2% 0;
+		border: 1px solid transparent;
+		
+		input {
+			position: absolute;
+			top: 50%;
+			left: emCalc(12);
+		}
+		
+		h3 {
+			margin-bottom: emCalc(8);
+			
+			color: $color1;
+			font-size: emCalc(20);
+			line-height: 1.2em;
+		}
+		
+		.description {
+			overflow: hidden;
+			margin-bottom: emCalc(8);
+			
+			font-size: emCalc(14);
+			line-height: 1.4em;
+		}
+		
+		.icon {
+			float: left;
+			margin-right: emCalc(8);
+			width: emCalc(80);
+		}
+		
+		.price {
+			margin: 0;
+			
+			font-size: emCalc(14);
+			font-weight: bold;
+			text-align: right;
+		}
+		
+		.details {
+			margin: 0;
+			
+			font-size: emCalc(14);
+			font-style: italic;
+			text-align: right;
+		}
+	}
+	
+	.active {
+		background-color: lighten($color1, 16%);
+		color: $white;
+		
+		h3 {
+			color: $white;
+		}
 	}
 }
 
+.order-summary {
+	margin-top: emCalc(20);
+	padding-top: emCalc(20);
+	border-top: 1px solid $grey;
+
+	table {
+		width: 100%;
+		border: 1px solid $color1;
+
+		thead,
+		tfoot {
+			background: none;
+		}
+
+		thead th {
+			color: darken($grey, 40%);
+		}
+		
+		td:last-child {
+			width: emCalc(120);
+			
+			text-align: right;
+		}
+	}
+}
+
+.order-loading,
+.order-success {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 99;
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding-top: emCalc(300);
+	
+	text-align: center;
+	
+	h2 {
+		font-size: emCalc(32);
+	}
+}
+
+.order-loading {
+	background-color: rgba($white, .9);
+}
+
+.order-success {
+	background-color: rgba(#1d9d74, .95);
+	
+	h2,
+	p {
+		color: #fff;
+	}
+}
+
+/* Form Validation
+ */
+
+/* Need !important because of Foundation :focus styles
+ */
+body input.cc-number {
+	padding-left: 20px;
+	
+	background-repeat: no-repeat !important;
+	background-position: -12px center !important;
+}
+
+.visa {
+	background-image: url(/images/visa.png) !important;
+}
+
+.amex {
+	background-image: url(/images/amex.png) !important;
+}
+
+.mastercard {
+	background-image: url(/images/mastercard.png) !important;
+}
+
+input.ng-invalid {
+	border: 1px solid #c0392b !important;
+}
+
+/* Improve Foundation modals
+ */
+.reveal-modal {
+	max-width: emCalc(1200);
+	margin-left: 0;
+	
+	@include transform(translateX(-50%));
+}

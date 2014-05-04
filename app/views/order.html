@@ -1,0 +1,468 @@
+<div id="modal-order" class="reveal-modal modal-order" ng-controller="OrderCtrl" data-reveal>
+
+	<div class="order-loading" ng-show="model.orderLoading">
+		
+		<h2>
+			<i class="fa fa-refresh fa-spin"></i>
+			Sending order..
+		</h2>
+		
+	</div>
+
+	<div class="order-success" ng-show="model.orderSuccess">
+		
+		<h2>
+			<i class="fa fa-check"></i>
+			Thank you for your order!
+		</h2>
+		
+		<p>
+			Check your email for more details on the progress of the order.
+		</p>
+		
+	</div>
+
+	<a class="close-reveal-modal">&#215;</a>
+
+	<h2>
+		Order Cards
+		<small>
+			Highest print quality at the best prices!
+		</small>
+	</h2>
+
+	<div class="row">
+
+		<div class="large-4 columns">
+			<label>Choose one of our exclusive offers</label>
+
+			<ul class="offers-list">
+
+				<div class="loading-indicator" ng-show="!model.offers.length">
+					<i class="fa fa-refresh fa-spin"></i>
+					Loading offers..
+				</div>
+
+				<li ng-repeat="offer in model.offers">
+
+					<label ng-class="{ 'active' : model.order.selectedOffer == $index }">
+						<input type="radio" name="offers" ng-value="$index" ng-model="model.order.selectedOffer">
+
+						<h3 ng-bind="offer.title"></h3>
+
+						<p class="description">
+							<img ng-src="{{ ImageUrl(offer._links.image.href) }}" class="icon">
+							<span ng-bind="offer.description"></span>
+						</p>
+
+						<p class="price">
+							Price:
+							<span ng-bind="offer.amount.currency"></span>
+							<span ng-bind="(offer.amount.total / 100).toFixed(2)"></span>
+						</p>
+						
+						<p class="details">
+							<span ng-bind="offer.details"></span>
+						</p>
+
+					</label>
+
+				</li>
+
+			</ul>
+		</div>
+
+		<div class="large-8 columns">
+
+			<form name="orderForm" ng-submit="SendOrder($event)">
+
+				<div class="alert-box warning" ng-show="model.error">
+					
+					<strong>There was an error with your order. </strong>
+					<p ng-bind="model.error"></p>
+					
+				</div>
+
+				<div class="row">
+					<div class="large-4 columns">
+						<label>
+							Your email
+
+							<input type="email"
+								ng-model="model.order.email"
+								required>
+
+						</label>
+					</div>
+					<div class="large-4 columns">
+						<label>
+							Full name
+
+							<input type="text"
+								ng-model="model.order.name"
+								required>
+
+						</label>
+					</div>
+					<div class="large-4 columns">
+						<label>
+							Phone
+
+							<input type="text"
+								ng-model="model.order.phone"
+								required>
+
+						</label>
+					</div>
+				</div>
+
+				<h4>
+					Billing details
+				</h4>
+
+				<div class="row">
+					<div class="large-3 columns">
+						<label>
+							Country
+
+							<select
+								ng-model="model.order.country"
+								ng-options="c.name for c in model.countries"
+								required>
+							</select>
+
+						</label>
+						<small>We only ship to the US and Canada</small>
+					</div>
+					<div class="large-3 columns">
+						<label>
+
+							<span ng-show="model.order.country.id=='United States'">
+								State
+							</span>
+
+							<span ng-show="model.order.country.id=='Canada'">
+								Province
+							</span>
+
+							<select
+								ng-model="model.order.region"
+								ng-options="s.name for s in model.regions[model.order.country.id]"
+								required>
+							</select>
+
+						</label>
+					</div>
+					<div class="large-3 columns">
+						<label>
+							City
+
+							<input type="text"
+								ng-model="model.order.city"
+								required>
+
+						</label>
+					</div>
+					<div class="large-3 columns">
+						<label>
+							Postal code
+
+							<input type="text"
+								ng-model="model.order.postcode"
+								required>
+
+						</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="large-12 columns">
+						<label>
+							Address line 1
+
+							<input type="text"
+								ng-model="model.order.address1"
+								required>
+
+						</label>
+					</div>
+				</div>
+
+				<div class="row">
+					<div class="large-12 columns">
+						<label>
+							Address line 2
+
+							<input type="text"
+								ng-model="model.order.address2">
+
+						</label>
+					</div>
+				</div>
+
+				<h4>
+					Payment
+				</h4>
+
+				<div class="row">
+					<div class="large-4 columns">
+						<label>
+							Credit Card number
+
+							<input type="text"
+								payment="formatCardNumber"
+								x-autocompletetype="cc-number"
+								placeholder="Card number"
+								ng-model="model.order.card.number"
+								card-type="model.order.card.type"
+								class="cc-number"
+								ng-class="{
+									'card-visa': model.order.card.type === 'visa'
+								}"
+								required>
+
+						</label>
+					</div>
+					<div class="large-4 columns">
+						<label>
+							Expiry date
+
+							<input type="text"
+								payment="formatCardExpiry"
+								x-autocompletetype="cc-exp"
+								placeholder="Expires MM/YY"
+								maxlength="9"
+								ng-model="model.order.card.exp"
+								required>
+
+						</label>
+					</div>
+					<div class="large-4 columns">
+						<label>
+							Security code
+
+							<input type="text"
+								x-autocompletetype="cc-csc"
+								placeholder="Security code"
+								maxlength="4"
+								autocomplete="off"
+								payment="formatCardCVC"
+								ng-model="model.order.card.csc"
+								card-number="order.card.number"
+								required>
+
+						</label>
+
+						<small class="cvc-help">
+							<img src="/images/creditcard-cvc.png">
+
+							The <strong>last 3 digits</strong> in the signature strip of your card.
+						</small>
+					</div>
+				</div>
+
+				<h4>
+					Shipping details
+				</h4>
+
+				<div class="row">
+					<div class="large-6 columns">
+
+						<input type="radio"
+							name="shipping-details"
+							value="same"
+							id="shipping-standard"
+							ng-model="model.order.shippingDetailsType"
+							selected>
+
+						<label for="shipping-standard">
+							Use same details as Billing
+						</label>
+
+					</div>
+					<div class="large-6 columns">
+
+						<input type="radio"
+							name="c"
+							value="custom"
+							id="shipping-custom"
+							ng-model="model.order.shippingDetailsType">
+
+						<label for="shipping-custom">
+							Use different details
+						</label>
+
+					</div>
+				</div>
+
+				<div class="shipping-details-extra"
+					ng-show="model.order.shippingDetailsCustom">
+
+					<div class="row">
+						<div class="large-6 columns">
+							<label>
+								Full name
+
+								<input type="text"
+									ng-model="model.shipping.name"
+									ng-required="model.order.shippingDetailsCustom">
+
+							</label>
+						</div>
+						<div class="large-6 columns">
+							<label>
+								Phone
+
+								<input type="text"
+									ng-model="model.shipping.phone"
+									ng-required="model.order.shippingDetailsCustom">
+
+							</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="large-3 columns">
+							<label>
+								Country
+
+								<select
+									ng-model="model.shipping.country"
+									ng-options="c.name for c in model.countries">
+								</select>
+
+							</label>
+
+							<small>We only ship to the US and Canada</small>
+
+						</div>
+						<div class="large-3 columns">
+							<label>
+								<span ng-show="model.shipping.country.id=='United States'">
+									State
+								</span>
+
+								<span ng-show="model.shipping.country.id=='Canada'">
+									Province
+								</span>
+
+								<select
+									ng-model="model.shipping.region"
+									ng-options="s.name for s in model.regions[model.shipping.country.id]">
+								</select>
+
+							</label>
+						</div>
+						<div class="large-3 columns">
+							<label>
+								City
+
+								<input type="text"
+									ng-model="model.shipping.city"
+									ng-required="model.order.shippingDetailsCustom">
+
+							</label>
+						</div>
+						<div class="large-3 columns">
+							<label>
+								Postal code
+
+								<input type="text"
+									ng-model="model.shipping.postcode"
+									ng-required="model.order.shippingDetailsCustom">
+
+							</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="large-12 columns">
+							<label>
+								Address line 1
+
+								<input type="text"
+									ng-model="model.shipping.address1"
+									ng-required="model.order.shippingDetailsCustom">
+
+							</label>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="large-12 columns">
+							<label>
+								Address line 2
+
+								<input type="text"
+									ng-model="model.shipping.address2">
+
+							</label>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="order-summary" ng-show="model.offers[model.order.selectedOffer]">
+
+					<h4>
+						Order summary
+					</h4>
+
+					<table>
+						<tbody>
+							<tr>
+								<td>
+									{{ model.offers[model.order.selectedOffer].title }}
+								</td>
+								<td>
+									<strong>
+										<span ng-bind="model.offers[model.order.selectedOffer].amount.currency"></span>
+										<span ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
+									</strong>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+
+				<button type="submit" class="button radius button-send" ng-disabled="!model.offers.length">
+					
+					<i class="fa fa-shopping-cart"></i>
+					Send Order
+					
+					<strong ng-show="model.offers[model.order.selectedOffer]">
+						- 
+						
+						<span ng-bind="model.offers[model.order.selectedOffer].amount.currency"></span>
+						<span ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
+					</strong>
+					
+				</button>
+				
+				<p class="printchomp-text">
+					Orders are processed by
+					<a href="https://www.printchomp.com/" target="_blank">Printchomp</a>
+				</p>
+				
+				<p class="privacy-agree">
+					By sending the order you agree to the 
+					
+					<a href="http://chompedia.printchomp.com/customer/portal/articles/711085-terms-of-service" target="_blank">
+						Printchomp Terms of Service
+					</a>
+					
+					and the
+					
+					<a href="/privacy.html" target="_blank">bizcardmaker.com</a>
+					and
+					
+					<a href="http://chompedia.printchomp.com/customer/portal/articles/711086-privacy-statement" target="_blank">Printchomp</a>
+					
+					privacy policies. 
+			</form>
+
+		</div>
+	</div>
+
+</div>

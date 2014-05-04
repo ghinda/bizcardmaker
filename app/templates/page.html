@@ -6,11 +6,18 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Business Card Maker: Free, fast and easy business cards in seconds, using high quality professional designs</title>
+	<title>
+		Business Card Maker &#8212;
+		{{#if title}}
+			{{ title }}
+		{{else}}
+			Free, fast and easy business cards in seconds, using high quality professional designs
+		{{/if}}
+	</title>
 	<meta name="description" content="Easily create your own business cards in seconds, for free, using high quality professional designs.">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+	<link href="//fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
 
 	<link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
 
@@ -66,6 +73,9 @@
 					<li>
 						<a href="/news.html">News</a>
 					</li>
+					<li>
+						<a href="/contact.html">Contact</a>
+					</li>
 				</ul>
 			</div>
 		</div>
@@ -76,7 +86,7 @@
 
 	<footer class="row">
 
-		<div class="large-7 columns">
+		<div class="large-9 columns">
 
 			<ul class="inline-list">
 				<li>
@@ -91,6 +101,17 @@
 				<li>
 					<a href="/news.html">News</a>
 				</li>
+				<li>
+					<a href="/privacy.html">Privacy Policy</a>
+				</li>
+				<li>
+					<a href="/contact.html">Contact</a>
+				</li>
+				<li>
+					<a href="https://twitter.com/bizcardmakercom" target="_blank" class="follow-button">
+						Follow @bizcardmakercom
+					</a>
+				</li>
 			</ul>
 
 			<p>
@@ -100,7 +121,7 @@
 
 		</div>
 
-		<div class="large-5 columns">
+		<div class="large-3 columns">
 
 			<p class="text-right chrome-app">
 
@@ -136,8 +157,7 @@
 	<script src="/bower_components/angular-touch/angular-touch.js"></script>
 	<script src="/bower_components/angular-route/angular-route.js"></script>
 	<script src="/bower_components/angular-meditor/dist/scripts/meditor.js"></script>
-	<script src="/bower_components/foundation/js/foundation/foundation.js"></script>
-	<script src="/bower_components/foundation/js/foundation/foundation.joyride.js"></script>
+
 	<script src="/bower_components/html2canvas/build/html2canvas.js"></script>
 	<script src="/bower_components/jspdf/dist/jspdf.source.js"></script>
 	<script src="/bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
@@ -148,6 +168,14 @@
 	<script src="/bower_components/classie/classie.js"></script>
 	<script src="/bower_components/get-size/get-size.js"></script>
 	<script src="/bower_components/draggabilly/draggabilly.js"></script>
+	<script src="/bower_components/momentjs/moment.js"></script>
+	<script src="/bower_components/jquery.payment/lib/jquery.payment.js"></script>
+
+	<script src="/bower_components/foundation/js/foundation/foundation.js"></script>
+	<script src="/bower_components/foundation/js/foundation/foundation.joyride.js"></script>
+	<script src="/bower_components/foundation/js/foundation/foundation.dropdown.js"></script>
+	<script src="/bower_components/foundation/js/foundation/foundation.reveal.js"></script>
+	<script src="/bower_components/jquery.cookie/jquery.cookie.js"></script>
 
 	<script src="/bower_components/analytics/analytics.js"></script>
 	<!-- endbuild -->
@@ -165,7 +193,10 @@
 	<!-- build:js({.tmp,app}) /scripts/app.js -->
 	<script src="/scripts/app.js"></script>
 	<script src="/scripts/directives/fileread.js"></script>
+	<script src="/scripts/directives/payment.js"></script>
 	<script src="/scripts/controllers/main.js"></script>
+	<script src="/scripts/controllers/order.js"></script>
+	<script src="/scripts/services/data.js"></script>
 	<!-- endbuild -->
 
 	<!-- build:js({.tmp,app}) /scripts/website.js -->

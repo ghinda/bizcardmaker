@@ -4,24 +4,44 @@
 (function() {
 	'use strict';
 
+	var $cardPage,
+		$printPromo,
+		$tour;
+
+	var init = function() {
+
+		$cardPage = $('.card-maker');
+		$printPromo = $('.print-promo');
+		$tour = $('.tutorial-tour');
+
+		$('.js-guide-btn').click(showGuide);
+
+	};
+
 	var showGuide = function() {
 		// check if card editor page
-		if($('.card-preview').length) {
-
-			$(document).foundation({
-				joyride: {
-					scroll_speed: 500
-				}
-			});
-
-			$(document).foundation('joyride', 'start');
+		if($cardPage.length) {
+			$tour.foundation('joyride', 'start');
 
 			return false;
 		}
 	};
 
-	$(document).ready(function() {
-		$('.js-guide-btn').click(showGuide);
+	// foundation properties
+	$(document).foundation({
+		joyride: {
+			scroll_speed: 500
+		}
 	});
 
+	$(document).ready(init);
+
 })();
+
+// print promo
+window.showPrintpromo = function() {
+	'use strict';
+
+	$('.print-promo').foundation('joyride', 'start');
+
+};

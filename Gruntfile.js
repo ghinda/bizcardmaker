@@ -61,16 +61,16 @@ module.exports = function (grunt) {
 					}
 				}
 			},
-			test: {
-				options: {
-					middleware: function (connect) {
-						return [
-							mountFolder(connect, '.tmp'),
-							mountFolder(connect, 'test')
-						];
-					}
-				}
-			},
+// 			test: {
+// 				options: {
+// 					middleware: function (connect) {
+// 						return [
+// 							mountFolder(connect, '.tmp'),
+// 							mountFolder(connect, 'test')
+// 						];
+// 					}
+// 				}
+// 			},
 			dist: {
 				options: {
 					middleware: function (connect) {
@@ -160,8 +160,17 @@ module.exports = function (grunt) {
 		usemin: {
 			html: ['<%= yeoman.dist %>/{,*/}*.html'],
 			css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+			js: ['<%= yeoman.dist %>/scripts/*.js'],
 			options: {
-				dirs: ['<%= yeoman.dist %>']
+				assetsDirs: [
+					'<%= yeoman.dist %>',
+					'<%= yeoman.dist %>/images'
+				],
+				patterns: {
+					js: [
+						[/(images\/.*?\.(?:gif|jpeg|jpg|png|webp|svg))/gm]
+					]
+				}
 			}
 		},
 		imagemin: {
@@ -188,6 +197,18 @@ module.exports = function (grunt) {
 			}
 		},
 		copy: {
+			dev: {
+				files: [{
+					expand: true,
+					dot: true,
+					cwd: '<%= yeoman.app %>/dev',
+					dest: '<%= yeoman.dist %>',
+					src: [
+						'CNAME',
+						'*.*'
+					]
+				}]
+			},
 			dist: {
 				files: [{
 					expand: true,
@@ -198,7 +219,8 @@ module.exports = function (grunt) {
 						'CNAME',
 						'*.*',
 						'bower_components/**/*',
-						'images/{,*/}*.{gif,webp,svg}',
+						//'images/{,*/}*.{gif,webp,svg}',
+						'images/{,*/}*.*',
 						'styles/fonts/*'
 					]
 				}, {
@@ -216,9 +238,9 @@ module.exports = function (grunt) {
 				'sass:server',
 				'assemble:server'
 			],
-			test: [
-				'sass'
-			],
+// 			test: [
+// 				'sass'
+// 			],
 			dist: [
 				'sass:dist',
 				'assemble:dist'
@@ -258,7 +280,19 @@ module.exports = function (grunt) {
 				push: true,
 				message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
 			},
-			pages: {
+			dev: {
+				options: {
+					remote: 'git@github.com:ghinda/bizcardmaker-dev.git',
+					branch: 'gh-pages'
+				}
+			},
+			stage: {
+				options: {
+					remote: 'git@github.com:ghinda/bizcardmaker-dev.git',
+					branch: 'master'
+				}
+			},
+			dist: {
 				options: {
 					remote: 'git@github.com:ghinda/bizcardmaker.git',
 					branch: 'gh-pages'
@@ -280,12 +314,12 @@ module.exports = function (grunt) {
 		]);
 	});
 
-	grunt.registerTask('test', [
-		'clean:server',
-		'concurrent:test',
-		'connect:test',
-		'karma'
-	]);
+// 	grunt.registerTask('test', [
+// 		'clean:server',
+// 		'concurrent:test',
+// 		'connect:test',
+// 		'karma'
+// 	]);
 
 	grunt.registerTask('build', [
 		'clean:dist',
@@ -294,7 +328,7 @@ module.exports = function (grunt) {
 		'htmlmin',
 		'useminPrepare',
 		'ngtemplates',
-		'copy',
+		'copy:dist',
 		'concat',
 		'ngmin',
 		'cssmin',
@@ -310,6 +344,13 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('deploy', [
-		'buildcontrol'
+		'default',
+		'buildcontrol:dist'
+	]);
+
+	grunt.registerTask('devdeploy', [
+		'copy:dev',
+		'buildcontrol:dev',
+		'buildcontrol:stage'
 	]);
 };
