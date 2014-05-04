@@ -76,9 +76,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 		if(!$scope.orderForm.$valid) {
 
 			// track analytics
-			analytics.track('Invalid order form', {
-				category: 'Orders'
-			});
+			ga('send', 'event', 'Orders', 'Invalid order form');
 
 			return false;
 		}
@@ -172,10 +170,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 				}, 5000);
 
 				// track analytics
-				analytics.track('Successful order', {
-					category: 'Orders',
-					label: orderData.offer.id
-				});
+				ga('send', 'event', 'Orders', 'Successful order', orderData.offer.id);
 
 			}, function(err) {
 
@@ -183,10 +178,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 				model.orderLoading = false;
 
 				// track analytics
-				analytics.track('Order error', {
-					category: 'Orders',
-					label: model.error
-				});
+				ga('send', 'event', 'Orders', 'Order error', model.error);
 
 			});
 

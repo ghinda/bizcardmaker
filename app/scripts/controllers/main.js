@@ -194,11 +194,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 			doc.save(model.pdfFilename);
 		});
 
-		// track analytics
-		analytics.track('Download PDF', {
-			category: 'Download',
-			label: model.themes[model.activeTheme].name
-		});
+		// track pdf download
+		ga('send', 'event', 'Download', 'Download PDF', model.themes[model.activeTheme].name);
 
 
 	};
@@ -222,10 +219,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 		});
 
 		// track analytics
-		analytics.track('Download picture', {
-			category: 'Download',
-			label: model.themes[model.activeTheme].name
-		});
+		ga('send', 'event', 'Download', 'Download picture', model.themes[model.activeTheme].name);
 
 	};
 
@@ -248,9 +242,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 		}
 
 		// track analytics
-		analytics.track('Begin order', {
-			category: 'Orders'
-		});
+		ga('send', 'event', 'Orders', 'Begin order');
+
 
 	};
 

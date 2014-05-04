@@ -17,8 +17,6 @@ var app = angular.module('businessCardMaker', [
 		redirectTo: '/?theme=0'
 	});
 
-	// start tracking
-	analytics.page();
 });
 
 app.run(function($rootScope){

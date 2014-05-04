@@ -22,7 +22,7 @@
 		"angular": false,
 		"$": false,
 		"jQuery": false,
-		"analytics": false,
+		"ga": false,
 		"jsPDF": false,
 		"saveAs": false,
 		"html2canvas": false,

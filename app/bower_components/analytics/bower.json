@@ -1,7 +1,0 @@
-{
-  "name": "analytics",
-  "version": "1.3.27",
-  "main": "analytics.js",
-  "dependencies": {},
-  "devDependencies": {}
-}
