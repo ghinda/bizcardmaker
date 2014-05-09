@@ -75,10 +75,22 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 		// make sure the form is valid
 		if(!$scope.orderForm.$valid) {
 
-			// track analytics
-			ga('send', 'event', 'Orders', 'Invalid order form');
+			// find the invalid field and focus it
+			var firstInvalid = angular.element('#orderForm .ng-invalid');
 
-			return false;
+			// get the field model
+			var fieldModel = firstInvalid.attr('ng-model');
+
+			// track analytics
+			ga('send', 'event', 'Orders', 'Invalid ' + fieldModel + ' order form field.');
+
+			// if we find one, set focus
+			if (firstInvalid[0]) {
+				firstInvalid[0].focus();
+			}
+
+			// prevent form submission
+			return event.preventDefault();
 		}
 
 		model.orderLoading = true;
