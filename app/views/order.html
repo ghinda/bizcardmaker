@@ -110,13 +110,14 @@
 
 							<input type="text"
 								ng-model="model.order.phone"
-								ng-minlength="4"
+								ng-minlength="7"
+								maxlength="32"
 								name="phone"
 								required>
 
 						</label>
 
-						<small class="error" ng-show="orderForm.phone.$invalid">Phone number must have at least 4 digits. </small>
+						<small class="error" ng-show="orderForm.phone.$invalid">Phone number must be between 7 and 32 characters long. </small>
 					</div>
 				</div>
 

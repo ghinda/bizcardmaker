@@ -41,9 +41,17 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 		return data.printchompUrl + url;
 	};
 
-	data.GetOffers().then(function(offers) {
-		model.offers = offers.offers;
-	});
+	var loadOffers = function() {
+		data.GetOffers().then(function(offers) {
+			model.offers = offers.offers;
+		}, function() {
+			// in case the api is down
+			// retry in 3s
+			$timeout(loadOffers, 3000);
+		});
+	};
+
+	loadOffers();
 
 	$scope.$watch('model.order.country', function() {
 		model.order.region = model.regions[model.order.country.id][0];
@@ -81,8 +89,10 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 			// get the field model
 			var fieldModel = firstInvalid.attr('ng-model');
 
+			var errorLabel = 'Invalid ' + fieldModel + ' order form field.';
+
 			// track analytics
-			ga('send', 'event', 'Orders', 'Invalid ' + fieldModel + ' order form field.');
+			ga('send', 'event', 'Orders', 'Invalid order form', errorLabel);
 
 			// if we find one, set focus
 			if (firstInvalid[0]) {
