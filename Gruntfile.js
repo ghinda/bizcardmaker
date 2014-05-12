@@ -349,8 +349,9 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('devdeploy', [
+		'default',
 		'copy:dev',
-		'buildcontrol:dev',
-		'buildcontrol:stage'
+		'buildcontrol:dev'
+		//'buildcontrol:stage'
 	]);
 };
