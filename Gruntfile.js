@@ -87,6 +87,7 @@ module.exports = function (grunt) {
 					expand: true,
 					cwd: '<%= yeoman.dist %>',
 					src: [
+						'.git',
 						'*'
 					]
 				}]
