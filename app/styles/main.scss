@@ -487,82 +487,105 @@ input.ng-invalid {
 	@include transform(translateX(-50%));
 }
 
-/* AB testing
+/* Download buttons
  */
 
-.index2,
-.index3,
-.index4 {
+.printchomp-text {
+	display: inline-block;
+	margin: emCalc(20) 0 0 emCalc(80);
 
-	.printchomp-text {
+	color: #479CAB;
+	font-size: emCalc(11);
+
+	a {
 		display: inline-block;
-		margin: emCalc(20) 0 0 emCalc(80);
+		width: 100px;
+		height: 33px;
+		margin-left: emCalc(8);
+		overflow: hidden;
+		background: url(../images/printchomp-logo.png);
 
-		color: #479CAB;
-		font-size: emCalc(11);
-
-		a {
-			display: inline-block;
-			width: 100px;
-			height: 33px;
-			margin-left: emCalc(8);
-			overflow: hidden;
-			background: url(../images/printchomp-logo.png);
-
-			text-indent: -100%;
-			vertical-align: middle;
-		}
+		text-indent: -100%;
+		vertical-align: middle;
 	}
-
 }
+
+.download-buttons > li .button {
+	border-radius: 5px !important;
+}
+
+.download-buttons > li:last-child {
+	width: 48%;
+	margin-left: 2%;
+
+	font-size: .8em;
+}
+
+$color-order-button: #27AE61;
+	
+.download-buttons .secondary {
+	background-color: $color-order-button;
+	box-shadow: inset 0 -2px 1px darken($color-order-button, 20%);
+	
+	&:hover {
+		background-color: lighten($color-order-button, 8%);
+	}
+	
+	&:focus,
+	&:active {
+		background-color: darken($color-order-button, 4%);
+	}
+	
+	&:active {
+		box-shadow: inset 0 2px 1px darken($color-order-button, 20%);
+	}
+}
+
+/* AB testing
+ */
 
 /* index2
  */
 
 .index2 {
 
-	.download-buttons .secondary {
-		background-color: #27AE61;
-
-		box-shadow: inset 0 -2px 1px darken(#27AE61, 20%);
+	.button.dropdown {
+		min-height: 0;
+		border: 0;
+		background-color: $grey;
+		box-shadow: none;
 	}
-
-}
-
-/* index3
- */
-
-.index3 {
-
-	.download-buttons > li .button {
-		border-radius: 5px !important;
+	
+	.download-buttons > li:first-child {
+		width: 60%;
 	}
 
 	.download-buttons > li:last-child {
-		width: 48%;
+		width: 38%;
 		margin-left: 2%;
 
-		font-size: .8em;
+		font-size: .7em;
 	}
-
-}
-
-/* index4
- */
-
-.index4 {
-
-	.download-buttons > li:first-child {
-		width: 42%;
-	}
-
-	.download-buttons > li:last-child {
-		width: 58%;
-
-		.button {
-			padding-right: emCalc(12);
+	
+	$color-order-button: $color1;
+	
+	.download-buttons .secondary {
+		background-color: $color-order-button;
+		box-shadow: inset 0 -2px 1px darken($color-order-button, 20%);
+		
+		&:hover {
+			background-color: lighten($color-order-button, 8%);
+		}
+		
+		&:focus,
+		&:active {
+			background-color: darken($color-order-button, 4%);
+		}
+		
+		&:active {
+			box-shadow: inset 0 2px 1px darken($color-order-button, 20%);
 		}
 	}
 
-
 }
+
