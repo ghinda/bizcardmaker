@@ -1,0 +1,213 @@
+---
+layout: page.html
+title: ''
+---
+
+<div class="card-maker index2" ng-app="businessCardMaker">
+	<div ng-class="{ 'card-small-screen': root.smallScreen }" ng-view></div>
+
+	<script type="text/ng-template" id="views/cardeditor.html">
+
+<section class="themes-box">
+
+	<div class="row">
+		<div class="large-12 columns">
+			<h2>Choose a design</h2>
+		</div>
+	</div>
+
+	<div class="themes-row" id="js-themes">
+
+		<a ng-href="#/?theme=\{{ $index }}" class="theme-item \{{ theme.name }}-thumb" ng-repeat="theme in model.themes" ng-class="{ active: $index == model.activeTheme }">
+			<div class="theme-preview-container">
+				<div class="theme-preview"></div>
+			</div>
+		</a>
+
+	</div>
+
+</section>
+
+<section class="card-editor">
+
+	<div class="row">
+
+		<div class="large-8 columns">
+
+			<h2>Customize your business card</h2>
+
+			<div class="card-edit-container">
+
+				<div class="card-container" ng-class="{ 'card-big': model.generatingCard, 'card-print': model.generatingPdf }" id="js-card-container">
+					<div class="card-preview \{{ model.themes[model.activeTheme].name }}">
+
+						<div class="card-content">
+
+							<input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
+
+							<div class="card-picture">
+								<div class="drag-handle"></div>
+
+								<label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
+
+									<i class="fa fa-picture-o"></i>
+									<span>Upload your logo</span>
+
+									<img ng-src="\{{ model.cardPicture }}">
+
+								</label>
+							</div>
+
+							<ul class="vcard">
+
+								<li class="person" meditor>
+									<div class="drag-handle"></div>
+
+									<p class="fn">
+										John Doe
+									</p>
+									<p class="title">
+										Position
+									</p>
+								</li>
+
+								<li class="details" meditor>
+									<div class="drag-handle"></div>
+
+									<p class="org">
+										Organization
+									</p>
+									<p>
+										<span class="locality">City</span>,
+										<span class="state">State</span>
+									</p>
+									<p class="tel">
+										(123) 555-1234
+									</p>
+								</li>
+
+								<li class="email" meditor>
+									<div class="drag-handle"></div>
+
+									<p>john.doe@cmail.com</p>
+								</li>
+
+								<li class="url" meditor>
+									<div class="drag-handle"></div>
+
+									<p>www.john-doe.com</p>
+								</li>
+							</ul>
+
+						</div>
+
+					</div>
+				</div>
+
+				<ul class="button-group download-buttons">
+					<li>
+
+						<button type="button" class="button secondary" id="js-order-button" ng-click="CopyCardDetails()" data-reveal-id="modal-order" data-reveal>
+							<i class="fa fa-shopping-cart"></i>
+							Print your card
+
+							<small>Get your business card printed and delivered to you at the best quality and price! </small>
+						</button>
+
+						<p class="printchomp-text">
+							Powered by
+							<a href="https://www.printchomp.com/" target="_blank">
+								Printchomp
+							</a>
+						</p>
+
+					</li>
+					<li>
+
+						<a data-dropdown="drop-downloads" class="button muted dropdown" id="js-download-button">
+							<i class="fa fa-arrow-circle-o-down"></i>
+							Download files
+						</a>
+
+						<ul id="drop-downloads" data-dropdown-content class="f-dropdown">
+							<li>
+								<a ng-click="DownloadPdf()">
+									<i class="fa fa-file-text"></i>
+									Download PDF
+									<small>For printing at home, or at your local printer. </small>
+								</a>
+							</li>
+							<li>
+								<a ng-click="DownloadPicture()">
+									<i class="fa fa-picture-o"></i>
+									Download picture
+
+									<small>For posting online or sharing with other people. </small>
+								</a>
+							</li>
+						</ul>
+
+					</li>
+				</ul>
+
+			</div>
+
+		</div>
+
+		<div class="large-4 columns">
+
+			<div class="instructions-block">
+				<p>
+					Simply click on any of the details on the card, to edit them.
+				</p>
+				<p>
+					Double click or select the text to change its style, size or font.
+				</p>
+				<p>
+					Drag elements around using the dotted borders that show up when placing the mouse over them.
+				</p>
+			</div>
+
+		</div>
+
+	</div>
+
+</section>
+
+<div ng-include="'views/order.html'"></div>
+
+
+
+	</script>
+
+</div>
+
+
+<div class="tutorial-tour">
+	<ol class="joyride-list" data-joyride data-options="cookie_monster: false;">
+		<li data-id="js-themes" data-text="Next">
+			<p>Select one of the available templates for your business card. </p>
+		</li>
+		<li data-id="js-card-container" data-text="Next">
+			<p>Edit all of the details on the business card by simply clicking on them. </p>
+			<p>You can also upload your own logo or picture, by clicking the picture icon. </p>
+		</li>
+		<li data-id="js-order-button" data-button="Next" data-options="tip_location: top">
+			<p>Once you're done editing, choose one of our high quality exclusive offers and have the cards delivered to you! </p>
+		</li>
+		<li data-id="js-download-button" data-button="Done" data-options="tip_location: top">
+			<p>You can also download the business card as JPEG or PDF, to use online or print yourself. </p>
+		</li>
+	</ol>
+</div>
+
+<div class="print-promo">
+	<ol class="joyride-list" data-joyride data-options="next_button: false; modal: true; expose: true; cookie_monster: true; cookie_name: 'print-promo'">
+		<li data-id="js-order-button">
+			<strong>New!</strong>
+			<p>We've partnered with <a href="https://www.printchomp.com/" target="_blank">Printchomp</a>, and now offer you exclusive deals on high-quality prints! </p>
+			<p>Check out our offers by clicking the <em>Order Cards</em> button above. </p>
+		</li>
+	</ol>
+</div>
+

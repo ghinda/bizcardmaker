@@ -30,11 +30,11 @@ $black: #333;
 	.card-picture:hover label {
 		color: $color;
 	}
-  
+
   .vcard >div {
     position: relative;
   }
-	.vcard .li:hover {
+	.vcard .card-item:hover {
 		background-color: rgba($color, .1);
 	}
 }
@@ -209,7 +209,7 @@ $black: #333;
 			line-height: 1.2em;
 		}
 
-		.li:hover {
+		.card-item:hover {
 			background-color: rgba($black, .1);
 		}
 	}
@@ -244,7 +244,7 @@ $black: #333;
 			line-height: 1.2em;
 		}
 
-		.li {
+		.card-item {
 			padding: emCalc(4);
 			background-color: $white;
 
@@ -346,7 +346,7 @@ $black: #333;
 			}
 		}
 
-		.li {
+		.card-item {
 			padding: emCalc(2) emCalc(8);
 		}
 
@@ -444,12 +444,12 @@ $black: #333;
 			line-height: 1.2em;
 		}
 
-		.li {
+		.card-item {
 			position: absolute;
 			display: block;
 		}
 
-		.li:hover {
+		.card-item:hover {
 			background-color: rgba($black, .1);
 		}
 	}
@@ -560,7 +560,7 @@ $black: #333;
 			line-height: .9em;
 		}
 
-		.li {
+		.card-item {
 			position: absolute;
 			display: block;
 		}

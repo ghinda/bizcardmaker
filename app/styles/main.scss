@@ -115,6 +115,14 @@ a {
 	}
 }
 
+.browsehappy {
+	margin: 0.2em 0;
+	background: #ccc;
+	padding: 0.2em 0;
+
+	color: #000;
+}
+
 /* Sections
  */
 header,
@@ -203,9 +211,9 @@ footer {
 	p {
 		font-size: .8em;
 	}
-	
+
 	.follow-button {
-		
+
 	}
 }
 
@@ -250,13 +258,13 @@ footer {
 	form small {
 		display: block;
 		margin: emCalc(-12) 0 emCalc(20) 0;
-		
+
 		line-height: 1.4em;
 	}
-	
+
 	.cvc-help {
 		overflow: hidden;
-		
+
 		img {
 			float: right;
 			margin-left: emCalc(12);
@@ -267,29 +275,29 @@ footer {
 		max-width: 100%;
 		margin: 0 emCalc(-12);
 	}
-	
+
 	.alert-box {
 		p {
 			margin: 0;
 		}
 	}
-	
+
 	.privacy-agree {
 		font-size: emCalc(12);
 		color: darken($grey, 30%);
 	}
-	
+
 	.button-send {
 		margin-bottom: emCalc(32);
 	}
-	
+
 	.printchomp-text {
 		display: inline-block;
 		margin: 0 0 0 emCalc(20);
-		
+
 		color: #479CAB;
 		font-size: emCalc(14);
-		
+
 		a {
 			display: inline-block;
 			width: 100px;
@@ -297,7 +305,7 @@ footer {
 			margin-left: emCalc(8);
 			overflow: hidden;
 			background: url(../images/printchomp-logo.png);
-			
+
 			text-indent: -100%;
 			vertical-align: middle;
 		}
@@ -328,48 +336,56 @@ footer {
 		padding: emCalc(12) emCalc(12) emCalc(12) emCalc(40);
 		margin: 0 0 2% 0;
 		border: 1px solid transparent;
-		
+
 		input {
 			position: absolute;
 			top: 50%;
 			left: emCalc(12);
 		}
-		
+
 		h3 {
 			margin-bottom: emCalc(8);
-			
+
 			color: $color1;
 			font-size: emCalc(20);
 			line-height: 1.2em;
 		}
-		
+
 		.description {
 			overflow: hidden;
 			margin-bottom: emCalc(8);
-			
+
 			font-size: emCalc(14);
 			line-height: 1.4em;
 		}
-		
+
 		.icon {
 			float: left;
 			margin-right: emCalc(8);
 			width: emCalc(80);
 		}
-		
+
 		.price {
 			margin: 0;
-			
+
 			font-size: emCalc(14);
 			font-weight: bold;
 			text-align: right;
 		}
+
+		.details {
+			margin: 0;
+
+			font-size: emCalc(14);
+			font-style: italic;
+			text-align: right;
+		}
 	}
-	
+
 	.active {
 		background-color: lighten($color1, 16%);
 		color: $white;
-		
+
 		h3 {
 			color: $white;
 		}
@@ -393,9 +409,11 @@ footer {
 		thead th {
 			color: darken($grey, 40%);
 		}
-		
+
 		td:last-child {
-			width: emCalc(100);
+			width: emCalc(120);
+
+			text-align: right;
 		}
 	}
 }
@@ -410,11 +428,13 @@ footer {
 	display: block;
 	width: 100%;
 	height: 100%;
-	
-	font-size: emCalc(32);
+	padding-top: emCalc(300);
+
 	text-align: center;
-	vertical-align: middle;
-	line-height: emCalc(400);
+
+	h2 {
+		font-size: emCalc(32);
+	}
 }
 
 .order-loading {
@@ -423,8 +443,11 @@ footer {
 
 .order-success {
 	background-color: rgba(#1d9d74, .95);
-	
-	color: #fff;
+
+	h2,
+	p {
+		color: #fff;
+	}
 }
 
 /* Form Validation
@@ -434,7 +457,7 @@ footer {
  */
 body input.cc-number {
 	padding-left: 20px;
-	
+
 	background-repeat: no-repeat !important;
 	background-position: -12px center !important;
 }
@@ -454,3 +477,115 @@ body input.cc-number {
 input.ng-invalid {
 	border: 1px solid #c0392b !important;
 }
+
+/* Improve Foundation modals
+ */
+.reveal-modal {
+	max-width: emCalc(1200);
+	margin-left: 0;
+
+	@include transform(translateX(-50%));
+}
+
+/* Download buttons
+ */
+
+.printchomp-text {
+	display: inline-block;
+	margin: emCalc(20) 0 0 emCalc(80);
+
+	color: #479CAB;
+	font-size: emCalc(11);
+
+	a {
+		display: inline-block;
+		width: 100px;
+		height: 33px;
+		margin-left: emCalc(8);
+		overflow: hidden;
+		background: url(../images/printchomp-logo.png);
+
+		text-indent: -100%;
+		vertical-align: middle;
+	}
+}
+
+.download-buttons > li .button {
+	border-radius: 5px !important;
+}
+
+.download-buttons > li:last-child {
+	width: 48%;
+	margin-left: 2%;
+
+	font-size: .8em;
+}
+
+$color-order-button: #27AE61;
+	
+.download-buttons .secondary {
+	background-color: $color-order-button;
+	box-shadow: inset 0 -2px 1px darken($color-order-button, 20%);
+	
+	&:hover {
+		background-color: lighten($color-order-button, 8%);
+	}
+	
+	&:focus,
+	&:active {
+		background-color: darken($color-order-button, 4%);
+	}
+	
+	&:active {
+		box-shadow: inset 0 2px 1px darken($color-order-button, 20%);
+	}
+}
+
+/* AB testing
+ */
+
+/* index2
+ */
+
+.index2 {
+
+	.button.dropdown {
+		min-height: 0;
+		border: 0;
+		background-color: $grey;
+		box-shadow: none;
+	}
+	
+	.download-buttons > li:first-child {
+		width: 60%;
+	}
+
+	.download-buttons > li:last-child {
+		width: 38%;
+		margin-left: 2%;
+
+		font-size: .7em;
+	}
+	
+	$color-order-button: $color1;
+	
+	.download-buttons .secondary {
+		background-color: $color-order-button;
+		box-shadow: inset 0 -2px 1px darken($color-order-button, 20%);
+		
+		&:hover {
+			background-color: lighten($color-order-button, 8%);
+		}
+		
+		&:focus,
+		&:active {
+			background-color: darken($color-order-button, 4%);
+		}
+		
+		&:active {
+			box-shadow: inset 0 2px 1px darken($color-order-button, 20%);
+		}
+	}
+
+}
+

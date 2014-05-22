@@ -87,6 +87,7 @@ module.exports = function (grunt) {
 					expand: true,
 					cwd: '<%= yeoman.dist %>',
 					src: [
+						'.git',
 						'*'
 					]
 				}]
@@ -151,7 +152,7 @@ module.exports = function (grunt) {
 		},
 		useminPrepare: {
 			html: [
-				'<%= yeoman.app %>/{,*/}*.{html,hbs}'
+				'<%= yeoman.dist %>/{,*/}*.{html,hbs}'
 			],
 			options: {
 				dest: '<%= yeoman.dist %>'
@@ -280,10 +281,16 @@ module.exports = function (grunt) {
 				push: true,
 				message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
 			},
-			dev: {
+			stage: {
 				options: {
 					remote: 'git@github.com:ghinda/bizcardmaker-dev.git',
 					branch: 'gh-pages'
+				}
+			},
+			dev: {
+				options: {
+					remote: 'git@github.com:ghinda/bizcardmaker-dev.git',
+					branch: 'master'
 				}
 			},
 			dist: {
@@ -343,7 +350,9 @@ module.exports = function (grunt) {
 	]);
 
 	grunt.registerTask('devdeploy', [
+		'default',
 		'copy:dev',
-		'buildcontrol:dev'
+		'buildcontrol:dev',
+		'buildcontrol:stage'
 	]);
 };

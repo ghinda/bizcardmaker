@@ -39,11 +39,19 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
 	$scope.ImageUrl = function(url) {
 		return data.printchompUrl + url;
-	}
+	};
 
-	data.GetOffers().then(function(offers) {
-		model.offers = offers.offers;
-	});
+	var loadOffers = function() {
+		data.GetOffers().then(function(offers) {
+			model.offers = offers.offers;
+		}, function() {
+			// in case the api is down
+			// retry in 3s
+			$timeout(loadOffers, 3000);
+		});
+	};
+
+	loadOffers();
 
 	$scope.$watch('model.order.country', function() {
 		model.order.region = model.regions[model.order.country.id][0];
@@ -61,19 +69,41 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 		}
 	});
 
-	// only for testing
-	model.order.postcode = '35801';
-	model.order.address1 = 'H';
-	model.order.card.number = '4030000010001234';
-	model.order.card.exp = '6 / 2016';
-	model.order.card.csc = '123';
+	// local testing
+	if(data.env === 'local') {
+		model.order.postcode = '35801';
+		model.order.address1 = 'H';
+		model.order.card.number = '4030000010001234';
+		model.order.card.exp = '6 / 2016';
+		model.order.card.csc = '123';
+	}
 
 	$scope.SendOrder = function(event) {
 
 		// make sure the form is valid
 		if(!$scope.orderForm.$valid) {
-			return false;
+
+			// find the invalid field and focus it
+			var firstInvalid = angular.element('#orderForm .ng-invalid');
+
+			// get the field model
+			var fieldModel = firstInvalid.attr('ng-model');
+
+			var errorLabel = 'Invalid ' + fieldModel + ' order form field.';
+
+			// track analytics
+			ga('send', 'event', 'Orders', 'Invalid order form', errorLabel);
+
+			// if we find one, set focus
+			if (firstInvalid[0]) {
+				firstInvalid[0].focus();
+			}
+
+			// prevent form submission
+			return event.preventDefault();
 		}
+
+		model.orderLoading = true;
 
 		var orderData = {};
 
@@ -118,6 +148,12 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 			var exp = model.order.card.exp.replace(/ /g, '').split('/');
 			orderData.billing.credit_card.expiry = {};
 			orderData.billing.credit_card.expiry.month = exp[0];
+
+			// if year is only two digits, prepend 20
+			if(exp[1].length === 2) {
+				exp[1] = '20' + exp[1];
+			}
+
 			orderData.billing.credit_card.expiry.year = exp[1];
 
 			// shipping details
@@ -143,11 +179,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
 			}
 
-			model.orderLoading = true;
-
-			data.SendOrder(orderData).then(function(response) {
-
-				console.log('success', response);
+			data.SendOrder(orderData).then(function() {
 
 				model.orderLoading = false;
 
@@ -159,12 +191,16 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 					$('#modal-order').foundation('reveal', 'close');
 				}, 5000);
 
-			}, function(err) {
+				// track analytics
+				ga('send', 'event', 'Orders', 'Successful order', orderData.offer.id);
 
-				console.log('error', err);
+			}, function(err) {
 
 				model.error = err.error || 'Please try again later.';
 				model.orderLoading = false;
+
+				// track analytics
+				ga('send', 'event', 'Orders', 'Order error', model.error);
 
 			});
 

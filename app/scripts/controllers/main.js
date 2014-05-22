@@ -1,43 +1,44 @@
-app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
+app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
 	'use strict';
-  
-  var dragModel = $scope.dragModel = {
-    cardPicture: {
-      position: {
-        x: 0,
-        y: 0
-      },
-      description: ''
-    },
-    person: {
-      position: {
-        x: 0,
-        y: 0
-      },
-      description: ''
-    },
-    details: {
-      position: {
-        x: 0,
-        y: 0
-      },
-      description: ''
-    },
-    email: {
-      position: {
-        x: 0,
-        y: 0
-      },
-      description: ''
-    },
-    url: {
-      position: {
-        x: 0,
-        y: 0
-      },
-      description: ''
-    }
-  };
+
+	var dragModel = $scope.dragModel = {
+	cardPicture: {
+		position: {
+		x: 0,
+		y: 0
+		},
+		description: ''
+	},
+	person: {
+		position: {
+		x: 0,
+		y: 0
+		},
+		description: ''
+	},
+	details: {
+		position: {
+		x: 0,
+		y: 0
+		},
+		description: ''
+	},
+	email: {
+		position: {
+		x: 0,
+		y: 0
+		},
+		description: ''
+	},
+	url: {
+		position: {
+		x: 0,
+		y: 0
+		},
+		description: ''
+	}
+	};
+
 	var model = $scope.model = [];
 
 	model.cardPictureFile = '';
@@ -231,11 +232,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 			doc.save(model.pdfFilename);
 		});
 
-		// track analytics
-		analytics.track('Download PDF', {
-			category: 'Download',
-			label: model.themes[model.activeTheme].name
-		});
+		// track pdf download
+		ga('send', 'event', 'Download', 'Download PDF', model.themes[model.activeTheme].name);
 
 
 	};
@@ -252,15 +250,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 					// FileSaver is included in jsPdf
 					saveAs(blob, model.imageFilename);
 
-					// TODO just for testing
-					var imgData = canvas.toDataURL('image/jpeg', 1.0);
-
-					data.SendOrder({
-						image: imgData
-					}).then(function(resp) {
-						console.log(resp);
-					});
-
 				},
 				'image/jpeg'
 			);
@@ -268,10 +257,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 		});
 
 		// track analytics
-		analytics.track('Download picture', {
-			category: 'Download',
-			label: model.themes[model.activeTheme].name
-		});
+		ga('send', 'event', 'Download', 'Download picture', model.themes[model.activeTheme].name);
 
 	};
 
@@ -292,6 +278,10 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
 			model.openedModal = true;
 		}
+
+		// track analytics
+		ga('send', 'event', 'Orders', 'Begin order');
+
 
 	};
 
@@ -329,16 +319,19 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 		// 			$(li).removeClass('drag-handle-show');
 		// 		});
 
-
 		// 	}, 1000);
 		// });
-		
-    // show the print promo in 1s after loading
+
+		// show the print promo in 1s after loading
 		$timeout(function() {
+
 			// be safe
-			if(showPrintpromo) {
-				showPrintpromo();
+			if(window.showPrintpromo) {
+				window.showPrintpromo();
 			}
-		});
+
+		}, 1000);
+
 	});
+
 });

@@ -9,10 +9,20 @@ classie.remove( element, 'my-unwanted-class' ) // remove class
 classie.toggle( element, 'my-class' ) // toggle class
 ```
 
-## Bower
+## Package management
 
-This script is a [Bower](https://github.com/twitter/bower) component.
+Install with [Bower](http://bower.io) :bird:
 
 ``` bash
-bower install desandro/classie
+bower install classie
 ```
+
+Install with [Component](http://github.com/component/component)
+
+``` bash
+component install desandro/classie
+```
+
+## MIT license
+
+classie is released under the [MIT license](http://desandro.mit-license.org).

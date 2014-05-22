@@ -35,8 +35,8 @@
 
 							<input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
 
-							<div class="card-picture" 
-                  drag 
+							<div class="card-picture"
+                  drag
                   drag-container=".card-content"
                   drag-model="dragModel.cardPicture">
 								<label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
@@ -50,11 +50,11 @@
 							</div>
 							<div class="vcard">
                 <div
-                  drag 
+                  drag
                   drag-container=".card-content"
                   drag-model="dragModel.person">
-                  
-                  <div class="li person" meditor>
+
+                  <div class="card-item person" meditor>
   									<p class="fn">
   										John Doe
   									</p>
@@ -65,10 +65,11 @@
                 </div>
 
                 <div
-                  drag 
+                  drag
                   drag-container=".card-content"
                   drag-model="dragModel.details">
-                  <div class="li details" meditor>
+                  
+                  <div class="card-item details" meditor>
   									<p class="org">
   										Organization
   									</p>
@@ -80,22 +81,23 @@
   										(123) 555-1234
   									</p>
   								</div>
+
                 </div>
 
                 <div
-                  drag 
+                  drag
                   drag-container=".card-content"
                   drag-model="dragModel.email">
-  								<div class="li email" meditor>
+  								<div class="card-item email" meditor>
   									<p>john.doe@cmail.com</p>
   								</div>
                 </div>
 
                 <div
-                  drag 
+                  drag
                   drag-container=".card-content"
                   drag-model="dragModel.url">
-  								<div class="li url" meditor>
+  								<div class="card-item url" meditor>
   									<p>www.john-doe.com</p>
   								</div>
                 </div>
@@ -106,6 +108,23 @@
 				</div> <!-- .card-container -->
 
 				<ul class="button-group download-buttons">
+					<li>
+
+						<button type="button" class="button secondary" id="js-order-button" ng-click="CopyCardDetails()" data-reveal-id="modal-order" data-reveal>
+							<i class="fa fa-shopping-cart"></i>
+							Print your card
+
+							<small>Get your business card printed and delivered to you at the best quality and price! </small>
+						</button>
+
+						<p class="printchomp-text">
+							Powered by
+							<a href="https://www.printchomp.com/" target="_blank">
+								Printchomp
+							</a>
+						</p>
+
+					</li>
 					<li>
 
 						<a data-dropdown="drop-downloads" class="button muted dropdown" id="js-download-button">
@@ -133,21 +152,7 @@
 						</ul>
 
 					</li>
-					<li>
-
-						<button type="button" class="button secondary" id="js-order-button" ng-click="CopyCardDetails()" data-reveal-id="modal-order" data-reveal>
-							<i class="fa fa-shopping-cart"></i>
-							Order Cards
-
-							<small>Get professional prints at the best quality and prices. </small>
-						</button>
-
-					</li>
 				</ul>
-
-				<p class="region-notice">
-					Ordering cards is only available in the USA and Canada.
-				</p>
 
 			</div>
 

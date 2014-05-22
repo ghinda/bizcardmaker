@@ -142,7 +142,8 @@ $card-border: 1px solid darken($white, 10%);
  */
 .card-container.card-big {
 	position: relative;
-	z-index: 999;
+/* 	z-index: 999; */
+	z-index: 10;
 	border-width: 0;
 	pointer-events: none;
 
@@ -230,11 +231,6 @@ $color-handle: desaturate($color1, 60%);
 
 	}
 
-	&:hover {
-		.drag-handle {
-			border-color: $color-handle;
-		}
-	}
 }
 
 /* Vcard defaults
@@ -274,20 +270,18 @@ $color-handle: desaturate($color1, 60%);
 		text-decoration: none;
 	}
 
-	li,
-	li p {
+	.card-item,
+	.card-item p {
 		position: relative;
 	}
 
-	li:hover {
+	.card-item:hover {
 		background-color: rgba($color1, .3);
-
-		.drag-handle {
-			border-color: $color-handle;
-		}
 	}
 }
 
+/* Drag
+ */
 .drag-handle {
 	position: absolute;
 	top: 0;
@@ -315,6 +309,19 @@ $color-handle: desaturate($color1, 60%);
 	}
 }
 
+.drag-container {
+
+  > div {
+    position: relative;
+  }
+
+  &:hover .drag-handle {
+    border-color: $color-handle;
+  }
+}
+
+/* Download buttons
+ */
 .download-buttons {
 	margin-bottom: emCalc(15);
 
@@ -324,11 +331,13 @@ $color-handle: desaturate($color1, 60%);
 
 	.button {
 		width: 100%;
+		min-height: emCalc(72);
 		margin: 0;
 		border: 0;
 
 		font-size: 1.1em;
 		text-align: left;
+		vertical-align: top;
 	}
 
 	li:first-child .button {
