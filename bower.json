@@ -5,7 +5,7 @@
 		"angular": "~1.2.x",
 		"angular-route": "~1.2.x",
 		"angular-touch": "~1.2.x",
-		"angular-meditor": "~0",
+		"angular-meditor": "~1.x.x",
 		"jquery": "~2.x",
 		"foundation": "~5.x",
 		"font-awesome": "~4.x",
@@ -13,7 +13,6 @@
 		"html2canvas": "~0.x",
 		"jspdf": "*",
 		"blueimp-canvas-to-blob": "~2.x",
-		"draggabilly": "~1.0",
 		"momentjs": "~2.5.1",
 		"jquery.payment": "~1.0.2"
 	},

@@ -77,7 +77,7 @@ cards = [
       type: 'visa'
       pattern: /^4/
       format: defaultFormat
-      length: [13..16]
+      length: [13, 16]
       cvcLength: [3]
       luhn: true
   }
@@ -293,6 +293,8 @@ restrictCVC = (e) ->
   $target = $(e.currentTarget)
   digit   = String.fromCharCode(e.which)
   return unless /^\d+$/.test(digit)
+
+  return if hasTextSelected($target)
 
   val     = $target.val() + digit
   val.length <= 4

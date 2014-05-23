@@ -3,10 +3,8 @@
  * @return {[type]} [description]
  */
 var jsPDFEditor = function() {
-	
-	var editor;
 
-	var demos = {
+	var editor,demos = {
 		'images.js': 'Images',
 		'font-faces.js': 'Font faces',
 		'from-html.js': 'HTML Renderer (Early stages)',
@@ -20,27 +18,26 @@ var jsPDFEditor = function() {
 		'string-splitting.js': 'String Splitting',
 		'text-colors.js': 'Text colors',
 		'triangles.js': 'Triangles',
-		'user-input.js': 'User input'
+		'user-input.js': 'User input',
+		'html2canvas.js': '** NEW: addHTML()'
 	};
 
 	var aceEditor = function() {
 		editor = ace.edit("editor");
-		editor.setTheme("ace/theme/twilight");
+		// editor.setTheme("ace/theme/twilight");
 		//editor.setTheme("ace/theme/ambiance");
+		editor.setTheme("ace/theme/github");
 		editor.getSession().setMode("ace/mode/javascript");
-		
-		var timeout = setTimeout(function(){ }, 0);
 
+		var timeout;
 		editor.getSession().on('change', function() {
 			// Hacky workaround to disable auto refresh on user input
 			if ($('#auto-refresh').is(':checked') && $('#template').val() != 'user-input.js') {
-				clearTimeout(timeout);
+				if(timeout) clearTimeout(timeout);
 				timeout = setTimeout(function() {
 					jsPDFEditor.update();
-
 				}, 200);
 			}
-
 		});
 	};
 
@@ -50,7 +47,6 @@ var jsPDFEditor = function() {
 			options += '<option value="' + demo + '">' + demos[demo] + '</option>';
 		}
 		$('#template').html(options).on('change', loadSelectedFile);
-
 	};
 
 	var loadSelectedFile = function() {
@@ -63,7 +59,6 @@ var jsPDFEditor = function() {
 			$('.controls .alert').hide();
 		}
 
-
 		$.get('examples/js/' + $('#template').val(), function(response) {
 			editor.setValue(response);
 			editor.gotoLine(0);
@@ -73,7 +68,7 @@ var jsPDFEditor = function() {
 				jsPDFEditor.update();
 			}
 
-		}).error(function() {
+		}, 'text').error(function() {
 
 			$('.template-picker').html('<p class="source">More examples in <b>examples/js/</b>. We can\'t load them in automatically because of local filesystem security precautions.</p>');
 
@@ -85,8 +80,8 @@ var jsPDFEditor = function() {
 			source += "var doc = new jsPDF();\n";
 			source += "\n";
 			source += "doc.setFontSize(40);\n";
-			source += "doc.text(40, 20, \"Octocat loves jsPDF\");\n";
-			source += "doc.addImage(imgData, 'JPEG', 10, 40, 180, 180);\n";
+			source += "doc.text(40, 30, \"Octocat loves jsPDF\", 4);\n";
+			source += "doc.addImage(imgData, 10, 40, 180, 180);\n";
 			editor.setValue(source);
 			editor.gotoLine(0);
 		});
@@ -149,9 +144,9 @@ var jsPDFEditor = function() {
 		update: function(skipEval) {
 			setTimeout(function() {
 				if (! skipEval) {
-					eval(editor.getValue());
+					eval('try{' + editor.getValue() + '} catch(e) { console.error(e.message,e.stack,e); }');
 				}
-				if (doc !== undefined) {
+				if (typeof doc !== 'undefined') {
 					var string = doc.output('datauristring');
 					$('.preview-pane').attr('src', string);
 				}
