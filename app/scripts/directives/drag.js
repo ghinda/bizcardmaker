@@ -19,26 +19,33 @@ app.directive('drag', function ($document, $timeout) {
       var $body = angular.element('body');
       var $container = $body;
 
+      if(scope.dragContainer) {
+        $container = angular.element(scope.dragContainer);
+      };
+
+      var $dragHandle = element.find('.drag-handle');
+
       var transformPrefixes = [
         'webkitTransform',
         'msTransform',
         'transform'
       ];
 
-      if(scope.dragContainer) {
-        $container = angular.element(scope.dragContainer);
-      };
+      var startX = 0;
+      var startY = 0;
+      var x = 0;
+      var y = 0;
 
-      var startX = 0, startY = 0, x = 0, y = 0;
-      var minX = 0, maxX = 0, minY = 0, maxY = 0;
+      var minX = 0;
+      var maxX = 0;
+      var minY = 0;
+      var maxY = 0;
 
-      var dragSize,
-        containerSize,
-        dragStartY,
-        dragStartX,
-        dragActive = false;
-
-      var $dragHandle = element.find('.drag-handle');
+      var dragSize;
+      var containerSize;
+      var dragStartY;
+      var dragStartX;
+      var dragActive = false;
 
       var grid = 10;
 
@@ -202,12 +209,13 @@ app.directive('drag', function ($document, $timeout) {
 
       $dragHandle.on('mousedown', mousedown);
 
-      $body[0].addEventListener('mousemove', mousemove);
-      $body[0].addEventListener('mouseup', mouseup);
+      document.addEventListener('mousemove', mousemove);
+      document.addEventListener('mouseup', mouseup);
 
+      // don't scroll when moving to the window sides
       window.addEventListener('scroll', disableScroll);
 
-      // hack to wait for dom render
+      // hack to wait for complete dom render
       $timeout(function () {
 
         dragSize = getElementSize($dragHandle);
