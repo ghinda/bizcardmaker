@@ -114,7 +114,7 @@ $card-border: 1px solid darken($white, 10%);
 	font-size: 1.75em;
 }
 
-// padding 0.25 in for bleed
+// padding 0.25 in for bleed and safe zone (.125 + .125)
 .card-preview {
 	position: relative;
 	width: 100%;
@@ -132,10 +132,13 @@ $card-border: 1px solid darken($white, 10%);
 }
 
 .card-content {
-	position: relative;
-	display: block;
-	width: 100%;
-	height: 100%;
+  overflow: hidden;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  border: 1px solid red;
 }
 
 /* Enlarged card for high-quality generation
@@ -301,23 +304,20 @@ $color-handle: desaturate($color1, 60%);
 
 	@include transition(all .1s ease-in-out);
 	@include transition-delay(0.5s);
-
-	&:hover,
-	.drag-handle-show {
-		border-color: $color1;
-		@include transition-delay(0s);
-	}
 }
 
-.drag-container {
+.drag-handle-show .drag-handle,
+.drag-container:hover .drag-handle {
+  border-color: $color-handle;
+  @include transition-delay(0s);
+}
 
-  > div {
-    position: relative;
-  }
-
-  &:hover .drag-handle {
-    border-color: $color-handle;
-  }
+.drag-active {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 /* Download buttons

@@ -1,45 +1,27 @@
 app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
 	'use strict';
 
-	var dragModel = $scope.dragModel = {
-	cardPicture: {
-		position: {
-		x: 0,
-		y: 0
-		},
-		description: ''
-	},
-	person: {
-		position: {
-		x: 0,
-		y: 0
-		},
-		description: ''
-	},
-	details: {
-		position: {
-		x: 0,
-		y: 0
-		},
-		description: ''
-	},
-	email: {
-		position: {
-		x: 0,
-		y: 0
-		},
-		description: ''
-	},
-	url: {
-		position: {
-		x: 0,
-		y: 0
-		},
-		description: ''
-	}
-	};
+	var model = $scope.model = {};
 
-	var model = $scope.model = [];
+  model.picture = {
+    position: {}
+  };
+
+  model.person = {
+    position: {}
+  };
+
+  model.details = {
+    position: {}
+  };
+
+  model.email = {
+    position: {}
+  };
+
+  model.url = {
+    position: {}
+  };
 
 	model.cardPictureFile = '';
 	model.cardPicture = '';
@@ -154,7 +136,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 		});
 
 		// fix dragged possitions
-		var lists = container.querySelectorAll('li[style]'),
+		var lists = container.querySelectorAll('.card-item[style]'),
 			picture = container.querySelector('.card-picture[style]');
 
 		angular.forEach(lists, function(li) {
@@ -291,10 +273,10 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 		$(document).foundation();
 
 		// extremely hacky way to implement dragging
-		var $preview = $('.card-preview'),
-			$containment = $('.card-content', $preview).get(0),
-			$picture = $preview.find('.card-picture'),
-			$li = $preview.find('li');
+// 		var $preview = $('.card-preview'),
+// 			$containment = $('.card-content', $preview).get(0),
+// 			$picture = $preview.find('.card-picture'),
+// 			$li = $preview.find('li');
 
 		// new Draggabilly($picture.get(0), {
 		// 	containment: $containment,
@@ -331,6 +313,13 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 			}
 
 		}, 1000);
+
+    // hack to prevent automatic scrolling from contenteditable
+    var $cardContent = document.querySelector('.card-content');
+    $cardContent.addEventListener('scroll', function(event) {
+      $cardContent.scrollTop = 0;
+      $cardContent.scrollLeft = 0;
+    });
 
 	});
 
