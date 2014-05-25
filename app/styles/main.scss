@@ -568,10 +568,27 @@ input.ng-invalid {
   .button.dropdown {
     background-color: transparent;
 
-    color: $color1;
+    span,
+    .fa {
+      color: $color1 !important;
+    }
 
-    &:hover {
+    span {
       text-decoration: underline;
+    }
+
+    .fa {
+      text-decoration: none;
+    }
+
+    &:hover span {
+      color: lighten($color1, 10%);
+
+      text-decoration: none;
+    }
+
+    &:before {
+      display: none;
     }
   }
 
