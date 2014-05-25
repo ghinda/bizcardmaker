@@ -565,6 +565,14 @@ input.ng-invalid {
 
 .index2 {
 
-  
+  .button.dropdown {
+    background-color: transparent;
+
+    color: $color1;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 
 }
