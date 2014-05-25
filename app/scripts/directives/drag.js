@@ -21,7 +21,7 @@ app.directive('drag', function ($document, $timeout) {
 
       if(scope.dragContainer) {
         $container = angular.element(scope.dragContainer);
-      };
+      }
 
       var $dragHandle = element.find('.drag-handle');
 
@@ -75,12 +75,12 @@ app.directive('drag', function ($document, $timeout) {
         return {
           width: elem.width(),
           height: elem.height()
-        }
+        };
       };
 
       var restrictGrid = function (val) {
-        return (val % grid == 0) ? val : val - val%grid;
-      }
+        return (val % grid === 0) ? val : val - val % grid;
+      };
 
       var maxGrid = function (val) {
         return Math.floor(val/grid) * grid;
