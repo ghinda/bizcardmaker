@@ -33,7 +33,7 @@
   "_resolution": {
     "type": "version",
     "tag": "v1.1.1",
-    "commit": "5e9354ce39bf7cb92992a4a783406f2eb93f5618"
+    "commit": "9f8fa1112b9e8fd05660e616deb88929151fa8d0"
   },
   "_source": "git://github.com/ghinda/angular-meditor.git",
   "_target": "~1.x.x",
