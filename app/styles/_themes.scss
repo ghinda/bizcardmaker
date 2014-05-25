@@ -1,573 +1,573 @@
 /* Themes
- */
+*/
 
 /* Custom gradient for html2canvas support
- */
+*/
 @mixin custom-gradient($pos, $gradients...) {
-	$prefixes: webkit, moz, ms, o;
-	@each $prefix in $prefixes {
-		background-image: -#{$prefix}-linear-gradient($pos, $gradients);
-	}
+  $prefixes: webkit, moz, ms, o;
+  @each $prefix in $prefixes {
+    background-image: -#{$prefix}-linear-gradient($pos, $gradients);
+  }
 }
 
 /* General styles for Dark/Light themes
- */
+*/
 $white: #fff;
 $black: #333;
 
 @mixin theme($type) {
-	@if $type == dark {
-		$color: $white;
-	}
-	@else if $type == light {
-		$color: $black;
-	}
+  @if $type == dark {
+    $color: $white;
+  }
+  @else if $type == light {
+    $color: $black;
+  }
 
-	color: $color;
+  color: $color;
 
-	a,
-	.card-picture label,
-	.card-picture:hover label {
-		color: $color;
-	}
+  a,
+  .card-picture label,
+  .card-picture:hover label {
+    color: $color;
+  }
 
   .vcard >div {
     position: relative;
   }
-	.vcard .card-item:hover {
-		background-color: rgba($color, .1);
-	}
+  .vcard .card-item:hover {
+    background-color: rgba($color, .1);
+  }
 }
 
 /* simple-black
- */
+*/
 .simple-black,
 .simple-black-thumb .theme-preview {
-	background-color: #222;
+  background-color: #222;
 }
 
 .simple-black {
-	@include theme(dark);
+  @include theme(dark);
 }
 
 /* simple-blue
- */
+*/
 .simple-blue,
 .simple-blue-thumb .theme-preview {
-	background-color: #3498db;
+  background-color: #3498db;
 }
 
 .simple-blue {
-	@include theme(dark);
+  @include theme(dark);
 }
 
 /* simple-white
- */
+*/
 .simple-white,
 .simple-white-thumb .theme-preview {
-	background-color: #fff;
+  background-color: #fff;
 }
 
 .simple-white {
-	@include theme(light);
+  @include theme(light);
 }
 
 /* simple-red
- */
+*/
 .simple-red,
 .simple-red-thumb .theme-preview {
-	background-color: #c0392b;
+  background-color: #c0392b;
 }
 
 .simple-red {
-	@include theme(dark);
+  @include theme(dark);
 }
 
 /* simple-dark-blue
- */
+*/
 .simple-dark-blue,
 .simple-dark-blue-thumb .theme-preview {
-	background-color: #2c3e50;
+  background-color: #2c3e50;
 }
 
 .simple-dark-blue {
-	@include theme(dark);
+  @include theme(dark);
 }
 
 /* turquoise
- */
+*/
 .simple-turquoise,
 .simple-turquoise-thumb .theme-preview {
-	background-color: #1ABC9C;
+  background-color: #1ABC9C;
 }
 
 .simple-turquoise {
-	@include theme(dark);
+  @include theme(dark);
 }
 
 /* black-corners
- */
+*/
 .black-corners,
 .black-corners-thumb .theme-preview {
-	background-color: #000;
+  background-color: #000;
 }
 
 .black-corners-thumb {
-	.theme-preview:before,
-	.theme-preview:after {
-		content: '';
-		display: block;
-		width: emCalc(30);
-		height: emCalc(4);
-		position: absolute;
-		top: emCalc(15);
-		right: emCalc(15);
-		background-color: lighten(#000, 20%);
-	}
+  .theme-preview:before,
+  .theme-preview:after {
+    content: '';
+    display: block;
+    width: emCalc(30);
+    height: emCalc(4);
+    position: absolute;
+    top: emCalc(15);
+    right: emCalc(15);
+    background-color: lighten(#000, 20%);
+  }
 
-	.theme-preview:before {
-		left: emCalc(15);
-		bottom: emCalc(15);
-		top: auto;
-		right: auto;
-	}
+  .theme-preview:before {
+    left: emCalc(15);
+    bottom: emCalc(15);
+    top: auto;
+    right: auto;
+  }
 }
 
 
 .black-corners {
-	@include theme(dark);
+  @include theme(dark);
 
-	.card-picture {
-		width: 36%;
-		left: 8%;
-		top: auto;
-		bottom: 8%;
-	}
+  .card-picture {
+    width: 36%;
+    left: 8%;
+    top: auto;
+    bottom: 8%;
+  }
 
-	.vcard {
-		left: auto;
-		right: 8%;
-		top: 8%;
+  .vcard {
+    left: auto;
+    right: 8%;
+    top: 8%;
 
-		font-size: emCalc(20);
-		font-weight: bold;
-		text-align: right;
-		letter-spacing: emCalc(-0.5);
+    font-size: emCalc(20);
+    font-weight: bold;
+    text-align: right;
+    letter-spacing: emCalc(-0.5);
 
-		p {
-			line-height: 1em;
-		}
-	}
+    p {
+      line-height: 1em;
+    }
+  }
 }
 
 /* black-white
- */
+*/
 .black-white,
 .black-white-thumb .theme-preview {
-	@include background-image(
-		linear-gradient(
-			left,
-			#000 0%,
-			#000 50%,
-			$white 50%,
-			$white 100%
-		)
-	);
+  @include background-image(
+    linear-gradient(
+      left,
+      #000 0%,
+      #000 50%,
+      $white 50%,
+      $white 100%
+    )
+  );
 
-	/* Funky notation for html2canvas - until it implements w3c gradients
-	 */
-	@include custom-gradient(
-		left,
-		#000 0%,
-		#000 50%,
-		$white 50%,
-		$white 100%
-	);
+  /* Funky notation for html2canvas - until it implements w3c gradients
+  */
+  @include custom-gradient(
+    left,
+    #000 0%,
+    #000 50%,
+    $white 50%,
+    $white 100%
+  );
 }
 
 .black-white {
-	@include theme(dark);
+  @include theme(dark);
 
-	.card-picture {
-		left: 8%;
-		top: 8%;
-		width: 36%;
-	}
+  .card-picture {
+    left: 8%;
+    top: 8%;
+    width: 36%;
+  }
 
-	.vcard {
-		left: 55%;
-		top: auto;
-		bottom: emCalc(20);
+  .vcard {
+    left: 55%;
+    top: auto;
+    bottom: emCalc(20);
 
-		color: #000;
+    color: #000;
 
-		a {
-			color: #000;
-		}
+    a {
+      color: #000;
+    }
 
-		p {
-			line-height: 1.2em;
-		}
+    p {
+      line-height: 1.2em;
+    }
 
-		.card-item:hover {
-			background-color: rgba($black, .1);
-		}
-	}
+    .card-item:hover {
+      background-color: rgba($black, .1);
+    }
+  }
 }
 
 /* diagonals
- */
+*/
 .diagonals,
 .diagonals-thumb .theme-preview {
-	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVAQMAAACT2TfVAAAABlBMVEUAAAD///+l2Z/dAAAANklEQVQIWx3DwQkAIAwEweMaN6VZSkrIMw8xLg6M17RDbf3F5LYmKOvysFlMbnmCki8Pm8WUHhEDFuFJix/eAAAAAElFTkSuQmCC');
+  background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVAQMAAACT2TfVAAAABlBMVEUAAAD///+l2Z/dAAAANklEQVQIWx3DwQkAIAwEweMaN6VZSkrIMw8xLg6M17RDbf3F5LYmKOvysFlMbnmCki8Pm8WUHhEDFuFJix/eAAAAAElFTkSuQmCC');
 }
 
 .diagonals {
-	@include theme(light);
+  @include theme(light);
 
-	.card-picture {
-		background-color: $white;
+  .card-picture {
+    background-color: $white;
 
-		opacity: 1 !important;
-	}
+    opacity: 1 !important;
+  }
 
-	.vcard {
-		left: 55%;
+  .vcard {
+    left: 55%;
 
-		color: #000;
+    color: #000;
 
-		a {
-			color: #000;
-		}
+    a {
+      color: #000;
+    }
 
-		p {
-			line-height: 1.2em;
-		}
+    p {
+      line-height: 1.2em;
+    }
 
-		.card-item {
-			padding: emCalc(4);
-			background-color: $white;
+    .card-item {
+      padding: emCalc(4);
+      background-color: $white;
 
-			&:hover {
-				background-color: darken($white, 10%);
-			}
-		}
+      &:hover {
+        background-color: darken($white, 10%);
+      }
+    }
 
-	}
+  }
 }
 
 /* black-border
- */
+*/
 .black-border,
 .black-border-thumb .theme-preview {
-	position: relative;
-	background-color: #fff;
-	padding: 0 !important;
+  position: relative;
+  background-color: #fff;
+  padding: 0 !important;
 }
 
 .black-border-thumb .theme-preview:after {
-	position: absolute;
-	z-index: 1;
-	top: 0;
-	left: 0;
-	content: '';
-	display: block;
-	width: 100%;
-	height: 100%;
-	border: emCalc(12) solid #000;
-	background: transparent;
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: emCalc(12) solid #000;
+  background: transparent;
 }
 
 .black-border {
-	@include theme(light);
+  @include theme(light);
 
-	text-align: center;
+  text-align: center;
 
-	.card-picture {
-		position: relative;
-		z-index: 2;
-		top: emCalc(44);
-		left: auto;
-		margin: 0 auto;
-		min-height: emCalc(100);
-	}
+  .card-picture {
+    position: relative;
+    z-index: 2;
+    top: emCalc(44);
+    left: auto;
+    margin: 0 auto;
+    min-height: emCalc(100);
+  }
 
-	&.card-big .no-picture {
-		display: block !important;
-		opacity: 0;
-	}
+  &.card-big .no-picture {
+    display: block !important;
+    opacity: 0;
+  }
 
-	.vcard {
-		position: absolute;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		border: emCalc(12) solid #000;
-		z-index: 1;
-		padding: emCalc(160) emCalc(8) 0;
+  .vcard {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border: emCalc(12) solid #000;
+    z-index: 1;
+    padding: emCalc(160) emCalc(8) 0;
 
-		text-align: center;
-		color: #000;
+    text-align: center;
+    color: #000;
 
-		p {
-			line-height: 1em;
-		}
+    p {
+      line-height: 1em;
+    }
 
-		.person {
-			display: block;
-			margin: 0;
-			background-color: #fff;
+    .person {
+      display: block;
+      margin: 0;
+      background-color: #fff;
 
-			font-size: emCalc(20);
-		}
+      font-size: emCalc(20);
+    }
 
-		.title {
-			font-size: .8em;
-		}
+    .title {
+      font-size: .8em;
+    }
 
-		.details {
-			display: none;
-			clear: both;
-		}
+    .details {
+      display: none;
+      clear: both;
+    }
 
-		.email,
-		.url {
-			display: inline-block;
-			margin-right: emCalc(-6);
-			background-color: #000;
+    .email,
+    .url {
+      display: inline-block;
+      margin-right: emCalc(-6);
+      background-color: #000;
 
-			font-size: emCalc(12);
-			color: #fff;
+      font-size: emCalc(12);
+      color: #fff;
 
-			&:hover {
-				color: #fff;
-				background-color: #000;
-			}
-		}
+      &:hover {
+        color: #fff;
+        background-color: #000;
+      }
+    }
 
-		.card-item {
-			padding: emCalc(2) emCalc(8);
-		}
+    .card-item {
+      padding: emCalc(2) emCalc(8);
+    }
 
-	}
+  }
 }
 
 
 /* asphalt-half
- */
+*/
 .asphalt-half,
 .asphalt-half-thumb .theme-preview {
-	@include background-image(
-		linear-gradient(
-			left,
-			#34495E 0%,
-			#34495E 60%,
-			#3498DB 60%,
-			#3498DB 100%
-		)
-	);
+  @include background-image(
+    linear-gradient(
+      left,
+      #34495E 0%,
+      #34495E 60%,
+      #3498DB 60%,
+      #3498DB 100%
+    )
+  );
 
-	/* Funky notation for html2canvas - until it implements w3c gradients
-	 */
-	@include custom-gradient(
-		left,
-		#34495E 0%,
-		#34495E 60%,
-		#3498DB 60%,
-		#3498DB 100%
-	);
+  /* Funky notation for html2canvas - until it implements w3c gradients
+  */
+  @include custom-gradient(
+    left,
+    #34495E 0%,
+    #34495E 60%,
+    #3498DB 60%,
+    #3498DB 100%
+  );
 }
 
 .asphalt-half {
-	@include theme(dark);
+  @include theme(dark);
 
-	.card-picture {
-		width: emCalc(200);
-		height: emCalc(120);
-		top: auto;
-		left: emCalc(28);
-		bottom: emCalc(20);
+  .card-picture {
+    width: emCalc(200);
+    height: emCalc(120);
+    top: auto;
+    left: emCalc(28);
+    bottom: emCalc(20);
 
-		font-size: emCalc(12);
-	}
+    font-size: emCalc(12);
+  }
 
-	.vcard {
-		position: relative;
-		left: 0;
-		top: 0;
-		bottom: 0;
+  .vcard {
+    position: relative;
+    left: 0;
+    top: 0;
+    bottom: 0;
 
-		color: #000;
+    color: #000;
 
-		.person {
-			left: emCalc(20);
-			top: emCalc(40);
-			width: emCalc(220);
+    .person {
+      left: emCalc(20);
+      top: emCalc(40);
+      width: emCalc(220);
 
-			color: #fff;
+      color: #fff;
 
-			.fn {
-				font-size: emCalc(18);
-			}
+      .fn {
+        font-size: emCalc(18);
+      }
 
-			.title {
-				display: inline-block;
-				border-bottom: 3px solid #fff;
-			}
-		}
+      .title {
+        display: inline-block;
+        border-bottom: 3px solid #fff;
+      }
+    }
 
-		.details,
-		.email,
-		.url {
-			top: emCalc(48);
-			left: emCalc(330);
-			width: emCalc(170);
+    .details,
+    .email,
+    .url {
+      top: emCalc(48);
+      left: emCalc(320);
+      width: emCalc(170);
 
-			color: darken(#3498DB, 37%);
-			font-size: emCalc(14);
-		}
+      color: darken(#3498DB, 37%);
+      font-size: emCalc(14);
+    }
 
-		.email {
-			top: emCalc(160);
-		}
+    .email {
+      top: emCalc(160);
+    }
 
-		.url {
-			top: emCalc(188);
-		}
+    .url {
+      top: emCalc(188);
+    }
 
-		a {
-			color: #000;
-		}
+    a {
+      color: #000;
+    }
 
-		p {
-			line-height: 1.2em;
-		}
+    p {
+      line-height: 1.2em;
+    }
 
-		.card-item {
-			position: absolute;
-			display: block;
-		}
+    .card-item {
+      position: absolute;
+      display: block;
+    }
 
-		.card-item:hover {
-			background-color: rgba($black, .1);
-		}
-	}
+    .card-item:hover {
+      background-color: rgba($black, .1);
+    }
+  }
 }
 
 /* line-one
- */
+*/
 @mixin line-one($color) {
-	$white: #fff;
-	$color2: lighten(saturate($color, 95%), 30%);
+  $white: #fff;
+  $color2: lighten(saturate($color, 95%), 30%);
 
-	color: $white;
-	background-color: $color;
+  color: $white;
+  background-color: $color;
 
-	.theme-preview {
-		background-color: $color;
+  .theme-preview {
+    background-color: $color;
 
-		&:after {
-			content: '';
-			display: block;
-			width: 60%;
-			position: absolute;
-			top: 50%;
-			left: 20%;
-			margin: 0 auto;
-			border-bottom: 1px solid $color2;
-		}
-	}
+    &:after {
+      content: '';
+      display: block;
+      width: 60%;
+      position: absolute;
+      top: 50%;
+      left: 20%;
+      margin: 0 auto;
+      border-bottom: 1px solid $color2;
+    }
+  }
 
-	@include theme(dark);
+  @include theme(dark);
 
-	.card-picture {
-		width: emCalc(150);
-		height: emCalc(50);
-		top: emCalc(20);
-		left: emCalc(20);
+  .card-picture {
+    width: emCalc(150);
+    height: emCalc(50);
+    top: emCalc(20);
+    left: emCalc(20);
 
-		.no-picture {
-			padding: emCalc(8) 0;
+    .no-picture {
+      padding: emCalc(8) 0;
 
-			text-align: left;
-		}
+      text-align: left;
+    }
 
-		i, span {
-			font-size: emCalc(12);
-		}
-	}
+    i, span {
+      font-size: emCalc(12);
+    }
+  }
 
-	.vcard {
-		position: absolute;
-		left: emCalc(20);
-		top: emCalc(100);
-		display: block;
-		width: emCalc(390);
-		height: emCalc(100);
+  .vcard {
+    position: absolute;
+    left: emCalc(20);
+    top: emCalc(100);
+    display: block;
+    width: emCalc(390);
+    height: emCalc(100);
 
-		color: #000;
-		vertical-align: baseline;
+    color: #000;
+    vertical-align: baseline;
 
-		@include clearfix;
+    @include clearfix;
 
-		.person {
-			width: 100%;
-			padding-bottom: emCalc(12);
-			border-bottom: 1px solid $color2;
+    .person {
+      width: 100%;
+      padding-bottom: emCalc(12);
+      border-bottom: 1px solid $color2;
 
-			color: $white;
+      color: $white;
 
-			.fn {
-				letter-spacing: emCalc(1);
-				font-weight: normal;
-			}
+      .fn {
+        letter-spacing: emCalc(1);
+        font-weight: normal;
+      }
 
-			.title {
-				display: inline-block;
-				position: absolute;
-				top: 0;
-				right: 0;
+      .title {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        right: 0;
 
-				text-align: right;
-			}
-		}
+        text-align: right;
+      }
+    }
 
-		div.details {
-			display: none;
-		}
+    div.details {
+      display: none;
+    }
 
-		.email,
-		.url {
-			top: emCalc(56);
-			width: 50%;
+    .email,
+    .url {
+      top: emCalc(56);
+      width: 50%;
 
-			color: lighten($color, 50%);
-			font-size: emCalc(10);
-		}
+      color: lighten($color, 50%);
+      font-size: emCalc(10);
+    }
 
-		.email {
-			left: 0;
-			border-right: 1px solid $color2;
-		}
+    .email {
+      left: 0;
+      border-right: 1px solid $color2;
+    }
 
-		.url {
-			right: 0;
-			text-align: right;
-		}
+    .url {
+      right: 0;
+      text-align: right;
+    }
 
-		p {
-			line-height: .9em;
-		}
+    p {
+      line-height: .9em;
+    }
 
-		.card-item {
-			position: absolute;
-			display: block;
-		}
-	}
+    .card-item {
+      position: absolute;
+      display: block;
+    }
+  }
 }
 
 .line-one,
 .line-one-thumb {
-	@include line-one(#2C3E50);
+  @include line-one(#2C3E50);
 }

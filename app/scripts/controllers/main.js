@@ -240,6 +240,9 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
           // FileSaver is included in jsPdf
           saveAs(blob, model.imageFilename);
 
+          // scroll back to the bottom, since saveAs scrolls to the top
+          window.scrollTo(0, document.body.scrollHeight - 950);
+
         },
         'image/jpeg'
       );

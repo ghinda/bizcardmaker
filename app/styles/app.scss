@@ -1,134 +1,138 @@
 /* Card maker
- */
+*/
 
 /* Bourbon
- */
+*/
 @import "../bower_components/bourbon/app/assets/stylesheets/_bourbon.scss";
 
 /* Globals
- */
+*/
 $color1: #2854a1;
 $color2: lighten(saturate($color1, 40%), 20%);
 $white: #fff;
 
 /* Utils
- */
+*/
 @import "utils";
 
 /* Themes
- */
+*/
 @import "themes";
 
 /* Main
- */
+*/
 
 .card-maker {
-	*,
-	*:after,
-	*:before {
-		@include box-sizing(border-box);
-	}
+  *,
+  *:after,
+  *:before {
+    @include box-sizing(border-box);
+  }
 }
 
 /* Themes
- */
+*/
 .themes-box {
-	padding-bottom: 0;
-	background-color: darken($white, 10%);
+  padding-bottom: 0;
+  background-color: darken($white, 10%);
 }
 
 .themes-row {
-	overflow: auto;
-	padding: emCalc(10);
-	margin: 0;
-	white-space: nowrap;
+  overflow: auto;
+  padding: emCalc(10);
+  margin: 0;
+  white-space: nowrap;
 
-	.theme-item {
-		display: inline-block;
-		overflow: hidden;
-		position: relative;
-		width: emCalc(141);
-		height: emCalc(75);
-		padding: emCalc(8);
-		margin-right: emCalc(4);
-		border-radius: 3px;
-		background-color: $white;
+  .theme-item {
+    display: inline-block;
+    overflow: hidden;
+    position: relative;
+    width: emCalc(141);
+    height: emCalc(75);
+    padding: emCalc(8);
+    margin-right: emCalc(4);
+    border-radius: 3px;
+    background-color: $white;
 
-		.theme-preview-container {
-			overflow: hidden;
-			display: block;
-			width: 100%;
-			height: 100%;
-			border-radius: 1px;
+    .theme-preview-container {
+      overflow: hidden;
+      display: block;
+      width: 100%;
+      height: 100%;
+      border-radius: 1px;
 
-			@include linear-gradient(50deg, #888, #000);
-		}
+      @include linear-gradient(50deg, #888, #000);
+    }
 
-		.theme-preview {
-			display: block;
-			width: 100%;
-			height: 100%;
+    .theme-preview {
+      display: block;
+      width: 100%;
+      height: 100%;
 
-			opacity: .7;
-		}
+      opacity: .7;
+    }
 
-		&.active {
-			background-color: $color2;
-			box-shadow: inset 0 -2px 0 darken($color1, 10%);
+    &.active {
+      background-color: $color2;
+      box-shadow: inset 0 -2px 0 darken($color1, 10%);
 
-			.theme-preview {
-				opacity: .9;
-			}
-		}
+      .theme-preview {
+        opacity: .9;
+      }
+    }
 
-		&:hover {
+    &:hover {
 
-			.theme-preview {
-				opacity: .95;
-			}
+      .theme-preview {
+        opacity: .95;
+      }
 
-		}
-	}
+    }
+  }
 
 }
 
 /* Editor
- */
+*/
 .card-edit-container {
-	@include clearfix;
+  @include clearfix;
 }
 
 $card-border: 1px solid darken($white, 10%);
 
 // 3.75 x 2.25 in - full bleed at 96ppi
 .card-container {
-	position: relative;
-	margin-bottom: emCalc(20);
+  position: relative;
+  margin-bottom: emCalc(20);
 
-	width: emCalc(360);
-	height: emCalc(216);
+  width: emCalc(360);
+  height: emCalc(216);
 
-	border: $card-border;
-	box-shadow: 0 2px 1px darken($white, 5%);
+  border: $card-border;
+  box-shadow: 0 2px 1px darken($white, 5%);
 
-	font-size: 1.75em;
+  font-size: 1.75em;
 }
 
 // padding 0.25 in for bleed and safe zone (.125 + .125)
 .card-preview {
-	position: relative;
-	width: 100%;
-	height: 100%;
-	padding: emCalc(24);
+  position: relative;
+  width: 100%;
+  height: 100%;
 
-	@include transition(background 0.1s ease-in);
-	@include clearfix;
+  // (350/15) - ratio between bleed and width 3.75/0.25
+  // +
+  // (350/15/0.25) - additional 25% because of font-size .75em
+  padding: emCalc(24 + 6);
 
-	font-size: .75em;
+  @include transition(background 0.1s ease-in);
+  @include clearfix;
 
-	* {
-		font-size: 1em;
-	}
+  font-size: .75em;
+
+  * {
+    font-size: 1em;
+  }
 }
 
 .card-content {
@@ -140,168 +144,167 @@ $card-border: 1px solid darken($white, 10%);
 }
 
 /* Enlarged card for high-quality generation
- */
+*/
 .card-container.card-big {
-	position: relative;
-/* 	z-index: 999; */
-	z-index: 10;
-	border-width: 0;
-	pointer-events: none;
+  position: relative;
+  z-index: 10;
+  border-width: 0;
+  pointer-events: none;
 
-	font-size: 3.5em;
+  font-size: 3.5em;
 
-	.no-picture {
-		display: none;
-	}
+  .no-picture {
+    display: none;
+  }
 }
 
 .card-print .card-preview {
-	border: $card-border;
+  border: $card-border;
 }
 
 /* mobile borwser data uri limitation fix
- * Print low-quality
- */
+* Print low-quality
+*/
 /*.card-small-screen .card-big {
-	font-size: .1em;
+  font-size: .1em;
 }*/
 
 /* Picture upload
- */
+*/
 .file-upload {
-	position: absolute;
+  position: absolute;
     left: -9999px;
 }
 
 $color-handle: desaturate($color1, 60%);
 
 .card-picture {
-	position: absolute;
-	top: 8%;
-	left: 8%;
+  position: absolute;
+  top: 8%;
+  left: 4%;
 
-	width: 36%;
-	color: $color1;
+  width: 36%;
+  color: $color1;
 
-	vertical-align: top;
-	text-align: center;
+  vertical-align: top;
+  text-align: center;
 
-	i {
-		font-size: 3em;
-	}
+  i {
+    font-size: 3em;
+  }
 
-	span {
-		font-size: emCalc(12);
-	}
+  span {
+    font-size: emCalc(12);
+  }
 
-	i,
-	span {
-		display: none;
-	}
+  i,
+  span {
+    display: none;
+  }
 
-	img {
-		display: block;
-		width: auto;
-		max-width: 100%;
-		max-height: 100%;
-	}
+  img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+  }
 
-	label {
-		display: block;
-		width: 100%;
-		height: 100%;
-		position: relative;
+  label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: relative;
 
-		&:hover {
-			background-color: rgba($color1, .1);
-		}
-	}
+    &:hover {
+      background-color: rgba($color1, .1);
+    }
+  }
 
-	.no-picture {
-		padding: emCalc(20);
-		opacity: .8;
+  .no-picture {
+    padding: emCalc(20);
+    opacity: .8;
 
-		i,
-		span {
-			display: block;
-		}
+    i,
+    span {
+      display: block;
+    }
 
-		img {
-			display: none;
-		}
+    img {
+      display: none;
+    }
 
-	}
+  }
 
 }
 
 /* Vcard defaults
- */
+*/
 .vcard {
-	position: absolute;
-	top: 8%;
-	left: 56%;
-	border: 0;
-	padding: 0;
-	margin: 0;
+  position: absolute;
+  top: 8%;
+  left: 52%;
+  border: 0;
+  padding: 0;
+  margin: 0;
 
-	vertical-align: top;
+  vertical-align: top;
 
-	.person {
-		margin-bottom: 16%;
-	}
+  .person {
+    margin-bottom: 16%;
+  }
 
-	.fn {
-		font-size: 1em;
-	}
+  .fn {
+    font-size: 1em;
+  }
 
-	.org {
-		font-weight: bold;
-	}
+  .org {
+    font-weight: bold;
+  }
 
-	p {
-		margin: 0;
-	}
+  p {
+    margin: 0;
+  }
 
-	*,
-	a {
-		cursor: text;
-	}
+  *,
+  a {
+    cursor: text;
+  }
 
-	a:hover {
-		text-decoration: none;
-	}
+  a:hover {
+    text-decoration: none;
+  }
 
-	.card-item,
-	.card-item p {
-		position: relative;
-	}
+  .card-item,
+  .card-item p {
+    position: relative;
+  }
 
-	.card-item:hover {
-		background-color: rgba($color1, .3);
-	}
+  .card-item:hover {
+    background-color: rgba($color1, .3);
+  }
 }
 
 /* Drag
- */
+*/
 .drag-handle {
-	position: absolute;
-	top: 0;
-	left: 0;
-	z-index: 0;
-	opacity: .5;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  opacity: .5;
 
-	@include box-sizing(content-box);
-	display: block;
-	width: 100%;
-	height: 100%;
-	padding: 5px;
-	margin: -10px;
-	border: 5px dotted transparent;
+  @include box-sizing(content-box);
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  margin: -10px;
+  border: 5px dotted transparent;
 
-	cursor: move;
+  cursor: move;
 
-	@include transition(all .1s ease-in-out);
-	@include transition-delay(0.5s);
+  @include transition(all .1s ease-in-out);
+  @include transition-delay(0.5s);
 }
 
 .drag-handle-show .drag-handle,
@@ -319,147 +322,147 @@ $color-handle: desaturate($color1, 60%);
 }
 
 /* Download buttons
- */
+*/
 .download-buttons {
-	margin-bottom: emCalc(15);
+  margin-bottom: emCalc(15);
 
-	li {
-		width: 100%;
-	}
+  li {
+    width: 100%;
+  }
 
-	.button {
-		width: 100%;
-		min-height: emCalc(72);
-		margin: 0;
-		border: 0;
+  .button {
+    width: 100%;
+    min-height: emCalc(72);
+    margin: 0;
+    border: 0;
 
-		font-size: 1.1em;
-		text-align: left;
-		vertical-align: top;
-	}
+    font-size: 1.1em;
+    text-align: left;
+    vertical-align: top;
+  }
 
-	li:first-child .button {
-		border-radius: 3px 3px 0 0;
-	}
+  li:first-child .button {
+    border-radius: 3px 3px 0 0;
+  }
 
-	li:last-child .button {
-		border-radius: 0 0 3px 3px;
-	}
+  li:last-child .button {
+    border-radius: 0 0 3px 3px;
+  }
 
-	i:before {
-		width: emCalc(20);
-	}
+  i:before {
+    width: emCalc(20);
+  }
 
-	.fa {
-		width: emCalc(20);
-	}
+  .fa {
+    width: emCalc(20);
+  }
 
-	small {
-		display: block;
-	}
+  small {
+    display: block;
+  }
 
-	li small {
-		display: block;
-		padding-top: emCalc(4);
-		padding-left: emCalc(44);
+  li small {
+    display: block;
+    padding-top: emCalc(4);
+    padding-left: emCalc(44);
 
-		color: rgba($white, 0.8);
-	}
+    color: rgba($white, 0.8);
+  }
 
-	.f-dropdown {
-		display: block;
-		min-width: emCalc(360);
-		border-radius: 3px;
-		border-color: $color2;
+  .f-dropdown {
+    display: block;
+    min-width: emCalc(360);
+    border-radius: 3px;
+    border-color: $color2;
 
-		box-shadow: 0 2px 5px lighten($black, 60%);
+    box-shadow: 0 2px 5px lighten($black, 60%);
 
-		&:before,
-		&:after {
-			left: auto;
-			right: emCalc(20);
-		}
+    &:before,
+    &:after {
+      left: auto;
+      right: emCalc(20);
+    }
 
-		&:after {
-			border-bottom-color: $color2;
-			margin-left: 0;
-			margin-right: -1px;
-		}
+    &:after {
+      border-bottom-color: $color2;
+      margin-left: 0;
+      margin-right: -1px;
+    }
 
-		li {
-			font-size: emCalc(24);
-		}
+    li {
+      font-size: emCalc(24);
+    }
 
-		small {
-			color: lighten($black, 20%);
-		}
+    small {
+      color: lighten($black, 20%);
+    }
 
-		a {
-			padding: emCalc(8) emCalc(24);
+    a {
+      padding: emCalc(8) emCalc(24);
 
-			color: $black;
+      color: $black;
 
-			&:hover {
-				//background-color: lighten($color2, 40%);
-				color: $color2;
-				text-decoration: none;
-			}
-		}
-	}
+      &:hover {
+        //background-color: lighten($color2, 40%);
+        color: $color2;
+        text-decoration: none;
+      }
+    }
+  }
 
-	@include breakpoint(baby-bear) {
-		font-size: 1.25em;
+  @include breakpoint(baby-bear) {
+    font-size: 1.25em;
 
-		> li {
-			width: 50%;
-		}
+    > li {
+      width: 50%;
+    }
 
-		> li:first-child .button {
-			border-radius: 3px 0 0 3px;
-		}
+    > li:first-child .button {
+      border-radius: 3px 0 0 3px;
+    }
 
-		> li:last-child .button {
-			border-radius: 0 3px 3px 0;
-		}
-	}
+    > li:last-child .button {
+      border-radius: 0 3px 3px 0;
+    }
+  }
 
 }
 
 .download-form {
-	input {
-		display: none;
-	}
+  input {
+    display: none;
+  }
 }
 
 .download-note {
-	padding: emCalc(5);
-	border-color: darken($white, 10%);
-	background-color: darken($white, 5%);
+  padding: emCalc(5);
+  border-color: darken($white, 10%);
+  background-color: darken($white, 5%);
 
-	font-size: 1em;
+  font-size: 1em;
 
-	p {
-		margin: 0;
+  p {
+    margin: 0;
 
-		font-size: emCalc(10);
-		color: #333;
-	}
+    font-size: emCalc(10);
+    color: #333;
+  }
 
-	code {
-		color: $color1;
-	}
+  code {
+    color: $color1;
+  }
 }
 
 .region-notice {
-	display: block;
+  display: block;
 
-	color: darken($white, 60%);
-	font-size: emCalc(12);
+  color: darken($white, 60%);
+  font-size: emCalc(12);
 
-	@include breakpoint(baby-bear) {
-		float: right;
+  @include breakpoint(baby-bear) {
+    float: right;
 
-		width: 50%;
-		padding: 0 emCalc(40) 0 emCalc(88);
-	}
+    width: 50%;
+    padding: 0 emCalc(40) 0 emCalc(88);
+  }
 }
