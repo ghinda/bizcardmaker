@@ -35,7 +35,7 @@
 
               <input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
 
-              <div class="card-picture" drag drag-container=".card-content" drag-model="model.picture.position">
+              <div class="card-picture" drag-container=".card-content" drag-model="model.picture.position" drag-grid="10">
 
                 <label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
 
@@ -49,7 +49,7 @@
 
               <div class="vcard">
 
-                <div class="card-item person" drag drag-container=".card-content" drag-model="model.person.position">
+                <div class="card-item person" drag-container=".card-content" drag-model="model.person.position" drag-grid="10">
 
                   <div meditor>
                     <p class="fn">
@@ -62,7 +62,7 @@
 
                 </div>
 
-                <div class="card-item details" drag drag-container=".card-content" drag-model="model.details.position">
+                <div class="card-item details" drag-container=".card-content" drag-model="model.details.position" drag-grid="10">
 
                   <div meditor>
                     <p class="org">
@@ -79,7 +79,7 @@
 
                 </div>
 
-                <div class="card-item email" drag drag-container=".card-content" drag-model="model.email.position">
+                <div class="card-item email" drag-container=".card-content" drag-model="model.email.position" drag-grid="10">
 
                   <div meditor>
                     <p>john.doe@cmail.com</p>
@@ -87,7 +87,7 @@
 
                 </div>
 
-                <div class="card-item url" drag drag-container=".card-content" drag-model="model.url.position">
+                <div class="card-item url" drag-container=".card-content" drag-model="model.url.position" drag-grid="10">
 
                   <div meditor>
                     <p>www.john-doe.com</p>

@@ -12,11 +12,11 @@ Easily create your own business cards in seconds, *for free*, using high quality
 
 ## Development
 
-	grunt server
+  grunt server
 
 ## Build
 
-	grunt
+  grunt
 
 
 For `imagemin` to work:

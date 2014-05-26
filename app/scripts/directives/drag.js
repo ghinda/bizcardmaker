@@ -1,7 +1,7 @@
 /* Drag directive
  */
 
-app.directive('drag', function ($document, $timeout) {
+app.directive('dragModel', function ($document, $timeout) {
   'use strict';
 
   return {
@@ -9,21 +9,22 @@ app.directive('drag', function ($document, $timeout) {
     '<div class="drag-handle"></div><div ng-transclude></div>' +
     '</div>',
     scope: {
+      dragModel: '=',
       dragContainer: '@',
-      dragModel: '='
+      dragGrid: '@'
     },
     replace: true,
     transclude: true,
     link: function (scope, element) {
 
-      var $body = angular.element('body');
+      var $body = document.getElementsByTagName('body')[0];
       var $container = $body;
 
       if(scope.dragContainer) {
-        $container = angular.element(scope.dragContainer);
+        $container = document.querySelector(scope.dragContainer);
       }
-
-      var $dragHandle = element.find('.drag-handle');
+      
+      var $dragHandle = element[0].querySelector('.drag-handle');
 
       var transformPrefixes = [
         'webkitTransform',
@@ -47,35 +48,29 @@ app.directive('drag', function ($document, $timeout) {
       var dragStartX;
       var dragActive = false;
 
-      var grid = 10;
+      var grid = scope.dragGrid;
 
       var setContainment = function (argument) {
 
-        var dragOffset = $dragHandle[0].getBoundingClientRect();
-        var containerOffset = $container[0].getBoundingClientRect();
+        // get size and position
+        var dragRect = $dragHandle.getBoundingClientRect();
+        var containerRect = $container.getBoundingClientRect();
 
-        dragStartY = dragOffset.top;
-        dragStartX = dragOffset.left;
+        dragStartY = dragRect.top;
+        dragStartX = dragRect.left;
 
-        minY = dragStartY - containerOffset.top;
+        minY = dragStartY - containerRect.top;
         minY = 0 - maxGrid(minY);
 
-        maxY = (containerOffset.top + containerSize.height) - dragStartY - dragSize.height;
+        maxY = (containerRect.top + containerRect.height) - dragStartY - dragRect.height;
         maxY = maxGrid(maxY);
 
-        minX = dragStartX - containerOffset.left;
-        minX =  0 - maxGrid(minX);
+        minX = dragStartX - containerRect.left;
+        minX = 0 - maxGrid(minX);
 
-        maxX = (containerOffset.left + containerSize.width) - dragStartX - dragSize.width;
+        maxX = (containerRect.left + containerRect.width) - dragStartX - dragRect.width;
         maxX = maxGrid(maxX);
 
-      };
-
-      var getElementSize = function (elem) {
-        return {
-          width: elem.width(),
-          height: elem.height()
-        };
       };
 
       var restrictGrid = function (val) {
@@ -92,8 +87,8 @@ app.directive('drag', function ($document, $timeout) {
           return;
         }
 
-        x = e.pageX - startX;
-        y = e.pageY - startY;
+        x = e.touches[0].pageX - startX;
+        y = e.touches[0].pageY - startY;
 
         x = restrictGrid(x);
         y = restrictGrid(y);
@@ -111,7 +106,7 @@ app.directive('drag', function ($document, $timeout) {
           y = maxY;
         }
 
-        var translate = 'translate(' + x + 'px ,' + y + 'px)';
+        var translate = 'translate3d(' + x + 'px ,' + y + 'px, 0)';
 
         angular.forEach(transformPrefixes, function(prefix) {
           element.css(prefix, translate);
@@ -137,7 +132,7 @@ app.directive('drag', function ($document, $timeout) {
         var top = y;
 
         if(element.css('position') === 'absolute') {
-
+          
           // absolute elements
           left += element[0].offsetLeft;
           top += element[0].offsetTop;
@@ -157,33 +152,35 @@ app.directive('drag', function ($document, $timeout) {
 
         element.css({
           top:  top,
-          left:  left
+          left:  left,
+          bottom: 'auto',
+          right: 'auto'
         });
 
         // set positions in model
         scope.dragModel.x = top;
         scope.dragModel.y = left;
 
-        // recalculate containment
-        setContainment();
-
         // remove active classes
         dragActive = false;
-        $body.removeClass('drag-active');
-        element.removeClass('drag-handle-show');
+        $body.classList.remove('drag-active');
+        element[0].classList.remove('drag-handle-show');
 
       };
 
       var mousedown = function(e) {
-
+        
+        // recalculate containment
+        setContainment();
+        
         dragActive = true;
-        $body.addClass('drag-active');
-        element.addClass('drag-handle-show');
+        $body.classList.add('drag-active');
+        element[0].classList.add('drag-handle-show');
 
         x = y = 0;
-
-        startX = e.pageX - x;
-        startY = e.pageY - y;
+        
+        startX = e.touches[0].pageX - x;
+        startY = e.touches[0].pageY - y;
 
       };
 
@@ -196,33 +193,45 @@ app.directive('drag', function ($document, $timeout) {
       var disableScroll = function(e) {
 
         if(!dragActive) {
-          scrollTop = $body[0].scrollTop;
-          scrollLeft = $body[0].scrollLeft;
+          scrollTop = $body.scrollTop;
+          scrollLeft = $body.scrollLeft;
 
           return;
         }
 
-        $body[0].scrollTop = scrollTop;
-        $body[0].scrollLeft = scrollLeft;
+        $body.scrollTop = scrollTop;
+        $body.scrollLeft = scrollLeft;
 
       };
 
-      $dragHandle.on('mousedown', mousedown);
+      var emulateTouch = function(e) {
+        
+        e.touches = [{
+          clientX: e.clientX,
+          clientY: e.clientY,
+          pageX: e.pageX,
+          pageY: e.pageY
+        }];
+        
+        return e;
+        
+      };
+      
+      $dragHandle.addEventListener('mousedown', function(e) {
+        mousedown(emulateTouch(e));
+      });
+      $dragHandle.addEventListener('touchstart', mousedown);
 
-      document.addEventListener('mousemove', mousemove);
+      document.addEventListener('mousemove', function(e) {
+        mousemove(emulateTouch(e));
+      });
+      document.addEventListener('touchmove', mousemove);
+      
       document.addEventListener('mouseup', mouseup);
+      document.addEventListener('touchend', mouseup);
 
       // don't scroll when moving to the window sides
       window.addEventListener('scroll', disableScroll);
-
-      // hack to wait for complete dom render
-      $timeout(function () {
-
-        dragSize = getElementSize($dragHandle);
-        containerSize = getElementSize($container);
-        setContainment();
-
-      });
 
     }
   };

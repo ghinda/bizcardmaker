@@ -308,8 +308,10 @@ $color-handle: desaturate($color1, 60%);
 }
 
 .drag-handle-show .drag-handle,
-.drag-container:hover .drag-handle {
+.drag-container:hover .drag-handle,
+.drag-container:focus .drag-handle {
   border-color: $color-handle;
+  
   @include transition-delay(0s);
 }
 

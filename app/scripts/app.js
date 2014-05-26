@@ -1,29 +1,29 @@
 /* Business Card Maker app
- */
+*/
 
 var app = angular.module('businessCardMaker', [
-	'ngRoute',
-	'ngTouch',
-	'angular-meditor'
+  'ngRoute',
+  'ngTouch',
+  'angular-meditor'
 ]).config(function($routeProvider) {
-	'use strict';
+  'use strict';
 
-	$routeProvider
-	.when('/', {
-		templateUrl: 'views/cardeditor.html',
-		controller: 'MainCtrl',
-		reloadOnSearch: false
-	}).otherwise({
-		redirectTo: '/?theme=0'
-	});
+  $routeProvider
+  .when('/', {
+    templateUrl: 'views/cardeditor.html',
+    controller: 'MainCtrl',
+    reloadOnSearch: false
+  }).otherwise({
+    redirectTo: '/?theme=0'
+  });
 
 });
 
 app.run(function($rootScope){
-	'use strict';
+  'use strict';
 
-	var root = $rootScope.root = {};
+  var root = $rootScope.root = {};
 
-	root.smallScreen = (screen.width <= 1024);
+  root.smallScreen = (screen.width <= 1024);
 
 });
