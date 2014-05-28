@@ -435,6 +435,46 @@
 
         </div>
 
+        <div class="final-preview">
+
+          <h4>
+            Final preview
+          </h4>
+
+          <div class="row">
+            <div class="final-card-preview large-6 columns">
+
+              <a class="button-preview" ng-click="DownloadPicture()">
+                <img ng-src="{{ model.imagePreview }}">
+
+                See large preview
+              </a>
+
+            </div>
+
+            <div class="large-6 columns">
+              <strong>
+                Are you sure you..
+              </strong>
+
+              <label>
+                <input id="check-card-content" type="checkbox" ng-model="model.order.checkContent" required>
+                <span>
+                  Checked for missing details or spelling mistakes?
+                </span>
+              </label>
+
+              <label>
+                <input id="check-card-look" type="checkbox" ng-model="model.order.checkLook" required>
+                <span>
+                  Checked the final preview, and are sure this is exactly how you want your business cards to look?
+                </span>
+              </label>
+            </div>
+          </div>
+
+        </div>
+
         <button type="submit" class="button radius button-send" ng-disabled="!model.offers.length">
 
           <i class="fa fa-shopping-cart"></i>
@@ -448,10 +488,6 @@
           </strong>
 
         </button>
-        
-        <a class="button-preview" ng-click="DownloadPicture()">
-          Preview business card
-        </a>
 
         <p class="printchomp-text">
           Orders are processed by

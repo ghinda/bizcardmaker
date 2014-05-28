@@ -291,13 +291,9 @@ footer {
     margin-bottom: emCalc(20);
   }
 
-  .button-preview {
-    margin: 0 0 0 emCalc(20);
-  }
-
   .printchomp-text {
-    display: block;
-    margin-bottom: emCalc(32);
+    display: inline-block;
+    margin: 0 0 0 emCalc(20);
 
     color: #479CAB;
     font-size: emCalc(14);
@@ -418,6 +414,42 @@ footer {
       width: emCalc(120);
 
       text-align: right;
+    }
+  }
+}
+
+.final-preview {
+  padding-bottom: emCalc(40);
+
+  strong {
+    display: block;
+    margin-bottom: emCalc(12);
+
+    font-size: emCalc(12);
+  }
+
+  label {
+    position: relative;
+    margin: 0 0 emCalc(12);
+
+    line-height: 1.2em;
+
+    input {
+      position: absolute;
+      top: 0; left: 0;
+      margin: 0;
+    }
+
+    span {
+      display: block;
+      padding-left: emCalc(20);
+    }
+  }
+
+  .button-preview {
+    img {
+      display: block;
+      margin-bottom: emCalc(8);
     }
   }
 }

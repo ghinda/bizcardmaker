@@ -122,43 +122,43 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     }
 
   });
-  
+
   /* Turn px values into em
    */
   var pxToEm = function(elem) {
-    
+
     var parentStyle = window.getComputedStyle(elem.parentNode, null);
     var style = window.getComputedStyle(elem, null);
     var childFontSize = parseInt(style.fontSize, 10);
     var parentFontSize = parseInt(parentStyle.fontSize, 10);
-    
+
     if(elem.style.left.indexOf('em') === -1) {
-      
+
       var childLeft = parseInt(style.left, 10);
       var left = Math.floor((childLeft / parentFontSize) * 100) / 100;
-      
+
       left = left * (parentFontSize / childFontSize);
-      
+
       elem.style.left = left + 'em';
-      
+
     }
-    
+
     if(elem.style.top.indexOf('em') === -1) {
-      
+
       var childTop = parseInt(style.top, 10);
       var top = Math.floor((childTop / parentFontSize) * 100) / 100;
-      
+
       top = top * (parentFontSize / childFontSize);
-      
+
       elem.style.top = top + 'em';
-      
+
     }
-    
+
     if(style.fontSize.indexOf('em') === -1) {
       elem.style.fontSize = childFontSize / parentFontSize + 'em';
     }
-    
-    
+
+
   };
 
   // because the editor uses funky x-small, xx-small, etc. font-sizes
@@ -166,9 +166,9 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   // so that I can later enlarge the entire business card with ems
   var fixPxSizes = function(container) {
     var editors = container.querySelectorAll('[contenteditable]');
-    
+
     var children;
-      
+
     angular.forEach(editors, function(e) {
       children = e.querySelectorAll('*');
       //parentStyle = window.getComputedStyle(e, null);
@@ -282,7 +282,11 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   model.openedModal = false;
   model.order = {};
-  $scope.CopyCardDetails = function() {
+  $scope.OpenOrderModal = function(modalQuery) {
+
+    // TODO check if content is overflowing
+//     var el = document.querySelector('.card-content');
+//     var isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
 
     // if this is the first time we're opening the modal copy the details
     // to be used in the order form.
@@ -298,9 +302,22 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       model.openedModal = true;
     }
 
+    // generate image preview
+    $scope.generatePicture().then(function(canvas) {
+
+      var jpegUrl = canvas.toDataURL('image/jpeg');
+      model.imagePreview = jpegUrl;
+
+      // scroll back to the bottom, since generatePicture scrolls to the top
+      window.scrollTo(0, document.body.scrollHeight);
+
+    });
+
+    // open the reveal modal
+    $(modalQuery).foundation('reveal', 'open');
+
     // track analytics
     ga('send', 'event', 'Orders', 'Begin order');
-
 
   };
 

@@ -173,7 +173,8 @@ $card-border: 1px solid darken($white, 10%);
 */
 .file-upload {
   position: absolute;
-    left: -9999px;
+  opacity: 0;
+  z-index: -1;
 }
 
 $color-handle: desaturate($color1, 60%);
@@ -311,7 +312,7 @@ $color-handle: desaturate($color1, 60%);
 .drag-container:hover .drag-handle,
 .drag-container:focus .drag-handle {
   border-color: $color-handle;
-  
+
   @include transition-delay(0s);
 }
 

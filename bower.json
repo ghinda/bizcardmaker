@@ -13,7 +13,7 @@
     "html2canvas": "~0.x",
     "jspdf": "*",
     "blueimp-canvas-to-blob": "~2.x",
-    "momentjs": "~2.5.1",
+    "momentjs": "~2.6.x",
     "jquery.payment": "~1.0.2"
   },
   "devDependencies": {
