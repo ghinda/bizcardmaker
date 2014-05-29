@@ -31,9 +31,31 @@ $black: #333;
     color: $color;
   }
 
-  .vcard >div {
-    position: relative;
+  .vcard {
+    height: 100%;
+
+    .person,
+    .details,
+    .email,
+    .url {
+      position: absolute;
+
+      min-width: emCalc(160);
+    }
+
+    .details {
+      top: 36%;
+    }
+
+    .email {
+      top: 70%;
+    }
+
+    .url {
+      top: 80%;
+    }
   }
+
   .vcard .card-item:hover {
     background-color: rgba($color, .1);
   }
