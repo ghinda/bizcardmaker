@@ -284,12 +284,28 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   model.order = {};
   $scope.OpenOrderModal = function(modalQuery) {
 
-    // TODO check if content is overflowing
-//     var el = document.querySelector('.card-content');
-//     var isOverflowing = el.clientWidth < el.scrollWidth || el.clientHeight < el.scrollHeight;
+    // check if any content is overflowing
+    var el = document.querySelector('.card-content');
 
-    // if this is the first time we're opening the modal copy the details
-    // to be used in the order form.
+    var widthOverflow = parseInt(el.clientWidth, 10) < el.scrollWidth;
+    var heightOverflow = parseInt(el.clientHeight, 10) < el.scrollHeight;
+
+    var isOverflowing = widthOverflow || heightOverflow;
+
+    var overflowMessage = '';
+    overflowMessage += 'Oops! \n';
+    overflowMessage += 'Some of the details on your card will be cut during the printing process. \n\n';
+    overflowMessage += 'To make sure this doesn\'t happen, please try: \n';
+    overflowMessage += '* Shortening some of text lines \n';
+    overflowMessage += '* Moving the elements closer to the card center \n';
+
+    if(isOverflowing) {
+      alert(overflowMessage);
+      return false;
+    }
+
+    // if this is the first time we're opening the modal,
+    // copy the details to be used in the order form.
     // if the modal was previously opened, leave the details alone
     if(!model.openedModal) {
 
