@@ -300,7 +300,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     overflowMessage += '* Moving the elements closer to the card center \n';
 
     if(isOverflowing) {
-      alert(overflowMessage);
+      window.alert(overflowMessage);
       return false;
     }
 
