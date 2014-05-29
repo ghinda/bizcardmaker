@@ -75,7 +75,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     model.order.address1 = 'H';
     model.order.card.number = '4030000010001234';
     model.order.card.exp = '6 / 2016';
-    model.order.card.csc = '123';
+    model.order.card.csc = '';
   }
 
   $scope.SendOrder = function(event) {

@@ -260,7 +260,9 @@
 
             </label>
 
-            <small class="error" ng-show="orderForm.cvc.$invalid">Security code must have at least 3 characters. </small>
+            <small class="error" ng-show="orderForm.cvc.$dirty && orderForm.cvc.$invalid">
+              Security code must have at least 3 characters.
+            </small>
 
             <small class="cvc-help">
               <img src="/images/creditcard-cvc.png">

@@ -262,6 +262,14 @@ footer {
     line-height: 1.4em;
   }
 
+  .error small:not(.error) {
+    margin-top: emCalc(12);
+  }
+
+  .error label {
+    color: #4d4d4d;
+  }
+
   .cvc-help {
     overflow: hidden;
 
