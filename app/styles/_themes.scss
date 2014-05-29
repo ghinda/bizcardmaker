@@ -16,6 +16,7 @@ $white: #fff;
 $black: #333;
 
 @mixin theme($type) {
+  
   @if $type == dark {
     $color: $white;
   }
@@ -31,32 +32,28 @@ $black: #333;
     color: $color;
   }
 
-  .vcard {
-    height: 100%;
+  .person,
+  .details,
+  .email,
+  .url {
+    position: absolute;
 
-    .person,
-    .details,
-    .email,
-    .url {
-      position: absolute;
-
-      min-width: emCalc(160);
-    }
-
-    .details {
-      top: 36%;
-    }
-
-    .email {
-      top: 70%;
-    }
-
-    .url {
-      top: 80%;
-    }
+    min-width: emCalc(160);
   }
 
-  .vcard .card-item:hover {
+  .details {
+    top: 36%;
+  }
+
+  .email {
+    top: 70%;
+  }
+
+  .url {
+    top: 80%;
+  }
+
+  .card-item:hover {
     background-color: rgba($color, .1);
   }
 }
@@ -135,6 +132,7 @@ $black: #333;
 }
 
 .black-corners-thumb {
+  
   .theme-preview:before,
   .theme-preview:after {
     content: '';
@@ -153,33 +151,51 @@ $black: #333;
     top: auto;
     right: auto;
   }
+  
 }
 
 
-.black-corners {
+.black-corners .card-content {
   @include theme(dark);
 
   .card-picture {
     width: 36%;
-    left: 8%;
+    left: 2%;
     top: auto;
-    bottom: 8%;
+    bottom: 4%;
   }
 
-  .vcard {
+  .person,
+  .details,
+  .email,
+  .url {
     left: auto;
-    right: 8%;
-    top: 8%;
+    right: 2%;
+    top: 4%;
 
     font-size: emCalc(20);
     font-weight: bold;
     text-align: right;
     letter-spacing: emCalc(-0.5);
-
-    p {
-      line-height: 1em;
-    }
   }
+  
+  .details p,
+  .person p {
+    line-height: 1em;
+  }
+  
+  .details {
+    top: 40%;
+  }
+  
+  .email {
+    top: 66%;
+  }
+  
+  .url {
+    top: 76%;
+  }
+ 
 }
 
 /* black-white
@@ -207,7 +223,7 @@ $black: #333;
   );
 }
 
-.black-white {
+.black-white .card-content {
   @include theme(dark);
 
   .card-picture {
@@ -216,10 +232,12 @@ $black: #333;
     width: 36%;
   }
 
-  .vcard {
+  .person,
+  .details,
+  .email,
+  .url {
     left: 55%;
-    top: auto;
-    bottom: emCalc(20);
+    top: 20%;
 
     color: #000;
 
@@ -230,10 +248,22 @@ $black: #333;
     p {
       line-height: 1.2em;
     }
-
-    .card-item:hover {
-      background-color: rgba($black, .1);
-    }
+  }
+  
+  .details {
+    top: 48%;
+  }
+  
+  .email {
+    top: 74%;
+  }
+  
+  .url {
+    top: 82%;
+  }
+  
+  .card-item:hover {
+    background-color: rgba($black, .1);
   }
 }
 
@@ -244,7 +274,7 @@ $black: #333;
   background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAVAQMAAACT2TfVAAAABlBMVEUAAAD///+l2Z/dAAAANklEQVQIWx3DwQkAIAwEweMaN6VZSkrIMw8xLg6M17RDbf3F5LYmKOvysFlMbnmCki8Pm8WUHhEDFuFJix/eAAAAAElFTkSuQmCC');
 }
 
-.diagonals {
+.diagonals .card-content {
   @include theme(light);
 
   .card-picture {
@@ -252,11 +282,17 @@ $black: #333;
 
     opacity: 1 !important;
   }
-
-  .vcard {
+  
+  .card-item {
     left: 55%;
+    padding: emCalc(4);
+    background-color: $white;
 
     color: #000;
+    
+    &:hover {
+      background-color: darken($white, 10%);
+    }
 
     a {
       color: #000;
@@ -265,17 +301,8 @@ $black: #333;
     p {
       line-height: 1.2em;
     }
-
-    .card-item {
-      padding: emCalc(4);
-      background-color: $white;
-
-      &:hover {
-        background-color: darken($white, 10%);
-      }
-    }
-
   }
+  
 }
 
 /* black-border
@@ -304,43 +331,48 @@ $black: #333;
 
   background-color: #000;
 
-  .card-content {
-    background-color: #fff;
-  }
-
-  text-align: center;
-
-  .card-picture {
-    position: relative;
-    z-index: 2;
-    top: 10%;
-    left: auto;
-    margin: 0 auto;
-    min-height: emCalc(80);
-  }
-
   &.card-big .no-picture {
     display: block !important;
     opacity: 0;
   }
-
-  .vcard {
-    position: relative;
-    top: 8%;
-    left: auto;
-    display: block;
-    padding: 4%;
+  
+  .card-content {
+    background-color: #fff;
 
     text-align: center;
-    color: #000;
 
-    p {
-      line-height: 1em;
+    .card-picture {
+      position: relative;
+      z-index: 2;
+      top: 8%;
+      left: auto;
+      margin: 0 auto;
+      min-height: emCalc(80);
+    }
+
+    .person,
+    .details,
+    .email,
+    .url {
+      display: block;
+      padding: 4%;
+
+      text-align: center;
+      color: #000;
+
+      p {
+        line-height: 1em;
+      }
+      
     }
 
     .person {
+      position: relative;
+      top: 16%;
+      left: 0;
       display: block;
-      margin: 0;
+      width: 92%;
+      margin: 0 auto;
       background-color: #fff;
 
       font-size: emCalc(20);
@@ -357,7 +389,11 @@ $black: #333;
 
     .email,
     .url {
+      position: relative;
+      top: auto;
+      left: auto;
       display: inline-block;
+      margin-top: 10%;
       margin-right: emCalc(-6);
       background-color: #000;
 
@@ -373,110 +409,9 @@ $black: #333;
     .card-item {
       padding: emCalc(2) emCalc(8);
     }
-
-  }
-}
-
-
-/* asphalt-half
-*/
-.asphalt-half,
-.asphalt-half-thumb .theme-preview {
-  @include background-image(
-    linear-gradient(
-      left,
-      #34495E 0%,
-      #34495E 56%,
-      #3498DB 56%,
-      #3498DB 100%
-    )
-  );
-
-  /* Funky notation for html2canvas - until it implements w3c gradients
-  */
-  @include custom-gradient(
-    left,
-    #34495E 0%,
-    #34495E 56%,
-    #3498DB 56%,
-    #3498DB 100%
-  );
-}
-
-.asphalt-half {
-  @include theme(dark);
-
-  .card-picture {
-    width: emCalc(200);
-    height: emCalc(120);
-    top: auto;
-    left: emCalc(28);
-    bottom: emCalc(20);
-
-    font-size: emCalc(12);
+    
   }
 
-  .vcard {
-    position: relative;
-    left: 0;
-    top: 0;
-    bottom: 0;
-
-    color: #000;
-
-    .person {
-      left: emCalc(20);
-      top: emCalc(40);
-      width: emCalc(200);
-
-      color: #fff;
-
-      .fn {
-        font-size: emCalc(18);
-      }
-
-      .title {
-        display: inline-block;
-        border-bottom: 3px solid #fff;
-      }
-    }
-
-    .details,
-    .email,
-    .url {
-      top: emCalc(48);
-      left: emCalc(292);
-      width: emCalc(170);
-
-      color: darken(#3498DB, 37%);
-      font-size: emCalc(14);
-    }
-
-    .email {
-      top: emCalc(160);
-    }
-
-    .url {
-      top: emCalc(188);
-    }
-
-    a {
-      color: #000;
-    }
-
-    p {
-      line-height: 1.2em;
-    }
-
-    .card-item {
-      position: absolute;
-      display: block;
-    }
-
-    .card-item:hover {
-      background-color: rgba($black, .1);
-    }
-  }
 }
 
 /* line-one
@@ -488,6 +423,8 @@ $black: #333;
   color: $white;
   background-color: $color;
 
+  @include theme(dark);
+  
   .theme-preview {
     background-color: $color;
 
@@ -502,40 +439,42 @@ $black: #333;
       border-bottom: 1px solid $color2;
     }
   }
+  
+  .card-content {
 
-  @include theme(dark);
+    .card-picture {
+      width: emCalc(150);
+      height: emCalc(50);
+      top: emCalc(20);
+      left: emCalc(20);
 
-  .card-picture {
-    width: emCalc(150);
-    height: emCalc(50);
-    top: emCalc(20);
-    left: emCalc(20);
+      .no-picture {
+        padding: emCalc(8) 0;
 
-    .no-picture {
-      padding: emCalc(8) 0;
+        text-align: left;
+      }
 
-      text-align: left;
+      i, span {
+        font-size: emCalc(12);
+      }
     }
 
-    i, span {
-      font-size: emCalc(12);
+    .person,
+    .details,
+    .email,
+    .url {
+      color: #000;
+      vertical-align: baseline;
+      
+      @include clearfix;
     }
-  }
-
-  .vcard {
-    position: absolute;
-    left: emCalc(20);
-    top: emCalc(100);
-    display: block;
-    width: emCalc(390);
-    height: emCalc(100);
-
-    color: #000;
-    vertical-align: baseline;
-
-    @include clearfix;
 
     .person {
+      left: 0;
+      top: 40%;
+      display: block;
+      width: 90%;
+
       width: 100%;
       padding-bottom: emCalc(12);
       border-bottom: 1px solid $color2;
@@ -589,9 +528,116 @@ $black: #333;
       display: block;
     }
   }
+  
 }
 
 .line-one,
 .line-one-thumb {
   @include line-one(#2C3E50);
+}
+
+
+/* asphalt-half
+*/
+.asphalt-half,
+.asphalt-half-thumb .theme-preview {
+  @include background-image(
+    linear-gradient(
+      left,
+      #34495E 0%,
+      #34495E 56%,
+      #3498DB 56%,
+      #3498DB 100%
+    )
+  );
+
+  /* Funky notation for html2canvas - until it implements w3c gradients
+  */
+  @include custom-gradient(
+    left,
+    #34495E 0%,
+    #34495E 56%,
+    #3498DB 56%,
+    #3498DB 100%
+  );
+}
+
+.asphalt-half .card-content {
+  @include theme(dark);
+
+  .card-picture {
+    width: emCalc(200);
+    height: emCalc(120);
+    top: auto;
+    left: emCalc(28);
+    bottom: emCalc(20);
+
+    font-size: emCalc(12);
+  }
+
+  .person,
+  .details,
+  .email,
+  .url {
+    //position: relative;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    color: #000;
+  }
+
+  .person {
+    left: emCalc(20);
+    top: emCalc(40);
+    width: emCalc(200);
+
+    color: #fff;
+
+    .fn {
+      font-size: emCalc(18);
+    }
+
+    .title {
+      display: inline-block;
+      border-bottom: 3px solid #fff;
+    }
+  }
+
+  .details,
+  .email,
+  .url {
+    top: emCalc(48);
+    left: emCalc(292);
+    width: emCalc(170);
+
+    color: darken(#3498DB, 37%);
+    font-size: emCalc(14);
+  }
+
+  .email {
+    top: emCalc(160);
+  }
+
+  .url {
+    top: emCalc(188);
+  }
+
+  a {
+    color: #000;
+  }
+
+  p {
+    line-height: 1.2em;
+  }
+
+  .card-item {
+    position: absolute;
+    display: block;
+  }
+
+  .card-item:hover {
+    background-color: rgba($black, .1);
+  }
+
 }

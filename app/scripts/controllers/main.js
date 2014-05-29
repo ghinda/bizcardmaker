@@ -285,10 +285,24 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   $scope.OpenOrderModal = function(modalQuery) {
 
     // check if any content is overflowing
-    var el = document.querySelector('.card-content');
-
-    var widthOverflow = parseInt(el.clientWidth, 10) < el.scrollWidth;
-    var heightOverflow = parseInt(el.clientHeight, 10) < el.scrollHeight;
+    var $content = document.querySelector('.card-content');
+    
+    // round values for scrollw/h and clientw/h manually
+    // because of 
+    // https://code.google.com/p/chromium/issues/detail?id=360889
+    // summary:
+    // chrome still doesn't return the exact float-point value for
+    // scrollW/H
+    
+    // round everything UP
+    var scrollWidth = Math.ceil($content.scrollWidth);
+    var scrollHeight = Math.ceil($content.scrollHeight);
+    
+    var clientWidth = Math.ceil($content.clientWidth);
+    var clientHeight = Math.ceil($content.clientHeight);
+    
+    var widthOverflow = (scrollWidth > clientWidth);
+    var heightOverflow = (scrollHeight > clientHeight);
 
     var isOverflowing = widthOverflow || heightOverflow;
 
@@ -309,11 +323,10 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // if the modal was previously opened, leave the details alone
     if(!model.openedModal) {
 
-      var $vcard = $('.vcard');
-      model.order.email = $('.email p', $vcard).text().trim();
-      model.order.name = $('.fn', $vcard).text().trim();
-      model.order.phone = $('.tel', $vcard).text().trim();
-      model.order.city = $('.locality', $vcard).text().trim();
+      model.order.email = $('.email p', $content).text().trim();
+      model.order.name = $('.fn', $content).text().trim();
+      model.order.phone = $('.tel', $content).text().trim();
+      model.order.city = $('.locality', $content).text().trim();
 
       model.openedModal = true;
     }

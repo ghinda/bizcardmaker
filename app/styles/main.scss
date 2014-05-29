@@ -458,6 +458,7 @@ footer {
     img {
       display: block;
       margin-bottom: emCalc(8);
+      border: 1px solid #efefef;
     }
   }
 }
@@ -581,6 +582,10 @@ input.ng-invalid {
     border: 0;
     background-color: $grey;
     box-shadow: none;
+    
+    &:after {
+      border-color: #444 transparent transparent;
+    }
   }
 
   > li:first-child {
