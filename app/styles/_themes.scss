@@ -16,7 +16,7 @@ $white: #fff;
 $black: #333;
 
 @mixin theme($type) {
-  
+
   @if $type == dark {
     $color: $white;
   }
@@ -132,7 +132,7 @@ $black: #333;
 }
 
 .black-corners-thumb {
-  
+
   .theme-preview:before,
   .theme-preview:after {
     content: '';
@@ -151,7 +151,7 @@ $black: #333;
     top: auto;
     right: auto;
   }
-  
+
 }
 
 
@@ -178,24 +178,24 @@ $black: #333;
     text-align: right;
     letter-spacing: emCalc(-0.5);
   }
-  
+
   .details p,
   .person p {
     line-height: 1em;
   }
-  
+
   .details {
     top: 40%;
   }
-  
+
   .email {
     top: 66%;
   }
-  
+
   .url {
     top: 76%;
   }
- 
+
 }
 
 /* black-white
@@ -249,19 +249,19 @@ $black: #333;
       line-height: 1.2em;
     }
   }
-  
+
   .details {
     top: 48%;
   }
-  
+
   .email {
     top: 74%;
   }
-  
+
   .url {
     top: 82%;
   }
-  
+
   .card-item:hover {
     background-color: rgba($black, .1);
   }
@@ -282,14 +282,14 @@ $black: #333;
 
     opacity: 1 !important;
   }
-  
+
   .card-item {
     left: 55%;
     padding: emCalc(4);
     background-color: $white;
 
     color: #000;
-    
+
     &:hover {
       background-color: darken($white, 10%);
     }
@@ -302,7 +302,7 @@ $black: #333;
       line-height: 1.2em;
     }
   }
-  
+
 }
 
 /* black-border
@@ -335,7 +335,7 @@ $black: #333;
     display: block !important;
     opacity: 0;
   }
-  
+
   .card-content {
     background-color: #fff;
 
@@ -363,7 +363,7 @@ $black: #333;
       p {
         line-height: 1em;
       }
-      
+
     }
 
     .person {
@@ -409,7 +409,7 @@ $black: #333;
     .card-item {
       padding: emCalc(2) emCalc(8);
     }
-    
+
   }
 
 }
@@ -424,7 +424,7 @@ $black: #333;
   background-color: $color;
 
   @include theme(dark);
-  
+
   .theme-preview {
     background-color: $color;
 
@@ -439,14 +439,14 @@ $black: #333;
       border-bottom: 1px solid $color2;
     }
   }
-  
+
   .card-content {
 
     .card-picture {
       width: emCalc(150);
       height: emCalc(50);
-      top: emCalc(20);
-      left: emCalc(20);
+      top: 4%;
+      left: 4%;
 
       .no-picture {
         padding: emCalc(8) 0;
@@ -465,17 +465,16 @@ $black: #333;
     .url {
       color: #000;
       vertical-align: baseline;
-      
+
       @include clearfix;
     }
 
     .person {
-      left: 0;
-      top: 40%;
+      left: 4%;
+      top: 44%;
       display: block;
-      width: 90%;
+      width: 92%;
 
-      width: 100%;
       padding-bottom: emCalc(12);
       border-bottom: 1px solid $color2;
 
@@ -502,20 +501,21 @@ $black: #333;
 
     .email,
     .url {
-      top: emCalc(56);
-      width: 50%;
+      top: 60%;
+      width: 46%;
 
       color: lighten($color, 50%);
       font-size: emCalc(10);
     }
 
     .email {
-      left: 0;
+      left: 4%;
       border-right: 1px solid $color2;
     }
 
     .url {
-      right: 0;
+      left: auto;
+      right: 4%;
       text-align: right;
     }
 
@@ -528,7 +528,7 @@ $black: #333;
       display: block;
     }
   }
-  
+
 }
 
 .line-one,
@@ -545,8 +545,8 @@ $black: #333;
     linear-gradient(
       left,
       #34495E 0%,
-      #34495E 56%,
-      #3498DB 56%,
+      #34495E 58%,
+      #3498DB 58%,
       #3498DB 100%
     )
   );
@@ -556,8 +556,8 @@ $black: #333;
   @include custom-gradient(
     left,
     #34495E 0%,
-    #34495E 56%,
-    #3498DB 56%,
+    #34495E 58%,
+    #3498DB 58%,
     #3498DB 100%
   );
 }
@@ -569,28 +569,15 @@ $black: #333;
     width: emCalc(200);
     height: emCalc(120);
     top: auto;
-    left: emCalc(28);
-    bottom: emCalc(20);
+    left: 4%;
+    bottom: 4%;
 
     font-size: emCalc(12);
   }
 
-  .person,
-  .details,
-  .email,
-  .url {
-    //position: relative;
-    left: 0;
-    top: 0;
-    bottom: 0;
-
-    color: #000;
-  }
-
   .person {
-    left: emCalc(20);
-    top: emCalc(40);
-    width: emCalc(200);
+    left: 4%;
+    top: 12%;
 
     color: #fff;
 
@@ -607,20 +594,19 @@ $black: #333;
   .details,
   .email,
   .url {
-    top: emCalc(48);
-    left: emCalc(292);
-    width: emCalc(170);
+    top: 12%;
+    left: 64%;
 
     color: darken(#3498DB, 37%);
     font-size: emCalc(14);
   }
 
   .email {
-    top: emCalc(160);
+    top: 56%;
   }
 
   .url {
-    top: emCalc(188);
+    top: 68%;
   }
 
   a {

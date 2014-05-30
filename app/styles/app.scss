@@ -156,14 +156,14 @@ $card-border: 1px solid darken($white, 10%);
   .no-picture {
     display: none;
   }
-  
+
   /* Make sure the drag handles are not still visible
    * when taking the canvas picture,
    * beacause of transitions
    */
   .drag-handle {
     border-color: transparent !important;
-    
+
     @include transition(none);
     @include transition-delay(0);
   }
@@ -232,7 +232,7 @@ $color-handle: desaturate($color1, 60%);
     height: 100%;
     position: relative;
     cursor: pointer;
-    
+
     * {
       cursor: pointer;
     }
@@ -266,9 +266,9 @@ $color-handle: desaturate($color1, 60%);
 
   .card-item,
   .card-item p {
-    position: relative; 
+    position: relative;
   }
-  
+
   .card-item {
     position: absolute;
     left: 52%;
@@ -282,7 +282,7 @@ $color-handle: desaturate($color1, 60%);
   .card-item:hover {
     background-color: rgba($color1, .3);
   }
-  
+
   .person {
     top: 4%;
   }

@@ -286,21 +286,21 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     // check if any content is overflowing
     var $content = document.querySelector('.card-content');
-    
+
     // round values for scrollw/h and clientw/h manually
-    // because of 
+    // because of
     // https://code.google.com/p/chromium/issues/detail?id=360889
     // summary:
     // chrome still doesn't return the exact float-point value for
     // scrollW/H
-    
+
     // round everything UP
     var scrollWidth = Math.ceil($content.scrollWidth);
     var scrollHeight = Math.ceil($content.scrollHeight);
-    
+
     var clientWidth = Math.ceil($content.clientWidth);
     var clientHeight = Math.ceil($content.clientHeight);
-    
+
     var widthOverflow = (scrollWidth > clientWidth);
     var heightOverflow = (scrollHeight > clientHeight);
 
@@ -314,7 +314,12 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     overflowMessage += '* Moving the elements closer to the card center \n';
 
     if(isOverflowing) {
+
       window.alert(overflowMessage);
+
+      // track analytics
+      ga('send', 'event', 'Orders', 'Overflow error');
+
       return false;
     }
 
