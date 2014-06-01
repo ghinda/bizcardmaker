@@ -11,17 +11,17 @@ app.factory('data', function($rootScope, $http, $q) {
   var env = 'local';
 
   // dev
-  if(document.domain === 'dev.bizcardmaker.com') {
+  if(document.domain.indexOf('development.') !== -1) {
     env = 'dev';
   }
 
   // stage
-  if(document.domain === 'stage.bizcardmaker.com') {
+  if(document.domain.indexOf('staging.') !== -1) {
     env = 'stage';
   }
 
   // live
-  if(document.domain === 'www.bizcardmaker.com') {
+  if(document.domain.indexOf('www.') !== -1) {
     env = 'live';
   }
 

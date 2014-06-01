@@ -220,8 +220,8 @@ module.exports = function (grunt) {
           src: [
             'CNAME',
             '*.*',
-            'bower_components/**/*',
-            //'images/{,*/}*.{gif,webp,svg}',
+            //'bower_components/**/*',
+            'bower_components/font-awesome/**/*',
             'images/{,*/}*.*',
             'styles/fonts/*'
           ]
