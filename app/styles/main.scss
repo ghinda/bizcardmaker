@@ -528,6 +528,7 @@ input.ng-invalid {
 .reveal-modal {
   max-width: emCalc(1200);
   margin-left: 0;
+  border: 0;
 
   @include transform(translateX(-50%));
 }
@@ -582,7 +583,7 @@ input.ng-invalid {
     border: 0;
     background-color: $grey;
     box-shadow: none;
-    
+
     &:after {
       border-color: #444 transparent transparent;
     }
@@ -603,6 +604,13 @@ input.ng-invalid {
     border-radius: 3px !important;
   }
 
+}
+
+/* Manual upload button
+ */
+
+.manual-upload {
+  display: none;
 }
 
 /* AB testing

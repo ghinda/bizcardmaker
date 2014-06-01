@@ -188,7 +188,7 @@ $card-border: 1px solid darken($white, 10%);
   z-index: -1;
 }
 
-input[type=file] {
+.card-container input[type=file] {
   width: 1px;
   height:1px;
 }

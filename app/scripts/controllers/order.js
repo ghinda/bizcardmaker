@@ -70,7 +70,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   });
 
   // local testing
-  if(data.env === 'local') {
+  if(data.env === 'local' || data.env === 'dev') {
     model.order.postcode = '35801';
     model.order.address1 = 'H';
     model.order.card.number = '4030000010001234';
@@ -108,106 +108,101 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     var orderData = {};
 
     // generate base64 picture
-    $scope.generatePicture().then(function(canvas) {
+    orderData.image = model.imagePreview;
 
-      // send the canvas as a b64 jpeg
-      var jpegUrl = canvas.toDataURL('image/jpeg');
-      orderData.image = jpegUrl;
+    // user details
+    orderData.user = {
+      email: model.order.email,
+      name: model.order.name
+    };
 
-      // user details
-      orderData.user = {
-        email: model.order.email,
-        name: model.order.name
-      };
+    // billing details
+    orderData.billing = {};
+    orderData.billing.name = model.order.name;
+    orderData.billing.phone = model.order.phone;
 
-      // billing details
-      orderData.billing = {};
-      orderData.billing.name = model.order.name;
-      orderData.billing.phone = model.order.phone;
+    // billing address
+    orderData.billing.address = {};
+    orderData.billing.address.city = model.order.city;
+    orderData.billing.address.region = model.order.region.id;
+    orderData.billing.address.country = model.order.country.id;
+    orderData.billing.address.postal_code = model.order.postcode;
+    orderData.billing.address.street = model.order.address1;
+    orderData.billing.address.street2 = model.order.address2 || '';
 
-      // billing address
-      orderData.billing.address = {};
-      orderData.billing.address.city = model.order.city;
-      orderData.billing.address.region = model.order.region.id;
-      orderData.billing.address.country = model.order.country.id;
-      orderData.billing.address.postal_code = model.order.postcode;
-      orderData.billing.address.street = model.order.address1;
-      orderData.billing.address.street2 = model.order.address2 || '';
+    // offer details
+    orderData.billing.amount = angular.copy(model.offers[model.order.selectedOffer].amount);
 
-      // offer details
-      orderData.billing.amount = angular.copy(model.offers[model.order.selectedOffer].amount);
+    orderData.offer = {};
+    orderData.offer.id = model.offers[model.order.selectedOffer].id;
 
-      orderData.offer = {};
-      orderData.offer.id = model.offers[model.order.selectedOffer].id;
+    // payment details
+    orderData.billing.credit_card = {};
+    orderData.billing.credit_card.number = model.order.card.number.replace(/ /g, '');
+    orderData.billing.credit_card.verification = model.order.card.csc;
 
-      // payment details
-      orderData.billing.credit_card = {};
-      orderData.billing.credit_card.number = model.order.card.number.replace(/ /g, '');
-      orderData.billing.credit_card.verification = model.order.card.csc;
+    var exp = model.order.card.exp.replace(/ /g, '').split('/');
+    orderData.billing.credit_card.expiry = {};
+    orderData.billing.credit_card.expiry.month = exp[0];
 
-      var exp = model.order.card.exp.replace(/ /g, '').split('/');
-      orderData.billing.credit_card.expiry = {};
-      orderData.billing.credit_card.expiry.month = exp[0];
+    // if year is only two digits, prepend 20
+    if(exp[1].length === 2) {
+      exp[1] = '20' + exp[1];
+    }
 
-      // if year is only two digits, prepend 20
-      if(exp[1].length === 2) {
-        exp[1] = '20' + exp[1];
-      }
+    orderData.billing.credit_card.expiry.year = exp[1];
 
-      orderData.billing.credit_card.expiry.year = exp[1];
+    // shipping details
+    orderData.shipping = {};
+    if(model.order.shippingDetailsCustom) {
 
-      // shipping details
-      orderData.shipping = {};
-      if(model.order.shippingDetailsCustom) {
+      orderData.shipping.name = model.shipping.name;
+      orderData.shipping.phone = model.shipping.phone;
 
-        orderData.shipping.name = model.shipping.name;
-        orderData.shipping.phone = model.shipping.phone;
+      orderData.shipping.address = {};
+      orderData.shipping.address.city = model.shipping.city;
+      orderData.shipping.address.region = model.shipping.region.id;
+      orderData.shipping.address.country = model.shipping.country.id;
+      orderData.shipping.address.postal_code = model.shipping.postcode;
+      orderData.shipping.address.street = model.shipping.address1;
+      orderData.shipping.address.street2 = model.shipping.address2 || '';
 
-        orderData.shipping.address = {};
-        orderData.shipping.address.city = model.shipping.city;
-        orderData.shipping.address.region = model.shipping.region.id;
-        orderData.shipping.address.country = model.shipping.country.id;
-        orderData.shipping.address.postal_code = model.shipping.postcode;
-        orderData.shipping.address.street = model.shipping.address1;
-        orderData.shipping.address.street2 = model.shipping.address2 || '';
+    } else {
 
-      } else {
+      orderData.shipping.name = orderData.billing.name;
+      orderData.shipping.phone = orderData.billing.phone;
+      orderData.shipping.address = orderData.billing.address;
 
-        orderData.shipping.name = orderData.billing.name;
-        orderData.shipping.phone = orderData.billing.phone;
-        orderData.shipping.address = orderData.billing.address;
+    }
 
-      }
+    data.SendOrder(orderData).then(function() {
 
-      data.SendOrder(orderData).then(function() {
+      model.orderLoading = false;
 
-        model.orderLoading = false;
+      model.error = '';
+      model.orderSuccess = true;
 
-        model.error = '';
-        model.orderSuccess = true;
+      // hide the modal in 5s
+      $timeout(function() {
+        $('#modal-order').foundation('reveal', 'close');
+      }, 5000);
 
-        // hide the modal in 5s
-        $timeout(function() {
-          $('#modal-order').foundation('reveal', 'close');
-        }, 5000);
+      // track analytics
+      ga('send', 'event', 'Orders', 'Successful order', orderData.offer.id);
 
-        // track analytics
-        ga('send', 'event', 'Orders', 'Successful order', orderData.offer.id);
+    }, function(err) {
 
-      }, function(err) {
+      model.error = err.error || 'Please try again later.';
+      model.orderLoading = false;
 
-        model.error = err.error || 'Please try again later.';
-        model.orderLoading = false;
-
-        // track analytics
-        ga('send', 'event', 'Orders', 'Order error', model.error);
-
-      });
-
-      // scroll back to the bottom, because html2canvas takes us to the top*
-      window.scrollTo(0, document.body.scrollHeight - 950);
+      // track analytics
+      ga('send', 'event', 'Orders', 'Order error', model.error);
 
     });
+
+    // scroll to the modal top
+    // so the users sees the error messages
+    window.scrollTo(0, document.body.scrollHeight - 950);
 
 
     // prevent form submission
@@ -216,5 +211,36 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     event.preventDefault();
 
   };
+
+  $scope.ManualUpload = function() {
+
+    $scope.$watch('model.manualUploadFile', function() {
+
+      if(model.manualUploadFile) {
+
+        var imageType = /image.*/;
+
+        if (model.manualUploadFile.type.match(imageType)) {
+          var reader = new FileReader();
+
+          reader.onload = function() {
+
+            $timeout(function() {
+              model.imagePreview = reader.result;
+            });
+
+          };
+
+          reader.readAsDataURL(model.manualUploadFile);
+
+        }
+
+      }
+
+    });
+
+  };
+
+
 
 });
