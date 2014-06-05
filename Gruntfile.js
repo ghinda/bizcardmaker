@@ -355,7 +355,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('deploy', [
     'default',
-    'buildcontrol:www'
+    'buildcontrol:www',
+    'shell:www'
   ]);
 
   grunt.registerTask('devdeploy', [
