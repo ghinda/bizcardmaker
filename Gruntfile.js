@@ -283,37 +283,39 @@ module.exports = function (grunt) {
         push: true,
         message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
       },
-      stage: {
+      staging: {
         options: {
-          remote: 'git@github.com:ghinda/bizcardmaker-dev.git',
-          branch: 'gh-pages'
+          remote: 'git+ssh://84716@git.dc1.gpaas.net/staging.bizcardmaker.com.git',
+          branch: 'master'
         }
       },
-      dev: {
+      development: {
         options: {
           remote: 'git+ssh://84716@git.dc1.gpaas.net/development.bizcardmaker.com.git',
           branch: 'master'
         }
       },
-      dist: {
+      www: {
         options: {
-          remote: 'git@github.com:ghinda/bizcardmaker.git',
-          branch: 'gh-pages'
+          remote: 'git+ssh://84716@git.dc1.gpaas.net/www.bizcardmaker.com.git',
+          branch: 'master'
         }
       }
     },
     shell: {
-      dev: {
+      development: {
         command: 'ssh 84716@git.dc1.gpaas.net \'deploy development.bizcardmaker.com.git\''
+      },
+      staging: {
+        command: 'ssh 84716@git.dc1.gpaas.net \'deploy staging.bizcardmaker.com.git\''
+      },
+      www: {
+        command: 'ssh 84716@git.dc1.gpaas.net \'deploy www.bizcardmaker.com.git\''
       }
     }
   });
 
   grunt.registerTask('server', function (target) {
-    if (target === 'dist') {
-      return grunt.task.run(['build', 'connect:dist:keepalive']);
-    }
-
     grunt.task.run([
       'clean:server',
       'concurrent:server',
@@ -353,14 +355,15 @@ module.exports = function (grunt) {
 
   grunt.registerTask('deploy', [
     'default',
-    'buildcontrol:dist'
+    'buildcontrol:www'
   ]);
 
   grunt.registerTask('devdeploy', [
     'default',
-    'copy:dev',
-    'buildcontrol:dev',
-    'buildcontrol:stage',
-    'shell:dev'
+    //'copy:dev',
+    'buildcontrol:development',
+    'buildcontrol:staging',
+    'shell:development',
+    'shell:staging'
   ]);
 };
