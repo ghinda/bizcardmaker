@@ -212,17 +212,6 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      root: {
-        files: [{
-          expand: true,
-          dot: true,
-          cwd: '<%= yeoman.app %>/root',
-          dest: '<%= yeoman.deploy %>',
-          src: [
-            '*.*'
-          ]
-        }]
-      },
       dist: {
         files: [{
           expand: true,
@@ -366,7 +355,6 @@ module.exports = function (grunt) {
 
   grunt.registerTask('deploy', [
     'default',
-    'copy:root',
     'buildcontrol:www',
     'shell:www'
   ]);
