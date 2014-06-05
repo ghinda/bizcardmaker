@@ -290,7 +290,7 @@ module.exports = function (grunt) {
       },
       dev: {
         options: {
-          remote: 'git@github.com:ghinda/bizcardmaker-dev.git',
+          remote: 'git+ssh://84716@git.dc1.gpaas.net/development.bizcardmaker.com.git',
           branch: 'master'
         }
       },
@@ -299,6 +299,11 @@ module.exports = function (grunt) {
           remote: 'git@github.com:ghinda/bizcardmaker.git',
           branch: 'gh-pages'
         }
+      }
+    },
+    shell: {
+      dev: {
+        command: 'ssh 84716@git.dc1.gpaas.net \'deploy development.bizcardmaker.com.git\''
       }
     }
   });
@@ -354,6 +359,7 @@ module.exports = function (grunt) {
     'default',
     'copy:dev',
     'buildcontrol:dev',
-    'buildcontrol:stage'
+    'buildcontrol:stage',
+    'shell:dev'
   ]);
 };
