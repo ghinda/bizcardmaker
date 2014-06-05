@@ -14,7 +14,8 @@ module.exports = function (grunt) {
   // configurable paths
   var yeomanConfig = {
     app: 'app',
-    dist: 'public/htdocs'
+    dist: 'public/htdocs',
+    deploy: 'public'
   };
 
   try {
@@ -85,7 +86,7 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= yeoman.dist %>',
+          cwd: '<%= yeoman.deploy %>',
           src: [
             '.git',
             '*'
@@ -277,7 +278,7 @@ module.exports = function (grunt) {
     },
     buildcontrol: {
       options: {
-        dir: 'public',
+        dir: '<%= yeoman.deploy %>',
         commit: true,
         push: true,
         message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
