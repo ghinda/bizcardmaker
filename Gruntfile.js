@@ -315,13 +315,13 @@ module.exports = function (grunt) {
     },
     shell: {
       development: {
-        command: 'ssh 84716@git.dc1.gpaas.net \'deploy development.bizcardmaker.com.git\''
+        command: 'ssh 84716@git.dc1.gpaas.net "deploy development.bizcardmaker.com.git"'
       },
       staging: {
-        command: 'ssh 84716@git.dc1.gpaas.net \'deploy staging.bizcardmaker.com.git\''
+        command: 'ssh 84716@git.dc1.gpaas.net "deploy staging.bizcardmaker.com.git"'
       },
       www: {
-        command: 'ssh 84716@git.dc1.gpaas.net \'deploy www.bizcardmaker.com.git\''
+        command: 'ssh 84716@git.dc1.gpaas.net "deploy www.bizcardmaker.com.git"'
       }
     }
   });
