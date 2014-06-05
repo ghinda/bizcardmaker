@@ -86,9 +86,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
+          dot: true,
           cwd: '<%= yeoman.deploy %>',
           src: [
-            '.git',
             '*'
           ]
         }]
