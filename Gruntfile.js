@@ -366,7 +366,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('deploy', [
     'default',
-    'copy:live',
+    'copy:www',
     'buildcontrol:www',
     'shell:www'
   ]);
