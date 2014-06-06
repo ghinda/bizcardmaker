@@ -302,16 +302,10 @@ module.exports = function (grunt) {
         }
       }
     },
-    shell: {
-      development: {
-        command: 'ssh 84716@git.dc1.gpaas.net "deploy development.bizcardmaker.com.git"'
-      },
-      staging: {
-        command: 'ssh 84716@git.dc1.gpaas.net "deploy staging.bizcardmaker.com.git"'
-      },
-      www: {
-        command: 'ssh 84716@git.dc1.gpaas.net "deploy www.bizcardmaker.com.git"'
-      }
+    exec: {
+      development: 'ssh 84716@git.dc1.gpaas.net "deploy development.bizcardmaker.com.git"',
+      staging: 'ssh 84716@git.dc1.gpaas.net "deploy staging.bizcardmaker.com.git"',
+      www: 'ssh 84716@git.dc1.gpaas.net "deploy www.bizcardmaker.com.git"'
     }
   });
 
@@ -356,7 +350,7 @@ module.exports = function (grunt) {
   grunt.registerTask('deploy', [
     'default',
     'buildcontrol:www',
-    'shell:www'
+    'exec:www'
   ]);
 
   grunt.registerTask('devdeploy', [
@@ -364,7 +358,8 @@ module.exports = function (grunt) {
     'copy:dev',
     'buildcontrol:development',
     'buildcontrol:staging',
-    'shell:development',
-    'shell:staging'
+    'exec:development',
+    'exec:staging'
   ]);
+
 };

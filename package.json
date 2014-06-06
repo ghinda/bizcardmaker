@@ -24,12 +24,11 @@
     "grunt-sass": "~0",
     "assemble": "~0",
     "grunt-build-control": "~0.1.x",
-    "grunt-shell": "~0.7.x"
+    "grunt-exec": "~0.4.x"
   },
   "engines": {
     "node": ">=0.8.0"
   },
   "dependencies": {
-
   }
 }
