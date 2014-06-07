@@ -266,8 +266,10 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
           // FileSaver is included in jsPdf
           saveAs(blob, model.imageFilename);
 
-          // scroll back to the bottom, since saveAs scrolls to the top
-          window.scrollTo(0, document.body.scrollHeight - 950);
+          // scroll back to the card
+          // since saveAs scrolls to the top
+          var $cardContainer = $('.card-container');
+          $cardContainer[0].scrollIntoView(true);
 
         },
         'image/jpeg'
@@ -282,7 +284,9 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   model.openedModal = false;
   model.order = {};
-  $scope.OpenOrderModal = function(modalQuery) {
+  $scope.OpenOrderModal = function() {
+
+    var $modalOrder = $('#modal-order');
 
     // check if any content is overflowing
     var $content = document.querySelector('.card-content');
@@ -339,16 +343,13 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // generate image preview
     $scope.generatePicture().then(function(canvas) {
 
+      // open the reveal modal
+      $modalOrder.foundation('reveal', 'open');
+
       var jpegUrl = canvas.toDataURL('image/jpeg');
       model.imagePreview = jpegUrl;
 
-      // scroll back to the bottom, since generatePicture scrolls to the top
-      window.scrollTo(0, document.body.scrollHeight);
-
     });
-
-    // open the reveal modal
-    $(modalQuery).foundation('reveal', 'open');
 
     // track analytics
     ga('send', 'event', 'Orders', 'Begin order');
@@ -377,6 +378,12 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       $cardContent.scrollLeft = 0;
     });
 
+  });
+
+  $(document).on('opened', '[data-reveal]', function () {
+    // scroll to modal top when opened
+    var modal = $(this);
+    modal[0].scrollIntoView(true);
   });
 
 });

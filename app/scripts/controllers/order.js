@@ -80,6 +80,13 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
   $scope.SendOrder = function(event) {
 
+    var $modalOrder = $('#modal-order');
+
+    // scroll to modal top
+    var scrollToModal = function() {
+      $modalOrder[0].scrollIntoView(true);
+    };
+
     // make sure the form is valid
     if(!$scope.orderForm.$valid) {
 
@@ -177,6 +184,10 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     data.SendOrder(orderData).then(function() {
 
+      // scroll to modal top
+      // so the users sees the success messages
+      scrollToModal();
+
       model.orderLoading = false;
 
       model.error = '';
@@ -184,13 +195,16 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       // hide the modal in 5s
       $timeout(function() {
-        $('#modal-order').foundation('reveal', 'close');
+        $modalOrder.foundation('reveal', 'close');
       }, 5000);
 
       // track analytics
       ga('send', 'event', 'Orders', 'Successful order', orderData.offer.id);
 
     }, function(err) {
+
+      // scroll to top to see errors
+      scrollToModal();
 
       model.error = err.error || 'Please try again later.';
       model.orderLoading = false;
@@ -200,10 +214,8 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     });
 
-    // scroll to the modal top
-    // so the users sees the error messages
-    window.scrollTo(0, document.body.scrollHeight - 950);
-
+    // scroll to top to see loading
+    scrollToModal();
 
     // prevent form submission
     // for some weird reason, angular doesn't prevent submission automatically
@@ -241,6 +253,14 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
   };
 
+  // error message when trying to close the window
+  // while order is in progress
+  var TabCloseAlert = function(e) {
+    if(model.orderLoading) {
+      return 'You order is currently in progress. Please wait for it to finish before closing the page. '
+    }
+  };
 
+  window.onbeforeunload = TabCloseAlert;
 
 });
