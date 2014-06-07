@@ -205,71 +205,89 @@
           </div>
         </div>
 
-        <h4>
-          Payment
-        </h4>
+        <div class="payment-block">
 
-        <div class="row">
-          <div class="large-4 columns">
-            <label>
-              Credit Card number
+          <i class="fa fa-lock icon-lock"></i>
 
-              <input type="text"
-                payment="formatCardNumber"
-                x-autocompletetype="cc-number"
-                placeholder="Card number"
-                ng-model="model.order.card.number"
-                card-type="model.order.card.type"
-                class="cc-number"
-                ng-class="{
-                  'card-visa': model.order.card.type === 'visa'
-                }"
-                required>
+          <h4>
+            Secure credit card payment
+            <small>This is a secure 128-bit SSL encrypted payment. </small>
+          </h4>
 
-            </label>
+          <a href="https://www.positivessl.com" target="_blank" class="ssl-seal">
+            <img src="images/ssl-seal.png" alt="SSL Certificate" title="SSL Certificate" border="0" />
+          </a>
+
+          <div class="row">
+            <div class="large-4 columns">
+              <label>
+                Credit Card number
+
+                <input type="text"
+                  payment="formatCardNumber"
+                  x-autocompletetype="cc-number"
+                  placeholder="Card number"
+                  ng-model="model.order.card.number"
+                  card-type="model.order.card.type"
+                  class="cc-number"
+                  ng-class="{
+                    'card-visa': model.order.card.type === 'visa'
+                  }"
+                  required>
+
+                  <div class="card-icons">
+                    <i class="card-icon visa"></i>
+                    <i class="card-icon mastercard"></i>
+                    <i class="card-icon amex"></i>
+                    <i class="card-icon discover"></i>
+                  </div>
+
+              </label>
+            </div>
+            <div class="large-4 columns">
+              <label>
+                Expiry date
+
+                <input type="text"
+                  payment="formatCardExpiry"
+                  x-autocompletetype="cc-exp"
+                  placeholder="Expires MM/YY"
+                  maxlength="9"
+                  ng-model="model.order.card.exp"
+                  required>
+
+              </label>
+            </div>
+            <div class="large-4 columns" ng-class="{ 'error': orderForm.cvc.$invalid }">
+              <label>
+                Security code
+
+                <input type="text"
+                  x-autocompletetype="cc-csc"
+                  placeholder="Security code"
+                  maxlength="4"
+                  autocomplete="off"
+                  payment="formatCardCVC"
+                  ng-model="model.order.card.csc"
+                  card-number="order.card.number"
+                  ng-minlength="3"
+                  name="cvc"
+                  required>
+
+              </label>
+
+              <small class="error" ng-show="orderForm.cvc.$dirty && orderForm.cvc.$invalid">
+                Security code must have at least 3 characters.
+              </small>
+
+              <small class="cvc-help">
+                <img src="/images/creditcard-cvc.png">
+
+                The <strong>last 3 digits</strong> in the signature strip of your card.
+              </small>
+            </div>
           </div>
-          <div class="large-4 columns">
-            <label>
-              Expiry date
 
-              <input type="text"
-                payment="formatCardExpiry"
-                x-autocompletetype="cc-exp"
-                placeholder="Expires MM/YY"
-                maxlength="9"
-                ng-model="model.order.card.exp"
-                required>
-
-            </label>
-          </div>
-          <div class="large-4 columns" ng-class="{ 'error': orderForm.cvc.$invalid }">
-            <label>
-              Security code
-
-              <input type="text"
-                x-autocompletetype="cc-csc"
-                placeholder="Security code"
-                maxlength="4"
-                autocomplete="off"
-                payment="formatCardCVC"
-                ng-model="model.order.card.csc"
-                card-number="order.card.number"
-                ng-minlength="3"
-                name="cvc"
-                required>
-
-            </label>
-
-            <small class="error" ng-show="orderForm.cvc.$dirty && orderForm.cvc.$invalid">
-              Security code must have at least 3 characters.
-            </small>
-
-            <small class="cvc-help">
-              <img src="/images/creditcard-cvc.png">
-
-              The <strong>last 3 digits</strong> in the signature strip of your card.
-            </small>
-          </div>
         </div>
 
         <h4>
