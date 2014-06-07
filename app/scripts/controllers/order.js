@@ -257,7 +257,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   // while order is in progress
   var TabCloseAlert = function(e) {
     if(model.orderLoading) {
-      return 'You order is currently in progress. Please wait for it to finish before closing the page. '
+      return 'Your order is currently in progress. Please wait for it to finish before closing the page. ';
     }
   };
 
