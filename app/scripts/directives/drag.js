@@ -1,30 +1,36 @@
-/* Drag directive
+/* DragResize directive
  */
 
-app.directive('dragModel', function ($document, $timeout) {
+app.directive('drModel', function ($document, $timeout) {
   'use strict';
 
   return {
-    template: '<div class="drag-container">' +
-    '<div class="drag-handle"></div><div ng-transclude></div>' +
+    template: '<div class="dr-container">' +
+    '<div class="drag-handle"></div>' +
+    '<div class="resize-handle"></div>' +
+    '<div ng-transclude></div>' +
     '</div>',
     scope: {
-      dragModel: '=',
-      dragContainer: '@',
-      dragGrid: '@'
+      drModel: '=',
+      drContainer: '@',
+      drGrid: '@'
     },
     replace: true,
     transclude: true,
     link: function (scope, element) {
 
+      var classDrActive = 'dr-active';
+      var classDrShow = 'dr-handle-show';
+
       var $body = document.getElementsByTagName('body')[0];
       var $container = $body;
 
-      if(scope.dragContainer) {
-        $container = document.querySelector(scope.dragContainer);
+      if(scope.drContainer) {
+        $container = document.querySelector(scope.drContainer);
       }
-      
+
       var $dragHandle = element[0].querySelector('.drag-handle');
+      var $resizeHandle = element[0].querySelector('.resize-handle');
 
       var transformPrefixes = [
         'webkitTransform',
@@ -42,13 +48,14 @@ app.directive('dragModel', function ($document, $timeout) {
       var minY = 0;
       var maxY = 0;
 
-      var dragSize;
-      var containerSize;
-      var dragStartY;
-      var dragStartX;
       var dragActive = false;
+      var resizeActive = false;
 
-      var grid = scope.dragGrid;
+      var grid = scope.drGrid;
+
+      var maxGrid = function (val) {
+        return Math.floor(val/grid) * grid;
+      };
 
       var setContainment = function (argument) {
 
@@ -56,8 +63,8 @@ app.directive('dragModel', function ($document, $timeout) {
         var dragRect = $dragHandle.getBoundingClientRect();
         var containerRect = $container.getBoundingClientRect();
 
-        dragStartY = dragRect.top;
-        dragStartX = dragRect.left;
+        var dragStartY = dragRect.top;
+        var dragStartX = dragRect.left;
 
         minY = dragStartY - containerRect.top;
         minY = 0 - maxGrid(minY);
@@ -77,110 +84,140 @@ app.directive('dragModel', function ($document, $timeout) {
         return (val % grid === 0) ? val : val - val % grid;
       };
 
-      var maxGrid = function (val) {
-        return Math.floor(val/grid) * grid;
-      };
-
       var mousemove = function (e) {
 
-        if(!dragActive) {
+        if(!dragActive && !resizeActive) {
           return;
         }
 
-        x = e.touches[0].pageX - startX;
-        y = e.touches[0].pageY - startY;
+        // disable text selection
+        e.preventDefault();
 
-        x = restrictGrid(x);
-        y = restrictGrid(y);
+        x = restrictGrid(e.touches[0].pageX - startX);
+        y = restrictGrid(e.touches[0].pageY - startY);
 
-        if (x < minX) {
-          x = minX;
-        }
         if (x > maxX) {
           x = maxX;
-        }
-        if (y < minY) {
-          y = minY;
         }
         if (y > maxY) {
           y = maxY;
         }
 
-        var translate = 'translate3d(' + x + 'px ,' + y + 'px, 0)';
+        // drag
+        if(dragActive) {
+          if (x < minX) {
+            x = minX;
+          }
+          if (y < minY) {
+            y = minY;
+          }
 
-        angular.forEach(transformPrefixes, function(prefix) {
-          element.css(prefix, translate);
-        });
+          var translate = 'translate3d(' + x + 'px ,' + y + 'px, 0)';
 
-        // disable text selection
-        e.preventDefault();
+          angular.forEach(transformPrefixes, function(prefix) {
+            element.css(prefix, translate);
+          });
+        }
+
+        // resize
+        if(resizeActive) {
+          var newHeight = element._startHeight + y;
+          element.css('height', newHeight);
+
+          var newWidth = element._startWidth + x;
+          element.css('width', newWidth);
+        }
 
       };
 
       var mouseup = function (e) {
 
-        if(!dragActive) {
+        if(!dragActive && !resizeActive) {
           return;
         }
 
-        // remove transforms and set distance in px
-        angular.forEach(transformPrefixes, function(prefix) {
-          element.css(prefix, '');
-        });
+        if(dragActive) {
+          dragActive = false;
 
-        var left = x;
-        var top = y;
+          // remove transforms and set distance in px
+          angular.forEach(transformPrefixes, function(prefix) {
+            element.css(prefix, '');
+          });
 
-        if(element.css('position') === 'absolute') {
-          
-          // absolute elements
-          left += element[0].offsetLeft;
-          top += element[0].offsetTop;
+          var left = x;
+          var top = y;
 
-        } else {
+          if(element.css('position') === 'absolute') {
 
-          // relative elements
-          if(element.css('left') && element.css('left') !== 'auto') {
-            left = parseInt(element.css('left'), 10) + x;
+            // absolute elements
+            left += element[0].offsetLeft;
+            top += element[0].offsetTop;
+
+          } else {
+
+            // relative elements
+            if(element.css('left') && element.css('left') !== 'auto') {
+              left = parseInt(element.css('left'), 10) + x;
+            }
+
+            if(element.css('top') && element.css('top') !== 'auto') {
+              top = parseInt(element.css('top'), 10) + y;
+            }
+
           }
 
-          if(element.css('top') && element.css('top') !== 'auto') {
-            top = parseInt(element.css('top'), 10) + y;
-          }
+          element.css({
+            top:  top,
+            left:  left,
+            bottom: 'auto',
+            right: 'auto'
+          });
 
+          // set positions in model
+          scope.drModel.x = top;
+          scope.drModel.y = left;
         }
 
-        element.css({
-          top:  top,
-          left:  left,
-          bottom: 'auto',
-          right: 'auto'
-        });
+        if(resizeActive) {
+          resizeActive = false;
 
-        // set positions in model
-        scope.dragModel.x = top;
-        scope.dragModel.y = left;
+          // set sizes in model
+          scope.drModel.width = parseInt(element.css('width'));
+          scope.drModel.height = parseInt(element.css('height'));
+        }
 
         // remove active classes
-        dragActive = false;
-        $body.classList.remove('drag-active');
-        element[0].classList.remove('drag-handle-show');
+        $body.classList.remove(classDrActive);
+        element[0].classList.remove(classDrShow);
 
       };
 
       var mousedown = function(e) {
-        
+
+        var elem = e.target;
+
         // recalculate containment
         setContainment();
-        
-        dragActive = true;
-        $body.classList.add('drag-active');
-        element[0].classList.add('drag-handle-show');
 
         x = y = 0;
-        
+
         startX = e.touches[0].pageX - x;
         startY = e.touches[0].pageY - y;
+
+        // resize
+        if(elem === $resizeHandle) {
+          resizeActive = true;
+
+          //element._startY = event.pageY;
+          element._startHeight = parseInt(element.css('height'));
+          element._startWidth = parseInt(element.css('width'));
+        } else {
+          // drag
+          dragActive = true;
+        }
+
+        $body.classList.add(classDrActive);
+        element[0].classList.add(classDrShow);
 
       };
 
@@ -205,18 +242,23 @@ app.directive('dragModel', function ($document, $timeout) {
       };
 
       var emulateTouch = function(e) {
-        
+
         e.touches = [{
           clientX: e.clientX,
           clientY: e.clientY,
           pageX: e.pageX,
           pageY: e.pageY
         }];
-        
+
         return e;
-        
+
       };
-      
+
+      $resizeHandle.addEventListener('mousedown', function(e) {
+        mousedown(emulateTouch(e));
+      });
+      $resizeHandle.addEventListener('touchstart', mousedown);
+
       $dragHandle.addEventListener('mousedown', function(e) {
         mousedown(emulateTouch(e));
       });
@@ -226,7 +268,7 @@ app.directive('dragModel', function ($document, $timeout) {
         mousemove(emulateTouch(e));
       });
       document.addEventListener('touchmove', mousemove);
-      
+
       document.addEventListener('mouseup', mouseup);
       document.addEventListener('touchend', mouseup);
 

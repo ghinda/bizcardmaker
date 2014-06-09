@@ -3,25 +3,11 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   var model = $scope.model = {};
 
-  model.picture = {
-    position: {}
-  };
-
-  model.person = {
-    position: {}
-  };
-
-  model.details = {
-    position: {}
-  };
-
-  model.email = {
-    position: {}
-  };
-
-  model.url = {
-    position: {}
-  };
+  model.picture = {};
+  model.person = {};
+  model.details = {};
+  model.email = {};
+  model.url = {};
 
   model.cardPictureFile = '';
   model.cardPicture = '';
@@ -42,8 +28,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       c.removeAttribute('style');
     });
   };
-
-  clearInlineStyles();
 
   $scope.$on('$routeUpdate', function(){
     model.activeTheme = parseInt($routeParams.theme, 10) || 0;
@@ -132,27 +116,26 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     var childFontSize = parseInt(style.fontSize, 10);
     var parentFontSize = parseInt(parentStyle.fontSize, 10);
 
-    if(elem.style.left.indexOf('em') === -1) {
+    var properties = [ 'left', 'top', 'width', 'height' ];
+    var inlineStyleValue = '';
 
-      var childLeft = parseInt(style.left, 10);
-      var left = Math.floor((childLeft / parentFontSize) * 100) / 100;
+    properties.forEach(function(prop) {
 
-      left = left * (parentFontSize / childFontSize);
+      inlineStyleValue = elem.style[prop];
 
-      elem.style.left = left + 'em';
+      // only if the property is set as inline style
+      if(inlineStyleValue && inlineStyleValue.indexOf('em') === -1) {
 
-    }
+        var childValue = parseInt(style[prop], 10);
+        var newValue = Math.floor((childValue / parentFontSize) * 100) / 100;
 
-    if(elem.style.top.indexOf('em') === -1) {
+        newValue = newValue * (parentFontSize / childFontSize);
 
-      var childTop = parseInt(style.top, 10);
-      var top = Math.floor((childTop / parentFontSize) * 100) / 100;
+        elem.style[prop] = newValue + 'em';
 
-      top = top * (parentFontSize / childFontSize);
+      }
 
-      elem.style.top = top + 'em';
-
-    }
+    });
 
     if(style.fontSize.indexOf('em') === -1) {
       elem.style.fontSize = childFontSize / parentFontSize + 'em';
@@ -171,15 +154,14 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     angular.forEach(editors, function(e) {
       children = e.querySelectorAll('*');
-      //parentStyle = window.getComputedStyle(e, null);
       angular.forEach(children, function(c) {
         pxToEm(c);
       });
     });
 
     // fix dragged possitions
-    var lists = container.querySelectorAll('.card-item[style]'),
-      picture = container.querySelector('.card-picture[style]');
+    var lists = container.querySelectorAll('.card-item[style]');
+    var picture = container.querySelector('.card-picture[style]');
 
     angular.forEach(lists, function(li) {
       pxToEm(li);
@@ -197,6 +179,9 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     var deferred = $q.defer();
 
     var $cardPreview = $('.card-preview').get(0);
+
+    // remove text selection, to hide still-open editors
+    window.getSelection().removeAllRanges();
 
     // before generation, turn all px values to em
     // for scaling
@@ -310,12 +295,11 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     var isOverflowing = widthOverflow || heightOverflow;
 
-    var overflowMessage = '';
-    overflowMessage += 'Oops! \n';
-    overflowMessage += 'Some of the details on your card will be cut during the printing process. \n\n';
-    overflowMessage += 'To make sure this doesn\'t happen, please try: \n';
-    overflowMessage += '* Shortening some of text lines \n';
-    overflowMessage += '* Moving the elements closer to the card center \n';
+    var overflowMessage = 'Oops! \n' +
+    'Some of the details on your card will be cut during the printing process. \n\n' +
+    'To make sure this doesn\'t happen, please try: \n' +
+    '* Shortening some of text lines \n' +
+    '* Moving the elements closer to the card center \n';
 
     if(isOverflowing) {
 

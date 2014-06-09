@@ -31,6 +31,9 @@
   $(document).foundation({
     joyride: {
       scroll_speed: 500
+    },
+    reveal: {
+      animation_speed: 80
     }
   });
 

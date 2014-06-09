@@ -35,7 +35,7 @@
 
               <input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
 
-              <div class="card-picture" drag-container=".card-content" drag-model="model.picture.position" drag-grid="10">
+              <div class="card-picture" dr-container=".card-content" dr-model="model.picture" dr-grid="10">
 
                 <label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
 
@@ -47,7 +47,7 @@
                 </label>
               </div>
 
-              <div class="card-item person" drag-container=".card-content" drag-model="model.person.position" drag-grid="10">
+              <div class="card-item person" dr-container=".card-content" dr-model="model.person" dr-grid="10">
 
                 <div meditor>
                   <p class="fn">
@@ -60,7 +60,7 @@
 
               </div>
 
-              <div class="card-item details" drag-container=".card-content" drag-model="model.details.position" drag-grid="10">
+              <div class="card-item details" dr-container=".card-content" dr-model="model.details" dr-grid="10">
 
                 <div meditor>
                   <p class="org">
@@ -77,7 +77,7 @@
 
               </div>
 
-              <div class="card-item email" drag-container=".card-content" drag-model="model.email.position" drag-grid="10">
+              <div class="card-item email" dr-container=".card-content" dr-model="model.email" dr-grid="10">
 
                 <div meditor>
                   <p>john.doe@cmail.com</p>
@@ -85,7 +85,7 @@
 
               </div>
 
-              <div class="card-item url" drag-container=".card-content" drag-model="model.url.position" drag-grid="10">
+              <div class="card-item url" dr-container=".card-content" dr-model="model.url" dr-grid="10">
 
                 <div meditor>
                   <p>www.john-doe.com</p>
@@ -160,6 +160,9 @@
         </p>
         <p>
           Drag elements around using the dotted borders that show up when placing the mouse over them.
+        </p>
+        <p>
+          Resize the picture or text boxes by dragging the bottom right corner of the dotted box.
         </p>
       </div>
 

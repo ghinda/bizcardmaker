@@ -161,8 +161,9 @@ $card-border: 1px solid darken($white, 10%);
    * when taking the canvas picture,
    * beacause of transitions
    */
-  .drag-handle {
-    border-color: transparent !important;
+  .drag-handle,
+  .resize-handle {
+    opacity: 0;
 
     @include transition(none);
     @include transition-delay(0);
@@ -192,8 +193,6 @@ $card-border: 1px solid darken($white, 10%);
   width: 1px;
   height:1px;
 }
-
-$color-handle: desaturate($color1, 60%);
 
 .card-picture {
   position: absolute;
@@ -279,6 +278,12 @@ $color-handle: desaturate($color1, 60%);
     vertical-align: top;
   }
 
+  .card-item,
+  .card-picture {
+    min-width: 10%;
+    min-height: 10%;
+  }
+
   .card-item:hover {
     background-color: rgba($color1, .3);
   }
@@ -313,12 +318,16 @@ $color-handle: desaturate($color1, 60%);
 
 /* Drag
 */
+
+$color-handle: #555;
+$color-resize: darken($color-handle, 12%);
+
 .drag-handle {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 0;
-  opacity: .5;
+  opacity: 0;
 
   @include box-sizing(content-box);
   display: block;
@@ -326,23 +335,52 @@ $color-handle: desaturate($color1, 60%);
   height: 100%;
   padding: 5px;
   margin: -10px;
-  border: 5px dotted transparent;
+  border: 5px dotted $color-handle;
 
   cursor: move;
+}
 
+.resize-handle {
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  right: -10px;
+  bottom: -10px;
+  z-index: 99;
+  cursor: se-resize;
+
+  border-width: 8px;
+  border-color: transparent $color-resize $color-resize transparent;
+  border-style: solid;
+
+  opacity: 0;
+}
+
+.drag-handle,
+.resize-handle {
   @include transition(all .1s ease-in-out);
   @include transition-delay(0.5s);
 }
 
-.drag-handle-show .drag-handle,
-.drag-container:hover .drag-handle,
-.drag-container:focus .drag-handle {
-  border-color: $color-handle;
+.dr-handle-show,
+.dr-container:hover,
+.dr-container:focus {
+  .drag-handle,
+  .resize-handle {
+    @include transition-delay(0s);
+  }
 
-  @include transition-delay(0s);
+  .drag-handle {
+    opacity: .7;
+  }
+
+  .resize-handle {
+    opacity: 1;
+  }
 }
 
-.drag-active {
+.dr-active {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -moz-user-select: none;
