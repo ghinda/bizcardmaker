@@ -15,7 +15,7 @@ doc.text(20, 20, 'Hello world.');
 doc.save('Test.pdf');
 ```
 
-### Head over to [jsPDF.com](http://jspdf.com) for the live editor and examples
+**Head over to [jsPDF.com](http://jspdf.com) for details or [_here_](http://mrrio.github.io/jsPDF/) for our most recent live editor and examples.**
 
 ## Checking out the source
 

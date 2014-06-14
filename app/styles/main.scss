@@ -18,6 +18,14 @@ $primary-color: shade($color1, 5%);
 $secondary-color: $color2;
 $button-border-width: 0px;
 
+$topbar-bg: $color1;
+$topbar-height: 60px;
+
+$topbar-link-color: tint($color1, 70%);
+$topbar-link-weight: bold;
+$topbar-link-bg-hover: $primary-color;
+$topbar-link-bg-active: darken($topbar-link-bg-hover, 10%);
+
 @import "../bower_components/foundation/scss/foundation";
 
 /* Utils
@@ -125,69 +133,71 @@ a {
 
 /* Sections
 */
-header,
 footer,
 section {
   padding: emCalc(20) 0;
 }
 
-/* Header
-*/
-header {
-  position: relative;
-  padding: emCalc(64) 0;
-  background-color: $color1;
-  border-bottom: 1px solid darken($color1, 10%);
+/* Top bar
+ */
+.top-bar {
+  border-bottom: 1px solid darken($color1, 12%);
 
-  .row {
-    position: relative;
-    z-index: 2;
-  }
-
-  .tagline {
-    @include breakpoint(papa-bear) {
-      max-width: emCalc(400);
-    }
-
-    color: tint($color2, 70%);
-    line-height: emCalc(20);
-  }
-
-  .brand {
-    margin: 0 0 emCalc(12);
-
-    font-weight: 400;
-    font-size: emCalc(40);
-    letter-spacing: -1px;
-
-    img {
-      width: emCalc(20);
-      opacity: .9;
-      vertical-align: baseline;
-    }
+  .title-area {
+    margin-right: emCalc(20);
 
     a {
-      color: #fff;
+      background-color: darken($color1, 12%);
 
       &:hover {
-        text-decoration: none;
-
-        img {
-          opacity: 1;
-        }
+        background-color: darken($color1, 8%);
       }
     }
   }
 
-  .top-menu {
-    margin-top: emCalc(28);
+  section {
+    padding: 0;
+  }
+}
 
-    a {
-      color: tint($color1, 70%);
-      text-transform: uppercase;
-      font-size: emCalc(12);
-      font-weight: bold;
+.top-bar .name h1.brand {
+  font-weight: 400;
+  font-size: emCalc(20);
+  letter-spacing: -1px;
+
+  img {
+    width: emCalc(20);
+    opacity: .9;
+    vertical-align: baseline;
+  }
+
+  a {
+    padding: 0 emCalc(20);
+
+    color: #fff;
+
+    &:hover {
+      text-decoration: none;
+
+      img {
+        opacity: 1;
+      }
     }
+  }
+}
+
+.btn-start {
+  margin-top: emCalc(8);
+}
+
+.top-bar-section ul li {
+  margin: 0;
+  background: transparent;
+
+  &:not(.has-form) > a {
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: emCalc(12);
   }
 }
 
