@@ -319,7 +319,7 @@ $card-border: 1px solid darken($white, 10%);
 */
 
 $color-handle: #555;
-$color-resize: darken($color-handle, 12%);
+$color-resize: lighten($color-handle, 20%);
 
 .drag-handle {
   position: absolute;
@@ -344,8 +344,8 @@ $color-resize: darken($color-handle, 12%);
   width: 0;
   height: 0;
   position: absolute;
-  right: -10px;
-  bottom: -10px;
+  right: -12px;
+  bottom: -12px;
   z-index: 99;
   cursor: se-resize;
 

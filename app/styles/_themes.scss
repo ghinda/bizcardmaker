@@ -283,8 +283,15 @@ $black: #333;
     opacity: 1 !important;
   }
 
+  .person,
+  .details,
+  .email,
+  .url {
+    width: emCalc(172);
+  }
+
   .card-item {
-    left: 55%;
+    left: 56%;
     padding: emCalc(4);
     background-color: $white;
 
@@ -393,10 +400,12 @@ $black: #333;
       top: auto;
       left: auto;
       display: inline-block;
+      width: emCalc(180);
       margin-top: 10%;
       margin-right: emCalc(-6);
       background-color: #000;
 
+      line-height: 1em;
       font-size: emCalc(12);
       color: #fff;
 
