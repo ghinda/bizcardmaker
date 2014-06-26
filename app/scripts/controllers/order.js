@@ -71,11 +71,12 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
   // local testing
   if(data.env === 'local' || data.env === 'dev') {
-    model.order.postcode = '35801';
-    model.order.address1 = 'H';
+    model.order.city = 'Florence';
+    model.order.postcode = '35630';
+    model.order.address1 = '110 West College Street';
     model.order.card.number = '4030000010001234';
     model.order.card.exp = '6 / 2016';
-    model.order.card.csc = '';
+    model.order.card.csc = '123';
   }
 
   $scope.SendOrder = function(event) {

@@ -306,6 +306,12 @@ module.exports = function (grunt) {
       development: 'ssh 84716@git.dc1.gpaas.net "deploy development.bizcardmaker.com.git"',
       staging: 'ssh 84716@git.dc1.gpaas.net "deploy staging.bizcardmaker.com.git"',
       www: 'ssh 84716@git.dc1.gpaas.net "deploy www.bizcardmaker.com.git"'
+    },
+    wait: {
+      options: {
+        delay: 5000
+      },
+      dist: {}
     }
   });
 
@@ -350,6 +356,7 @@ module.exports = function (grunt) {
   grunt.registerTask('deploy', [
     'default',
     'buildcontrol:www',
+    'wait',
     'exec:www'
   ]);
 
@@ -358,6 +365,7 @@ module.exports = function (grunt) {
     'copy:dev',
     'buildcontrol:development',
     'buildcontrol:staging',
+    'wait',
     'exec:development',
     'exec:staging'
   ]);
