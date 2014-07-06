@@ -667,33 +667,3 @@ input.ng-invalid {
 /* AB testing
  */
 
-.index2 {
-
-  .button.dropdown {
-    background-color: transparent;
-
-    span,
-    .fa {
-      color: $color1 !important;
-    }
-
-    span {
-      text-decoration: underline;
-    }
-
-    .fa {
-      text-decoration: none;
-    }
-
-    &:hover span {
-      color: lighten($color1, 10%);
-
-      text-decoration: none;
-    }
-
-    &:before {
-      display: none;
-    }
-  }
-
-}

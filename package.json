@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "assemble": "~0",
+    "assemble": "~0.4.x",
     "connect-livereload": "~0.4.x",
     "grunt": "~0.4.x",
     "grunt-angular-templates": "~0.5.x",
