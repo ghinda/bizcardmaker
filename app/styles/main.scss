@@ -238,7 +238,8 @@ footer {
   text-align: center;
 }
 
-.modal-order {
+.reveal-modal.modal-order {
+  max-width: emCalc(720);
 
   h2 {
     margin-bottom: emCalc(12);
@@ -378,11 +379,13 @@ footer {
 }
 
 .offers-list {
-  margin: emCalc(20) 0 0;
+  overflow: hidden;
+  margin: emCalc(20) 0;
   list-style-type: none;
 
   li {
-    display: block;
+    float: left;
+    width: 50%;
   }
 
   label {
@@ -391,6 +394,7 @@ footer {
     padding: emCalc(12) emCalc(12) emCalc(12) emCalc(40);
     margin: 0 0 2% 0;
     border: 1px solid transparent;
+    border-radius: 2px;
 
     input {
       position: absolute;
