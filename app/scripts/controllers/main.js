@@ -275,8 +275,10 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     ga('send', 'event', 'Orders', 'Begin order');
 
     // disable orders
-    alert('Orders will be back shortly. Sorry for the inconvenience!');
+    window.alert('Orders will be back shortly. Sorry for the inconvenience!');
     return false;
+
+    /*
 
     var $modalOrder = $('#modal-order');
 
@@ -341,6 +343,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       model.imagePreview = jpegUrl;
 
     });
+
+*/
 
   };
 
