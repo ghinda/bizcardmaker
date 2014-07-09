@@ -271,15 +271,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   model.order = {};
   $scope.OpenOrderModal = function() {
 
-    // track analytics
-    ga('send', 'event', 'Orders', 'Begin order');
-
-    // disable orders
-    window.alert('Orders will be back shortly. Sorry for the inconvenience!');
-    return false;
-
-    /*
-
     var $modalOrder = $('#modal-order');
 
     // check if any content is overflowing
@@ -344,7 +335,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     });
 
-*/
+    // track analytics
+    ga('send', 'event', 'Orders', 'Begin order');
 
   };
 
