@@ -4,14 +4,12 @@
 (function() {
   'use strict';
 
-  var $cardPage,
-    $printPromo,
-    $tour;
+  var $cardPage;
+  var $tour;
 
   var init = function() {
 
     $cardPage = $('.card-maker');
-    $printPromo = $('.print-promo');
     $tour = $('.tutorial-tour');
 
     $('.js-guide-btn').click(showGuide);
@@ -40,11 +38,3 @@
   $(document).ready(init);
 
 })();
-
-// print promo
-window.showPrintpromo = function() {
-  'use strict';
-
-  $('.print-promo').foundation('joyride', 'start');
-
-};

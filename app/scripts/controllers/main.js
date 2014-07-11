@@ -345,16 +345,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // init foundation plugins
     $(document).foundation();
 
-    // show the print promo in 1s after loading
-    $timeout(function() {
-
-      // be safe
-      if(window.showPrintpromo) {
-        window.showPrintpromo();
-      }
-
-    }, 1000);
-
     // hack to prevent automatic scrolling from contenteditable
     var $cardContent = document.querySelector('.card-content');
     $cardContent.addEventListener('scroll', function(event) {

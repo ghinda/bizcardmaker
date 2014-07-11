@@ -254,6 +254,19 @@ footer {
     text-transform: uppercase;
   }
 
+  .separator-order {
+    border-top: 1px solid $color1;
+
+    font-size: emCalc(14);
+
+    span {
+      position: relative;
+      top: emCalc(-10);
+      padding-right: emCalc(12);
+      background-color: #fff;
+    }
+  }
+
   form small {
     display: block;
     margin: emCalc(-12) 0 emCalc(20) 0;
@@ -379,31 +392,38 @@ footer {
 }
 
 .offers-list {
-  overflow: hidden;
+  @include clearfix;
+
   margin: emCalc(20) 0;
   list-style-type: none;
 
   li {
     float: left;
-    width: 50%;
+    width: 25%;
   }
 
   label {
     position: relative;
     display: block;
-    padding: emCalc(12) emCalc(12) emCalc(12) emCalc(40);
+    padding: emCalc(12);
     margin: 0 0 2% 0;
     border: 1px solid transparent;
     border-radius: 2px;
 
+    text-align: center;
+
+    @include transition (all 0.08s ease-out);
+
+    * {
+      @include transition (all 0.08s ease-out);
+    }
+
     input {
-      position: absolute;
-      top: 50%;
-      left: emCalc(12);
+      display: none;
     }
 
     h3 {
-      margin-bottom: emCalc(8);
+      margin: 0 0 emCalc(8);
 
       color: $color1;
       font-size: emCalc(20);
@@ -419,9 +439,9 @@ footer {
     }
 
     .icon {
-      float: left;
-      margin-right: emCalc(8);
-      width: emCalc(80);
+      display: block;
+      margin: 0 auto;
+      width: emCalc(40);
     }
 
     .price {
@@ -429,32 +449,41 @@ footer {
 
       font-size: emCalc(14);
       font-weight: bold;
-      text-align: right;
     }
 
     .details {
       margin: 0;
 
-      font-size: emCalc(14);
+      font-size: emCalc(12);
       font-style: italic;
-      text-align: right;
+    }
+
+    .btn-choose-offer {
+      padding: emCalc(4) emCalc(12);
     }
   }
 
   .active {
     background-color: lighten($color1, 16%);
+
     color: $white;
+
+    @include transform(scale(1.08));
 
     h3 {
       color: $white;
     }
+
+    .btn-choose-offer {
+      visibility: hidden;
+    }
+
   }
+
 }
 
 .order-summary {
-  margin-top: emCalc(20);
   padding-top: emCalc(20);
-  border-top: 1px solid $grey;
 
   table {
     width: 100%;
