@@ -129,6 +129,24 @@ app.factory('data', function($rootScope, $http, $q) {
     return deferred.promise;
   };
 
+  // get list of shipping offers
+  var GetShipping = function(params) {
+    var deferred = $q.defer();
+
+    $http.post(apiUrl + '/api/v1/shipping', params)
+    .success(function(response) {
+
+      deferred.resolve(response);
+
+    }).error(function(err) {
+
+      deferred.reject(err);
+
+    });
+
+    return deferred.promise;
+  };
+
   var SendOrder = function(params) {
     var deferred = $q.defer();
 
@@ -148,6 +166,7 @@ app.factory('data', function($rootScope, $http, $q) {
 
     model: model,
     GetOffers: GetOffers,
+    GetShipping: GetShipping,
     SendOrder: SendOrder
   };
 

@@ -448,6 +448,44 @@
 
         </div>
 
+        <div class="shipping-rates" ng-show="model.shippingRates[0].price !== 0" ng-class="{  'shipping-loading': !model.shippingRates.length }">
+
+          <h4 class="separator-order">
+            <span>Choose shipping rates</span>
+          </h4>
+
+          <div class="loading-indicator">
+            <i class="fa fa-refresh fa-spin"></i>
+            Loading shipping rates..
+          </div>
+
+          <ul class="offers-list">
+
+            <li ng-repeat="rate in model.shippingRates">
+
+              <label ng-class="{ 'active' : model.selectedShippingRate == $index }">
+
+                <input type="radio" name="shippingRates" ng-value="$index" ng-model="model.selectedShippingRate">
+
+                <h3 ng-bind="rate.carrier"></h3>
+
+                <p class="description">
+                  <span ng-bind="rate.service_name"></span>
+                </p>
+
+                <p class="price">
+                  <span ng-bind="rate.currency"></span>
+                  <span ng-bind="(rate.price / 100).toFixed(2)"></span>
+                </p>
+
+              </label>
+
+            </li>
+
+          </ul>
+
+        </div>
+
         <h4 class="separator-order">
           <span>Almost done</span>
         </h4>

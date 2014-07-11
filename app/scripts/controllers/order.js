@@ -31,7 +31,10 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   model.order.country = model.countries[0];
   model.order.shippingDetailsType = 'same';
   model.order.shippingDetailsCustom = false;
-  model.order.selectedOffer = 0;
+  model.order.selectedOffer = false;
+
+  model.shippingRates = [];
+  model.selectedShippingRate = [];
 
   model.shipping.country = model.countries[0];
 
@@ -44,6 +47,9 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   var loadOffers = function() {
     data.GetOffers().then(function(offers) {
       model.offers = offers.offers;
+
+      // select the first order
+      model.order.selectedOffer = 0;
     }, function() {
       // in case the api is down
       // retry in 3s
@@ -78,6 +84,19 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     model.order.card.exp = '6 / 2016';
     model.order.card.csc = '123';
   }
+
+  var parseAddress = function(model) {
+    var address = {};
+
+    address.city = model.city;
+    address.region = model.region.id;
+    address.country = model.country.id;
+    address.postal_code = model.postcode;
+    address.street = model.address1;
+    address.street2 = model.address2 || '';
+
+    return address;
+  };
 
   $scope.SendOrder = function(event) {
 
@@ -130,13 +149,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     orderData.billing.phone = model.order.phone;
 
     // billing address
-    orderData.billing.address = {};
-    orderData.billing.address.city = model.order.city;
-    orderData.billing.address.region = model.order.region.id;
-    orderData.billing.address.country = model.order.country.id;
-    orderData.billing.address.postal_code = model.order.postcode;
-    orderData.billing.address.street = model.order.address1;
-    orderData.billing.address.street2 = model.order.address2 || '';
+    orderData.billing.address = parseAddress(model.order);
 
     // offer details
     orderData.billing.amount = angular.copy(model.offers[model.order.selectedOffer].amount);
@@ -167,13 +180,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
       orderData.shipping.name = model.shipping.name;
       orderData.shipping.phone = model.shipping.phone;
 
-      orderData.shipping.address = {};
-      orderData.shipping.address.city = model.shipping.city;
-      orderData.shipping.address.region = model.shipping.region.id;
-      orderData.shipping.address.country = model.shipping.country.id;
-      orderData.shipping.address.postal_code = model.shipping.postcode;
-      orderData.shipping.address.street = model.shipping.address1;
-      orderData.shipping.address.street2 = model.shipping.address2 || '';
+      orderData.shipping.address = parseAddress(model.shipping);
 
     } else {
 
@@ -261,6 +268,67 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
       return 'Your order is currently in progress. Please wait for it to finish before closing the page. ';
     }
   };
+
+  $scope.$watch('model.order.selectedOffer', function(selectedOffer) {
+
+    // TODO also watch for address changes
+
+    // TODO use debounce, or some other way to make sure the last change is the one you loaded the shipping rates for
+
+    if(model.offers && model.offers.length) {
+
+      var offer = model.offers[selectedOffer];
+
+      // trigger loading
+      model.shippingRates.length = 0;
+
+      //if(!offer.amount.shipping_included) {
+
+        // shipping not included
+
+        console.log('not included');
+
+        var shippingRates = model.order;
+
+        // check if we have any custom shipping address
+        if(model.shipping.city && model.shipping.address1) {
+          shippingRates = model.shipping;
+        }
+
+        // TODO get shipping options
+        data.GetShipping({
+          offer: offer,
+          address: parseAddress(shippingRates)
+        })
+        .then(function(res) {
+
+          console.log(res);
+
+          model.shippingRates.length = 0;
+          [].push.apply(model.shippingRates, res.rates);
+
+        })
+        .catch(function(err) {
+
+          console.log(err);
+
+        });
+
+      //} else {
+
+        // shipping included
+
+        // add empty rate to hide rates container
+//         [].push.apply(model.shippingRates, [{
+//           price: 0
+//         }]);
+
+
+      //}
+
+    }
+
+  });
 
   window.onbeforeunload = TabCloseAlert;
 

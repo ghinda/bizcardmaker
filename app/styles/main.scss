@@ -232,9 +232,10 @@ footer {
 
 .loading-indicator {
   display: block;
+  margin: 0 emCalc(8) 0 0;
 
   color: $grey;
-  font-size: emCalc(24);
+  font-size: emCalc(20);
   text-align: center;
 }
 
@@ -483,6 +484,27 @@ footer {
       text-align: center;
     }
 
+  }
+
+}
+
+/* Shipping rates
+ */
+
+.shipping-rates {
+
+  .loading-indicator {
+    display: none;
+  }
+
+  &.shipping-loading {
+    .loading-indicator {
+      display: block;
+    }
+
+    ul {
+      display: none;
+    }
   }
 
 }
