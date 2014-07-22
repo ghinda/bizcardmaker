@@ -353,14 +353,14 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  grunt.registerTask('deploy', [
+  grunt.registerTask('deploy-live', [
     'default',
     'buildcontrol:www',
     'wait',
     'exec:www'
   ]);
 
-  grunt.registerTask('devdeploy', [
+  grunt.registerTask('deploy', [
     'default',
     'copy:dev',
     'buildcontrol:development',

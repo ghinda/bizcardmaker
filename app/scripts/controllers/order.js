@@ -24,9 +24,14 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     }
   ];
 
+
+  model.selectedSuggestion = 0;
+  model.addressError = false;
   model.error = '';
   model.orderLoading = false;
   model.orderSuccess = false;
+
+  model.orderData = {};
 
   model.order.country = model.countries[0];
   model.order.shippingDetailsType = 'same';
@@ -132,65 +137,127 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     model.orderLoading = true;
 
-    var orderData = {};
-
     // generate base64 picture
-    orderData.image = model.imagePreview;
+    model.orderData.image = model.imagePreview;
 
     // user details
-    orderData.user = {
+    model.orderData.user = {
       email: model.order.email,
       name: model.order.name
     };
 
     // billing details
-    orderData.billing = {};
-    orderData.billing.name = model.order.name;
-    orderData.billing.phone = model.order.phone;
+    model.orderData.billing = {};
+    model.orderData.billing.name = model.order.name;
+    model.orderData.billing.phone = model.order.phone;
 
     // billing address
-    orderData.billing.address = parseAddress(model.order);
+    model.orderData.billing.address = parseAddress(model.order);
 
     // offer details
-    orderData.billing.amount = angular.copy(model.offers[model.order.selectedOffer].amount);
+    model.orderData.billing.amount = angular.copy(model.offers[model.order.selectedOffer].amount);
 
-    orderData.offer = {};
-    orderData.offer.id = model.offers[model.order.selectedOffer].id;
+    model.orderData.offer = {};
+    model.orderData.offer.id = model.offers[model.order.selectedOffer].id;
 
     // payment details
-    orderData.billing.credit_card = {};
-    orderData.billing.credit_card.number = model.order.card.number.replace(/ /g, '');
-    orderData.billing.credit_card.verification = model.order.card.csc;
+    model.orderData.billing.credit_card = {};
+    model.orderData.billing.credit_card.number = model.order.card.number.replace(/ /g, '');
+    model.orderData.billing.credit_card.verification = model.order.card.csc;
 
     var exp = model.order.card.exp.replace(/ /g, '').split('/');
-    orderData.billing.credit_card.expiry = {};
-    orderData.billing.credit_card.expiry.month = exp[0];
+    model.orderData.billing.credit_card.expiry = {};
+    model.orderData.billing.credit_card.expiry.month = exp[0];
 
     // if year is only two digits, prepend 20
     if(exp[1].length === 2) {
       exp[1] = '20' + exp[1];
     }
 
-    orderData.billing.credit_card.expiry.year = exp[1];
+    model.orderData.billing.credit_card.expiry.year = exp[1];
 
     // shipping details
-    orderData.shipping = {};
+    model.orderData.shipping = {};
     if(model.order.shippingDetailsCustom) {
 
-      orderData.shipping.name = model.shipping.name;
-      orderData.shipping.phone = model.shipping.phone;
+      model.orderData.shipping.name = model.shipping.name;
+      model.orderData.shipping.phone = model.shipping.phone;
 
-      orderData.shipping.address = parseAddress(model.shipping);
+      model.orderData.shipping.address = parseAddress(model.shipping);
 
     } else {
 
-      orderData.shipping.name = orderData.billing.name;
-      orderData.shipping.phone = orderData.billing.phone;
-      orderData.shipping.address = orderData.billing.address;
+      model.orderData.shipping.name = model.orderData.billing.name;
+      model.orderData.shipping.phone = model.orderData.billing.phone;
+      model.orderData.shipping.address = model.orderData.billing.address;
 
     }
 
-    data.SendOrder(orderData).then(function() {
+    // validate address if not validated already
+    if(model.addressError) {
+
+      model.orderData.validate_address = false;
+
+      // set shipping details from address suggestions
+      var validatedAddress = model.addressError.suggestions[model.selectedSuggestion];
+
+      var addressComponent = {
+        streetNumber: '',
+        street: '',
+        city: '',
+        region: '',
+        country: '',
+        postal_code: ''
+      };
+
+      angular.forEach(validatedAddress.address_components, function(addr) {
+
+        angular.forEach(addr.types, function(type) {
+
+          if(type === 'street_number') {
+            return addressComponent.streetNumber = addr.long_name || addr.short_name;
+          }
+
+          if(type === 'route') {
+            return addressComponent.street = addr.long_name || addr.short_name;
+          }
+
+          if(type === 'locality') {
+            return addressComponent.city = addr.long_name || addr.short_name;
+          }
+
+          if(type === 'administrative_area_level_1') {
+            return addressComponent.region = addr.short_name;
+          }
+
+          if(type === 'country') {
+            return addressComponent.country = addr.long_name || addr.short_name;
+          }
+
+          if(type === 'postal_code') {
+            return addressComponent.postal_code = addr.long_name || addr.short_name;
+          }
+
+        });
+
+      });
+
+      model.orderData.shipping.address.city = addressComponent.city;
+      model.orderData.shipping.address.region = addressComponent.region;
+      model.orderData.shipping.address.country = addressComponent.country;
+      model.orderData.shipping.address.postal_code = addressComponent.postal_code;
+      model.orderData.shipping.address.street = addressComponent.streetNumber + ' ' + addressComponent.street;
+      model.orderData.shipping.address.street2 = '';
+
+    } else {
+
+      model.orderData.validate_address = true;
+
+    }
+
+    model.addressError = false;
+
+    data.SendOrder(model.orderData).then(function() {
 
       // scroll to modal top
       // so the users sees the success messages
@@ -198,6 +265,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       model.orderLoading = false;
 
+      model.addressError = false;
       model.error = '';
       model.orderSuccess = true;
 
@@ -207,18 +275,30 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
       }, 5000);
 
       // track analytics
-      ga('send', 'event', 'Orders', 'Successful order', orderData.offer.id);
+      ga('send', 'event', 'Orders', 'Successful order', model.orderData.offer.id);
 
     }, function(err) {
 
       // scroll to top to see errors
       scrollToModal();
 
-      model.error = err.error || 'Please try again later.';
       model.orderLoading = false;
 
-      // track analytics
-      ga('send', 'event', 'Orders', 'Order error', model.error);
+      if(err.addressError) {
+        model.addressError = err.addressError;
+
+        // track analytics
+        ga('send', 'event', 'Orders', 'Address error');
+
+      } else {
+
+        model.error = err.error || 'Please try again later.';
+
+        // track analytics
+        ga('send', 'event', 'Orders', 'Order error', model.error);
+
+      };
+
 
     });
 
@@ -282,7 +362,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
       // trigger loading
       model.shippingRates.length = 0;
 
-      //if(!offer.amount.shipping_included) {
+      if(!offer.amount.shipping_included) {
 
         // shipping not included
 
@@ -314,17 +394,16 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
         });
 
-      //} else {
+      } else {
 
         // shipping included
 
         // add empty rate to hide rates container
-//         [].push.apply(model.shippingRates, [{
-//           price: 0
-//         }]);
+        [].push.apply(model.shippingRates, [{
+          price: 0
+        }]);
 
-
-      //}
+      }
 
     }
 

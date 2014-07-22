@@ -569,6 +569,7 @@ footer {
   }
 }
 
+.order-address-error,
 .order-loading,
 .order-success {
   position: absolute;
@@ -598,6 +599,42 @@ footer {
   h2,
   p {
     color: #fff;
+  }
+}
+
+.reveal-modal.modal-order .order-address-error {
+  padding: emCalc(100) emCalc(80) 0;
+  background-color: rgba(#f1c40f, .98);
+
+  color: #333;
+  text-align: left;
+
+  h2 {
+    margin: 0 0 emCalc(0) emCalc(-22);
+
+    font-size: emCalc(28);
+
+    i {
+      opacity: .2;
+    }
+  }
+
+  h2 + p {
+    font-size: emCalc(12);
+  }
+
+  button {
+    margin: emCalc(20) emCalc(20) 0 0;
+  }
+
+  button + a {
+    color: #333;
+    font-size: emCalc(12);
+    text-decoration: underline;
+  }
+
+  label {
+    max-width: emCalc(540);
   }
 }
 

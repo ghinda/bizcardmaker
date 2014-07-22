@@ -22,6 +22,45 @@
 
   </div>
 
+  <div class="order-address-error" ng-show="model.addressError">
+
+    <h2>
+      <i class="fa fa-warning"></i>
+      We couldn't find your exact address.
+    </h2>
+
+    <p>
+      It's probably just a spelling mistake, so we looked for addresses close to the one you used.
+    </p>
+
+    <p>
+      <strong>
+        Please select your shipping address from the suggestions bellow:
+      </strong>
+    </p>
+
+    <div class="row" ng-repeat="suggestion in model.addressError.suggestions">
+
+      <div class="large-12 columns">
+        <input type="radio" name="addressSuggestion" value="{{ $index }}" id="suggestion{{ $index }}" ng-model="model.selectedSuggestion">
+
+        <label for="suggestion{{ $index }}">
+          {{ suggestion.formatted_address }}
+        </label>
+
+      </div>
+    </div>
+
+    <button type="button" class="button radius" ng-click="SendOrder($event)">
+      Send Order
+    </button>
+
+    <a ng-click="model.addressError=false">
+      Return to Order Form
+    </a>
+
+  </div>
+
   <a class="close-reveal-modal">&#215;</a>
 
   <h2>
