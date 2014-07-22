@@ -215,27 +215,33 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
         angular.forEach(addr.types, function(type) {
 
           if(type === 'street_number') {
-            return addressComponent.streetNumber = addr.long_name || addr.short_name;
+            addressComponent.streetNumber = addr.long_name || addr.short_name;
+            return false;
           }
 
           if(type === 'route') {
-            return addressComponent.street = addr.long_name || addr.short_name;
+            addressComponent.street = addr.long_name || addr.short_name;
+            return false;
           }
 
           if(type === 'locality') {
-            return addressComponent.city = addr.long_name || addr.short_name;
+            addressComponent.city = addr.long_name || addr.short_name;
+            return false;
           }
 
           if(type === 'administrative_area_level_1') {
-            return addressComponent.region = addr.short_name;
+            addressComponent.region = addr.short_name;
+            return false;
           }
 
           if(type === 'country') {
-            return addressComponent.country = addr.long_name || addr.short_name;
+            addressComponent.country = addr.long_name || addr.short_name;
+            return false;
           }
 
           if(type === 'postal_code') {
-            return addressComponent.postal_code = addr.long_name || addr.short_name;
+            addressComponent.postal_code = addr.long_name || addr.short_name;
+            return false;
           }
 
         });
@@ -297,7 +303,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
         // track analytics
         ga('send', 'event', 'Orders', 'Order error', model.error);
 
-      };
+      }
 
 
     });
