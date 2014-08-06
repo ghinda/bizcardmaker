@@ -74,6 +74,13 @@
 
     <div class="large-12 columns">
 
+      <div class="alert-box warning" ng-show="model.error">
+
+        <strong>There was an error with your order. </strong>
+        <p ng-bind="model.error"></p>
+
+      </div>
+
       <h4 class="separator-order">
         <span>Choose one of our exclusive offers</span>
       </h4>
@@ -131,13 +138,6 @@
       </h4>
 
       <form name="orderForm" id="orderForm" ng-submit="SendOrder($event)">
-
-        <div class="alert-box warning" ng-show="model.error">
-
-          <strong>There was an error with your order. </strong>
-          <p ng-bind="model.error"></p>
-
-        </div>
 
         <div class="row">
           <div class="large-4 columns">
@@ -487,18 +487,25 @@
 
         </div>
 
-        <div class="shipping-rates" ng-show="model.shippingRates[0].price !== 0" ng-class="{  'shipping-loading': !model.shippingRates.length }">
+        <div class="shipping-rates" ng-show="model.shippingRates.length || model.shippingRatesLoading || model.shippingAddressError" ng-class="{  'shipping-loading': model.shippingRatesLoading }">
 
           <h4 class="separator-order">
             <span>Choose shipping rates</span>
           </h4>
+
+          <div class="alert-box warning" ng-show="model.shippingAddressError">
+
+            <strong>There was an error with your shipping address. </strong>
+            <p ng-bind="model.shippingAddressError"></p>
+
+          </div>
 
           <div class="loading-indicator">
             <i class="fa fa-refresh fa-spin"></i>
             Loading shipping rates..
           </div>
 
-          <ul class="offers-list">
+          <ul class="shipping-list">
 
             <li ng-repeat="rate in model.shippingRates">
 
@@ -509,7 +516,7 @@
                 <h3 ng-bind="rate.carrier"></h3>
 
                 <p class="description">
-                  <span ng-bind="rate.service_name"></span>
+                  <span ng-bind="rate.service_name" title="{{ rate.service_name }}"></span>
                 </p>
 
                 <p class="price">
@@ -544,7 +551,11 @@
                 <td>
                   <strong>
                     <span ng-bind="model.offers[model.order.selectedOffer].amount.currency"></span>
-                    <span ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
+
+                    <span ng-show="!model.shippingRates.length" ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
+
+                    <span ng-show="model.shippingRates.length" ng-bind="((model.shippingRates[model.selectedShippingRate].price + model.offers[model.order.selectedOffer].amount.total) / 100).toFixed(2)"></span>
+
                   </strong>
                 </td>
               </tr>
@@ -593,7 +604,7 @@
 
         </div>
 
-        <button type="submit" class="button radius button-send" ng-disabled="!model.offers.length">
+        <button type="submit" class="button radius button-send" ng-disabled="!model.offers.length || model.shippingAddressError">
 
           <i class="fa fa-shopping-cart"></i>
           Send Order
@@ -602,7 +613,11 @@
             -
 
             <span ng-bind="model.offers[model.order.selectedOffer].amount.currency"></span>
-            <span ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
+
+            <span ng-show="!model.shippingRates.length" ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
+
+            <span ng-show="model.shippingRates.length" ng-bind="((model.shippingRates[model.selectedShippingRate].price + model.offers[model.order.selectedOffer].amount.total) / 100).toFixed(2)"></span>
+
           </strong>
 
         </button>

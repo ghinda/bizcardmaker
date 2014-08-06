@@ -438,6 +438,8 @@ footer {
       display: block;
       margin: 0 auto emCalc(8);
       width: emCalc(40);
+      min-height: emCalc(40);
+      min-width: emCalc(40);
     }
 
     .price {
@@ -492,6 +494,7 @@ footer {
  */
 
 .shipping-rates {
+  padding: 0 0 emCalc(20);
 
   .loading-indicator {
     display: none;
@@ -505,6 +508,109 @@ footer {
     ul {
       display: none;
     }
+  }
+
+}
+
+
+.shipping-list {
+  @include clearfix;
+
+  margin: 0;
+  list-style-type: none;
+
+  li {
+    float: left;
+    width: 49%;
+    margin: 0 1% 0 0;
+  }
+
+  label {
+    position: relative;
+    display: block;
+    padding: emCalc(12) 0 emCalc(12) emCalc(32);
+    margin: 0 0 2% 0;
+    border-radius: 3px;
+    background-color: $grey;
+
+    text-align: left;
+
+    input {
+      display: none;
+    }
+
+    h3,
+    p {
+      display: inline-block;
+      overflow: hidden;
+
+      vertical-align: bottom;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    h3 {
+      width: emCalc(40);
+      margin: 0 emCalc(12) 0 0;
+
+      color: $color1;
+      font-size: emCalc(20);
+      line-height: 1.2em;
+    }
+
+    .description {
+      width: emCalc(180);
+      overflow: hidden;
+      margin: 0 emCalc(12) 0 0;
+
+      font-size: emCalc(12);
+    }
+
+    .price {
+      margin: 0;
+
+      font-size: emCalc(14);
+      font-weight: bold;
+    }
+
+    .details {
+      margin: 0 0 emCalc(12);
+
+      font-size: emCalc(12);
+      font-style: italic;
+    }
+
+    .btn-choose-offer {
+      padding: emCalc(4) emCalc(12);
+      margin: 0;
+    }
+  }
+
+  .active {
+    background-color: desaturate(lighten($color1, 8%), 20%);
+
+    color: $white;
+
+    h3 {
+      color: $white;
+    }
+
+    .btn-choose-offer {
+      display: none;
+    }
+
+    &:after {
+      content: '\f00c';
+      display: block;
+      position: absolute;
+      top: emCalc(12);
+      left: emCalc(8);
+      opacity: .4;
+
+      font-family: 'FontAwesome';
+      text-align: center;
+    }
+
   }
 
 }

@@ -27,6 +27,8 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
   model.selectedSuggestion = 0;
   model.addressError = false;
+  model.shippingAddressError = '';
+  model.shippingRatesLoading = false;
   model.error = '';
   model.orderLoading = false;
   model.orderSuccess = false;
@@ -39,7 +41,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   model.order.selectedOffer = false;
 
   model.shippingRates = [];
-  model.selectedShippingRate = [];
+  model.selectedShippingRate = 0;
 
   model.shipping.country = model.countries[0];
 
@@ -263,6 +265,14 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     model.addressError = false;
 
+    if(model.shippingRates.length) {
+      var rate = model.shippingRates[model.selectedShippingRate];
+      model.orderData.shipping.rate = {
+        carrier: rate.carrier,
+        service_code: rate.service_code
+      };
+    }
+
     data.SendOrder(model.orderData).then(function() {
 
       // scroll to modal top
@@ -355,65 +365,86 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     }
   };
 
-  $scope.$watch('model.order.selectedOffer', function(selectedOffer) {
+  var debouncer;
 
-    // TODO also watch for address changes
+  var getShippingRates = function() {
 
-    // TODO use debounce, or some other way to make sure the last change is the one you loaded the shipping rates for
+    if(debouncer) {
+      $timeout.cancel(debouncer);
+    }
 
-    if(model.offers && model.offers.length) {
+    debouncer = $timeout(function() {
 
-      var offer = model.offers[selectedOffer];
+      model.shippingAddressError = '';
 
-      // trigger loading
+      // empty shipping rates
       model.shippingRates.length = 0;
 
-      if(!offer.amount.shipping_included) {
+      // local copy
+      var selectedOffer = model.order.selectedOffer * 1;
 
-        // shipping not included
+      if(model.offers && model.offers.length) {
 
-        console.log('not included');
+        var offer = model.offers[selectedOffer];
 
-        var shippingRates = model.order;
+        if(!offer.amount.shipping_included) {
 
-        // check if we have any custom shipping address
-        if(model.shipping.city && model.shipping.address1) {
-          shippingRates = model.shipping;
+          // shipping not included
+          var shippingRates = model.order;
+
+          // check if we have any custom shipping address
+          if(model.shipping.city && model.shipping.address1) {
+            shippingRates = model.shipping;
+          }
+
+          model.shippingRatesLoading = true;
+
+          // get shipping options
+          data.GetShipping({
+            offer: offer,
+            address: parseAddress(shippingRates)
+          })
+          .then(function(res) {
+
+            // act on the result only if
+            // it's for the currently selected offer
+            if(selectedOffer === model.order.selectedOffer) {
+              model.shippingRates.length = 0;
+              [].push.apply(model.shippingRates, res.rates);
+            }
+
+          })
+          .catch(function(err) {
+
+            model.shippingAddressError = err.error;
+
+          })
+          .finally(function() {
+
+            model.shippingRatesLoading = false;
+
+          });
+
         }
-
-        // TODO get shipping options
-        data.GetShipping({
-          offer: offer,
-          address: parseAddress(shippingRates)
-        })
-        .then(function(res) {
-
-          console.log(res);
-
-          model.shippingRates.length = 0;
-          [].push.apply(model.shippingRates, res.rates);
-
-        })
-        .catch(function(err) {
-
-          console.log(err);
-
-        });
-
-      } else {
-
-        // shipping included
-
-        // add empty rate to hide rates container
-        [].push.apply(model.shippingRates, [{
-          price: 0
-        }]);
 
       }
 
-    }
+    }, 500);
 
-  });
+  };
+
+  // watch for selected offer change
+  $scope.$watch('model.order.selectedOffer', getShippingRates);
+
+  // watch for address changes
+  $scope.$watch('model.shipping', getShippingRates, true);
+
+  $scope.$watch('model.order.city', getShippingRates);
+  $scope.$watch('model.order.region', getShippingRates);
+  $scope.$watch('model.order.country', getShippingRates);
+  $scope.$watch('model.order.postcode', getShippingRates);
+  $scope.$watch('model.order.address', getShippingRates);
+  $scope.$watch('model.order.address2', getShippingRates);
 
   window.onbeforeunload = TabCloseAlert;
 
