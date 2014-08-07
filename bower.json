@@ -11,7 +11,7 @@
     "font-awesome": "~4.x",
     "bourbon": "~3.1",
     "html2canvas": "~0.x",
-    "jspdf": "*",
+    "jspdf": "~1.x",
     "blueimp-canvas-to-blob": "~2.x",
     "momentjs": "~2.8.x",
     "jquery.payment": "~1.1.x"
