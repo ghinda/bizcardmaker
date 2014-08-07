@@ -266,11 +266,12 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     model.addressError = false;
 
     if(model.shippingRates.length) {
-      var rate = model.shippingRates[model.selectedShippingRate];
-      model.orderData.shipping.rate = {
-        carrier: rate.carrier,
-        service_code: rate.service_code
-      };
+      var rate = model.shippingRates[model.selectedShippingRate * 1];
+
+      model.orderData.shipping.rate = {};
+      angular.copy(rate, model.orderData.shipping.rate);
+
+      console.log(model.orderData.shipping.rate);
     }
 
     data.SendOrder(model.orderData).then(function() {
@@ -380,6 +381,9 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
       // empty shipping rates
       model.shippingRates.length = 0;
 
+      // reset selected shipping rate
+      model.selectedShippingRate = 0;
+
       // local copy
       var selectedOffer = model.order.selectedOffer * 1;
 
@@ -392,8 +396,8 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
           // shipping not included
           var shippingRates = model.order;
 
-          // check if we have any custom shipping address
-          if(model.shipping.city && model.shipping.address1) {
+          // check if we use a custom shipping address
+          if(model.order.shippingDetailsType === 'custom') {
             shippingRates = model.shipping;
           }
 
@@ -433,18 +437,28 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
   };
 
-  // watch for selected offer change
-  $scope.$watch('model.order.selectedOffer', getShippingRates);
+  // watch for changes in addresses
+  // and selected offers
+  // to reload shipping rates
+  $scope.$watchCollection('[' +
+    'model.order.selectedOffer,' +
 
-  // watch for address changes
-  $scope.$watch('model.shipping', getShippingRates, true);
+    'model.shipping.city,' +
+    'model.shipping.region,' +
+    'model.shipping.country,' +
+    'model.shipping.postcode,' +
+    'model.shipping.address,' +
+    'model.shipping.address2,' +
 
-  $scope.$watch('model.order.city', getShippingRates);
-  $scope.$watch('model.order.region', getShippingRates);
-  $scope.$watch('model.order.country', getShippingRates);
-  $scope.$watch('model.order.postcode', getShippingRates);
-  $scope.$watch('model.order.address', getShippingRates);
-  $scope.$watch('model.order.address2', getShippingRates);
+    'model.order.city,' +
+    'model.order.region,' +
+    'model.order.country,' +
+    'model.order.postcode,' +
+    'model.order.address,' +
+    'model.order.address2,' +
+
+    'model.order.shippingDetailsType' +
+  ']', getShippingRates);
 
   window.onbeforeunload = TabCloseAlert;
 

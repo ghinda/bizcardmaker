@@ -8,12 +8,12 @@ For example, you can make a input act like a credit card field (with number form
 $('input.cc-num').payment('formatCardNumber');
 ```
 
-Then, when the payment form is submitted, you can validate the card number on the client-side like so:
+Then, when the payment form is submitted, you can validate the card number on the client-side:
 
 ``` javascript
 var valid = $.payment.validateCardNumber($('input.cc-num').val());
 
-if ( !valid ) {
+if (!valid) {
   alert('Your card is not valid!');
   return false;
 }
@@ -26,12 +26,14 @@ Supported card types are:
 * Visa
 * MasterCard
 * American Express
-* Discover
-* JCB
 * Diners Club
-* Maestro
-* Laser
+* Discover
 * UnionPay
+* JCB
+* Visa Electron
+* Maestro
+* Forbrugsforeningen
+* Dankort
 
 ## API
 
@@ -140,12 +142,15 @@ Returns a card type. Either:
 
 * `visa`
 * `mastercard`
-* `discover`
 * `amex`
 * `dinersclub`
-* `maestro`
-* `laser`
+* `discover`
 * `unionpay`
+* `jcb`
+* `visaelectron`
+* `maestro`
+* `forbrugsforeningen`
+* `dankort`
 
 The function will return `null` if the card type can't be determined.
 
@@ -181,7 +186,7 @@ Run `cake test`
 
 ## Autocomplete recommendations
 
-We recommend you turn autocomplete on for credit card forms, except for the CVC field. You can do this by setting the `autocomplete` attribute:
+We recommend you turn autocomplete on for credit card forms, except for the CVC field (which should never be stored). You can do this by setting the `autocomplete` attribute:
 
 ``` html
 <form autocomplete="on">
@@ -193,10 +198,10 @@ We recommend you turn autocomplete on for credit card forms, except for the CVC 
 You should also mark up your fields using the [Autocomplete Types spec](http://wiki.whatwg.org/wiki/Autocomplete_Types). These are respected by a number of browsers, including Chrome.
 
 ``` html
-<input type="text" class="cc-number" pattern="\d*" autocompletetype="cc-number" placeholder="Card number" required>
+<input type="text" class="cc-number" pattern="\d*" autocomplete="cc-number" placeholder="Card number" required>
 ```
 
-Set `autocompletetype` to `cc-number` for credit card numbers, `cc-exp` for credit card expiry and `cc-csc` for the CVC (security code).
+Set `autocomplete` to `cc-number` for credit card numbers and `cc-exp` for credit card expiry.
 
 ## Mobile recommendations
 
