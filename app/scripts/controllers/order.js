@@ -265,13 +265,18 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     model.addressError = false;
 
+    // if shipping is not included
     if(model.shippingRates.length) {
       var rate = model.shippingRates[model.selectedShippingRate * 1];
 
-      model.orderData.shipping.rate = {};
-      angular.copy(rate, model.orderData.shipping.rate);
+      model.orderData.shipping.rate = {
+        carrier: rate.carrier,
+        service_code: rate.service_code
+      };
 
-      console.log(model.orderData.shipping.rate);
+      model.orderData.billing.amount.shipping = rate.price;
+      model.orderData.billing.amount.total += rate.price;
+
     }
 
     data.SendOrder(model.orderData).then(function() {
