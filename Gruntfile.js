@@ -9,7 +9,6 @@ var mountFolder = function (connect, dir) {
 module.exports = function (grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-  grunt.loadNpmTasks('assemble');
 
   // configurable paths
   var yeomanConfig = {
@@ -266,7 +265,7 @@ module.exports = function (grunt) {
         dest: '.tmp/scripts/templates.js'
       }
     },
-    ngmin: {
+    ngAnnotate: {
       dist: {
         files: [{
           expand: true,
@@ -340,7 +339,7 @@ module.exports = function (grunt) {
     'ngtemplates',
     'copy:dist',
     'concat',
-    'ngmin',
+    'ngAnnotate',
     'cssmin',
     'uglify',
     'rev',
