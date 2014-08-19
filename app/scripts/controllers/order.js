@@ -396,6 +396,8 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
         var offer = model.offers[selectedOffer];
 
+        console.log(offer.amount);
+
         if(!offer.amount.shipping_included) {
 
           // shipping not included

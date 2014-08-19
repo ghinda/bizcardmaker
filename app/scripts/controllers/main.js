@@ -230,7 +230,19 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
         }
       }
 
-      doc.save(model.pdfFilename);
+      //doc.save(model.pdfFilename);
+
+      // save using saveAs to work-around safari issues
+      // https://github.com/MrRio/jsPDF/issues/303
+      // https://github.com/MrRio/jsPDF/issues/196
+
+      // saveAs is global from FileSaver.js
+      // FileSaver is included in jsPdf
+      saveAs(
+        doc.output('blob'),
+        model.pdfFilename
+      );
+
     });
 
     // track pdf download
