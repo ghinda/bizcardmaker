@@ -1,16 +1,16 @@
 {
   "name": "jquery.payment",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "main": "lib/jquery.payment.js",
   "dependencies": {
     "jquery": ">=1.5"
   },
   "homepage": "https://github.com/stripe/jquery.payment",
-  "_release": "1.1.0",
+  "_release": "1.1.2",
   "_resolution": {
     "type": "version",
-    "tag": "v1.1.0",
-    "commit": "773884cc610d1ed1890bfcf4419d9b9bf8825a97"
+    "tag": "v1.1.2",
+    "commit": "64261fa3b3ec8d519da8ef5d97a2442308244bb1"
   },
   "_source": "git://github.com/stripe/jquery.payment.git",
   "_target": "~1.1.x",
