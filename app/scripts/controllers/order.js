@@ -303,6 +303,11 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
       // track analytics
       ga('send', 'event', 'Orders', 'Successful order', model.orderData.offer.id);
 
+      // subscribe to newsletter on successful order
+      data.NewsletterSubscribe({
+        email: model.order.email
+      });
+
     }, function(err) {
 
       // scroll to top to see errors
