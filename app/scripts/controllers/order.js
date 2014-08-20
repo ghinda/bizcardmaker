@@ -277,6 +277,10 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
       model.orderData.billing.amount.shipping = rate.price;
       model.orderData.billing.amount.total += rate.price;
 
+      // set shipping_included=true
+      // because we manually calculated the shipping and total prices
+      model.orderData.billing.amount.shipping_included = true;
+
     }
 
     data.SendOrder(model.orderData).then(function() {

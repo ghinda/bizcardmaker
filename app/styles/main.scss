@@ -784,6 +784,13 @@ input.ng-invalid {
   border: 0;
 
   @include transform(translateX(-50%));
+
+}
+
+/* fix choppyness issues with overlay
+ */
+.reveal-modal-bg {
+  @include transform(translate3d(0,0,0));
 }
 
 /* Download buttons
