@@ -160,6 +160,19 @@ app.factory('data', function($rootScope, $http, $q) {
     return deferred.promise;
   };
 
+  var NewsletterSubscribe = function(params) {
+    var deferred = $q.defer();
+
+    $http.post(apiUrl + '/newsletter/subscribe', params)
+    .success(function(response) {
+      deferred.resolve(response);
+    }).error(function(err) {
+      deferred.reject(err);
+    });
+
+    return deferred.promise;
+  };
+
   return {
     printchompUrl: printchompUrl,
     env: env,
@@ -167,7 +180,9 @@ app.factory('data', function($rootScope, $http, $q) {
     model: model,
     GetOffers: GetOffers,
     GetShipping: GetShipping,
-    SendOrder: SendOrder
+    SendOrder: SendOrder,
+
+    NewsletterSubscribe: NewsletterSubscribe
   };
 
 });

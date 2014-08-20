@@ -1,4 +1,4 @@
-app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
+app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
   'use strict';
 
   var model = $scope.model = {};
@@ -173,6 +173,18 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   };
 
+  var newsletterSubscribe = function() {
+
+    // track email
+    var $content = $('.card-content');
+    var emailAddress = $('.email p', $content).text().trim();
+
+    data.NewsletterSubscribe({
+      email: emailAddress
+    });
+
+  };
+
   // place business card on a canvas
   $scope.generatePicture = function() {
 
@@ -248,6 +260,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // track pdf download
     ga('send', 'event', 'Download', 'Download PDF', model.themes[model.activeTheme].name);
 
+    // subscribe to newsletter
+    newsletterSubscribe();
 
   };
 
@@ -274,8 +288,11 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     });
 
-    // track analytics
+    // track download
     ga('send', 'event', 'Download', 'Download picture', model.themes[model.activeTheme].name);
+
+    // subscribe to newsletter
+    newsletterSubscribe();
 
   };
 
