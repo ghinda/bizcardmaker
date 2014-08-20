@@ -1,19 +1,20 @@
-/* Card maker
-*/
+/* bizcardmaker.com
+ * Website
+ */
 
 /* Bourbon
-*/
-@import "../bower_components/bourbon/app/assets/stylesheets/_bourbon.scss";
+ */
+@import '../bower_components/bourbon/app/assets/stylesheets/_bourbon.scss';
 
 /* Globals
-*/
+ */
 $color1: #2854a1;
 $color2: lighten(saturate($color1, 40%), 20%);
 $white: #fff;
 $grey: #e6e6e6;
 
 /* Foundation
-*/
+ */
 $primary-color: shade($color1, 5%);
 $secondary-color: $color2;
 $button-border-width: 0px;
@@ -26,11 +27,20 @@ $topbar-link-weight: bold;
 $topbar-link-bg-hover: $primary-color;
 $topbar-link-bg-active: darken($topbar-link-bg-hover, 10%);
 
-@import "../bower_components/foundation/scss/foundation";
+@import '../bower_components/foundation/scss/foundation';
+
+/* Components
+ */
+@import '../bower_components/angular-meditor/dist/meditor.css';
 
 /* Utils
-*/
-@import "utils";
+ */
+@import 'utils';
+
+/* App
+ */
+@import 'app';
+
 
 /* Main
 */
@@ -132,7 +142,7 @@ a {
 }
 
 /* Sections
-*/
+ */
 footer,
 section {
   padding: emCalc(20) 0;
@@ -202,7 +212,7 @@ section {
 }
 
 /* Footer
-*/
+ */
 footer {
   border-top: 1px solid darken($white, 20%);
 
@@ -216,7 +226,7 @@ footer {
 }
 
 /* Right sidebar
-*/
+ */
 .instructions-block {
   margin-top: emCalc(60);
   margin-bottom: emCalc(40);
@@ -228,7 +238,7 @@ footer {
 }
 
 /* Order modal
-*/
+ */
 
 .loading-indicator {
   display: block;
@@ -787,8 +797,9 @@ input.ng-invalid {
 
 }
 
-/* fix choppyness issues with overlay
+/* fix choppyness issues with modal and joyride overlays
  */
+.joyride-modal-bg,
 .reveal-modal-bg {
   @include transform(translate3d(0,0,0));
 }

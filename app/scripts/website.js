@@ -28,7 +28,8 @@
   // foundation properties
   $(document).foundation({
     joyride: {
-      scroll_speed: 500
+      scroll_speed: 500,
+      modal: false
     },
     reveal: {
       animation_speed: 80

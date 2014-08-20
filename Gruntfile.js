@@ -105,7 +105,7 @@ module.exports = function (grunt) {
     },
     assemble: {
       options: {
-        layoutdir: '<%= yeoman.app %>/templates'
+        layoutdir: '<%= yeoman.app %>/templates/layouts'
       },
       server: {
         files: [{
@@ -127,14 +127,12 @@ module.exports = function (grunt) {
     sass: {
       dist: {
         files: {
-          '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss',
-          '.tmp/styles/app.css': '<%= yeoman.app %>/styles/app.scss'
+          '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
         }
       },
       server: {
         files: {
-          '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss',
-          '.tmp/styles/app.css': '<%= yeoman.app %>/styles/app.scss'
+          '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
         }
       }
     },
