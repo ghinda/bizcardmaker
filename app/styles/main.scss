@@ -4,7 +4,7 @@
 
 /* Bourbon
  */
-@import '../bower_components/bourbon/app/assets/stylesheets/_bourbon.scss';
+@import '../bower_components/bourbon/app/assets/stylesheets/_bourbon';
 
 /* Globals
  */
@@ -28,10 +28,6 @@ $topbar-link-bg-hover: $primary-color;
 $topbar-link-bg-active: darken($topbar-link-bg-hover, 10%);
 
 @import '../bower_components/foundation/scss/foundation';
-
-/* Components
- */
-@import '../bower_components/angular-meditor/dist/meditor.css';
 
 /* Utils
  */
