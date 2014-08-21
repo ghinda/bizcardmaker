@@ -1,0 +1,138 @@
+/* Line theme
+ */
+
+/* Mixin
+ */
+
+@mixin line($name, $color, $dark: false) {
+
+  .theme-line--#{$name}-thumb,
+  .theme-line--#{$name} {
+
+    $color-line: lighten(saturate($color, 95%), 30%);
+
+    color: #fff;
+    background-color: $color;
+
+    .theme-preview {
+      background-color: $color;
+
+      &:after {
+        content: '';
+        display: block;
+        width: 60%;
+        position: absolute;
+        top: 50%;
+        left: 20%;
+        margin: 0 auto;
+        border-bottom: 1px solid $color-line;
+      }
+    }
+
+    .card-content {
+
+      .card-picture {
+        width: emCalc(150);
+        height: emCalc(50);
+        top: 4%;
+        left: 4%;
+
+        .no-picture {
+          padding: emCalc(8) 0;
+
+          text-align: left;
+        }
+
+        i, span {
+          font-size: emCalc(12);
+        }
+      }
+
+      .person,
+      .details,
+      .email,
+      .url {
+        color: #000;
+        vertical-align: baseline;
+
+        @include clearfix;
+      }
+
+      .person {
+        left: 4%;
+        top: 44%;
+        display: block;
+        width: 92%;
+
+        padding-bottom: emCalc(12);
+        border-bottom: 1px solid $color-line;
+
+        color: #fff;
+
+        .fn {
+          letter-spacing: emCalc(1);
+          font-weight: normal;
+        }
+
+        .title {
+          display: inline-block;
+          position: absolute;
+          top: 0;
+          right: 0;
+
+          text-align: right;
+        }
+      }
+
+      div.details {
+        display: none;
+      }
+
+      .email,
+      .url {
+        top: 60%;
+        width: 46%;
+
+        color: lighten($color, 50%);
+        font-size: emCalc(10);
+      }
+
+      .email {
+        left: 4%;
+        border-right: 1px solid $color-line;
+      }
+
+      .url {
+        left: auto;
+        right: 4%;
+        text-align: right;
+      }
+
+      p {
+        line-height: .9em;
+      }
+
+      .card-item {
+        position: absolute;
+        display: block;
+      }
+    }
+
+    @include theme(dark);
+  }
+
+}
+
+/* Sub-themes
+ */
+
+@include line('black', #000);
+@include line('blue', #00A6DE);
+@include line('dark-blue', #133B8B);
+@include line('red', #ED1C24);
+@include line('turquoise', #1ABC9C);
+@include line('green', #8DC63F);
+@include line('dark-green', #00723F);
+@include line('pink', #E8A0C6);
+@include line('purple', #713F64);
+@include line('orange', #F58220);

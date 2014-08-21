@@ -1,0 +1,66 @@
+/* Simple theme
+ */
+
+/* Theme
+ */
+
+%theme-simple {
+
+  .card-picture {
+    position: absolute;
+    top: 4%;
+    left: 4%;
+  }
+
+  .card-item,
+  .card-item p {
+    position: relative;
+  }
+
+  .card-item {
+    position: absolute;
+    left: 52%;
+  }
+
+  .person {
+    top: 4%;
+  }
+
+}
+
+/* Mixin
+ */
+
+@mixin simple($name, $color, $dark: false) {
+
+  .theme-simple--#{$name},
+  .theme-simple--#{$name}-thumb .theme-preview {
+    background-color: $color;
+  }
+
+  .theme-simple--#{$name} {
+    @extend %theme-simple;
+
+    @if $dark == true {
+      @include theme(dark);
+    } @else {
+      @include theme(light);
+    }
+  }
+
+}
+
+/* Sub-themes
+ */
+
+@include simple('black', #000, true);
+@include simple('white', #fff);
+@include simple('blue', #00A6DE);
+@include simple('dark-blue', #133B8B, true);
+@include simple('red', #ED1C24, true);
+@include simple('turquoise', #1ABC9C, true);
+@include simple('green', #8DC63F);
+@include simple('dark-green', #00723F, true);
+@include simple('pink', #E8A0C6);
+@include simple('purple', #713F64, true);
+@include simple('orange', #F58220, true);

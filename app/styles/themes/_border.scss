@@ -1,0 +1,163 @@
+/* Border theme
+ */
+
+/* Theme
+ */
+
+%theme-border {
+
+  background-color: #000;
+
+  &.card-big .no-picture {
+    display: block !important;
+    opacity: 0;
+  }
+
+  .card-content {
+    background-color: #fff;
+
+    text-align: center;
+
+    .card-picture {
+      position: relative;
+      z-index: 2;
+      top: 8%;
+      left: auto;
+      margin: 0 auto;
+      min-height: emCalc(80);
+    }
+
+    .person,
+    .details,
+    .email,
+    .url {
+      display: block;
+      padding: 4%;
+
+      text-align: center;
+      color: #000;
+
+      p {
+        line-height: 1em;
+      }
+
+    }
+
+    .person {
+      position: relative;
+      top: 16%;
+      left: 0;
+      display: block;
+      width: 92%;
+      margin: 0 auto;
+      background-color: #fff;
+
+      font-size: emCalc(20);
+    }
+
+    .title {
+      font-size: .8em;
+    }
+
+    .details {
+      display: none;
+      clear: both;
+    }
+
+    .email,
+    .url {
+      position: relative;
+      top: auto;
+      left: auto;
+      display: inline-block;
+      width: emCalc(180);
+      margin-top: 10%;
+      margin-right: emCalc(-6);
+      padding: emCalc(8) emCalc(8) !important;
+      background-color: #000;
+
+      line-height: 1em;
+      font-size: emCalc(12);
+      color: #fff;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    .card-item {
+      padding: emCalc(2) emCalc(8);
+    }
+
+  }
+
+}
+
+%theme-border-thumb {
+
+  .theme-preview {
+    position: relative;
+    background-color: #fff;
+    padding: 0 !important;
+  }
+
+  .theme-preview:after {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-width: emCalc(12);
+    border-style: solid;
+    border-color: #000;
+    background: transparent;
+  }
+
+}
+
+/* Mixin
+ */
+
+@mixin border($name, $color, $dark: false) {
+
+  .theme-border--#{$name} {
+    @extend %theme-border;
+
+    @include theme(light);
+
+    background: $color;
+
+    .card-content {
+      .email,
+      .url {
+        background-color: $color;
+      }
+    }
+  }
+
+  .theme-border--#{$name}-thumb {
+    @extend %theme-border-thumb;
+
+    .theme-preview:after {
+      border-color: $color;
+    }
+  }
+
+}
+
+/* Sub-themes
+ */
+
+@include border('black', #000);
+@include border('blue', #00A6DE);
+@include border('dark-blue', #133B8B);
+@include border('red', #ED1C24);
+@include border('turquoise', #1ABC9C);
+@include border('green', #8DC63F);
+@include border('dark-green', #00723F);
+@include border('pink', #E8A0C6);
+@include border('purple', #713F64);
+@include border('orange', #F58220);

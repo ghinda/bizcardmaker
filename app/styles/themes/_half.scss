@@ -1,0 +1,103 @@
+/* Half theme
+ */
+
+/* Theme
+ */
+
+%theme-half {
+
+  .card-content {
+
+    .card-picture {
+      left: 8%;
+      top: 8%;
+      width: 36%;
+    }
+
+    .person,
+    .details,
+    .email,
+    .url {
+      left: 55%;
+      top: 20%;
+
+      color: #000;
+
+      a {
+        color: #000;
+      }
+
+      p {
+        line-height: 1.2em;
+      }
+    }
+
+    .details {
+      top: 48%;
+    }
+
+    .email {
+      top: 74%;
+    }
+
+    .url {
+      top: 82%;
+    }
+
+    .card-item:hover {
+      background-color: rgba($black, .1);
+    }
+
+  }
+
+}
+
+/* Mixin
+ */
+
+@mixin half($name, $color, $dark: false) {
+
+  .theme-half--#{$name},
+  .theme-half--#{$name}-thumb .theme-preview {
+    @include background-image(
+      linear-gradient(
+        left,
+        $color 0%,
+        $color 50%,
+        #fff 50%,
+        #fff 100%
+      )
+    );
+
+    /* Funky notation for html2canvas - until it implements w3c gradients
+    */
+    @include custom-gradient(
+      left,
+      $color 0%,
+      $color 50%,
+      #fff 50%,
+      #fff 100%
+    );
+  }
+
+  .theme-half--#{$name} {
+    @extend %theme-corners;
+
+    @include theme(light);
+  }
+
+}
+
+/* Sub-themes
+ */
+
+@include half('black', #000);
+@include half('blue', #00A6DE);
+@include half('dark-blue', #133B8B);
+@include half('red', #ED1C24);
+@include half('turquoise', #1ABC9C);
+@include half('green', #8DC63F);
+@include half('dark-green', #00723F);
+@include half('pink', #E8A0C6);
+@include half('purple', #713F64);
+@include half('orange', #F58220);

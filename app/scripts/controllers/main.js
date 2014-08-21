@@ -30,7 +30,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   };
 
   $scope.$on('$routeUpdate', function(){
-    model.activeTheme = parseInt($routeParams.theme, 10) || 0;
+    model.activeTheme = $routeParams.theme;
 
     // reset editor and position changes on elements
     clearInlineStyles();
@@ -39,44 +39,58 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   $scope.$broadcast('$routeUpdate');
 
-  model.themes = [
-    {
-      name: 'simple-black'
-    },
-    {
-      name: 'simple-white'
-    },
-    {
-      name: 'simple-blue'
-    },
-    {
-      name: 'simple-dark-blue'
-    },
-    {
-      name: 'simple-turquoise'
-    },
-    {
-      name: 'simple-red'
-    },
-    {
-      name: 'black-corners'
-    },
-    {
-      name: 'black-white'
-    },
-    {
-      name: 'diagonals'
-    },
-    {
-      name: 'black-border'
-    },
-    {
-      name: 'line-one'
-    },
-    {
-      name: 'asphalt-half'
-    }
+  var colors = [
+    'black',
+    'white',
+    'blue',
+    'dark-blue',
+    'turquoise',
+    'red',
+    'orange',
+    'green',
+    'dark-green',
+    'pink',
+    'purple'
   ];
+
+  var themes = [
+    'theme-simple',
+    'theme-corners',
+    'theme-half',
+    'theme-border',
+    'theme-line',
+    'theme-third'
+  ];
+
+  model.themes = [];
+
+  angular.forEach(themes, function(theme) {
+
+    angular.forEach(colors, function(color) {
+
+      if(
+        (theme === 'theme-half' ||
+        theme === 'theme-border' ||
+        theme === 'theme-third' ||
+        theme === 'theme-line') &&
+        color === 'white'
+      ) {
+
+      } else {
+        model.themes.push({
+          name: theme + '--' + color
+        });
+      }
+
+    });
+
+  });
+
+  [].push.apply(model.themes, [
+    {
+      name: 'theme-diagonals'
+    }
+  ]);
 
   $scope.$watch('model.cardPictureFile', function() {
 
@@ -258,7 +272,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     });
 
     // track pdf download
-    ga('send', 'event', 'Download', 'Download PDF', model.themes[model.activeTheme].name);
+    ga('send', 'event', 'Download', 'Download PDF', model.activeTheme);
 
     // subscribe to newsletter
     newsletterSubscribe();
@@ -289,7 +303,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     });
 
     // track download
-    ga('send', 'event', 'Download', 'Download picture', model.themes[model.activeTheme].name);
+    ga('send', 'event', 'Download', 'Download picture', model.activeTheme);
 
     // subscribe to newsletter
     newsletterSubscribe();

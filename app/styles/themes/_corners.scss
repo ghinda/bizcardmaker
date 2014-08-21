@@ -1,0 +1,123 @@
+/* Corners theme
+ */
+
+/* Theme
+ */
+
+%theme-corners {
+
+  .card-content {
+
+    .card-picture {
+      width: 36%;
+      left: 2%;
+      top: auto;
+      bottom: 4%;
+    }
+
+    .person,
+    .details,
+    .email,
+    .url {
+      left: auto;
+      right: 2%;
+      top: 4%;
+
+      font-size: emCalc(20);
+      font-weight: bold;
+      text-align: right;
+      letter-spacing: emCalc(-0.5);
+    }
+
+    .details p,
+    .person p {
+      line-height: 1em;
+    }
+
+    .details {
+      top: 40%;
+    }
+
+    .email {
+      top: 66%;
+    }
+
+    .url {
+      top: 76%;
+    }
+
+  }
+
+}
+
+%theme-corners-thumb {
+
+  .theme-preview:before,
+  .theme-preview:after {
+    content: '';
+    display: block;
+    width: emCalc(30);
+    height: emCalc(4);
+    position: absolute;
+    top: emCalc(15);
+    right: emCalc(15);
+  }
+
+  .theme-preview:before {
+    left: emCalc(15);
+    bottom: emCalc(15);
+    top: auto;
+    right: auto;
+  }
+
+}
+
+/* Mixin
+ */
+
+@mixin corners($name, $color, $dark: false) {
+
+  .theme-corners--#{$name},
+  .theme-corners--#{$name}-thumb .theme-preview {
+    background-color: $color;
+  }
+
+  .theme-corners--#{$name} {
+    @extend %theme-corners;
+
+    @if $dark == true {
+      @include theme(dark);
+    } @else {
+      @include theme(light);
+    }
+  }
+
+  .theme-corners--#{$name}-thumb {
+    @extend %theme-corners-thumb;
+
+    .theme-preview:before,
+    .theme-preview:after {
+      @if $dark == true {
+        background-color: lighten($color, 20%);
+      } @else {
+        background-color: darken($color, 20%);
+      }
+    }
+  }
+
+}
+
+/* Sub-themes
+ */
+
+@include corners('black', #000, true);
+@include corners('white', #fff);
+@include corners('blue', #00A6DE);
+@include corners('dark-blue', #133B8B, true);
+@include corners('red', #ED1C24, true);
+@include corners('turquoise', #1ABC9C, true);
+@include corners('green', #8DC63F);
+@include corners('dark-green', #00723F, true);
+@include corners('pink', #E8A0C6);
+@include corners('purple', #713F64, true);
+@include corners('orange', #F58220, true);

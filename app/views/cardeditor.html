@@ -8,7 +8,7 @@
 
   <div class="themes-row" id="js-themes">
 
-    <a ng-href="#/?theme={{ $index }}" class="theme-item {{ theme.name }}-thumb" ng-repeat="theme in model.themes" ng-class="{ active: $index == model.activeTheme }">
+    <a ng-href="#/?theme={{ theme.name }}" class="theme-item {{ theme.name }}-thumb" ng-repeat="theme in model.themes" ng-class="{ active: theme.name === model.activeTheme }">
       <div class="theme-preview-container">
         <div class="theme-preview"></div>
       </div>
@@ -29,7 +29,7 @@
       <div class="card-edit-container">
 
         <div class="card-container" ng-class="{ 'card-big': model.generatingCard, 'card-print': model.generatingPdf }" id="js-card-container">
-          <div class="card-preview {{ model.themes[model.activeTheme].name }}">
+          <div class="card-preview {{ model.activeTheme }}">
 
             <div class="card-content">
 

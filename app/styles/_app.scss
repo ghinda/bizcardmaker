@@ -309,6 +309,27 @@ $card-border: 1px solid darken($white, 10%);
     text-decoration: none;
   }
 
+  .person,
+  .details,
+  .email,
+  .url {
+    position: absolute;
+
+    width: emCalc(160);
+  }
+
+  .details {
+    top: 36%;
+  }
+
+  .email {
+    top: 70%;
+  }
+
+  .url {
+    top: 80%;
+  }
+
 }
 
 /* Drag

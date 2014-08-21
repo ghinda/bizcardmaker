@@ -14,7 +14,7 @@ var app = angular.module('businessCardMaker', [
     controller: 'MainCtrl',
     reloadOnSearch: false
   }).otherwise({
-    redirectTo: '/?theme=0'
+    redirectTo: '/'
   });
 
 });
