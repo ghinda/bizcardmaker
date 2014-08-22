@@ -714,9 +714,11 @@ footer {
   }
 }
 
+$color-address-error: rgba(#f1c40f, .98);
+
 .reveal-modal.modal-order .order-address-error {
-  padding: emCalc(100) emCalc(80) 0;
-  background-color: rgba(#f1c40f, .98);
+  padding: emCalc(100) emCalc(60) 0;
+  background-color: $color-address-error;
 
   color: #333;
   text-align: left;
@@ -747,6 +749,22 @@ footer {
 
   label {
     max-width: emCalc(540);
+  }
+
+  .shipping-rates {
+    margin-top: emCalc(40);
+  }
+
+  .separator-order span {
+    background: $color-address-error;
+  }
+
+  .loading-indicator {
+    color: #000;
+  }
+
+  .shipping-list .active {
+    //background: darken($color-address-error, 40%);
   }
 }
 

@@ -33,7 +33,9 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   model.orderLoading = false;
   model.orderSuccess = false;
 
-  model.orderData = {};
+  model.orderData = {
+    shipping: {}
+  };
 
   model.order.country = model.countries[0];
   model.order.shippingDetailsType = 'same';
@@ -67,11 +69,19 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   loadOffers();
 
   $scope.$watch('model.order.country', function() {
-    model.order.region = model.regions[model.order.country.id][0];
+    // if not changing automatically
+    // from the address suggestions
+    if(!model.addressError) {
+      model.order.region = model.regions[model.order.country.id][0];
+    }
   });
 
   $scope.$watch('model.shipping.country', function() {
-    model.shipping.region = model.regions[model.shipping.country.id][0];
+    // if not changing automatically
+    // from the address suggestions
+    if(!model.addressError) {
+      model.shipping.region = model.regions[model.shipping.country.id][0];
+    }
   });
 
   $scope.$watch('model.order.shippingDetailsType', function() {
@@ -178,8 +188,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     model.orderData.billing.credit_card.expiry.year = exp[1];
 
-    // shipping details
-    model.orderData.shipping = {};
     if(model.order.shippingDetailsCustom) {
 
       model.orderData.shipping.name = model.shipping.name;
@@ -195,72 +203,12 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     }
 
-    // validate address if not validated already
     if(model.addressError) {
-
+      // address is selected from suggested addresses
       model.orderData.validate_address = false;
-
-      // set shipping details from address suggestions
-      var validatedAddress = model.addressError.suggestions[model.selectedSuggestion];
-
-      var addressComponent = {
-        streetNumber: '',
-        street: '',
-        city: '',
-        region: '',
-        country: '',
-        postal_code: ''
-      };
-
-      angular.forEach(validatedAddress.address_components, function(addr) {
-
-        angular.forEach(addr.types, function(type) {
-
-          if(type === 'street_number') {
-            addressComponent.streetNumber = addr.long_name || addr.short_name;
-            return false;
-          }
-
-          if(type === 'route') {
-            addressComponent.street = addr.long_name || addr.short_name;
-            return false;
-          }
-
-          if(type === 'locality') {
-            addressComponent.city = addr.long_name || addr.short_name;
-            return false;
-          }
-
-          if(type === 'administrative_area_level_1') {
-            addressComponent.region = addr.short_name;
-            return false;
-          }
-
-          if(type === 'country') {
-            addressComponent.country = addr.long_name || addr.short_name;
-            return false;
-          }
-
-          if(type === 'postal_code') {
-            addressComponent.postal_code = addr.long_name || addr.short_name;
-            return false;
-          }
-
-        });
-
-      });
-
-      model.orderData.shipping.address.city = addressComponent.city;
-      model.orderData.shipping.address.region = addressComponent.region;
-      model.orderData.shipping.address.country = addressComponent.country;
-      model.orderData.shipping.address.postal_code = addressComponent.postal_code;
-      model.orderData.shipping.address.street = addressComponent.streetNumber + ' ' + addressComponent.street;
-      model.orderData.shipping.address.street2 = '';
-
     } else {
-
+      // validate address if not from suggested address
       model.orderData.validate_address = true;
-
     }
 
     model.addressError = false;
@@ -411,7 +359,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
           var shippingRates = model.order;
 
           // check if we use a custom shipping address
-          if(model.order.shippingDetailsType === 'custom') {
+          if(model.order.shippingDetailsCustom) {
             shippingRates = model.shipping;
           }
 
@@ -461,7 +409,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     'model.shipping.region,' +
     'model.shipping.country,' +
     'model.shipping.postcode,' +
-    'model.shipping.address,' +
+    'model.shipping.address1,' +
     'model.shipping.address2,' +
 
     'model.order.city,' +
@@ -473,6 +421,102 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     'model.order.shippingDetailsType' +
   ']', getShippingRates);
+
+
+  // parse suggested address from the address error screen
+  // to the proper order format to send
+  $scope.$watch('model.selectedSuggestion', function() {
+
+    if(model.addressError) {
+
+      // set shipping details from address suggestions
+      var validatedAddress = model.addressError.suggestions[model.selectedSuggestion];
+
+      var addressComponent = {
+        streetNumber: '',
+        street: '',
+        city: '',
+        region: '',
+        country: '',
+        postal_code: ''
+      };
+
+      angular.forEach(validatedAddress.address_components, function(addr) {
+
+        angular.forEach(addr.types, function(type) {
+
+          if(type === 'street_number') {
+            addressComponent.streetNumber = addr.long_name || addr.short_name;
+            return false;
+          }
+
+          if(type === 'route') {
+            addressComponent.street = addr.long_name || addr.short_name;
+            return false;
+          }
+
+          if(type === 'locality') {
+            addressComponent.city = addr.long_name || addr.short_name;
+            return false;
+          }
+
+          if(type === 'administrative_area_level_1') {
+            addressComponent.region = addr.short_name;
+            return false;
+          }
+
+          if(type === 'country') {
+            addressComponent.country = addr.long_name || addr.short_name;
+            return false;
+          }
+
+          if(type === 'postal_code') {
+            addressComponent.postal_code = addr.long_name || addr.short_name;
+            return false;
+          }
+
+        });
+
+      });
+
+      // parse the address into the angular model format
+      // not the api format
+      // since we'll parse it again in SendOrder
+      var parsedAddress = {};
+
+      parsedAddress.city = addressComponent.city;
+
+      // find the country and select it
+      // we can't just set the id because it will look bad
+      // when we return to the form with an address selected
+      angular.forEach(model.countries, function(country) {
+        if(country.id === addressComponent.country) {
+          parsedAddress.country = country;
+        }
+      });
+
+      // find the region and select it
+      angular.forEach(model.regions[addressComponent.country], function(region) {
+        if(region.id === addressComponent.region) {
+          parsedAddress.region = region;
+        }
+      });
+
+      parsedAddress.postcode = addressComponent.postal_code;
+      parsedAddress.address1 = addressComponent.streetNumber + ' ' + addressComponent.street;
+      parsedAddress.address2 = '';
+
+      // check if shipping details are custom
+      // and change either billing or shipping address
+      if(model.order.shippingDetailsCustom) {
+        angular.extend(model.shipping, parsedAddress);
+      } else {
+        angular.extend(model.order, parsedAddress);
+      }
+
+    }
+
+  });
 
   window.onbeforeunload = TabCloseAlert;
 
