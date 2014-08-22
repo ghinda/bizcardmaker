@@ -29,15 +29,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     });
   };
 
-  $scope.$on('$routeUpdate', function(){
-    model.activeTheme = $routeParams.theme;
-
-    // reset editor and position changes on elements
-    clearInlineStyles();
-
-  });
-
-  $scope.$broadcast('$routeUpdate');
+  model.themes = [];
 
   var colors = [
     'black',
@@ -61,8 +53,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     'theme-line',
     'theme-third'
   ];
-
-  model.themes = [];
 
   angular.forEach(themes, function(theme) {
 
@@ -91,6 +81,19 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       name: 'theme-diagonals'
     }
   ]);
+
+  $scope.$on('$routeUpdate', function(){
+    model.activeTheme = $routeParams.theme;
+
+    // select the first theme if no theme selected
+    if(!model.activeTheme && model.themes.length) {
+      $location.search('theme', model.themes[0].name);
+    }
+
+    // reset editor and position changes on elements
+    clearInlineStyles();
+
+  });
 
   $scope.$watch('model.cardPictureFile', function() {
 
@@ -402,5 +405,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     var modal = $(this);
     modal[0].scrollIntoView(true);
   });
+
+  // trigger route update
+  $scope.$broadcast('$routeUpdate');
 
 });

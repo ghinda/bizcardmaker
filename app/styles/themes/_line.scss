@@ -9,9 +9,8 @@
   .theme-line--#{$name}-thumb,
   .theme-line--#{$name} {
 
-    $color-line: lighten(saturate($color, 95%), 30%);
+    $color-line: lighten(saturate($color, 60%), 20%);
 
-    color: #fff;
     background-color: $color;
 
     .theme-preview {
@@ -52,7 +51,6 @@
       .details,
       .email,
       .url {
-        color: #000;
         vertical-align: baseline;
 
         @include clearfix;
@@ -66,8 +64,6 @@
 
         padding-bottom: emCalc(12);
         border-bottom: 1px solid $color-line;
-
-        color: #fff;
 
         .fn {
           letter-spacing: emCalc(1);
@@ -93,8 +89,13 @@
         top: 60%;
         width: 46%;
 
-        color: lighten($color, 50%);
         font-size: emCalc(10);
+
+        @if $dark == true {
+          color: lighten($color, 40%);
+        } @else {
+          color: darken($color, 40%);
+        }
       }
 
       .email {
@@ -118,7 +119,11 @@
       }
     }
 
-    @include theme(dark);
+    @if $dark == true {
+      @include theme(dark);
+    } @else {
+      @include theme(light);
+    }
   }
 
 }
@@ -126,13 +131,13 @@
 /* Sub-themes
  */
 
-@include line('black', #000);
+@include line('black', #000, true);
 @include line('blue', #00A6DE);
-@include line('dark-blue', #133B8B);
-@include line('red', #ED1C24);
-@include line('turquoise', #1ABC9C);
+@include line('dark-blue', #133B8B, true);
+@include line('red', #ED1C24, true);
+@include line('turquoise', #1ABC9C, true);
 @include line('green', #8DC63F);
-@include line('dark-green', #00723F);
+@include line('dark-green', #00723F, true);
 @include line('pink', #E8A0C6);
-@include line('purple', #713F64);
-@include line('orange', #F58220);
+@include line('purple', #713F64, true);
+@include line('orange', #F58220, true);

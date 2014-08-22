@@ -34,7 +34,6 @@
   .theme-third--#{$name} {
 
     .card-content {
-      @include theme(dark);
 
       .card-picture {
         width: emCalc(200);
@@ -50,8 +49,6 @@
         left: 4%;
         top: 12%;
 
-        color: #fff;
-
         .fn {
           font-size: emCalc(18);
         }
@@ -59,6 +56,12 @@
         .title {
           display: inline-block;
           border-bottom: 3px solid #fff;
+
+          @if $dark == true {
+            border-color: #fff;
+          } @else {
+            border-color: #000;
+          }
         }
       }
 
@@ -99,7 +102,12 @@
 
     }
 
-    @include theme(dark);
+    @if $dark == true {
+      @include theme(dark);
+    } @else {
+      @include theme(light);
+    }
+
   }
 
 }
@@ -107,13 +115,13 @@
 /* Sub-themes
  */
 
-@include third('black', #000);
+@include third('black', #000, true);
 @include third('blue', #00A6DE);
-@include third('dark-blue', #133B8B);
-@include third('red', #ED1C24);
-@include third('turquoise', #1ABC9C);
+@include third('dark-blue', #133B8B, true);
+@include third('red', #ED1C24, true);
+@include third('turquoise', #1ABC9C, true);
 @include third('green', #8DC63F);
-@include third('dark-green', #00723F);
+@include third('dark-green', #00723F, true);
 @include third('pink', #E8A0C6);
-@include third('purple', #713F64);
-@include third('orange', #F58220);
+@include third('purple', #713F64, true);
+@include third('orange', #F58220, true);
