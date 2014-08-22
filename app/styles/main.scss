@@ -687,7 +687,7 @@ footer {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 99;
+  z-index: 101;
   content: '';
   display: block;
   width: 100%;
@@ -699,6 +699,16 @@ footer {
   h2 {
     font-size: emCalc(32);
   }
+}
+
+.reveal-modal .close-reveal-modal {
+  z-index: 100;
+
+  color: #555;
+}
+
+.order-success {
+  z-index: 99;
 }
 
 .order-loading {
