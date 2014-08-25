@@ -45,8 +45,15 @@
     </ul>
 
     <section class="top-bar-section">
+
       <a href="/index.html" class="button radius secondary left btn-start js-guide-btn">
-        Quick tutorial
+
+        {{#if title}}
+          Get started
+        {{else}}
+          Quick tutorial
+        {{/if}}
+
       </a>
 
       <ul class="inline-list top-menu right show-for-large-up">
