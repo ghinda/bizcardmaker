@@ -336,8 +336,12 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     var clientWidth = Math.ceil($content.clientWidth);
     var clientHeight = Math.ceil($content.clientHeight);
 
-    var widthOverflow = (scrollWidth > clientWidth);
-    var heightOverflow = (scrollHeight > clientHeight);
+    // instead of just checking to see if the scroll area is larger
+    // than the safe-zone,
+    // we check if it's larger by more than 5 pixels
+    // because browsers are crazy
+    var widthOverflow = (Math.abs(scrollWidth - clientWidth) > 5);
+    var heightOverflow = (Math.abs(scrollHeight - clientHeight) > 5);
 
     var isOverflowing = widthOverflow || heightOverflow;
 
