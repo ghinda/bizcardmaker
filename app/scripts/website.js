@@ -12,7 +12,7 @@
     $cardPage = $('.card-maker');
     $tour = $('.tutorial-tour');
 
-    $('.js-guide-btn').click(showGuide);
+//     $('.js-guide-btn').click(showGuide);
 
   };
 
