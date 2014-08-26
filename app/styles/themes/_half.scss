@@ -12,6 +12,10 @@
       left: 8%;
       top: 8%;
       width: 36%;
+
+      label {
+        color: #efefef;
+      }
     }
 
     .person,
@@ -81,7 +85,7 @@
   }
 
   .theme-half--#{$name} {
-    @extend %theme-corners;
+    @extend %theme-half;
 
     @include theme(light);
   }

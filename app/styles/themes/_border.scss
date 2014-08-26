@@ -14,16 +14,16 @@
   }
 
   .card-content {
+    position: relative;
     background-color: #fff;
 
     text-align: center;
 
     .card-picture {
-      position: relative;
+      position: absolute;
       z-index: 2;
       top: 8%;
-      left: auto;
-      margin: 0 auto;
+      left: 30%;
       min-height: emCalc(80);
     }
 
@@ -44,12 +44,11 @@
     }
 
     .person {
-      position: relative;
-      top: 16%;
-      left: 0;
+      position: absolute;
+      top: 60%;
+      left: 4%;
       display: block;
       width: 92%;
-      margin: 0 auto;
       background-color: #fff;
 
       font-size: emCalc(20);
@@ -66,13 +65,11 @@
 
     .email,
     .url {
-      position: relative;
-      top: auto;
-      left: auto;
+      position: absolute;
+      top: 80%;
+      left: 50%;
       display: inline-block;
       width: emCalc(180);
-      margin-top: 10%;
-      margin-right: emCalc(-6);
       padding: emCalc(8) emCalc(8) !important;
       background-color: #000;
 
@@ -83,6 +80,11 @@
       &:hover {
         color: #fff;
       }
+    }
+
+    .email {
+      left: auto;
+      right: 50%;
     }
 
     .card-item {
