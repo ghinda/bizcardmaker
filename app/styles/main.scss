@@ -152,6 +152,8 @@ section {
   border-bottom: 1px solid darken($color1, 12%);
 
   .title-area {
+    overflow: hidden;
+    height: 100%;
     width: 22%;
     margin-right: emCalc(20);
 
@@ -181,6 +183,7 @@ section {
   }
 
   a {
+    width: 100%;
     padding: 0 emCalc(20);
 
     color: #fff;
@@ -192,6 +195,13 @@ section {
         opacity: 1;
       }
     }
+  }
+
+  p {
+    display: inline;
+    margin: 0;
+
+    font-size: 1em;
   }
 }
 
