@@ -837,8 +837,8 @@ input.ng-invalid {
 .download-buttons {
 
   .printchomp-text {
-    display: inline-block;
-    margin: emCalc(20) 0 0 emCalc(80);
+    display: block;
+    margin: emCalc(8) 0 0 emCalc(80);
 
     color: #479CAB;
     font-size: emCalc(11);
