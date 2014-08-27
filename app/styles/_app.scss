@@ -160,9 +160,10 @@ $card-border: 1px solid darken($white, 10%);
 
   font-size: .75em;
 
-  * {
+  *:not(font) {
     font-size: 1em;
   }
+
 }
 
 .card-content {

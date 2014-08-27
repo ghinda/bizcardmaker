@@ -823,17 +823,6 @@ input.ng-invalid {
   border: 1px solid #c0392b !important;
 }
 
-/* Improve Foundation modals
-*/
-.reveal-modal {
-  max-width: emCalc(1200);
-  margin-left: 0;
-  border: 0;
-
-  @include transform(translateX(-50%));
-
-}
-
 /* fix choppyness issues with modal and joyride overlays
  */
 .joyride-modal-bg,
@@ -910,6 +899,11 @@ input.ng-invalid {
 
   > li .button {
     border-radius: 3px !important;
+  }
+
+  > li {
+    overflow: hidden;
+    vertical-align: top;
   }
 
 }
