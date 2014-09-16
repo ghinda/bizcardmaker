@@ -1,26 +1,24 @@
-Business Card Maker
--------------------
+<h1>
+  <a href="https://www.bizcardmaker.com">
+    <img src="/artwork/square-icon.png?raw=true" width="30">
+    Business Card Maker
+  </a>
+</h1>
 
-Easily create your own business cards in seconds, *for free*, using high quality professional designs.
-
-## Architecture
-
-* Angular
-* Foundation
-* HTML2Canvas
-* jsPDF
+Easily create business cards in the browser, using high quality professional designs.
 
 ## Development
 
+Business Card Maker is mainly built with [AngularJS](https://angularjs.org/) and [Foundation](http://foundation.zurb.com/).
+
+It uses [HTML2Canvas](http://html2canvas.hertzen.com/) and [jsPDF](http://parall.ax/products/jspdf) to generate the final business card, as a picture or a PDF.
+
+Run the app in development mode with:
+
+```
   grunt server
+```
 
-## Build
+## License
 
-  grunt
-
-
-For `imagemin` to work:
-
-* `sudo apt-get install gifsicle libjpeg-turbo-progs`
-* [Install the latest version of OptiPNG](http://kb.imakewebsites.ca/2012/10/16/installing-optipng-0-7-3-on-ubuntu-12-04/)
-
+This projected is licensed under the terms of the GNU AFFERO GENERAL PUBLIC license.
