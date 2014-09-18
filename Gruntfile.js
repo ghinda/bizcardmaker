@@ -105,7 +105,12 @@ module.exports = function (grunt) {
     },
     assemble: {
       options: {
-        layoutdir: '<%= yeoman.app %>/templates/layouts'
+        layoutdir: '<%= yeoman.app %>/templates/layouts',
+        collections: [{
+          name: 'tags',
+          sortby: 'posted',
+          sortorder: 'descending'
+        }]
       },
       server: {
         files: [{

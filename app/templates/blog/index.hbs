@@ -1,0 +1,12 @@
+---
+layout: page.html
+title: Blog
+---
+
+{{ tags.posts }}
+
+<ul>
+  {{#each tags.posts.pages}}
+    <li>{{{this.title}}}</li>
+  {{/each}}
+</ul>
