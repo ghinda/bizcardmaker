@@ -3,10 +3,13 @@ layout: page.html
 title: Blog
 ---
 
-{{ tags.posts }}
+posts
 
 <ul>
-  {{#each tags.posts.pages}}
-    <li>{{{this.title}}}</li>
+  {{#each posts}}
+    <li>
+    x
+      {{{ this.title }}}
+    </li>
   {{/each}}
 </ul>
