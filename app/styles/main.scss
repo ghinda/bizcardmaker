@@ -209,6 +209,10 @@ section {
   margin-top: emCalc(4);
 }
 
+.top-bar-section {
+  overflow: hidden;
+}
+
 .top-bar-section ul li {
   margin: 0;
   background: transparent;
@@ -218,6 +222,16 @@ section {
     text-decoration: none;
     font-size: emCalc(12);
   }
+}
+
+.top-bar-section h2 {
+  float: left;
+  margin: 0;
+
+  color: lighten($color1, 48%);
+  font-size: emCalc(20);
+  line-height: 52px;
+  vertical-align: middle;
 }
 
 .top-menu .fa-twitter {

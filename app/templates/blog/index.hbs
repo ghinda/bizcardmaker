@@ -1,0 +1,35 @@
+---
+title: Blog
+layout: page.html
+---
+
+<section class="row">
+
+  <div class="large-12 columns">
+
+    <h2>
+      Blog
+    </h2>
+
+    {{#withSort posted 'data.posted'}}
+
+      <ul>
+
+        {{#each pages }}
+
+        <li>
+          <a href="/blog/{{ basename }}.html">
+            {{ data.title }}
+          </a>
+        </li>
+
+        {{/each}}
+
+      </ul>
+      
+    {{/withSort}}
+
+  </div>
+
+</section>
+

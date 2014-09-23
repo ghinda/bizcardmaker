@@ -52,9 +52,21 @@
     <section class="top-bar-section">
 
       {{#if title}}
-        <a href="/index.html" class="button radius secondary left btn-start js-guide-btn">
-          Get started
-        </a>
+
+        {{#if page.posted }}
+
+          <h2>
+            Blog
+          </h2>
+
+        {{ else }}
+
+          <a href="/index.html" class="button radius secondary left btn-start js-guide-btn">
+            Get started
+          </a>
+
+        {{/if}}
+
       {{/if}}
 
       <ul class="inline-list top-menu right show-for-medium-up">
