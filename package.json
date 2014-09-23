@@ -5,7 +5,7 @@
   "devDependencies": {
     "connect-livereload": "~0.4.x",
     "grunt": "~0.4.x",
-    "assemble": "^0.4.x",
+    "assemble": "~0.4.x",
     "grunt-angular-templates": "~0.5.x",
     "grunt-build-control": "~0.1.x",
     "grunt-concurrent": "~0.5.x",
