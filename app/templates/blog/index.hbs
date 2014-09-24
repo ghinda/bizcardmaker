@@ -13,20 +13,44 @@ layout: page.html
 
     {{#withSort posted 'data.posted'}}
 
-      <ul>
+      <ul class="list-posts">
 
-        {{#each pages }}
+        {{#each pages}}
 
         <li>
+
+          <div class="post-meta">
+            Posted on
+            <time datetime="{{ data.posted }}">
+              {{ formatDate data.posted "%d %B, %Y" }}
+            </time>
+          </div>
+
+          <h3>
+            <a href="/blog/{{ basename }}.html">
+
+              {{#if data.picture}}
+                <img src="{{ data.picture }}" class="post-picture">
+              {{/if}}
+
+              {{ data.title }}
+            </a>
+          </h3>
+
+          <div class="post-summary">
+            {{truncate page 31 "..."}}
+          </div>
+
           <a href="/blog/{{ basename }}.html">
-            {{ data.title }}
+            Read more
           </a>
+
         </li>
 
         {{/each}}
 
       </ul>
-      
+
     {{/withSort}}
 
   </div>
