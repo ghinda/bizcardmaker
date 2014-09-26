@@ -1,19 +1,10 @@
 /* Card editor app
  */
 
-/* Globals
-*/
-$color1: #2854a1;
-$color2: lighten(saturate($color1, 40%), 20%);
-$white: #fff;
-
-/* Utils
-*/
-@import "utils";
-
-/* Themes
+/* Imports
 */
 @import "themes";
+@import "order";
 
 /* Main
 */
@@ -442,32 +433,75 @@ $color-resize: lighten($color-handle, 20%);
 /* Download buttons
 */
 .download-buttons {
+  overflow: hidden;
+  width: emCalc(360);
+  margin: 0;
 
-  li {
-    width: 100%;
+  font-size: 1.65em;
+
+  .printchomp-text {
+    display: block;
+    margin: emCalc(8) 0 0 emCalc(80);
+
+    color: #479CAB;
+    font-size: emCalc(11);
+
+    a {
+      display: inline-block;
+      width: 100px;
+      height: 33px;
+      margin-left: emCalc(8);
+      overflow: hidden;
+      background: url(../images/printchomp-logo.png);
+
+      text-indent: -100%;
+      vertical-align: middle;
+    }
+  }
+
+  > li {
+    display: block;
+    overflow: hidden;
+    vertical-align: top;
+
+    font-size: emCalc(12);
+
+    &:first-child {
+      width: 60%;
+    }
+
+    &:last-child {
+      width: 38%;
+      margin-left: 2%;
+
+      font-size: .7em;
+    }
+
   }
 
   .button {
-    width: 100%;
+    display: block;
     min-height: emCalc(72);
     margin: 0;
     border: 0;
+    border-radius: 3px;
 
-    font-size: 1.1em;
+    font-size: 1em;
     text-align: left;
     vertical-align: top;
   }
 
-  li:first-child .button {
-    border-radius: 3px 3px 0 0;
-  }
+  .button.dropdown {
+    min-height: 0;
+    border: 0;
+    background-color: $grey;
+    box-shadow: none;
 
-  li:last-child .button {
-    border-radius: 0 0 3px 3px;
-  }
+    font-size: emCalc(12);
 
-  i:before {
-    width: emCalc(20);
+    &:after {
+      border-color: #444 transparent transparent;
+    }
   }
 
   .fa {
@@ -475,10 +509,6 @@ $color-resize: lighten($color-handle, 20%);
   }
 
   small {
-    display: block;
-  }
-
-  li small {
     display: block;
     padding-top: emCalc(4);
     padding-left: emCalc(44);
@@ -528,19 +558,12 @@ $color-resize: lighten($color-handle, 20%);
   }
 
   @include breakpoint(baby-bear) {
-    font-size: 1.25em;
 
     > li {
+      float: left;
       width: 50%;
     }
 
-    > li:first-child .button {
-      border-radius: 3px 0 0 3px;
-    }
-
-    > li:last-child .button {
-      border-radius: 0 3px 3px 0;
-    }
   }
 
 }
@@ -581,5 +604,33 @@ $color-resize: lighten($color-handle, 20%);
 
     width: 50%;
     padding: 0 emCalc(40) 0 emCalc(88);
+  }
+}
+
+/* Right sidebar
+ */
+.instructions-block {
+  margin-top: emCalc(60);
+  margin-bottom: emCalc(40);
+
+  p {
+    position: relative;
+    margin:0 0 emCalc(32);
+
+    font-size: emCalc(14);
+    color: darken($grey, 60%);
+  }
+
+  .icon-instruction {
+    position: absolute;
+    top: emCalc(4);
+    left: emCalc(-24);
+
+    color: darken($grey, 20%);
+    font-size: emCalc(20);
+  }
+
+  .fa-long-arrow-down {
+    @include transform(rotate(-45deg));
   }
 }

@@ -1,59 +1,49 @@
 ---
 title: Blog
-layout: page.html
+layout: content.html
 ---
 
-<section class="row">
+<ul class="list-posts">
 
-  <div class="large-12 columns">
+{{#withSort posted 'data.posted'}}
+
+  {{#each pages}}
+
+  <li>
+
+    <div class="post-meta">
+      Posted on
+
+      <a href="/blog/{{ basename }}.html">
+        <time datetime="{{ data.posted }}">
+          {{ formatDate data.posted "%d %B, %Y" }}
+        </time>
+      </a>
+    </div>
 
     <h2>
-      Blog
+      <a href="/blog/{{ basename }}.html">
+
+        {{#if data.picture}}
+          <img src="{{ data.picture}}" class="post-picture">
+        {{/if}}
+
+        {{ data.title }}
+      </a>
     </h2>
 
-    {{#withSort posted 'data.posted'}}
+    <div class="post-summary">
+      {{truncate page 280 "..."}}
+    </div>
 
-      <ul class="list-posts">
+    <a href="/blog/{{ basename }}.html">
+      Read more
+    </a>
 
-        {{#each pages}}
+  </li>
 
-        <li>
+  {{/each}}
 
-          <div class="post-meta">
-            Posted on
-            <time datetime="{{ data.posted }}">
-              {{ formatDate data.posted "%d %B, %Y" }}
-            </time>
-          </div>
+{{/withSort}}
 
-          <h3>
-            <a href="/blog/{{ basename }}.html">
-
-              {{#if data.picture}}
-                <img src="{{ data.picture }}" class="post-picture">
-              {{/if}}
-
-              {{ data.title }}
-            </a>
-          </h3>
-
-          <div class="post-summary">
-            {{truncate page 31 "..."}}
-          </div>
-
-          <a href="/blog/{{ basename }}.html">
-            Read more
-          </a>
-
-        </li>
-
-        {{/each}}
-
-      </ul>
-
-    {{/withSort}}
-
-  </div>
-
-</section>
-
+</ul>

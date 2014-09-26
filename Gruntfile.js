@@ -132,7 +132,8 @@ module.exports = function (grunt) {
         options: {
           collections: [{
             name: 'posted',
-            sortby: 'posted',
+            inflection: 'post',
+            //sortby: 'posted',
             sortorder: 'descending'
           }]
         },

@@ -61,7 +61,7 @@
 
         {{ else }}
 
-          <a href="/index.html" class="button radius secondary left btn-start js-guide-btn">
+          <a href="/" class="button radius secondary left btn-start js-guide-btn">
             Get started
           </a>
 
@@ -77,9 +77,7 @@
           <a href="/faq.html">FAQ</a>
         </li>
         <li>
-            {{#withSort posted 'data.posted'}}
-            <a href="/blog/{{ pages.[0].basename }}.html">
-            {{/withSort}}
+          <a href="/blog">
             Blog
           </a>
         </li>
@@ -96,56 +94,6 @@
   </nav>
 
   {{> body }}
-
-  {{#if title}}
-    <footer class="row">
-
-      <div class="large-9 columns">
-
-        <ul class="inline-list">
-          <li>
-            <a href="/index.html">Home</a>
-          </li>
-          <li>
-            <a href="/about.html">About</a>
-          </li>
-          <li>
-            <a href="/faq.html">FAQ</a>
-          </li>
-          <li>
-            <a href="/privacy.html">Privacy Policy</a>
-          </li>
-          <li>
-            <a href="/contact.html">Contact</a>
-          </li>
-          <li>
-            <a href="https://twitter.com/bizcardmakercom" target="_blank" class="follow-button">
-              Follow @bizcardmakercom
-            </a>
-          </li>
-        </ul>
-
-        <p>
-          <a href="http://bizcardmaker.com" class="copy">Business Card Maker</a> is a project by <a href="http://ghinda.net">Ionuț Colceriu</a>.
-          Font families from <a href="https://www.google.com/fonts/">Google Fonts</a>.
-        </p>
-
-      </div>
-
-      <div class="large-3 columns">
-
-        <p class="text-right chrome-app">
-
-          <a href="https://chrome.google.com/webstore/detail/business-card-maker/dpchnngplfnmejdkfgpmfhifccngoiih" title="Get the Chrome app, for easier access." target="_blank">
-            <img src="/images/chrome-app.png" alt="Available in the Chrome Web Store">
-          </a>
-
-        </p>
-
-      </div>
-
-    </footer>
-  {{/if}}
 
   <script>
     // Include the UserVoice JavaScript SDK (only needed once on a page)
