@@ -10,7 +10,10 @@ layout: page.html
 
       {{#if page.data.posted}}
         <div class="post-meta">
-          Posted on {{formatDate page.data.posted "%B %d, %Y"}}
+          Posted on
+          <time datetime="{{ page.data.posted }}">
+            {{formatDate page.data.posted "%B %d, %Y"}}
+          </time>
         </div>
       {{/if}}
 
