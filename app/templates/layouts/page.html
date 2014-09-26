@@ -4,11 +4,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>
-    Business Card Maker &#8212;
     {{#if title}}
-      {{ title }}
+      {{ title }} &#8212; Business Card Maker
     {{else}}
-      Free, fast and easy business cards in seconds, using high quality professional designs
+      Business Card Maker &#8212; Free, fast and easy business cards in seconds, using high quality professional designs
     {{/if}}
   </title>
   <meta name="description" content="Easily create your own business cards in seconds, for free, using high quality professional designs.">
@@ -53,9 +52,21 @@
     <section class="top-bar-section">
 
       {{#if title}}
-        <a href="/index.html" class="button radius secondary left btn-start js-guide-btn">
-          Get started
-        </a>
+
+        {{#if page.posted }}
+
+          <h2>
+            Blog
+          </h2>
+
+        {{ else }}
+
+          <a href="/" class="button radius secondary left btn-start js-guide-btn">
+            Get started
+          </a>
+
+        {{/if}}
+
       {{/if}}
 
       <ul class="inline-list top-menu right show-for-medium-up">
@@ -66,66 +77,23 @@
           <a href="/faq.html">FAQ</a>
         </li>
         <li>
-          <a href="https://twitter.com/bizcardmakercom" target="_blank">News</a>
+          <a href="/blog">
+            Blog
+          </a>
         </li>
         <li>
           <a href="/contact.html">Contact</a>
+        </li>
+        <li>
+          <a href="https://twitter.com/bizcardmakercom" target="_blank">
+            <i class="fa fa-twitter"></i>
+          </a>
         </li>
       </ul>
     </section>
   </nav>
 
   {{> body }}
-
-  {{#if title}}
-    <footer class="row">
-
-      <div class="large-9 columns">
-
-        <ul class="inline-list">
-          <li>
-            <a href="/index.html">Home</a>
-          </li>
-          <li>
-            <a href="/about.html">About</a>
-          </li>
-          <li>
-            <a href="/faq.html">FAQ</a>
-          </li>
-          <li>
-            <a href="/privacy.html">Privacy Policy</a>
-          </li>
-          <li>
-            <a href="/contact.html">Contact</a>
-          </li>
-          <li>
-            <a href="https://twitter.com/bizcardmakercom" target="_blank" class="follow-button">
-              Follow @bizcardmakercom
-            </a>
-          </li>
-        </ul>
-
-        <p>
-          <a href="http://bizcardmaker.com" class="copy">Business Card Maker</a> is a project by <a href="http://ghinda.net">Ionuț Colceriu</a>.
-          Font families from <a href="https://www.google.com/fonts/">Google Fonts</a>.
-        </p>
-
-      </div>
-
-      <div class="large-3 columns">
-
-        <p class="text-right chrome-app">
-
-          <a href="https://chrome.google.com/webstore/detail/business-card-maker/dpchnngplfnmejdkfgpmfhifccngoiih" title="Get the Chrome app, for easier access." target="_blank">
-            <img src="images/chrome-app.png" alt="Available in the Chrome Web Store">
-          </a>
-
-        </p>
-
-      </div>
-
-    </footer>
-  {{/if}}
 
   <script>
     // Include the UserVoice JavaScript SDK (only needed once on a page)

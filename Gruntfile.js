@@ -9,6 +9,7 @@ var mountFolder = function (connect, dir) {
 module.exports = function (grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  grunt.loadNpmTasks('assemble');
 
   // configurable paths
   var yeomanConfig = {
@@ -24,6 +25,10 @@ module.exports = function (grunt) {
   grunt.initConfig({
     yeoman: yeomanConfig,
     watch: {
+      grunt: {
+        files: ['Gruntfile.js'],
+        options: { reload: true }
+      },
       assemble: {
         files: [ '<%= yeoman.app %>/templates/{,*/}*.{hbs,html}' ],
         tasks: [ 'assemble:server' ]
@@ -108,6 +113,14 @@ module.exports = function (grunt) {
         layoutdir: '<%= yeoman.app %>/templates/layouts'
       },
       server: {
+        options: {
+          collections: [{
+            name: 'posted',
+            inflection: 'post',
+            sortby: 'posted',
+            sortorder: 'descending'
+          }]
+        },
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/templates',
@@ -116,6 +129,14 @@ module.exports = function (grunt) {
         }]
       },
       dist: {
+        options: {
+          collections: [{
+            name: 'posted',
+            inflection: 'post',
+            //sortby: 'posted',
+            sortorder: 'descending'
+          }]
+        },
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>/templates',

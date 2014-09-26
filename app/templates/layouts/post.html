@@ -1,0 +1,31 @@
+---
+layout: content.html
+---
+
+{{#markdown}}
+  {{>body}}
+{{/markdown}}
+
+<div class="post-others">
+
+  <h4>
+    Catch up on the latest posts:
+  </h4>
+
+  <ul>
+
+    {{#withSort posted 'data.posted'}}
+      {{#each pages }}
+
+      <li>
+        <a href="/blog/{{ basename }}.html">
+          {{ data.title }}
+        </a>
+      </li>
+
+      {{/each}}
+    {{/withSort}}
+
+  </ul>
+
+</div>
