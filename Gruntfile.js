@@ -375,21 +375,27 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  grunt.registerTask('deploy-live', [
-    'default',
-    'buildcontrol:www',
-    'wait',
-    'exec:www'
-  ]);
+  grunt.registerTask('deploy', function (target) {
 
-  grunt.registerTask('deploy', [
-    'default',
-    'copy:dev',
-    'buildcontrol:development',
-    'buildcontrol:staging',
-    'wait',
-    'exec:development',
-    'exec:staging'
-  ]);
+    if (target === 'live') {
+      return grunt.task.run([
+        'default',
+        'buildcontrol:www',
+        'wait',
+        'exec:www'
+      ]);
+    }
+
+    grunt.task.run([
+      'default',
+      'copy:dev',
+      'buildcontrol:development',
+      'buildcontrol:staging',
+      'wait',
+      'exec:development',
+      'exec:staging'
+    ]);
+
+  });
 
 };
