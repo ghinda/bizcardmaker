@@ -33,7 +33,9 @@ layout: content.html
     </h2>
 
     <div class="post-summary">
-      {{truncate page 280 "..."}}
+      {{#markdown}}
+        {{truncate page 280 "..."}}
+      {{/markdown}}
     </div>
 
     <a href="/blog/{{ basename }}.html">

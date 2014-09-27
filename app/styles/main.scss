@@ -156,7 +156,9 @@ section {
 }
 
 article h1 {
-  margin: 0 0 emCalc(8);
+  margin: 0 0 emCalc(12);
+
+  line-height: 1em;
 }
 
 /* Top bar
@@ -320,12 +322,16 @@ footer {
   overflow: hidden;
   display: block;
   width: 100%;
-  margin: 0 0 emCalc(4);
+  margin: 0 0 emCalc(8);
   border-radius: 5px;
 }
 
 .post-summary {
   margin: 0 0 emCalc(12);
+
+  h2 {
+    font-size: emCalc(20);
+  }
 }
 
 .post-others {
