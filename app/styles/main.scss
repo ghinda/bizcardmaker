@@ -352,3 +352,15 @@ footer {
   }
 
 }
+
+.post-subtitle {
+  position: relative;
+
+  img {
+    @include breakpoint(papa-bear) {
+      position: absolute;
+      left: emCalc(-68);
+      top: emCalc(-16);
+    }
+  }
+}
