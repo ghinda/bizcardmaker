@@ -16,9 +16,9 @@
    version="1.1"
    inkscape:version="0.48.4 r9939"
    sodipodi:docname="newsletter-logo.svg"
-   inkscape:export-filename="/media/mokush/dev/bizcardmaker/artwork/blog/post-picture-default.png"
-   inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/media/mokush/dev/bizcardmaker/artwork/newslestter-logo.png"
+   inkscape:export-xdpi="49.16"
+   inkscape:export-ydpi="49.16">
   <defs
      id="defs4">
     <linearGradient
@@ -163,7 +163,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
