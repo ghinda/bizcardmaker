@@ -51,7 +51,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     'theme-half',
     'theme-border',
     'theme-line',
-    'theme-third'
+    'theme-third',
+    'theme-topline'
   ];
 
   angular.forEach(themes, function(theme) {
@@ -62,7 +63,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
         (theme === 'theme-half' ||
         theme === 'theme-border' ||
         theme === 'theme-third' ||
-        theme === 'theme-line') &&
+        theme === 'theme-line'||
+        theme === 'theme-topline') &&
         color === 'white'
       ) {
 

@@ -1,0 +1,169 @@
+/* Top line theme
+ */
+
+/* Theme
+ */
+
+%theme-topline {
+
+  background-color: #500;
+  padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  padding-left: 0 !important;
+
+  &.card-big .no-picture {
+    display: block !important;
+    opacity: 0;
+  }
+
+  .card-content {
+    position: relative;
+    background-color: #fff;
+
+    text-align: center;
+
+    .card-picture {
+      position: absolute;
+      z-index: 2;
+      top: 8%;
+      left: 30%;
+      min-height: emCalc(80);
+    }
+
+    .person,
+    .details,
+    .email,
+    .url {
+      display: block;
+      padding: 4%;
+
+      text-align: center;
+      color: #000;
+
+      p {
+        line-height: 1em;
+      }
+
+    }
+
+    .person {
+      position: absolute;
+      top: 60%;
+      left: 4%;
+      display: block;
+      width: 92%;
+      background-color: #fff;
+
+      font-size: emCalc(20);
+    }
+
+    .title {
+      font-size: .8em;
+    }
+
+    .details {
+      display: none;
+      clear: both;
+    }
+
+    .email,
+    .url {
+      position: absolute;
+      top: 80%;
+      left: 50%;
+      display: inline-block;
+      width: emCalc(180);
+      padding: emCalc(8) emCalc(8) !important;
+      background-color: #000;
+
+      line-height: 1em;
+      font-size: emCalc(12);
+      color: #fff;
+
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    .email {
+      left: auto;
+      right: 50%;
+    }
+
+    .card-item {
+      padding: emCalc(2) emCalc(8);
+    }
+
+  }
+
+}
+
+%theme-topline-thumb {
+
+  .theme-preview {
+    position: relative;
+    background-color: #fff;
+    padding: 0 !important;
+  }
+
+  .theme-preview:after {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-top-width: emCalc(12);
+    border-top-style: solid;
+    border-color: #000;
+    background: transparent;
+  }
+
+}
+
+/* Mixin
+ */
+
+@mixin topline($name, $color, $dark: false) {
+
+  .theme-topline--#{$name} {
+    @extend %theme-topline;
+
+    @include theme(light);
+
+    background: $color;
+
+    .card-content {
+      .email,
+      .url {
+        background-color: $color;
+      }
+    }
+  }
+
+  .theme-topline--#{$name}-thumb {
+    @extend %theme-topline-thumb;
+
+    .theme-preview:after {
+      border-color: $color;
+    }
+  }
+
+}
+
+/* Sub-themes
+ */
+
+@include topline('black', #000);
+@include topline('blue', #00A6DE);
+@include topline('dark-blue', #133B8B);
+@include topline('red', #ED1C24);
+@include topline('turquoise', #1ABC9C);
+@include topline('green', #8DC63F);
+@include topline('dark-green', #00723F);
+@include topline('pink', #E8A0C6);
+@include topline('purple', #713F64);
+@include topline('orange', #F58220);
