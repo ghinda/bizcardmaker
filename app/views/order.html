@@ -212,7 +212,8 @@
             <label ng-class="{ 'error': orderForm.fullName.$invalid }">
               Full name
 
-              <input type="text" name="fullName"
+              <input type="text"
+                name="fullName"
                 ng-model="model.order.name"
                 ng-minlength="4"
                 maxlength="32"
@@ -231,16 +232,16 @@
               Phone
 
               <input type="text"
+                name="phone"
                 ng-model="model.order.phone"
                 ng-minlength="7"
                 maxlength="32"
-                name="phone"
                 required>
 
             </label>
 
             <small class="error" ng-show="orderForm.phone.$invalid">
-              Phone number must be between 7 and 32 characters long.
+              Phone number must be between 7 and 32 characters.
             </small>
           </div>
         </div>
@@ -455,24 +456,40 @@
 
           <div class="row">
             <div class="large-6 columns">
-              <label>
+              <label ng-class="{'error': orderForm.shippingName.$invalid }">
                 Full name
 
                 <input type="text"
+                  name="shippingName"
                   ng-model="model.shipping.name"
+                  ng-minlength="4"
+                  maxlength="32"
                   ng-required="model.order.shippingDetailsCustom">
 
               </label>
+
+              <small class="error" ng-show="orderForm.shippingName.$invalid">
+                Name must be between 4 and 32 characters.
+              </small>
+
             </div>
             <div class="large-6 columns">
-              <label>
+              <label ng-class="{'error': orderForm.shippingPhone.$invalid }">
                 Phone
 
                 <input type="text"
+                  name="shippingPhone"
                   ng-model="model.shipping.phone"
+                  ng-minlength="7"
+                  maxlength="32"
                   ng-required="model.order.shippingDetailsCustom">
 
               </label>
+
+              <small class="error" ng-show="orderForm.shippingPhone.$invalid">
+                Phone number must be between 7 and 32 characters.
+              </small>
+
             </div>
           </div>
 
