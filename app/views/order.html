@@ -208,17 +208,26 @@
             </label>
           </div>
           <div class="large-4 columns">
-            <label>
+
+            <label ng-class="{ 'error': orderForm.fullName.$invalid }">
               Full name
 
-              <input type="text"
+              <input type="text" name="fullName"
                 ng-model="model.order.name"
+                ng-minlength="4"
+                maxlength="32"
                 required>
 
             </label>
+
+            <small class="error" ng-show="orderForm.fullName.$invalid">
+              Name must be between 4 and 32 characters.
+            </small>
+
           </div>
-          <div class="large-4 columns" ng-class="{ 'error': orderForm.phone.$invalid }">
-            <label>
+          <div class="large-4 columns">
+
+            <label ng-class="{ 'error': orderForm.phone.$invalid }">
               Phone
 
               <input type="text"
@@ -230,7 +239,9 @@
 
             </label>
 
-            <small class="error" ng-show="orderForm.phone.$invalid">Phone number must be between 7 and 32 characters long. </small>
+            <small class="error" ng-show="orderForm.phone.$invalid">
+              Phone number must be between 7 and 32 characters long.
+            </small>
           </div>
         </div>
 

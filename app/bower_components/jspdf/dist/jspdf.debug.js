@@ -1,7 +1,7 @@
 /** @preserve
  * jsPDF - PDF Document creation from JavaScript
- * Version 1.0.178-git Built on 2014-06-27T15:34
- *                           CommitID 78eac7128d
+ * Version 1.0.272-git Built on 2014-09-29T15:09
+ *                           CommitID d4770725ca
  *
  * Copyright (c) 2010-2014 James Hall, https://github.com/MrRio/jsPDF
  *               2010 Aaron Spike, https://github.com/acspike
@@ -177,13 +177,18 @@ var jsPDF = (function(global) {
 			k,                  // Scale factor
 			tmp,
 			page = 0,
+			currentPage,
 			pages = [],
+			pagedim = {},
 			content = [],
 			lineCapID = 0,
 			lineJoinID = 0,
 			content_length = 0,
 			pageWidth,
 			pageHeight,
+			pageMode,
+			zoomMode,
+			layoutMode,
 			documentProperties = {
 				'title'    : '',
 				'subject'  : '',
@@ -209,7 +214,7 @@ var jsPDF = (function(global) {
 		out = function(string) {
 			if (outToPages) {
 				/* set by beginPage */
-				pages[page].push(string);
+				pages[currentPage].push(string);
 			} else {
 				// +1 for '\n' that will be used to join 'content'
 				content_length += string.length + 1;
@@ -229,7 +234,7 @@ var jsPDF = (function(global) {
 			out('endstream');
 		},
 		putPages = function() {
-			var n,p,arr,i,deflater,adler32,wPt = pageWidth * k, hPt = pageHeight * k, adler32cs;
+			var n,p,arr,i,deflater,adler32,adler32cs,wPt,hPt;
 
 			adler32cs = global.adler32cs || jsPDF.adler32cs;
 			if (compress && typeof adler32cs === 'undefined') {
@@ -240,9 +245,12 @@ var jsPDF = (function(global) {
 
 			for (n = 1; n <= page; n++) {
 				newObject();
+				wPt = (pageWidth = pagedim[n].width) * k;
+				hPt = (pageHeight = pagedim[n].height) * k;
 				out('<</Type /Page');
 				out('/Parent 1 0 R');
 				out('/Resources 2 0 R');
+				out('/MediaBox [0 0 ' + f2(wPt) + ' ' + f2(hPt) + ']');
 				out('/Contents ' + (objectNumber + 1) + ' 0 R>>');
 				out('endobj');
 
@@ -280,7 +288,6 @@ var jsPDF = (function(global) {
 			}
 			out(kids + ']');
 			out('/Count ' + page);
-			out('/MediaBox [0 0 ' + f2(wPt) + ' ' + f2(hPt) + ']');
 			out('>>');
 			out('endobj');
 		},
@@ -407,8 +414,8 @@ var jsPDF = (function(global) {
 			}
 			events.publish('addFonts', { fonts : fonts, dictionary : fontmap });
 		},
-		SAFE = function(fn) {
-			fn.foo = function() {
+		SAFE = function __safeCall(fn) {
+			fn.foo = function __safeCallWrapper() {
 				try {
 					return fn.apply(this, arguments);
 				} catch (e) {
@@ -416,9 +423,8 @@ var jsPDF = (function(global) {
 					if(~stack.indexOf(' at ')) stack = stack.split(" at ")[1];
 					var m = "Error in function " + stack.split("\n")[0].split('<')[0] + ": " + e.message;
 					if(global.console) {
-						console.log(m, e);
+						global.console.error(m, e);
 						if(global.alert) alert(m);
-						console.trace();
 					} else {
 						throw new Error(m);
 					}
@@ -588,21 +594,56 @@ var jsPDF = (function(global) {
 						+' (' + pdfEscape(documentProperties[key]) + ')');
 				}
 			}
-			var created = new Date();
+			var created  = new Date(),
+				tzoffset = created.getTimezoneOffset(),
+				tzsign   = tzoffset < 0 ? '+' : '-',
+				tzhour   = Math.floor(Math.abs(tzoffset / 60)),
+				tzmin    = Math.abs(tzoffset % 60),
+				tzstr    = [tzsign, padd2(tzhour), "'", padd2(tzmin), "'"].join('');
 			out(['/CreationDate (D:',
 					created.getFullYear(),
 					padd2(created.getMonth() + 1),
 					padd2(created.getDate()),
 					padd2(created.getHours()),
 					padd2(created.getMinutes()),
-					padd2(created.getSeconds()), ')'].join(''));
+					padd2(created.getSeconds()), tzstr, ')'].join(''));
 		},
 		putCatalog = function() {
 			out('/Type /Catalog');
 			out('/Pages 1 0 R');
-			// @TODO: Add zoom and layout modes
-			out('/OpenAction [3 0 R /FitH null]');
-			out('/PageLayout /OneColumn');
+			// PDF13ref Section 7.2.1
+			if (!zoomMode) zoomMode = 'fullwidth';
+			switch(zoomMode) {
+				case 'fullwidth'  : out('/OpenAction [3 0 R /FitH null]');       break;
+				case 'fullheight' : out('/OpenAction [3 0 R /FitV null]');       break;
+				case 'fullpage'   : out('/OpenAction [3 0 R /Fit]');             break;
+				case 'original'   : out('/OpenAction [3 0 R /XYZ null null 1]'); break;
+				default:
+					var pcn = '' + zoomMode;
+					if (pcn.substr(pcn.length-1) === '%')
+						zoomMode = parseInt(zoomMode) / 100;
+					if (typeof zoomMode === 'number') {
+						out('/OpenAction [3 0 R /XYZ null null '+f2(zoomMode)+']');
+					}
+			}
+			if (!layoutMode) layoutMode = 'continuous';
+			switch(layoutMode) {
+				case 'continuous' : out('/PageLayout /OneColumn');      break;
+				case 'single'     : out('/PageLayout /SinglePage');     break;
+				case 'two':
+				case 'twoleft'    : out('/PageLayout /TwoColumnLeft');  break;
+				case 'tworight'   : out('/PageLayout /TwoColumnRight'); break;
+			}
+			if (pageMode) {
+				/**
+				 * A name object specifying how the document should be displayed when opened:
+				 * UseNone      : Neither document outline nor thumbnail images visible -- DEFAULT
+				 * UseOutlines  : Document outline visible
+				 * UseThumbs    : Thumbnail images visible
+				 * FullScreen   : Full-screen mode, with no menu bar, window controls, or any other window visible
+				 */
+				out('/PageMode /' + pageMode);
+			}
 			events.publish('putCatalog');
 		},
 		putTrailer = function() {
@@ -610,14 +651,37 @@ var jsPDF = (function(global) {
 			out('/Root ' + objectNumber + ' 0 R');
 			out('/Info ' + (objectNumber - 1) + ' 0 R');
 		},
-		beginPage = function() {
-			page++;
-			// Do dimension stuff
+		beginPage = function(width,height) {
+			// Dimensions are stored as user units and converted to points on output
+			var orientation = typeof height === 'string' && height.toLowerCase();
+			if (typeof width === 'string') {
+				var format = width.toLowerCase();
+				if (pageFormats.hasOwnProperty(format)) {
+					width  = pageFormats[format][0] / k;
+					height = pageFormats[format][1] / k;
+				}
+			}
+			if (Array.isArray(width)) {
+				height = width[1];
+				width = width[0];
+			}
+			if (orientation) {
+				switch(orientation.substr(0,1)) {
+					case 'l': if (height > width ) orientation = 's'; break;
+					case 'p': if (width > height ) orientation = 's'; break;
+				}
+				if (orientation === 's') { tmp = width; width = height; height = tmp; }
+			}
 			outToPages = true;
-			pages[page] = [];
+			pages[++page] = [];
+			pagedim[page] = {
+				width  : Number(width)  || pageWidth,
+				height : Number(height) || pageHeight
+			};
+			_setPage(page);
 		},
 		_addPage = function() {
-			beginPage();
+			beginPage.apply(this, arguments);
 			// Set line width
 			out(f2(lineWidth * k) + ' w');
 			// Set draw color
@@ -630,6 +694,13 @@ var jsPDF = (function(global) {
 				out(lineJoinID + ' j');
 			}
 			events.publish('addPage', { pageNumber : page });
+		},
+		_setPage = function(n) {
+			if (n > 0 && n <= page) {
+				currentPage = n;
+				pageWidth = pagedim[n].width;
+				pageHeight = pagedim[n].height;
+			}
 		},
 		/**
 		 * Returns a document-specific font key - a label assigned to a
@@ -752,6 +823,9 @@ var jsPDF = (function(global) {
 		 * @name output
 		 */
 		output = SAFE(function(type, options) {
+			var datauri = ('' + type).substr(0,6) === 'dataur'
+				? 'data:application/pdf;base64,'+btoa(buildDocument()):0;
+
 			switch (type) {
 				case undefined:
 					return buildDocument();
@@ -765,7 +839,7 @@ var jsPDF = (function(global) {
 					saveAs(getBlob(), options);
 					if(typeof saveAs.unload === 'function') {
 						if(global.setTimeout) {
-							setTimeout(saveAs.unload,70);
+							setTimeout(saveAs.unload,911);
 						}
 					}
 					break;
@@ -773,16 +847,20 @@ var jsPDF = (function(global) {
 					return getArrayBuffer();
 				case 'blob':
 					return getBlob();
+				case 'bloburi':
+				case 'bloburl':
+					// User is responsible of calling revokeObjectURL
+					return global.URL && global.URL.createObjectURL(getBlob()) || void 0;
 				case 'datauristring':
 				case 'dataurlstring':
-					return 'data:application/pdf;base64,' + btoa(buildDocument());
+					return datauri;
+				case 'dataurlnewwindow':
+					var nW = global.open(datauri);
+					if (nW || typeof safari === "undefined") return nW;
+					/* pass through */
 				case 'datauri':
 				case 'dataurl':
-					global.document.location.href = 'data:application/pdf;base64,' + btoa(buildDocument());
-					break;
-				case 'dataurlnewwindow':
-					global.open('data:application/pdf;base64,' + btoa(buildDocument()));
-					break;
+					return global.document.location.href = datauri;
 				default:
 					throw new Error('Output type "' + type + '" is not supported.');
 			}
@@ -800,37 +878,6 @@ var jsPDF = (function(global) {
 			case 'ex':  k = 6;          break;
 			default:
 				throw ('Invalid unit: ' + unit);
-		}
-
-		// Dimensions are stored as user units and converted to points on output
-		if (pageFormats.hasOwnProperty(format_as_string)) {
-			pageHeight = pageFormats[format_as_string][1] / k;
-			pageWidth = pageFormats[format_as_string][0] / k;
-		} else {
-			try {
-				pageHeight = format[1];
-				pageWidth = format[0];
-			} catch (err) {
-				throw new Error('Invalid format: ' + format);
-			}
-		}
-
-		if (orientation === 'p' || orientation === 'portrait') {
-			orientation = 'p';
-			if (pageWidth > pageHeight) {
-				tmp = pageWidth;
-				pageWidth = pageHeight;
-				pageHeight = tmp;
-			}
-		} else if (orientation === 'l' || orientation === 'landscape') {
-			orientation = 'l';
-			if (pageHeight > pageWidth) {
-				tmp = pageWidth;
-				pageWidth = pageHeight;
-				pageHeight = tmp;
-			}
-		} else {
-			throw('Invalid orientation: ' + orientation);
 		}
 
 		//---------------------------------------
@@ -881,8 +928,12 @@ var jsPDF = (function(global) {
 			// through multiplication.
 			'scaleFactor' : k,
 			'pageSize' : {
-				'width' : pageWidth,
-				'height' : pageHeight
+				get width() {
+					return pageWidth
+				},
+				get height() {
+					return pageHeight
+				}
 			},
 			'output' : function(type, options) {
 				return output(type, options);
@@ -902,9 +953,19 @@ var jsPDF = (function(global) {
 		 * @name addPage
 		 */
 		API.addPage = function() {
-			_addPage();
+			_addPage.apply(this, arguments);
 			return this;
 		};
+		API.setPage = function() {
+			_setPage.apply(this, arguments);
+			return this;
+		};
+		API.setDisplayMode = function(zoom, layout, pmode) {
+			zoomMode   = zoom;
+			layoutMode = layout;
+			pageMode   = pmode;
+			return this;
+		},
 
 		/**
 		 * Adds text to page. Supports adding multiline text when 'text' argument is an Array of Strings.
@@ -959,7 +1020,7 @@ var jsPDF = (function(global) {
 				angle = flags;
 				flags = null;
 			}
-			var xtra = '',mode = 'Td';
+			var xtra = '',mode = 'Td', todo;
 			if (angle) {
 				angle *= (Math.PI / 180);
 				var c = Math.cos(angle),
@@ -983,6 +1044,10 @@ var jsPDF = (function(global) {
 				while (len--) {
 					da.push(ESC(sa.shift()));
 				}
+				var linesLeft = Math.ceil((pageHeight - y) * k / (activeFontSize * lineHeightProportion));
+				if (0 <= linesLeft && linesLeft < da.length + 1) {
+					todo = da.splice(linesLeft-1);
+				}
 				text = da.join(") Tj\nT* (");
 			} else {
 				throw new Error('Type of text must be string or Array. "' + text + '" is not recognized.');
@@ -1002,11 +1067,28 @@ var jsPDF = (function(global) {
 				'\n' + xtra + f2(x * k) + ' ' + f2((pageHeight - y) * k) + ' ' + mode + '\n(' +
 				text +
 				') Tj\nET');
+
+			if (todo) {
+				this.addPage();
+				this.text( todo, x, activeFontSize * 1.7 / k);
+			}
+
 			return this;
+		};
+
+		API.lstext = function(text, x, y, spacing) {
+			for (var i = 0, len = text.length ; i < len; i++, x += spacing) this.text(text[i], x, y);
 		};
 
 		API.line = function(x1, y1, x2, y2) {
 			return this.lines([[x2 - x1, y2 - y1]], x1, y1);
+		};
+
+		API.clip = function() {
+			// By patrick-roberts, github.com/MrRio/jsPDF/issues/328
+			// Call .clip() after calling .rect() with a style argument of null
+			out('W') // clip
+			out('S') // stroke path; necessary for clip to work
 		};
 
 		/**
@@ -1664,7 +1746,7 @@ var jsPDF = (function(global) {
 		// Add the first page automatically
 		addFonts();
 		activeFontKey = 'F1';
-		_addPage();
+		_addPage(format, orientation);
 
 		events.publish('initialized');
 		return API;
@@ -1697,10 +1779,10 @@ var jsPDF = (function(global) {
 	 * pdfdoc.mymethod() // <- !!!!!!
 	 */
 	jsPDF.API = {events:[]};
-	jsPDF.version = "1.0.178-debug 2014-06-27T15:34:diegocr";
+	jsPDF.version = "1.0.272-debug 2014-09-29T15:09:diegocr";
 
 	if (typeof define === 'function' && define.amd) {
-		define(function() {
+		define('jsPDF', function() {
 			return jsPDF;
 		});
 	} else {
@@ -1984,8 +2066,7 @@ var jsPDF = (function(global) {
 		return typeof value === 'undefined' || value === null;
 	}
 	, generateAliasFromData = function(data) {
-		// TODO: Alias dynamic generation from imageData's checksum/hash
-		return undefined;
+		return typeof data === 'string' && jsPDFAPI.sHashCode(data);
 	}
 	, doesNotSupportImageType = function(type) {
 		return supported_image_types.indexOf(type) === -1;
@@ -1996,11 +2077,15 @@ var jsPDF = (function(global) {
 	, isDOMElement = function(object) {
 		return typeof object === 'object' && object.nodeType === 1;
 	}
-	, createDataURIFromElement = function(element, format) {
+	, createDataURIFromElement = function(element, format, angle) {
 
 		//if element is an image which uses data url defintion, just return the dataurl
-		if (element.nodeName === 'IMG' && element.hasAttribute('src') && (''+element.getAttribute('src')).indexOf('data:image/') === 0) {
-			return element.getAttribute('src');
+		if (element.nodeName === 'IMG' && element.hasAttribute('src')) {
+			var src = ''+element.getAttribute('src');
+			if (!angle && src.indexOf('data:image/') === 0) return src;
+
+			// only if the user doesn't care about a format
+			if (!format && /\.png(?:[?#].*)?$/i.test(src)) format = 'png';
 		}
 
 		if(element.nodeName === 'CANVAS') {
@@ -2014,16 +2099,47 @@ var jsPDF = (function(global) {
 			if (!ctx) {
 				throw ('addImage requires canvas to be supported by browser.');
 			}
-			ctx.drawImage(element, 0, 0, canvas.width, canvas.height);
-		}
+			if (angle) {
+				var x, y, b, c, s, w, h, to_radians = Math.PI/180, angleInRadians;
 
-	    return canvas.toDataURL(format == 'png' ? 'image/png' : 'image/jpeg');
+				if (typeof angle === 'object') {
+					x = angle.x;
+					y = angle.y;
+					b = angle.bg;
+					angle = angle.angle;
+				}
+				angleInRadians = angle*to_radians;
+				c = Math.abs(Math.cos(angleInRadians));
+				s = Math.abs(Math.sin(angleInRadians));
+				w = canvas.width;
+				h = canvas.height;
+				canvas.width = h * s + w * c;
+				canvas.height = h * c + w * s;
+
+				if (isNaN(x)) x = canvas.width / 2;
+				if (isNaN(y)) y = canvas.height / 2;
+
+				ctx.clearRect(0,0,canvas.width, canvas.height);
+				ctx.fillStyle = b || 'white';
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				ctx.save();
+				ctx.translate(x, y);
+				ctx.rotate(angleInRadians);
+				ctx.drawImage(element, -(w/2), -(h/2));
+				ctx.rotate(-angleInRadians);
+				ctx.translate(-x, -y);
+				ctx.restore();
+			} else {
+				ctx.drawImage(element, 0, 0, canvas.width, canvas.height);
+			}
+		}
+		return canvas.toDataURL((''+format).toLowerCase() == 'png' ? 'image/png' : 'image/jpeg');
 	}
-	,checkImagesForAlias = function(imageData, images) {
+	,checkImagesForAlias = function(alias, images) {
 		var cached_info;
 		if(images) {
 			for(var e in images) {
-				if(imageData === images[e].alias) {
+				if(alias === images[e].alias) {
 					cached_info = images[e];
 					break;
 				}
@@ -2113,6 +2229,10 @@ var jsPDF = (function(global) {
 		FAST: 'FAST',
 		MEDIUM: 'MEDIUM',
 		SLOW: 'SLOW'
+	};
+
+	jsPDFAPI.sHashCode = function(str) {
+		return Array.prototype.reduce && str.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
 	};
 
 	jsPDFAPI.isString = function(object) {
@@ -2299,10 +2419,10 @@ var jsPDF = (function(global) {
 		return info;
 	};
 
-	jsPDFAPI.addImage = function(imageData, format, x, y, w, h, alias, compression) {
+	jsPDFAPI.addImage = function(imageData, format, x, y, w, h, alias, compression, rotation) {
 		'use strict'
 
-		if(typeof format === 'number') {
+		if(typeof format !== 'string') {
 			var tmp = h;
 			h = w;
 			w = y;
@@ -2311,29 +2431,65 @@ var jsPDF = (function(global) {
 			format = tmp;
 		}
 
-		var images = getImages.call(this),//initalises internals and events on first run
-			cached_info,
-			dataAsBinaryString;
+		if (typeof imageData === 'object' && !isDOMElement(imageData) && "imageData" in imageData) {
+			var options = imageData;
 
-		compression = checkCompressValue(compression);
-		format = (format || 'JPEG').toLowerCase();
+			imageData = options.imageData;
+			format = options.format || format;
+			x = options.x || x || 0;
+			y = options.y || y || 0;
+			w = options.w || w;
+			h = options.h || h;
+			alias = options.alias || alias;
+			compression = options.compression || compression;
+			rotation = options.rotation || options.angle || rotation;
+		}
 
-		if(notDefined(alias))
-			alias = generateAliasFromData(imageData);
+		if (isNaN(x) || isNaN(y))
+		{
+			console.error('jsPDF.addImage: Invalid coordinates', arguments);
+			throw new Error('Invalid coordinates passed to jsPDF.addImage');
+		}
 
-		if(isDOMElement(imageData))
-			imageData = createDataURIFromElement(imageData, format);
+		var images = getImages.call(this), info;
 
-		if(this.isString(imageData)) {
+		if (!(info = checkImagesForAlias(imageData, images))) {
+			var dataAsBinaryString;
 
-			var base64Info = this.extractInfoFromBase64DataURI(imageData);
+			if(isDOMElement(imageData))
+				imageData = createDataURIFromElement(imageData, format, rotation);
 
-			if(base64Info) {
+			if(notDefined(alias))
+				alias = generateAliasFromData(imageData);
 
-				format = base64Info[2];
-				imageData = atob(base64Info[3]);//convert to binary string
+			if (!(info = checkImagesForAlias(alias, images))) {
 
-				/*
+				if(this.isString(imageData)) {
+
+					var base64Info = this.extractInfoFromBase64DataURI(imageData);
+
+					if(base64Info) {
+
+						format = base64Info[2];
+						imageData = atob(base64Info[3]);//convert to binary string
+
+					} else {
+
+						if (imageData.charCodeAt(0) === 0x89 &&
+							imageData.charCodeAt(1) === 0x50 &&
+							imageData.charCodeAt(2) === 0x4e &&
+							imageData.charCodeAt(3) === 0x47  )  format = 'png';
+					}
+				}
+				format = (format || 'JPEG').toLowerCase();
+
+				if(doesNotSupportImageType(format))
+					throw new Error('addImage currently only supports formats ' + supported_image_types + ', not \''+format+'\'');
+
+				if(processMethodNotEnabled(format))
+					throw new Error('please ensure that the plugin for \''+format+'\' support is added');
+
+				/**
 				 * need to test if it's more efficent to convert all binary strings
 				 * to TypedArray - or should we just leave and process as string?
 				 */
@@ -2342,29 +2498,20 @@ var jsPDF = (function(global) {
 					imageData = this.binaryStringToUint8Array(imageData);
 				}
 
-			}else{
-				// This is neither raw jpeg-data nor a data uri; alias?
-				if(imageData.charCodeAt(0) !== 0xff)
-					cached_info = checkImagesForAlias(imageData, images);
+				info = this['process' + format.toUpperCase()](
+					imageData,
+					getImageIndex(images),
+					alias,
+					checkCompressValue(compression),
+					dataAsBinaryString
+				);
+
+				if(!info)
+					throw new Error('An unkwown error occurred whilst processing the image');
 			}
 		}
 
-		if(doesNotSupportImageType(format))
-			throw new Error('addImage currently only supports formats ' + supported_image_types + ', not \''+format+'\'');
-
-		if(processMethodNotEnabled(format))
-			throw new Error('please ensure that the plugin for \''+format+'\' support is added');
-
-		var imageIndex = getImageIndex(images),
-			info = cached_info;
-
-		if(!info)
-			info = this['process' + format.toUpperCase()](imageData, imageIndex, alias, compression, dataAsBinaryString);
-
-		if(!info)
-			throw new Error('An unkwown error occurred whilst processing the image');
-
-		writeImageToPDF.call(this, x, y, w, h, info, imageIndex, images);
+		writeImageToPDF.call(this, x, y, w, h, info, info.i, images);
 
 		return this
 	};
@@ -2378,7 +2525,7 @@ var jsPDF = (function(global) {
 	//Algorithm from: http://www.64lines.com/jpeg-width-height
 	var getJpegSize = function(imgData) {
 		'use strict'
-		var width, height;
+		var width, height, numcomponents;
 		// Verify we have a valid jpeg header 0xff,0xd8,0xff,0xe0,?,?,'J','F','I','F',0x00
 		if (!imgData.charCodeAt(0) === 0xff ||
 			!imgData.charCodeAt(1) === 0xd8 ||
@@ -2408,7 +2555,8 @@ var jsPDF = (function(global) {
 			    imgData.charCodeAt(i+1) === 0xc7) {
 				height = imgData.charCodeAt(i+5)*256 + imgData.charCodeAt(i+6);
 				width = imgData.charCodeAt(i+7)*256 + imgData.charCodeAt(i+8);
-				return [width, height];
+                numcomponents = imgData.charCodeAt(i+9);
+				return [width, height, numcomponents];
 			} else {
 				i += 2;
 				blockLength = imgData.charCodeAt(i)*256 + imgData.charCodeAt(i+1)
@@ -2425,7 +2573,7 @@ var jsPDF = (function(global) {
 		var len = data.length,
 			block = (data[4] << 8) + data[5],
 			pos = 4,
-			bytes, width, height;
+			bytes, width, height, numcomponents;
 
 		while(pos < len) {
 			pos += block;
@@ -2435,7 +2583,8 @@ var jsPDF = (function(global) {
 				bytes = readBytes(data, pos + 5);
 				width = (bytes[2] << 8) + bytes[3];
 				height = (bytes[0] << 8) + bytes[1];
-				return {width:width, height:height};
+                numcomponents = bytes[4];
+				return {width:width, height:height, numcomponents: numcomponents};
 			}
 
 			pos+=2;
@@ -2444,7 +2593,7 @@ var jsPDF = (function(global) {
 		throw new Error('getJpegSizeFromBytes could not find the size of the image');
 	}
 	, readBytes = function(data, offset) {
-		return data.subarray(offset, offset+ 4);
+		return data.subarray(offset, offset+ 5);
 	};
 
 	jsPDFAPI.processJPEG = function(data, index, alias, compression, dataAsBinaryString) {
@@ -2456,7 +2605,7 @@ var jsPDF = (function(global) {
 
 		if(this.isString(data)) {
 			dims = getJpegSize(data);
-			return this.createImageInfo(data, dims[0], dims[1], colorSpace, bpc, filter, index, alias);
+			return this.createImageInfo(data, dims[0], dims[1], dims[3] == 1 ? this.color_spaces.DEVICE_GRAY:colorSpace, bpc, filter, index, alias);
 		}
 
 		if(this.isArrayBuffer(data))
@@ -2469,7 +2618,7 @@ var jsPDF = (function(global) {
 			// if we already have a stored binary string rep use that
 			data = dataAsBinaryString || this.arrayBufferToBinaryString(data);
 
-			return this.createImageInfo(data, dims.width, dims.height, colorSpace, bpc, filter, index, alias);
+			return this.createImageInfo(data, dims.width, dims.height, dims.numcomponents == 1 ? this.color_spaces.DEVICE_GRAY:colorSpace, bpc, filter, index, alias);
 		}
 
 		return null;
@@ -2567,7 +2716,7 @@ var jsPDF = (function(global) {
         text.style.fontStyle = fontStyle;
         text.style.fontName = fontName;
         text.style.fontSize = fontSize + 'pt';
-        text.innerText = txt;
+        text.textContent = txt;
 
         document.body.appendChild(text);
 
@@ -3057,9 +3206,7 @@ var jsPDF = (function(global) {
 		return UnitedNumberMap[css_line_height_string] = 1;
 	};
 	GetCSS = function (element) {
-		var css,
-		tmp,
-		computedCSSElement;
+		var css,tmp,computedCSSElement;
 		computedCSSElement = (function (el) {
 			var compCSS;
 			compCSS = (function (el) {
@@ -3094,16 +3241,17 @@ var jsPDF = (function(global) {
 		css["font-size"] = ResolveUnitedNumber(computedCSSElement("font-size")) || 1;
 		css["line-height"] = ResolveUnitedNumber(computedCSSElement("line-height")) || 1;
 		css["display"] = (computedCSSElement("display") === "inline" ? "inline" : "block");
-		if (css["display"] === "block") {
-			css["margin-top"] = ResolveUnitedNumber(computedCSSElement("margin-top")) || 0;
-			css["margin-bottom"] = ResolveUnitedNumber(computedCSSElement("margin-bottom")) || 0;
-			css["padding-top"] = ResolveUnitedNumber(computedCSSElement("padding-top")) || 0;
-			css["padding-bottom"] = ResolveUnitedNumber(computedCSSElement("padding-bottom")) || 0;
-			css["margin-left"] = ResolveUnitedNumber(computedCSSElement("margin-left")) || 0;
-			css["margin-right"] = ResolveUnitedNumber(computedCSSElement("margin-right")) || 0;
-			css["padding-left"] = ResolveUnitedNumber(computedCSSElement("padding-left")) || 0;
-			css["padding-right"] = ResolveUnitedNumber(computedCSSElement("padding-right")) || 0;
-		}
+
+		tmp = (css["display"] === "block");
+		css["margin-top"]     = tmp && ResolveUnitedNumber(computedCSSElement("margin-top"))     || 0;
+		css["margin-bottom"]  = tmp && ResolveUnitedNumber(computedCSSElement("margin-bottom"))  || 0;
+		css["padding-top"]    = tmp && ResolveUnitedNumber(computedCSSElement("padding-top"))    || 0;
+		css["padding-bottom"] = tmp && ResolveUnitedNumber(computedCSSElement("padding-bottom")) || 0;
+		css["margin-left"]    = tmp && ResolveUnitedNumber(computedCSSElement("margin-left"))    || 0;
+		css["margin-right"]   = tmp && ResolveUnitedNumber(computedCSSElement("margin-right"))   || 0;
+		css["padding-left"]   = tmp && ResolveUnitedNumber(computedCSSElement("padding-left"))   || 0;
+		css["padding-right"]  = tmp && ResolveUnitedNumber(computedCSSElement("padding-right"))  || 0;
+
 		//float and clearing of floats
 		css["float"] = FloatMap[computedCSSElement("cssFloat")] || "none";
 		css["clear"] = ClearMap[computedCSSElement("clear")] || "none";
@@ -3222,7 +3370,7 @@ var jsPDF = (function(global) {
 		while (i < l) {
 			cn = cns[i];
 			if (typeof cn === "object") {
-				
+
 				//execute all watcher functions to e.g. reset floating
 				renderer.executeWatchFunctions(cn);
 
@@ -3249,74 +3397,87 @@ var jsPDF = (function(global) {
 						renderer.pdf.addPage();
 						renderer.y = renderer.pdf.margins_doc.top;
 					}
-					
+
 				} else if (cn.nodeType === 1 && !SkipNode[cn.nodeName]) {
 					/*** IMAGE RENDERING ***/
-					if (cn.nodeName === "IMG" && images[cn.getAttribute("src")]) {
+					var cached_image;
+					if (cn.nodeName === "IMG") {
+						var url = cn.getAttribute("src");
+						cached_image = images[renderer.pdf.sHashCode(url) || url];
+					}
+					if (cached_image) {
 						if ((renderer.pdf.internal.pageSize.height - renderer.pdf.margins_doc.bottom < renderer.y + cn.height) && (renderer.y > renderer.pdf.margins_doc.top)) {
 							renderer.pdf.addPage();
 							renderer.y = renderer.pdf.margins_doc.top;
 							//check if we have to set back some values due to e.g. header rendering for new page
 							renderer.executeWatchFunctions(cn);
-						}				
-						
-						var imagesCSS = GetCSS(cn);
-						var imageX = renderer.x;
-						//if float is set to right, move the image to the right border
-						if (imagesCSS['float'] !== undefined && imagesCSS['float'] === 'right') {
-							imageX += renderer.settings.width-cn.width;
 						}
 
-						renderer.pdf.addImage(images[cn.getAttribute("src")], imageX, renderer.y, cn.width, cn.height);
-						//if the float prop is specified we have to float the text around the image
-						if (imagesCSS['float'] !== undefined) {
-							if (imagesCSS['float'] === 'right' || imagesCSS['float'] === 'left') {
+						var imagesCSS = GetCSS(cn);
+						var imageX = renderer.x;
+						var fontToUnitRatio = 12 / renderer.pdf.internal.scaleFactor;
 
-								//add functiont to set back coordinates after image rendering
-								renderer.watchFunctions.push((function(diffX , thresholdY, diffWidth, el) {
-									//undo drawing box adaptions which were set by floating
-									if (renderer.y >= thresholdY) {
-										renderer.x += diffX;
-										renderer.settings.width += diffWidth;
-										return true;
-									} else if(el && el.nodeType === 1 && !SkipNode[el.nodeName] && renderer.x+el.width > (renderer.pdf.margins_doc.left + renderer.pdf.margins_doc.width)) {
-										renderer.x += diffX;
-										renderer.y = thresholdY;
-										renderer.settings.width += diffWidth;
+						//define additional paddings, margins which have to be taken into account for margin calculations
+						var additionalSpaceLeft = (imagesCSS["margin-left"] + imagesCSS["padding-left"])*fontToUnitRatio;
+						var additionalSpaceRight = (imagesCSS["margin-right"] + imagesCSS["padding-right"])*fontToUnitRatio;
+						var additionalSpaceTop = (imagesCSS["margin-top"] + imagesCSS["padding-top"])*fontToUnitRatio;
+						var additionalSpaceBottom = (imagesCSS["margin-bottom"] + imagesCSS["padding-bottom"])*fontToUnitRatio;
+
+						//if float is set to right, move the image to the right border
+						//add space if margin is set
+						if (imagesCSS['float'] !== undefined && imagesCSS['float'] === 'right') {
+							imageX += renderer.settings.width - cn.width - additionalSpaceRight;
+						} else {
+							imageX +=  additionalSpaceLeft;
+						}
+
+						renderer.pdf.addImage(cached_image, imageX, renderer.y + additionalSpaceTop, cn.width, cn.height);
+						cached_image = undefined;
+						//if the float prop is specified we have to float the text around the image
+						if (imagesCSS['float'] === 'right' || imagesCSS['float'] === 'left') {
+							//add functiont to set back coordinates after image rendering
+							renderer.watchFunctions.push((function(diffX , thresholdY, diffWidth, el) {
+								//undo drawing box adaptions which were set by floating
+								if (renderer.y >= thresholdY) {
+									renderer.x += diffX;
+									renderer.settings.width += diffWidth;
+									return true;
+								} else if(el && el.nodeType === 1 && !SkipNode[el.nodeName] && renderer.x+el.width > (renderer.pdf.margins_doc.left + renderer.pdf.margins_doc.width)) {
+									renderer.x += diffX;
+									renderer.y = thresholdY;
+									renderer.settings.width += diffWidth;
+									return true;
+								} else {
+									return false;
+								}
+							}).bind(this, (imagesCSS['float'] === 'left') ? -cn.width-additionalSpaceLeft-additionalSpaceRight : 0, renderer.y+cn.height+additionalSpaceTop+additionalSpaceBottom, cn.width));
+							//reset floating by clear:both divs
+							//just set cursorY after the floating element
+							renderer.watchFunctions.push((function(yPositionAfterFloating, pages, el) {
+								if (renderer.y < yPositionAfterFloating && pages === renderer.pdf.internal.getNumberOfPages()) {
+									if (el.nodeType === 1 && GetCSS(el).clear === 'both') {
+										renderer.y = yPositionAfterFloating;
 										return true;
 									} else {
 										return false;
 									}
-								}).bind(this, (imagesCSS['float'] === 'left') ? -cn.width : 0, renderer.y+cn.height, cn.width));
-
-								//reset floating by clear:both divs
-								//just set cursorY after the floating element
-								renderer.watchFunctions.push((function(yPositionAfterFloating, pages, el) {
-									if (renderer.y < yPositionAfterFloating && pages === renderer.pdf.internal.getNumberOfPages()) {
-										if (el.nodeType === 1 && GetCSS(el).clear === 'both') { 
-											renderer.y = yPositionAfterFloating;
-											return true;
-										} else {
-											return false;
-										}
-									} else {
-										return true;
-									}
-								}).bind(this, renderer.y+cn.height, renderer.pdf.internal.getNumberOfPages()));
-
-								//if floating is set we decrease the available width by the image width
-								renderer.settings.width -= cn.width;
-								//if left just add the image width to the X coordinate
-								if (imagesCSS['float'] === 'left') {
-									renderer.x += cn.width;
+								} else {
+									return true;
 								}
+							}).bind(this, renderer.y+cn.height, renderer.pdf.internal.getNumberOfPages()));
+
+							//if floating is set we decrease the available width by the image width
+							renderer.settings.width -= cn.width+additionalSpaceLeft+additionalSpaceRight;
+							//if left just add the image width to the X coordinate
+							if (imagesCSS['float'] === 'left') {
+								renderer.x += cn.width+additionalSpaceLeft+additionalSpaceRight;
 							}
-						//if no floating is set, move the rendering cursor after the image height
 						} else {
-							renderer.y += cn.height;
-						}					
-					
-					/*** TABLE RENDERING ***/	
+						//if no floating is set, move the rendering cursor after the image height
+							renderer.y += cn.height + additionalSpaceBottom;
+						}
+
+					/*** TABLE RENDERING ***/
 					} else if (cn.nodeName === "TABLE") {
 						table2json = tableToJson(cn, renderer);
 						renderer.y += 10;
@@ -3340,6 +3501,8 @@ var jsPDF = (function(global) {
 							DrillForContent(cn, renderer, elementHandlers);
 						}
 						renderer.x = temp;
+					} else if (cn.nodeName === "BR") {
+						renderer.y += fragmentCSS["font-size"] * renderer.pdf.internal.scaleFactor;
 					} else {
 						if (!elementHandledElsewhere(cn, renderer, elementHandlers)) {
 							DrillForContent(cn, renderer, elementHandlers);
@@ -3376,17 +3539,17 @@ var jsPDF = (function(global) {
 	images = {};
 	loadImgs = function (element, renderer, elementHandlers, cb) {
 		var imgs = element.getElementsByTagName('img'),
-		l = imgs.length,
+		l = imgs.length, found_images,
 		x = 0;
 		function done() {
 			renderer.pdf.internal.events.publish('imagesLoaded');
-			cb();
+			cb(found_images);
 		}
 		function loadImage(url, width, height) {
 			if (!url)
 				return;
 			var img = new Image();
-			++x;
+			found_images = ++x;
 			img.crossOrigin = '';
 			img.onerror = img.onload = function () {
 				if(img.complete) {
@@ -3398,8 +3561,8 @@ var jsPDF = (function(global) {
 					}
 					//if valid image add to known images array
 					if (img.width + img.height) {
-					//TODO: use a hash since data URIs could greatly increase the memory usage
-						images[url] = images[url] || img;
+						var hash = renderer.pdf.sHashCode(url) || url;
+						images[hash] = images[hash] || img;
 					}
 				}
 				if(!--x) {
@@ -3412,7 +3575,7 @@ var jsPDF = (function(global) {
 			loadImage(imgs[l].getAttribute("src"),imgs[l].width,imgs[l].height);
 		return x || done();
 	};
-	checkForFooter = function (elem, renderer, elementHandlers, callback) {
+	checkForFooter = function (elem, renderer, elementHandlers) {
 		//check if we can found a <footer> element
 		var footer = elem.getElementsByTagName("footer");
 		if (footer.length > 0) {
@@ -3477,11 +3640,7 @@ var jsPDF = (function(global) {
 
 			//prevent footer rendering
 			SkipNode['FOOTER'] = 1;
-
 		}
-
-		//footer preparation finished
-		callback();
 	};
 	process = function (pdf, element, x, y, settings, callback) {
 		if (!element)
@@ -3505,22 +3664,21 @@ var jsPDF = (function(global) {
 				return $frame.document.body;
 			})(element.replace(/<\/?script[^>]*?>/gi, ''));
 		}
-		var r = new Renderer(pdf, x, y, settings);
-		callback = callback || function () {};
+		var r = new Renderer(pdf, x, y, settings), out;
 
 		// 1. load images
 		// 2. prepare optional footer elements
 		// 3. render content
-		loadImgs.call(this, element, r, settings.elementHandlers, function () {
-			checkForFooter.call(this, element, r, settings.elementHandlers, function () {
-				DrillForContent(element, r, settings.elementHandlers);
-				//send event dispose for final taks (e.g. footer totalpage replacement)
-				r.pdf.internal.events.publish('htmlRenderingFinished');
-				callback(r.dispose());
-			});
+		loadImgs.call(this, element, r, settings.elementHandlers, function (found_images) {
+			checkForFooter( element, r, settings.elementHandlers);
+			DrillForContent(element, r, settings.elementHandlers);
+			//send event dispose for final taks (e.g. footer totalpage replacement)
+			r.pdf.internal.events.publish('htmlRenderingFinished');
+			out = r.dispose();
+			if (typeof callback === 'function') callback(out);
+			else if (found_images) console.error('jsPDF Warning: rendering issues? provide a callback to fromHTML!');
 		});
-
-		return r.dispose();
+		return out || {x: r.x, y:r.y};
 	};
 	Renderer.prototype.init = function () {
 		this.paragraph = {
@@ -3533,10 +3691,11 @@ var jsPDF = (function(global) {
 		this.pdf.internal.write("Q");
 		return {
 			x : this.x,
-			y : this.y
+			y : this.y,
+			ready:true
 		};
 	};
-	
+
 	//Checks if we have to execute some watcher functions
 	//e.g. to end text floating around an image
 	Renderer.prototype.executeWatchFunctions = function(el) {
@@ -3553,7 +3712,7 @@ var jsPDF = (function(global) {
 			this.watchFunctions = narray;
 		}
 		return ret;
-	};	
+	};
 
 	Renderer.prototype.splitFragmentsIntoLines = function (fragments, styles) {
 		var currentLineLength,
@@ -3660,7 +3819,7 @@ var jsPDF = (function(global) {
 			this.pdf.internal.write("ET", "Q");
 			this.pdf.addPage();
 			this.y = this.pdf.margins_doc.top;
-			this.pdf.internal.write("q", "BT", this.pdf.internal.getCoordinateString(this.x), this.pdf.internal.getVerticalCoordinateString(this.y), "Td");
+			this.pdf.internal.write("q", "BT 0 g", this.pdf.internal.getCoordinateString(this.x), this.pdf.internal.getVerticalCoordinateString(this.y), "Td");
 			//move cursor by one line on new page
 			maxLineHeight = Math.max(maxLineHeight, style["line-height"], style["font-size"]);
 			this.pdf.internal.write(0, (-1 * defaultFontSize * maxLineHeight).toFixed(2), "Td");
@@ -3720,11 +3879,11 @@ var jsPDF = (function(global) {
 		i = void 0;
 		l = void 0;
 		this.y += paragraphspacing_before;
-		out("q", "BT", this.pdf.internal.getCoordinateString(this.x), this.pdf.internal.getVerticalCoordinateString(this.y), "Td");
+		out("q", "BT 0 g", this.pdf.internal.getCoordinateString(this.x), this.pdf.internal.getVerticalCoordinateString(this.y), "Td");
 
 		//stores the current indent of cursor position
 		var currentIndent = 0;
-		
+
 		while (lines.length) {
 			line = lines.shift();
 			maxLineHeight = 0;
@@ -3756,20 +3915,20 @@ var jsPDF = (function(global) {
 				i++;
 			}
 			this.y += maxLineHeight * fontToUnitRatio;
-			
+
 			//if some watcher function was executed sucessful, so e.g. margin and widths were changed,
 			//reset line drawing and calculate position and lines again
 			//e.g. to stop text floating around an image
 			if (this.executeWatchFunctions(line[0][1]) && lines.length > 0) {
 				var localFragments = [];
 				var localStyles = [];
-				//create fragement array of 
+				//create fragement array of
 				lines.forEach(function(localLine) {
 					var i = 0;
 					var l = localLine.length;
 					while (i !== l) {
 						if (localLine[i][0]) {
-							localFragments.push(localLine[i][0]+' '); 
+							localFragments.push(localLine[i][0]+' ');
 							localStyles.push(localLine[i][1]);
 						}
 						++i;
@@ -3778,10 +3937,10 @@ var jsPDF = (function(global) {
 				//split lines again due to possible coordinate changes
 				lines = this.splitFragmentsIntoLines(PurgeWhiteSpace(localFragments), localStyles);
 				//reposition the current cursor
-				out("ET", "Q");				
-				out("q", "BT", this.pdf.internal.getCoordinateString(this.x), this.pdf.internal.getVerticalCoordinateString(this.y), "Td");
-			}  			
-			
+				out("ET", "Q");
+				out("q", "BT 0 g", this.pdf.internal.getCoordinateString(this.x), this.pdf.internal.getVerticalCoordinateString(this.y), "Td");
+			}
+
 		}
 		if (cb && typeof cb === "function") {
 			cb.call(this, this.x - 9, this.y - fontSize / 2);
@@ -3842,7 +4001,7 @@ var jsPDF = (function(global) {
 	ClearMap = {
 	  none : 'none',
 	  both : 'both'
-	}; 	
+	};
 	UnitedNumberMap = {
 		normal : 1
 	};
@@ -5391,10 +5550,10 @@ jsPDFAPI.putTotalPages = function(pageExpression) {
 })(jsPDF.API);
 /* Blob.js
  * A Blob implementation.
- * 2014-05-31
- * 
+ * 2014-07-24
+ *
  * By Eli Grey, http://eligrey.com
- * By Devin Samarin, https://github.com/eboyjr
+ * By Devin Samarin, https://github.com/dsamarin
  * License: X11/MIT
  *   See https://github.com/eligrey/Blob.js/blob/master/LICENSE.md
  */
@@ -5450,16 +5609,34 @@ jsPDFAPI.putTotalPages = function(pageExpression) {
 			, URL = real_URL
 			, btoa = view.btoa
 			, atob = view.atob
-			
+
 			, ArrayBuffer = view.ArrayBuffer
 			, Uint8Array = view.Uint8Array
+
+			, origin = /^[\w-]+:\/*\[?[\w\.:-]+\]?(?::[0-9]+)?/
 		;
 		FakeBlob.fake = FB_proto.fake = true;
 		while (file_ex_code--) {
 			FileException.prototype[file_ex_codes[file_ex_code]] = file_ex_code + 1;
 		}
+		// Polyfill URL
 		if (!real_URL.createObjectURL) {
-			URL = view.URL = {};
+			URL = view.URL = function(uri) {
+				var
+					  uri_info = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+					, uri_origin
+				;
+				uri_info.href = uri;
+				if (!("origin" in uri_info)) {
+					if (uri_info.protocol.toLowerCase() === "data:") {
+						uri_info.origin = null;
+					} else {
+						uri_origin = uri.match(origin);
+						uri_info.origin = uri_origin && uri_origin[1];
+					}
+				}
+				return uri_info;
+			};
 		}
 		URL.createObjectURL = function(blob) {
 			var
@@ -5557,7 +5734,7 @@ jsPDFAPI.putTotalPages = function(pageExpression) {
 		return FakeBlobBuilder;
 	}(view));
 
-	view.Blob = function Blob(blobParts, options) {
+	view.Blob = function(blobParts, options) {
 		var type = options ? (options.type || "") : "";
 		var builder = new BlobBuilder();
 		if (blobParts) {
@@ -5569,12 +5746,12 @@ jsPDFAPI.putTotalPages = function(pageExpression) {
 	};
 }(typeof self !== "undefined" && self || typeof window !== "undefined" && window || this.content || this));
 /* FileSaver.js
- *  A saveAs() FileSaver implementation.
- *  2014-05-27
+ * A saveAs() FileSaver implementation.
+ * 2014-08-29
  *
- *  By Eli Grey, http://eligrey.com
- *  License: X11/MIT
- *    See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
+ * By Eli Grey, http://eligrey.com
+ * License: X11/MIT
+ *   See https://github.com/eligrey/FileSaver.js/blob/master/LICENSE.md
  */
 
 /*global self */
@@ -5601,7 +5778,7 @@ var saveAs = saveAs
 			return view.URL || view.webkitURL || view;
 		}
 		, save_link = doc.createElementNS("http://www.w3.org/1999/xhtml", "a")
-		, can_use_save_link = !view.externalHost && "download" in save_link
+		, can_use_save_link = "download" in save_link
 		, click = function(node) {
 			var event = doc.createEvent("MouseEvents");
 			event.initMouseEvent(
@@ -5619,18 +5796,22 @@ var saveAs = saveAs
 		}
 		, force_saveable_type = "application/octet-stream"
 		, fs_min_size = 0
-		, deletion_queue = []
-		, process_deletion_queue = function() {
-			var i = deletion_queue.length;
-			while (i--) {
-				var file = deletion_queue[i];
+		// See https://code.google.com/p/chromium/issues/detail?id=375297#c7 for
+		// the reasoning behind the timeout and revocation flow
+		, arbitrary_revoke_timeout = 10
+		, revoke = function(file) {
+			var revoker = function() {
 				if (typeof file === "string") { // file is an object URL
 					get_URL().revokeObjectURL(file);
 				} else { // file is a File
 					file.remove();
 				}
+			};
+			if (view.chrome) {
+				revoker();
+			} else {
+				setTimeout(revoker, arbitrary_revoke_timeout);
 			}
-			deletion_queue.length = 0; // clear queue
 		}
 		, dispatch = function(filesaver, event_types, event) {
 			event_types = [].concat(event_types);
@@ -5654,11 +5835,6 @@ var saveAs = saveAs
 				, blob_changed = false
 				, object_url
 				, target_view
-				, get_object_url = function() {
-					var object_url = get_URL().createObjectURL(blob);
-					deletion_queue.push(object_url);
-					return object_url;
-				}
 				, dispatch_all = function() {
 					dispatch(filesaver, "writestart progress write writeend".split(" "));
 				}
@@ -5666,15 +5842,20 @@ var saveAs = saveAs
 				, fs_error = function() {
 					// don't create more object URLs than needed
 					if (blob_changed || !object_url) {
-						object_url = get_object_url(blob);
+						object_url = get_URL().createObjectURL(blob);
 					}
 					if (target_view) {
 						target_view.location.href = object_url;
 					} else {
-						window.open(object_url, "_blank");
+						var new_tab = view.open(object_url, "_blank");
+						if (new_tab == undefined && typeof safari !== "undefined") {
+							//Apple do not allow window.open, see http://bit.ly/1kZffRI
+							view.location.href = object_url
+						}
 					}
 					filesaver.readyState = filesaver.DONE;
 					dispatch_all();
+					revoke(object_url);
 				}
 				, abortable = function(func) {
 					return function() {
@@ -5691,17 +5872,20 @@ var saveAs = saveAs
 				name = "download";
 			}
 			if (can_use_save_link) {
-				object_url = get_object_url(blob);
+				object_url = get_URL().createObjectURL(blob);
 				save_link.href = object_url;
 				save_link.download = name;
 				click(save_link);
 				filesaver.readyState = filesaver.DONE;
 				dispatch_all();
+				revoke(object_url);
 				return;
 			}
 			// Object and web filesystem URLs have a problem saving in Google Chrome when
 			// viewed in a tab, so I force save with application/octet-stream
 			// http://code.google.com/p/chromium/issues/detail?id=91158
+			// Update: Google errantly closed 91158, I submitted it again:
+			// https://code.google.com/p/chromium/issues/detail?id=389642
 			if (view.chrome && type && type !== force_saveable_type) {
 				slice = blob.slice || blob.webkitSlice;
 				blob = slice.call(blob, 0, blob.size, force_saveable_type);
@@ -5728,9 +5912,9 @@ var saveAs = saveAs
 							file.createWriter(abortable(function(writer) {
 								writer.onwriteend = function(event) {
 									target_view.location.href = file.toURL();
-									deletion_queue.push(file);
 									filesaver.readyState = filesaver.DONE;
 									dispatch(filesaver, "writeend", event);
+									revoke(file);
 								};
 								writer.onerror = function() {
 									var error = writer.error;
@@ -5787,11 +5971,6 @@ var saveAs = saveAs
 	FS_proto.onwriteend =
 		null;
 
-	view.addEventListener("unload", process_deletion_queue, false);
-	saveAs.unload = function() {
-		process_deletion_queue();
-		view.removeEventListener("unload", process_deletion_queue, false);
-	};
 	return saveAs;
 }(
 	   typeof self !== "undefined" && self
