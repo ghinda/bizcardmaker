@@ -59,14 +59,12 @@ body {
 }
 
 .themes-row {
-  overflow: auto;
   padding: 0 emCalc(10);
   margin: 0;
   white-space: nowrap;
 
   .theme-item {
     display: block;
-    overflow: hidden;
     position: relative;
     height: emCalc(60);
     padding: emCalc(6);
@@ -147,7 +145,7 @@ $card-border: 1px solid darken($white, 10%);
   // (350/15/0.25) - additional 25% because of font-size .75em
   padding: emCalc(24 + 6);
 
-  @include transition(background 0.1s ease-in);
+  //@include transition(background 0.1s ease-in);
 
   font-size: .75em;
 
@@ -634,3 +632,4 @@ $color-resize: lighten($color-handle, 20%);
     @include transform(rotate(-45deg));
   }
 }
+

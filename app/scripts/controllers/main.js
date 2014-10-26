@@ -46,13 +46,13 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   ];
 
   var themes = [
+    'theme-topline',
     'theme-simple',
     'theme-corners',
     'theme-half',
     'theme-border',
     'theme-line',
-    'theme-third',
-    'theme-topline'
+    'theme-third'
   ];
 
   angular.forEach(themes, function(theme) {

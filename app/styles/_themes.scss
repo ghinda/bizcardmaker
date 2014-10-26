@@ -37,6 +37,38 @@ $black: #000;
   }
 }
 
+/* Mixin to show *New* label
+ */
+
+@mixin theme-new() {
+
+  &:after {
+    position: absolute;
+    top: emCalc(-8);
+    right: emCalc(-8);
+    display: block;
+    width: emCalc(44);
+    height: emCalc(44);
+    padding: emCalc(14) 0;
+    background: #f1c40f;
+    border-radius: 100%;
+    box-shadow: 0 1px 1px darken(#f1c40f, 12%);
+
+    content: 'NEW';
+    color: #fff;
+    font-size: .5em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1em;
+    letter-spacing: emCalc(-.4);
+    vertical-align: middle;
+    text-transform: uppercase;
+
+    @include transform(rotate(-16deg));
+  }
+
+}
+
 /* Themes
  */
 @import 'themes/simple';
