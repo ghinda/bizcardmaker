@@ -84,6 +84,21 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     }
   ]);
 
+  [].unshift.apply(model.themes, [
+    {
+      name: 'theme-autumn--half'
+    },
+    {
+      name: 'theme-autumn--half-black'
+    },
+    {
+      name: 'theme-autumn--top'
+    },
+    {
+      name: 'theme-autumn--top-black'
+    }
+  ]);
+
   $scope.$on('$routeUpdate', function(){
     model.activeTheme = $routeParams.theme;
 
