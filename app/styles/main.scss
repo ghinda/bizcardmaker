@@ -161,6 +161,10 @@ article h1 {
   line-height: 1em;
 }
 
+article h2 {
+  margin: emCalc(28) 0 emCalc(8);
+}
+
 /* Top bar
  */
 .top-bar {
@@ -309,6 +313,8 @@ footer {
   }
 
   h2 {
+    margin: 0 0 emCalc(8);
+
     font-size: emCalc(32);
   }
 }
@@ -322,8 +328,12 @@ footer {
   overflow: hidden;
   display: block;
   width: 100%;
-  margin: 0 0 emCalc(8);
+  margin: 0 0 emCalc(16);
   border-radius: 5px;
+}
+
+.list-posts .post-picture {
+  margin-bottom: emCalc(8);
 }
 
 .post-summary {
@@ -360,7 +370,7 @@ footer {
     @include breakpoint(papa-bear) {
       position: absolute;
       left: emCalc(-68);
-      top: emCalc(-16);
+      top: emCalc(-14);
     }
   }
 }

@@ -16,7 +16,7 @@
    version="1.1"
    inkscape:version="0.48.5 r10040"
    sodipodi:docname="icon-chat.svg"
-   inkscape:export-filename="/media/mokush/dev/bizcardmaker/app/images/blog/icon-shipping.png"
+   inkscape:export-filename="/media/mokush/dev/bizcardmaker/app/images/blog/icon-chat.png"
    inkscape:export-xdpi="36"
    inkscape:export-ydpi="36">
   <defs
@@ -114,9 +114,9 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1246"
-     inkscape:window-height="800"
-     inkscape:window-x="34"
+     inkscape:window-width="1323"
+     inkscape:window-height="768"
+     inkscape:window-x="43"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
@@ -143,7 +143,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
