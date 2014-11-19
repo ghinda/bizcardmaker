@@ -609,7 +609,6 @@ $color-resize: lighten($color-handle, 20%);
  */
 .instructions-block {
   margin-top: emCalc(60);
-  margin-bottom: emCalc(40);
 
   p {
     position: relative;
@@ -632,4 +631,3 @@ $color-resize: lighten($color-handle, 20%);
     @include transform(rotate(-45deg));
   }
 }
-
