@@ -608,7 +608,11 @@ $color-resize: lighten($color-handle, 20%);
 /* Right sidebar
  */
 .instructions-block {
-  margin-top: emCalc(60);
+  margin-top: emCalc(46);
+
+  button {
+    margin: 0;
+  }
 
   p {
     position: relative;

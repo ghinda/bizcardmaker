@@ -20,9 +20,57 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   model.pdfData = '';
   model.pdfFilename = 'bizcardmaker-com.pdf';
 
-  model.isSafari = (navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1);
+  model.cardDefaults = {
+    name: 'John Doe',
+    position: 'Position',
+    organization: 'Organization',
+    location: 'City, State',
+    phone: '(123) 555-1234',
+    email: 'john.doe@cmail.com',
+    url: 'www.john-doe.com'
+  };
 
-  console.log(model.isSafari);
+  model.card = {};
+
+  angular.copy(model.cardDefaults, model.card);
+
+  var storedCard = window.localStorage.getItem('bizcardmaker-card');
+
+  if(storedCard) {
+    angular.copy(angular.fromJson(storedCard), model.card);
+  }
+
+  // Remy Sharp's debounce
+  // https://remysharp.com/2010/07/21/throttling-function-calls
+  var debounce = function(fn, delay) {
+    var timer = null;
+    return function () {
+      var context = this, args = arguments;
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        fn.apply(context, args);
+      }, delay);
+    };
+  };
+
+  // save edits to localstorage
+  $scope.$watch('model.card', debounce(function(card) {
+
+    window.localStorage.setItem('bizcardmaker-card', angular.toJson(card));
+
+  }, 500), true);
+
+  // reset all saved data
+  $scope.ResetCard = function() {
+
+    angular.copy(model.cardDefaults, model.card);
+
+    window.localStorage.removeItem('bizcardmaker-card');
+
+  };
+
+  // ugly detection for ugly Safari
+  model.isSafari = (navigator.userAgent.indexOf('Safari') !== -1 && navigator.userAgent.indexOf('Chrome') === -1);
 
   var clearInlineStyles = function() {
     // clear all inline styles

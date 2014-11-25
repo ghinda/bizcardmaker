@@ -49,47 +49,28 @@
 
               <div class="card-item person" dr-container=".card-content" dr-model="model.person" dr-grid="10">
 
-                <div meditor>
-                  <p class="fn">
-                    John Doe
-                  </p>
-                  <p class="title">
-                    Position
-                  </p>
-                </div>
+                <p meditor ng-model="model.card.name" class="fn"></p>
+                <p meditor ng-model="model.card.position" class="title"></p>
 
               </div>
 
               <div class="card-item details" dr-container=".card-content" dr-model="model.details" dr-grid="10">
 
-                <div meditor>
-                  <p class="org">
-                    Organization
-                  </p>
-                  <p>
-                    <span class="locality">City</span>,
-                    <span class="state">State</span>
-                  </p>
-                  <p class="tel">
-                    (123) 555-1234
-                  </p>
-                </div>
+                <p meditor ng-model="model.card.organization" class="org"></p>
+                <p meditor ng-model="model.card.location" class="location"></p>
+                <p meditor ng-model="model.card.phone" class="tel"></p>
 
               </div>
 
               <div class="card-item email" dr-container=".card-content" dr-model="model.email" dr-grid="10">
 
-                <div meditor>
-                  <p>john.doe@cmail.com</p>
-                </div>
+                <p meditor ng-model="model.card.email"></p>
 
               </div>
 
               <div class="card-item url" dr-container=".card-content" dr-model="model.url" dr-grid="10">
 
-                <div meditor>
-                  <p>www.john-doe.com</p>
-                </div>
+                <p meditor ng-model="model.card.url"></p>
 
               </div>
 
@@ -156,6 +137,12 @@
       </div>
 
       <div class="instructions-block">
+        <p>
+          <button type="button" class="button tiny radius muted" ng-click="ResetCard()">
+            <i class="fa fa-undo"></i>
+            Reset all changes you made
+          </button>
+        </p>
         <p>
           <i class="fa fa-edit icon-instruction"></i>
           Simply click on any of the details on the card, to edit them.
