@@ -7,7 +7,6 @@
     "grunt": "~0.4.x",
     "assemble": "~0.4.x",
     "grunt-angular-templates": "~0.5.x",
-    "grunt-build-control": "~0.1.x",
     "grunt-concurrent": "~0.5.x",
     "grunt-contrib-clean": "~0.6.x",
     "grunt-contrib-concat": "~0.5.x",
@@ -19,15 +18,16 @@
     "grunt-contrib-jshint": "~0.10.x",
     "grunt-contrib-uglify": "~0.5.x",
     "grunt-contrib-watch": "~0.6.x",
-    "grunt-exec": "~0.4.x",
     "grunt-ng-annotate": "~0.3.x",
     "grunt-rev": "~0.1.x",
     "grunt-sass": "~0",
     "grunt-usemin": "~2.x",
-    "grunt-wait": "~0.1.x",
-    "matchdep": "~0.3.x"
+    "matchdep": "~0.3.x",
+    "grunt-ftp-deploy": "^0.1.9"
   },
   "engines": {
     "node": ">=0.8.0"
+  },
+  "dependencies": {
   }
 }

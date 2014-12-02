@@ -12,29 +12,24 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('assemble');
 
   // configurable paths
-  var yeomanConfig = {
+  var config = {
     app: 'app',
-    dist: 'public/htdocs',
-    deploy: 'public'
+    dist: 'public'
   };
 
-  try {
-    yeomanConfig.app = require('./bower.json').appPath || yeomanConfig.app;
-  } catch (e) {}
-
   grunt.initConfig({
-    yeoman: yeomanConfig,
+    config: config,
     watch: {
       grunt: {
         files: ['Gruntfile.js'],
         options: { reload: true }
       },
       assemble: {
-        files: [ '<%= yeoman.app %>/templates/{,*/}*.{hbs,html}' ],
+        files: [ '<%= config.app %>/templates/{,*/}*.{hbs,html}' ],
         tasks: [ 'assemble:server' ]
       },
       sass: {
-        files: [ '<%= yeoman.app %>/styles/{,*/}*.{scss,sass}' ],
+        files: [ '<%= config.app %>/styles/{,*/}*.{scss,sass}' ],
         tasks: [ 'sass:server' ]
       },
       livereload: {
@@ -42,10 +37,10 @@ module.exports = function (grunt) {
           livereload: LIVERELOAD_PORT
         },
         files: [
-          '{.tmp,<%= yeoman.app %>/views}/{,*/}*.html',
-          '{.tmp,<%= yeoman.app %>}/styles/{,*/}*.css',
-          '{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js',
-          '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
+          '{.tmp,<%= config.app %>/views}/{,*/}*.html',
+          '{.tmp,<%= config.app %>}/styles/{,*/}*.css',
+          '{.tmp,<%= config.app %>}/scripts/{,*/}*.js',
+          '<%= config.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       }
     },
@@ -61,7 +56,7 @@ module.exports = function (grunt) {
             return [
               lrSnippet,
               mountFolder(connect, '.tmp'),
-              mountFolder(connect, yeomanConfig.app)
+              mountFolder(connect, config.app)
             ];
           }
         }
@@ -80,7 +75,7 @@ module.exports = function (grunt) {
         options: {
           middleware: function (connect) {
             return [
-              mountFolder(connect, yeomanConfig.dist)
+              mountFolder(connect, config.dist)
             ];
           }
         }
@@ -91,7 +86,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%= yeoman.deploy %>',
+          cwd: '<%= config.dist %>',
           src: [
             '*'
           ]
@@ -105,12 +100,12 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
+        '<%= config.app %>/scripts/{,*/}*.js'
       ]
     },
     assemble: {
       options: {
-        layoutdir: '<%= yeoman.app %>/templates/layouts'
+        layoutdir: '<%= config.app %>/templates/layouts'
       },
       server: {
         options: {
@@ -123,7 +118,7 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%= yeoman.app %>/templates',
+          cwd: '<%= config.app %>/templates',
           src: '**/*.hbs',
           dest: '.tmp'
         }]
@@ -139,21 +134,21 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%= yeoman.app %>/templates',
+          cwd: '<%= config.app %>/templates',
           src: '**/*.hbs',
-          dest: '<%= yeoman.dist %>'
+          dest: '<%= config.dist %>'
         }]
       }
     },
     sass: {
       dist: {
         files: {
-          '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
+          '.tmp/styles/main.css': '<%= config.app %>/styles/main.scss'
         }
       },
       server: {
         files: {
-          '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
+          '.tmp/styles/main.css': '<%= config.app %>/styles/main.scss'
         }
       }
     },
@@ -161,31 +156,31 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
-            '<%= yeoman.dist %>/scripts/{,*/}*.js',
-            '<%= yeoman.dist %>/styles/{,*/}*.css',
-            '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= yeoman.dist %>/styles/fonts/*'
+            '<%= config.dist %>/scripts/{,*/}*.js',
+            '<%= config.dist %>/styles/{,*/}*.css',
+            '<%= config.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+            '<%= config.dist %>/styles/fonts/*'
           ]
         }
       }
     },
     useminPrepare: {
       html: [
-        //'<%= yeoman.dist %>/{,*/}*.{html,hbs}'
-        '<%= yeoman.dist %>/{,*/}index.html'
+        //'<%= config.dist %>/{,*/}*.{html,hbs}'
+        '<%= config.dist %>/{,*/}index.html'
       ],
       options: {
-        dest: '<%= yeoman.dist %>'
+        dest: '<%= config.dist %>'
       }
     },
     usemin: {
-      html: ['<%= yeoman.dist %>/{,*/}*.html'],
-      css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
-      js: ['<%= yeoman.dist %>/scripts/*.js'],
+      html: ['<%= config.dist %>/{,*/}*.html'],
+      css: ['<%= config.dist %>/styles/{,*/}*.css'],
+      js: ['<%= config.dist %>/scripts/*.js'],
       options: {
         assetsDirs: [
-          '<%= yeoman.dist %>',
-          '<%= yeoman.dist %>/images'
+          '<%= config.dist %>',
+          '<%= config.dist %>/images'
         ],
         patterns: {
           js: [
@@ -201,9 +196,9 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: '<%= yeoman.app %>/images',
+          cwd: '<%= config.app %>/images',
           src: '{,*/}*.{png,jpg,jpeg}',
-          dest: '<%= yeoman.dist %>/images'
+          dest: '<%= config.dist %>/images'
         }]
       }
     },
@@ -211,9 +206,9 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '<%= yeoman.dist %>',
+          cwd: '<%= config.dist %>',
           src: ['*.html', 'views/*.html'],
-          dest: '<%= yeoman.dist %>'
+          dest: '<%= config.dist %>'
         }]
       }
     },
@@ -222,8 +217,8 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%= yeoman.app %>/dev',
-          dest: '<%= yeoman.dist %>',
+          cwd: '<%= config.app %>/dev',
+          dest: '<%= config.dist %>',
           src: [
             'CNAME',
             '*.*'
@@ -234,8 +229,8 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           dot: true,
-          cwd: '<%= yeoman.app %>',
-          dest: '<%= yeoman.dist %>',
+          cwd: '<%= config.app %>',
+          dest: '<%= config.dist %>',
           src: [
             'CNAME',
             '*.*',
@@ -247,7 +242,7 @@ module.exports = function (grunt) {
         }, {
           expand: true,
           cwd: '.tmp/images',
-          dest: '<%= yeoman.dist %>/images',
+          dest: '<%= config.dist %>/images',
           src: [
             'generated/*'
           ]
@@ -276,10 +271,10 @@ module.exports = function (grunt) {
     ngtemplates: {
       dist: {
         options: {
-          usemin: '<%= yeoman.dist %>/scripts/app.js',
+          usemin: '<%= config.dist %>/scripts/app.js',
           module: 'businessCardMaker'
         },
-        cwd: '<%= yeoman.app %>',
+        cwd: '<%= config.app %>',
         src: 'views/{,*/}*.html',
         dest: '.tmp/scripts/templates.js'
       }
@@ -294,42 +289,35 @@ module.exports = function (grunt) {
         }]
       }
     },
-    buildcontrol: {
-      options: {
-        dir: '<%= yeoman.deploy %>',
-        commit: true,
-        push: true,
-        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+
+    'ftp-deploy': {
+      development: {
+        auth: {
+          host: 'server134.web-hosting.com',
+          authPath: 'deploy.json',
+          authKey: 'namecheap'
+        },
+        src: '<%= config.dist %>',
+        dest: './releases/development/'
       },
       staging: {
-        options: {
-          remote: 'git+ssh://84716@git.dc1.gpaas.net/staging.bizcardmaker.com.git',
-          branch: 'master'
-        }
-      },
-      development: {
-        options: {
-          remote: 'git+ssh://84716@git.dc1.gpaas.net/development.bizcardmaker.com.git',
-          branch: 'master'
-        }
+        auth: {
+          host: 'server134.web-hosting.com',
+          authPath: 'deploy.json',
+          authKey: 'namecheap'
+        },
+        src: '<%= config.dist %>',
+        dest: './releases/staging/'
       },
       www: {
-        options: {
-          remote: 'git+ssh://84716@git.dc1.gpaas.net/www.bizcardmaker.com.git',
-          branch: 'master'
-        }
+        auth: {
+          host: 'server134.web-hosting.com',
+          authPath: 'deploy.json',
+          authKey: 'namecheap'
+        },
+        src: '<%= config.dist %>',
+        dest: './releases/www/'
       }
-    },
-    exec: {
-      development: 'ssh 84716@git.dc1.gpaas.net "deploy development.bizcardmaker.com.git"',
-      staging: 'ssh 84716@git.dc1.gpaas.net "deploy staging.bizcardmaker.com.git"',
-      www: 'ssh 84716@git.dc1.gpaas.net "deploy www.bizcardmaker.com.git"'
-    },
-    wait: {
-      options: {
-        delay: 5000
-      },
-      dist: {}
     }
   });
 
@@ -380,20 +368,15 @@ module.exports = function (grunt) {
     if (target === 'live') {
       return grunt.task.run([
         'default',
-        'buildcontrol:www',
-        'wait',
-        'exec:www'
+        'ftp-deploy:www'
       ]);
     }
 
     grunt.task.run([
       'default',
       'copy:dev',
-      'buildcontrol:development',
-      'buildcontrol:staging',
-      'wait',
-      'exec:development',
-      'exec:staging'
+      'ftp-deploy:development',
+      'ftp-deploy:staging'
     ]);
 
   });
