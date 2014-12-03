@@ -3,6 +3,7 @@ node_modules
 .sass-cache
 public/
 npm-debug.log
+deploy.json
 
 # Editor
 .kateproject
