@@ -3,12 +3,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   var model = $scope.model = {};
 
-  model.picture = {};
-  model.person = {};
-  model.details = {};
-  model.email = {};
-  model.url = {};
-
   model.cardPictureFile = '';
   model.cardPicture = '';
   model.generatingCard = false;
@@ -20,24 +14,37 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   model.pdfData = '';
   model.pdfFilename = 'bizcardmaker-com.pdf';
 
-  model.cardDefaults = {
-    name: 'John Doe',
-    position: 'Position',
-    organization: 'Organization',
-    location: 'City, State',
-    phone: '(123) 555-1234',
-    email: 'john.doe@cmail.com',
-    url: 'www.john-doe.com'
+  model.storeDefaults = {
+    card: {
+      name: 'John Doe',
+      position: 'Position',
+      organization: 'Organization',
+      location: 'City, State',
+      phone: '(123) 555-1234',
+      email: 'john.doe@cmail.com',
+      url: 'www.john-doe.com'
+    },
+    position: {
+      picture: {},
+      person: {},
+      details: {},
+      email: {},
+      url: {}
+    }
   };
 
-  model.card = {};
+  model.store = {
+    card: {},
+    position: {}
+  };
 
-  angular.copy(model.cardDefaults, model.card);
+  angular.copy(model.storeDefaults, model.store);
 
-  var storedCard = window.localStorage.getItem('bizcardmaker-card');
+  var storedDetails = window.localStorage.getItem('bizcardmaker-store');
 
-  if(storedCard) {
-    angular.copy(angular.fromJson(storedCard), model.card);
+  if(storedDetails) {
+    console.log(storedDetails);
+    angular.copy(angular.fromJson(storedDetails), model.store);
   }
 
   // Remy Sharp's debounce
@@ -54,18 +61,18 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   };
 
   // save edits to localstorage
-  $scope.$watch('model.card', debounce(function(card) {
+  $scope.$watch('model.store', debounce(function(store) {
 
-    window.localStorage.setItem('bizcardmaker-card', angular.toJson(card));
+    window.localStorage.setItem('bizcardmaker-store', angular.toJson(store));
 
   }, 500), true);
 
   // reset all saved data
   $scope.ResetCard = function() {
 
-    angular.copy(model.cardDefaults, model.card);
+    angular.copy(model.storeDefaults, model.store);
 
-    window.localStorage.removeItem('bizcardmaker-card');
+    window.localStorage.removeItem('bizcardmaker-store');
 
   };
 

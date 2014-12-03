@@ -174,16 +174,20 @@ app.directive('drModel', function ($document, $timeout) {
           });
 
           // set positions in model
-          scope.drModel.x = top;
-          scope.drModel.y = left;
+          if(scope.drModel) {
+            scope.drModel.x = top;
+            scope.drModel.y = left;
+          }
         }
 
         if(resizeActive) {
           resizeActive = false;
 
           // set sizes in model
-          scope.drModel.width = parseInt(element.css('width'));
-          scope.drModel.height = parseInt(element.css('height'));
+          if(scope.drModel) {
+            scope.drModel.width = parseInt(element.css('width'));
+            scope.drModel.height = parseInt(element.css('height'));
+          }
         }
 
         // remove active classes
@@ -253,6 +257,36 @@ app.directive('drModel', function ($document, $timeout) {
         return e;
 
       };
+
+      var setInitialPosition = function() {
+
+        if(scope.drModel.x) {
+          element.css({
+            left: scope.drModel.x
+          });
+        }
+
+        if(scope.drModel.y) {
+          element.css({
+            top: scope.drModel.y
+          });
+        }
+
+        if(scope.drModel.width) {
+          element.css({
+            width: scope.drModel.width
+          });
+        }
+
+        if(scope.drModel.height) {
+          element.css({
+            height: scope.drModel.height
+          });
+        }
+
+      };
+
+      setInitialPosition();
 
       $resizeHandle.addEventListener('mousedown', function(e) {
         mousedown(emulateTouch(e));

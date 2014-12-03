@@ -35,7 +35,7 @@
 
               <input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
 
-              <div class="card-picture" dr-container=".card-content" dr-model="model.picture" dr-grid="10">
+              <div class="card-picture" dr-container=".card-content" dr-model="model.store.position.picture" dr-grid="10">
 
                 <label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
 
@@ -47,30 +47,30 @@
                 </label>
               </div>
 
-              <div class="card-item person" dr-container=".card-content" dr-model="model.person" dr-grid="10">
+              <div class="card-item person" dr-container=".card-content" dr-model="model.store.position.person" dr-grid="10">
 
-                <p meditor ng-model="model.card.name" class="fn"></p>
-                <p meditor ng-model="model.card.position" class="title"></p>
-
-              </div>
-
-              <div class="card-item details" dr-container=".card-content" dr-model="model.details" dr-grid="10">
-
-                <p meditor ng-model="model.card.organization" class="org"></p>
-                <p meditor ng-model="model.card.location" class="location"></p>
-                <p meditor ng-model="model.card.phone" class="tel"></p>
+                <p meditor ng-model="model.store.card.name" class="fn"></p>
+                <p meditor ng-model="model.store.card.position" class="title"></p>
 
               </div>
 
-              <div class="card-item email" dr-container=".card-content" dr-model="model.email" dr-grid="10">
+              <div class="card-item details" dr-container=".card-content" dr-model="model.store.position.details" dr-grid="10">
 
-                <p meditor ng-model="model.card.email"></p>
+                <p meditor ng-model="model.store.card.organization" class="org"></p>
+                <p meditor ng-model="model.store.card.location" class="location"></p>
+                <p meditor ng-model="model.store.card.phone" class="tel"></p>
 
               </div>
 
-              <div class="card-item url" dr-container=".card-content" dr-model="model.url" dr-grid="10">
+              <div class="card-item email" dr-container=".card-content" dr-model="model.store.position.email" dr-grid="10">
 
-                <p meditor ng-model="model.card.url"></p>
+                <p meditor ng-model="model.store.card.email"></p>
+
+              </div>
+
+              <div class="card-item url" dr-container=".card-content" dr-model="model.store.position.url" dr-grid="10">
+
+                <p meditor ng-model="model.store.card.url"></p>
 
               </div>
 
