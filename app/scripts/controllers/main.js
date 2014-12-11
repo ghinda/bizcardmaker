@@ -43,7 +43,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   var storedDetails = window.localStorage.getItem('bizcardmaker-store');
 
   if(storedDetails) {
-    console.log(storedDetails);
     angular.copy(angular.fromJson(storedDetails), model.store);
   }
 
@@ -206,8 +205,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     var parentStyle = window.getComputedStyle(elem.parentNode, null);
     var style = window.getComputedStyle(elem, null);
-    var childFontSize = parseInt(style.fontSize, 10);
-    var parentFontSize = parseInt(parentStyle.fontSize, 10);
+    var childFontSize = parseFloat(style.fontSize);
+    var parentFontSize = parseFloat(parentStyle.fontSize);
 
     var properties = [ 'left', 'top', 'width', 'height' ];
     var inlineStyleValue = '';
@@ -219,10 +218,25 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       // only if the property is set as inline style
       if(inlineStyleValue && inlineStyleValue.indexOf('em') === -1) {
 
-        var childValue = parseInt(style[prop], 10);
-        var newValue = Math.floor((childValue / parentFontSize) * 100) / 100;
+        var childValue = parseFloat(style[prop]);
+        //var newValue = Math.floor((childValue / parentFontSize) * 100) / 100;
+        var newValue = childValue / parentFontSize;
 
-        newValue = newValue * (parentFontSize / childFontSize);
+        // recalculate depending on element fontSize
+        // since it influences ems
+        var emSize = (childFontSize / parentFontSize).toFixed(3);
+
+        if(emSize > 1) {
+
+          // when we enlarge
+          newValue += (newValue - newValue * emSize) / emSize;
+
+        } else {
+
+          // when we shrink
+          newValue += newValue - newValue * emSize;
+
+        }
 
         elem.style[prop] = newValue + 'em';
 
@@ -230,10 +244,10 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     });
 
-    if(style.fontSize.indexOf('em') === -1) {
+    // convert fontSize to em, only for font tags
+    if(elem.tagName === 'FONT' && style.fontSize.indexOf('em') === -1) {
       elem.style.fontSize = childFontSize / parentFontSize + 'em';
     }
-
 
   };
 

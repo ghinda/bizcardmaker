@@ -175,8 +175,8 @@ app.directive('drModel', function ($document, $timeout) {
 
           // set positions in model
           if(scope.drModel) {
-            scope.drModel.x = top;
-            scope.drModel.y = left;
+            scope.drModel.x = left;
+            scope.drModel.y = top;
           }
         }
 
@@ -258,35 +258,31 @@ app.directive('drModel', function ($document, $timeout) {
 
       };
 
-      var setInitialPosition = function() {
+      var setModel = function() {
 
-        if(scope.drModel.x) {
-          element.css({
-            left: scope.drModel.x
-          });
-        }
+        scope.drModel.x = scope.drModel.x || '';
+        element.css({
+          left: scope.drModel.x
+        });
 
-        if(scope.drModel.y) {
-          element.css({
-            top: scope.drModel.y
-          });
-        }
+        scope.drModel.y = scope.drModel.y || '';
+        element.css({
+          top: scope.drModel.y
+        });
 
-        if(scope.drModel.width) {
-          element.css({
-            width: scope.drModel.width
-          });
-        }
+        scope.drModel.width = scope.drModel.width || '';
+        element.css({
+          width: scope.drModel.width
+        });
 
-        if(scope.drModel.height) {
-          element.css({
-            height: scope.drModel.height
-          });
-        }
+        scope.drModel.height = scope.drModel.height || '';
+        element.css({
+          height: scope.drModel.height
+        });
 
       };
 
-      setInitialPosition();
+      scope.$watch('drModel', setModel, true);
 
       $resizeHandle.addEventListener('mousedown', function(e) {
         mousedown(emulateTouch(e));
