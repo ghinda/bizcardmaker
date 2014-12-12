@@ -43,7 +43,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   var storedDetails = window.localStorage.getItem('bizcardmaker-store');
 
   if(storedDetails) {
-    angular.copy(angular.fromJson(storedDetails), model.store);
+    //angular.copy(angular.fromJson(storedDetails), model.store);
+    angular.extend(model.store, angular.fromJson(storedDetails));
   }
 
   // Remy Sharp's debounce
@@ -156,14 +157,14 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       name: 'theme-autumn--top-black'
     }
   ]);
+  
+  // select the first theme if no theme selected
+  var themeName = model.store.theme || model.themes[0].name;
+
+  $location.search('theme', themeName);
 
   $scope.$on('$routeUpdate', function(){
-    model.activeTheme = $routeParams.theme;
-
-    // select the first theme if no theme selected
-    if(!model.activeTheme && model.themes.length) {
-      $location.search('theme', model.themes[0].name);
-    }
+    model.store.theme = $routeParams.theme;
 
     // reset editor and position changes on elements
     clearInlineStyles();
@@ -400,7 +401,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     });
 
     // track pdf download
-    ga('send', 'event', 'Download', 'Download PDF', model.activeTheme);
+    ga('send', 'event', 'Download', 'Download PDF', model.store.theme);
 
     // subscribe to newsletter
     newsletterSubscribe();
@@ -431,7 +432,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     });
 
     // track download
-    ga('send', 'event', 'Download', 'Download picture', model.activeTheme);
+    ga('send', 'event', 'Download', 'Download picture', model.store.theme);
 
     // subscribe to newsletter
     newsletterSubscribe();
@@ -534,8 +535,5 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     var modal = $(this);
     modal[0].scrollIntoView(true);
   });
-
-  // trigger route update
-  $scope.$broadcast('$routeUpdate');
 
 });
