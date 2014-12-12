@@ -68,9 +68,26 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   }, 500), true);
 
   // reset all saved data
-  $scope.ResetCard = function() {
+  $scope.ResetCard = function(change) {
 
-    angular.copy(model.storeDefaults, model.store);
+    clearInlineStyles();
+
+    if(change) {
+
+      // on change, only reset the positions
+      angular.copy(model.storeDefaults.position, model.store.position);
+
+    } else {
+
+      // complete reset
+      var previousTheme = model.store.theme;
+
+      angular.copy(model.storeDefaults, model.store);
+
+      // don't reset the currently selected theme
+      model.store.theme = previousTheme;
+    }
+
 
     window.localStorage.removeItem('bizcardmaker-store');
 
@@ -157,17 +174,21 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       name: 'theme-autumn--top-black'
     }
   ]);
-  
+
   // select the first theme if no theme selected
   var themeName = model.store.theme || model.themes[0].name;
 
   $location.search('theme', themeName);
 
   $scope.$on('$routeUpdate', function(){
-    model.store.theme = $routeParams.theme;
 
-    // reset editor and position changes on elements
-    clearInlineStyles();
+    // reset card styles when changing themes
+    // except the text data
+    if($routeParams.theme !== model.store.theme) {
+      $scope.ResetCard(true);
+    }
+
+    model.store.theme = $routeParams.theme;
 
   });
 
