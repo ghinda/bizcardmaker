@@ -549,6 +549,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       $cardContent.scrollLeft = 0;
     });
 
+    window.Socialite.load();
+
   });
 
   $(document).on('opened', '[data-reveal]', function () {

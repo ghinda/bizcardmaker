@@ -14,8 +14,8 @@
     "jspdf": "~1.x",
     "blueimp-canvas-to-blob": "~2.x",
     "momentjs": "~2.8.x",
-    "jquery.payment": "~1.1.x"
+    "jquery.payment": "~1.1.x",
+    "socialite-js": "*"
   },
-  "devDependencies": {
-  }
+  "devDependencies": {}
 }

@@ -374,3 +374,35 @@ footer {
     }
   }
 }
+
+/* Social buttons
+ */
+
+.social-buttons {
+  display: table;
+  margin: 0;
+  list-style-type: none;
+
+  li {
+    display: table-cell;
+    padding: 0 emCalc(12) 0 0;
+
+    vertical-align: top;
+  }
+
+  .socialite {
+    display: block;
+    width: 55px;
+    height: 65px;
+    background-position: 0 0;
+  }
+
+}
+
+.socialite.pinterest-pinit {
+  line-height: 65px;
+}
+
+.socialite.pinterest-pinit img {
+  vertical-align: bottom;
+}
