@@ -160,20 +160,31 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     }
   ]);
 
-  [].unshift.apply(model.themes, [
-    {
-      name: 'theme-autumn--half'
-    },
-    {
-      name: 'theme-autumn--half-black'
-    },
-    {
-      name: 'theme-autumn--top'
-    },
-    {
-      name: 'theme-autumn--top-black'
-    }
-  ]);
+  var pictureThemes = [
+    'autumn',
+    'winter',
+    'winter3',
+    'winter2'
+  ];
+
+  angular.forEach(pictureThemes, function(picture) {
+
+    [].unshift.apply(model.themes, [
+      {
+        name: 'theme-picture--' + picture + '-half'
+      },
+      {
+        name: 'theme-picture--' + picture + '-half-black'
+      },
+      {
+        name: 'theme-picture--' + picture + '-top'
+      },
+      {
+        name: 'theme-picture--' + picture + '-top-black'
+      }
+    ]);
+
+  });
 
   // select the first theme if no theme selected
   var themeName = model.store.theme || model.themes[0].name;

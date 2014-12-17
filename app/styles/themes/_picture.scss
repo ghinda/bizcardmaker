@@ -1,0 +1,212 @@
+/* Picture theme
+ */
+
+/* Mixin
+ */
+
+@mixin picture($name, $dark: false, $picture: '') {
+
+  .theme-picture--#{$picture}-#{$name} {
+
+    background: #fff;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      width: 50%;
+      height: 100%;
+
+      background: url(../images/themes/#{$picture}.jpg) no-repeat left bottom;
+      @include background-size(auto 100%);
+    }
+
+    .card-content {
+
+      .card-picture {
+        position: absolute;
+        top: 20%;
+        left: 4%;
+
+        label {
+          color: #fff !important;
+        }
+
+        .drag-handle {
+          border-color: #fff !important;
+        }
+      }
+
+      .card-item,
+      .card-item p {
+        position: relative;
+      }
+
+      .card-item {
+        position: absolute;
+        left: 58%;
+      }
+
+
+      .person,
+      .details,
+      .email,
+      .url {
+        position: absolute;
+
+        width: auto;
+      }
+
+      .person {
+        top: 8%;
+
+        font-size: emCalc(24);
+        letter-spacing: -1px;
+
+        p {
+          line-height: 1.2em;
+
+          &:last-child {
+            font-size: .8em;
+          }
+        }
+      }
+
+      .details {
+        top: 52%;
+
+        font-size: emCalc(14);
+
+        p {
+          line-height: 1.2em;
+        }
+      }
+
+      .email {
+        top: 80%;
+      }
+
+      .url {
+        top: 88%;
+      }
+
+      .email,
+      .url {
+        font-size: emCalc(14);
+
+        p {
+          line-height: 1em;
+        }
+      }
+
+    }
+
+
+    @if $dark == true {
+      @include theme(dark);
+
+      background: #000;
+    } @else {
+      @include theme(light);
+    }
+
+    /* if top
+     */
+    @if str-index($name, top) {
+
+      &:before {
+        width: 100%;
+        height: 44%;
+
+        background-position: 0% 70%;
+        @include background-size(100% 227%);
+      }
+
+      .card-content {
+
+        .card-picture {
+          top: 4%;
+          left: 32%;
+
+          label {
+            padding: emCalc(4);
+          }
+        }
+
+        .person {
+          left: 6%;
+          top: 52%;
+        }
+
+      }
+
+    }
+
+  }
+
+  .theme-picture--#{$picture}-#{$name}-thumb {
+
+    @include theme-new();
+
+    .theme-preview {
+      position: relative;
+      background-color: #fff;
+      padding: 0 !important;
+    }
+
+    .theme-preview:after {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      content: '';
+      display: block;
+      width: 50%;
+      height: 100%;
+
+      background: url(../images/themes/#{$picture}.jpg) no-repeat left top;
+      @include background-size(auto 200%);
+    }
+
+    @if $dark == true {
+      .theme-preview {
+        background: #000;
+      }
+    }
+
+    @if str-index($name, top) {
+      .theme-preview:after {
+        width: 100%;
+        height: 50%;
+
+        @include background-size(100% auto);
+      }
+    }
+  }
+
+}
+
+/* Sub-themes
+ */
+
+@include picture('half', false, 'winter');
+@include picture('half-black', true, 'winter');
+@include picture('top', false, 'winter');
+@include picture('top-black', true, 'winter');
+
+@include picture('half', false, 'winter2');
+@include picture('half-black', true, 'winter2');
+@include picture('top', false, 'winter2');
+@include picture('top-black', true, 'winter2');
+
+@include picture('half', false, 'winter3');
+@include picture('half-black', true, 'winter3');
+@include picture('top', false, 'winter3');
+@include picture('top-black', true, 'winter3');
+
+@include picture('half', false, 'autumn');
+@include picture('half-black', true, 'autumn');
+@include picture('top', false, 'autumn');
+@include picture('top-black', true, 'autumn');
