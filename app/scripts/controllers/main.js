@@ -365,6 +365,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     var $cardPreview = $('.card-preview').get(0);
 
+    console.log($('.card-preview'));
+    
     // remove text selection, to hide still-open editors
     window.getSelection().removeAllRanges();
 
