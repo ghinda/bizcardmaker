@@ -249,19 +249,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-    concurrent: {
-      server: [
-        'sass:server',
-        'assemble:server'
-      ],
-// 			test: [
-// 				'sass'
-// 			],
-      dist: [
-        'sass:dist',
-        'assemble:dist'
-      ]
-    },
     karma: {
       unit: {
         configFile: 'karma.conf.js',
@@ -334,7 +321,8 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      'concurrent:server',
+      'sass:server',
+      'assemble:server',
       'connect:livereload',
       'watch'
     ]);
@@ -349,7 +337,8 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    'concurrent:dist',
+    'sass:dist',
+    'assemble:dist',
     'imagemin',
     'htmlmin',
     'useminPrepare',

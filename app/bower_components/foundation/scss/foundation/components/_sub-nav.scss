@@ -61,10 +61,8 @@ $sub-nav-item-divider-margin: rem-calc(12) !default;
   display: block;
   width: auto;
   overflow: hidden;
-  margin: $sub-nav-list-margin;
+  margin-bottom: $sub-nav-list-margin;
   padding-top: $sub-nav-list-padding-top;
-  margin-#{$opposite-direction}: 0;
-  margin-#{$default-float}: rem-calc(-12);
 
   dt {
     text-transform: uppercase;
@@ -74,9 +72,8 @@ $sub-nav-item-divider-margin: rem-calc(12) !default;
   dd,
   li {
     float: $default-float;
-    display: inline;
     margin-#{$default-float}: rem-calc(16);
-    margin-bottom: rem-calc(10);
+    margin-bottom: 0;
     font-family: $sub-nav-font-family;
     font-weight: $sub-nav-font-weight;
     font-size: $font-size;
