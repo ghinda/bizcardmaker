@@ -283,6 +283,21 @@ module.exports = function (grunt) {
         }
       }
     },
+    protractor: {
+      options: {
+        keepAlive: false,
+        configFile: 'tests/protractor.conf.js'
+      },
+      all: {
+        options: {
+          args: {
+            specs: [
+              'tests/e2e/*.spec.js'
+            ]
+          }
+        }
+      }
+    },
     'ftp-deploy': {
       development: {
         auth: {
