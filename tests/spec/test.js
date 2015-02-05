@@ -1,7 +1,5 @@
 
-
-
-describe('Person', function () {
+describe('Themes', function () {
 
   var ctrl;
   var scope;

@@ -9,7 +9,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   model.generatingPdf = false;
 
   model.imageData = '';
-  model.imageFilename = 'bizcardmaker-com.jpg';
+  model.imageFilename = 'bizcardmaker-com';
+  model.imageExt = '.jpg';
 
   model.pdfData = '';
   model.pdfFilename = 'bizcardmaker-com.pdf';
@@ -364,8 +365,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     var deferred = $q.defer();
 
     var $cardPreview = $('.card-preview').get(0);
-
-    console.log($('.card-preview'));
     
     // remove text selection, to hide still-open editors
     window.getSelection().removeAllRanges();
@@ -450,9 +449,11 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       canvas.toBlob(
         function (blob) {
 
+          var filename = model.imageFilename + '-' + model.store.theme + model.imageExt; 
+          
           // saveAs is global from FileSaver.js
           // FileSaver is included in jsPdf
-          saveAs(blob, model.imageFilename);
+          saveAs(blob, filename);
 
           // scroll back to the card
           // since saveAs scrolls to the top

@@ -1,4 +1,4 @@
-app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
+app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, $interval, data) {
   'use strict';
 
   var model = $scope.model || {};
@@ -59,14 +59,17 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       // select the first order
       model.order.selectedOffer = 0;
-    }, function() {
-      // in case the api is down
-      // retry in 3s
-      $timeout(loadOffers, 3000);
+      
+      // cancel the retry timer, if the request was successful
+      $interval.cancel(loadOffersTimer);
     });
   };
-
+  
   loadOffers();
+  
+  // try reloading the offers every 3s
+  // in case the api is down
+  var loadOffersTimer = $interval(loadOffers, 3000);
 
   $scope.$watch('model.order.country', function() {
     // if not changing automatically

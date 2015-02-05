@@ -1,10 +1,14 @@
 /* Protractor config
  */
 
+var themeDir = __dirname + '/media/themes';
+
+// TODO delete all files in the themes folder using grunt
+
 exports.config = {
   baseUrl: 'http://localhost:9000/',
   capabilities: {
-    'browserName': 'phantomjs',
+    'browserName': 'chrome',
 
     /* 
     * Can be used to specify the phantomjs binary path.
@@ -16,12 +20,27 @@ exports.config = {
     * Command line args to pass to ghostdriver, phantomjs's browser driver.
     * See https://github.com/detro/ghostdriver#faq
     */
-    'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG']
+    'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG'],
+    
+    chromeOptions: {
+      args: [ '--start-maximized' ],
+      prefs: {
+        download: {
+          prompt_for_download: false,
+          default_directory: themeDir
+        },
+        profile: {
+          default_content_settings: {
+            'multiple-automatic-downloads': 1
+          }
+        }
+      }
+    }
   },
   rootElement: '.card-maker',
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 30000,
+    defaultTimeoutInterval: 3000000,
     isVerbose : true,
     includeStackTrace : true
   }
