@@ -4,6 +4,7 @@ node_modules
 public/
 npm-debug.log
 deploy.json
+tests/media/themes
 
 # Editor
 .kateproject

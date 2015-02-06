@@ -14,7 +14,8 @@ module.exports = function (grunt) {
   // configurable paths
   var config = {
     app: 'app',
-    dist: 'public'
+    dist: 'public',
+    tests: 'tests'
   };
 
   grunt.initConfig({
@@ -56,7 +57,8 @@ module.exports = function (grunt) {
             return [
               lrSnippet,
               mountFolder(connect, '.tmp'),
-              mountFolder(connect, config.app)
+              mountFolder(connect, config.app),
+              mountFolder(connect, config.tests)
             ];
           }
         }
@@ -295,6 +297,17 @@ module.exports = function (grunt) {
               'tests/e2e/*.spec.js'
             ]
           }
+        }
+      }
+    },
+    photobox : {
+      themes: {
+        options : {
+          screenSizes: [ '1200' ],
+          relativePaths: true,
+          urls: [
+            './tests/media/themes.html'
+          ]
         }
       }
     },
