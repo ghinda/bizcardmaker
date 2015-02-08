@@ -2,33 +2,68 @@
  * Generate a HTML file with all the 
  */
 
-var mediaDir = './tests/media/';
-var themesDir = 'themes-orig';
-var themesOrigDir = 'themes-orig';
-var themesFile = mediaDir + '/themes.html';
+var mediaDir = __dirname + '/media';
+var themesDir = mediaDir + '/themes';
+var themesOrigDir = mediaDir + '/themes-orig';
+var themesDiffDir = mediaDir + '/themes-diff';
 
 var fs = require('fs');
+var gm = require('gm').subClass({ imageMagick: true });
 
-var stream = fs.createWriteStream(themesFile);
-var html = '';
+var fileList = [];
+var currentCount = 0;
 
-// build markup
-fs.readdir(mediaDir + themesOrigDir, function(err,files){
+var compareFile = function(filename, callback) {
+  
+  var diffFile = themesDiffDir + '/' + filename;
+
+  var options = {
+    file: diffFile,
+    highlightColor: 'red',
+    tolerance: 0.05
+  };
+  
+  gm().compare(
+    themesDir + '/' + filename,
+    themesOrigDir + '/' + filename,
+    options,
+    function (err, isEqual, equality, raw) {
     
+      console.log(isEqual);
+      
+      if(isEqual) {
+        // remove the diff file if the images are the same
+        fs.unlink(diffFile);
+      }
+      
+      if(callback) {
+        callback();
+      }
+      
+    });
+    
+};
+
+// compare one at a time
+// so we don't freeze node
+var compareNext = function() {
+  
+  if(currentCount < fileList.length) {
+    compareFile(fileList[currentCount], compareNext);
+    currentCount++;
+  }
+  
+};
+
+// build the file list
+fs.readdir(themesOrigDir, function(err, files){
+  
   if(err) throw err;
            
   files.forEach(function(filename){
-    
-    html += '<img src="' + themesOrigDir + '/' + filename + '" class="img-orig">';
-    html += '<img src="' + themesDir + '/' + filename + '" class="img">';
-    
+    fileList.push(filename);
   });
   
-  html += '<script src="themes.js"></script>';
-  html += '<script src="resemble.js"></script>';
-  
-  stream.write(html);
-  stream.end();
+  compareNext();
   
 });
-
