@@ -18,6 +18,7 @@
     "grunt-contrib-jshint": "~0.10.x",
     "grunt-contrib-uglify": "~0.5.x",
     "grunt-contrib-watch": "~0.6.x",
+    "grunt-execute": "^0.2.2",
     "grunt-ftp-deploy": "^0.1.9",
     "grunt-ng-annotate": "~0.3.x",
     "grunt-protractor-runner": "^1.2.1",

@@ -3,8 +3,6 @@
 
 var themeDir = __dirname + '/media/themes';
 
-// TODO delete all files in the themes folder using grunt
-
 exports.config = {
   baseUrl: 'http://localhost:9000/',
   capabilities: {

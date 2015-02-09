@@ -94,7 +94,11 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+      test: [
+        '<%= config.tests %>/media/themes',
+        '<%= config.tests %>/media/themes-diff'
+      ] 
     },
     jshint: {
       options: {
@@ -290,25 +294,19 @@ module.exports = function (grunt) {
         keepAlive: false,
         configFile: 'tests/protractor.conf.js'
       },
-      all: {
+      themes: {
         options: {
           args: {
             specs: [
-              'tests/e2e/*.spec.js'
+              'tests/e2e/themes.spec.js'
             ]
           }
         }
       }
     },
-    photobox : {
+    execute: {
       themes: {
-        options : {
-          screenSizes: [ '1200' ],
-          relativePaths: true,
-          urls: [
-            './tests/media/themes.html'
-          ]
-        }
+        src: [ 'tests/themes/themes-diff.js' ]
       }
     },
     'ftp-deploy': {
@@ -344,7 +342,10 @@ module.exports = function (grunt) {
 
   grunt.registerTask('server', function (target) {
     if (target === 'dist') {
-      return grunt.task.run(['default', 'connect:dist:keepalive']);
+      return grunt.task.run([
+        'default',
+        'connect:dist:keepalive'
+      ]);
     }
 
     grunt.task.run([
@@ -354,6 +355,7 @@ module.exports = function (grunt) {
       'connect:livereload',
       'watch'
     ]);
+    
   });
 
 // 	grunt.registerTask('test', [
@@ -382,21 +384,32 @@ module.exports = function (grunt) {
 
   grunt.registerTask('default', [
     'jshint',
-    //'test',
     'build'
   ]);
+  
+  grunt.registerTask('test', function(target) {
+    
+    grunt.task.run([
+      'default',
+      'connect:dist',
+      'clean:test',
+      'protractor:themes',
+      'execute:themes'
+    ]);
+    
+  });
 
   grunt.registerTask('deploy', function (target) {
 
     if (target === 'live') {
       return grunt.task.run([
-        'default',
+        'test',
         'ftp-deploy:www'
       ]);
     }
 
     grunt.task.run([
-      'default',
+      'test',
       'copy:dev',
       'ftp-deploy:development',
       'ftp-deploy:staging'
