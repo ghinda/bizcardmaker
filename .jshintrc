@@ -27,6 +27,7 @@
     "saveAs": false,
     "html2canvas": false,
     "Draggabilly": false,
+    "Foundation": false,
     "app": true
   }
 }

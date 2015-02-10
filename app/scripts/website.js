@@ -7,6 +7,8 @@
   var init = function() {
 
   };
+  
+  Foundation.global.namespace = '';
 
   // foundation properties
   $(document).foundation({

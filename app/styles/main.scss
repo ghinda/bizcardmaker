@@ -20,7 +20,7 @@ $secondary-color: $color2;
 $button-border-width: 0px;
 
 $topbar-bg: $color1;
-$topbar-height: 52px;
+$topbar-height: 3.25rem;
 
 $topbar-link-color: tint($color1, 70%);
 $topbar-link-weight: bold;
@@ -28,6 +28,7 @@ $topbar-link-bg-hover: $primary-color;
 $topbar-link-bg-active: darken($topbar-link-bg-hover, 10%);
 
 @import '../bower_components/foundation/scss/foundation';
+
 
 /* Utils
  */
