@@ -162,10 +162,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   ]);
 
   var pictureThemes = [
-    'autumn',
-    'winter',
-    'winter3',
-    'winter2'
+    'city',
+    'space'
   ];
 
   angular.forEach(pictureThemes, function(picture) {
@@ -375,20 +373,26 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     fixPxSizes($cardPreview);
 
     model.generatingCard = true;
+    
+    // give it some time to resize the card
+    // before taking the screenshot
+    $timeout(function() {
 
-    html2canvas($cardPreview, {
-      letterRendering: true,
-      onrendered: function(canvas) {
+      html2canvas($cardPreview, {
+        letterRendering: true,
+        onrendered: function(canvas) {
 
-        cleanFontTags($cardPreview);
+          cleanFontTags($cardPreview);
 
-        $timeout(function() {
-          model.generatingCard = false;
-        });
+          $timeout(function() {
+            model.generatingCard = false;
+          });
 
-        deferred.resolve(canvas);
+          deferred.resolve(canvas);
 
-      }
+        }
+      });
+      
     });
 
     return deferred.promise;
