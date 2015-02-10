@@ -8,7 +8,7 @@ describe('Themes', function () {
     element(by.css('#js-download-button')).click();
     element(by.css('#drop-downloads a[ng-click*="DownloadPicture()"]')).click();
     
-    browser.sleep(1000);
+    browser.sleep(1800);
     
   };
   
