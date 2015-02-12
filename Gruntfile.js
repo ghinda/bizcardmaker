@@ -401,7 +401,7 @@ module.exports = function (grunt) {
   
   var deployConfig = grunt.file.readJSON('deploy.json');
   
-  var purgeCloudflareCache = function(done) {
+  var purgeCloudflareCache = function() {
     
     var done = this.async();
     
@@ -453,7 +453,7 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'test',
         'ftp-deploy:www',
-        'clouflare'
+        'cloudflare'
       ]);
     }
 
@@ -462,7 +462,7 @@ module.exports = function (grunt) {
       'copy:dev',
       'ftp-deploy:development',
       'ftp-deploy:staging',
-      'clouflare'
+      'cloudflare'
     ]);
 
   });
