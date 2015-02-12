@@ -161,29 +161,22 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     }
   ]);
 
-  var pictureThemes = [
-    'city',
-    'space'
-  ];
-
-  angular.forEach(pictureThemes, function(picture) {
-
-    [].unshift.apply(model.themes, [
-      {
-        name: 'theme-picture--' + picture + '-half'
-      },
-      {
-        name: 'theme-picture--' + picture + '-half-black'
-      },
-      {
-        name: 'theme-picture--' + picture + '-top'
-      },
-      {
-        name: 'theme-picture--' + picture + '-top-black'
-      }
-    ]);
-
-  });
+  // add the picture themes at the top
+  [].unshift.apply(model.themes, [
+    { name: 'theme-picture--space-full' },
+    { name: 'theme-picture--food-full' },
+    { name: 'theme-picture--school-full' },
+    { name: 'theme-picture--restaurant-full' },
+    { name: 'theme-picture--stardust-full' },
+    { name: 'theme-picture--space-half' },
+    { name: 'theme-picture--space-half-black' },
+    { name: 'theme-picture--space-top' },
+    { name: 'theme-picture--space-top-black' },
+    { name: 'theme-picture--city-half' },
+    { name: 'theme-picture--city-half-black' },
+    { name: 'theme-picture--city-top' },
+    { name: 'theme-picture--city-top-black' }
+  ]);
 
   // select the first theme if no theme selected
   var themeName = model.store.theme || model.themes[0].name;

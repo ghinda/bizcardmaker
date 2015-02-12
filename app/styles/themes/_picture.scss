@@ -4,7 +4,7 @@
 /* Mixin
  */
 
-@mixin picture($name, $dark: false, $picture: '') {
+@mixin picture($name: full, $dark: false, $picture: '', $repeat: false, $format: 'jpg') {
 
   .theme-picture--#{$picture}-#{$name} {
 
@@ -16,11 +16,26 @@
       top: 0;
       left: 0;
       display: block;
-      width: 50%;
+      width: 100%;
       height: 100%;
 
-      background: url(../images/themes/#{$picture}.jpg) no-repeat left bottom;
+      background: url(../images/themes/#{$picture}.#{$format}) no-repeat left bottom;
       background-size: cover;
+    }
+    
+    @if $repeat == true {
+      &:before {
+        background-size: 300px;
+        background-repeat: repeat;
+      }
+    }
+    
+    /* if half
+     */
+    @if str-index($name, half) {
+      &:before {
+        width: 50%;
+      }
     }
 
     .card-content {
@@ -163,11 +178,19 @@
       left: 0;
       content: '';
       display: block;
-      width: 50%;
+      width: 100%;
       height: 100%;
 
-      background: url(../images/themes/#{$picture}.jpg) no-repeat left top;
+      background: url(../images/themes/#{$picture}.#{$format}) no-repeat left top;
       background-size: cover;
+    }
+    
+    /* if half
+     */
+    @if str-index($name, half) {
+      .theme-preview:after {
+        width: 50%;
+      }
     }
 
     @if $dark == true {
@@ -185,12 +208,24 @@
       }
     }
   }
+  
+  /* for repeating patterns
+   * double them when enlarging the card
+   */
+  @if $repeat == true {
+    .card-big .theme-picture--#{$picture}-#{$name} {
+      &:before {
+        background-size: 600px;
+      }
+    }
+  }
 
 }
 
 /* generate themes
  */
 
+@include picture('full', true, 'space');
 @include picture('half', false, 'space');
 @include picture('half-black', true, 'space');
 @include picture('top', false, 'space');
@@ -200,3 +235,28 @@
 @include picture('half-black', true, 'city');
 @include picture('top', false, 'city');
 @include picture('top-black', true, 'city');
+
+/* stardust
+ * http://subtlepatterns.com/stardust/
+ */
+
+@include picture('full', true, 'stardust', true, 'png');
+
+/* food
+ * http://subtlepatterns.com/food/
+ */
+
+@include picture('full', false, 'food', true, 'png');
+
+/* school
+ * http://subtlepatterns.com/school/
+ */
+
+@include picture('full', false, 'school', true, 'png');
+
+/* restaurant
+ * http://subtlepatterns.com/restaurant-2/
+ */
+
+@include picture('full', true, 'restaurant', true, 'png');
+

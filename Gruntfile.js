@@ -398,13 +398,62 @@ module.exports = function (grunt) {
     ]);
     
   });
+  
+  var deployConfig = grunt.file.readJSON('deploy.json');
+  
+  var purgeCloudflareCache = function(done) {
+    
+    var done = this.async();
+    
+    var https = require('https');
+    var querystring = require('querystring');
+
+    // Build the post string from an object
+    var postData = querystring.stringify({
+      tkn: deployConfig.cloudflare.key,
+      email: deployConfig.cloudflare.email,
+      a: 'fpurge_ts',
+      v: 1,
+      z: 'bizcardmaker.com'
+    });
+
+    // An object of options to indicate where to post to
+    var post_options = {
+        host: 'www.cloudflare.com',
+        path: '/api_json.html',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Length': postData.length
+        }
+    };
+
+    // Set up the request
+    var postReq = https.request(post_options, function(res) {
+        
+      res.setEncoding('utf8');
+      res.on('data', function (chunk) {
+        console.log(chunk);
+        done();
+      });
+      
+    });
+
+    // post the data
+    postReq.write(postData);
+    postReq.end();
+    
+  };
+  
+  grunt.registerTask('cloudflare', purgeCloudflareCache);
 
   grunt.registerTask('deploy', function (target) {
 
     if (target === 'live') {
       return grunt.task.run([
         'test',
-        'ftp-deploy:www'
+        'ftp-deploy:www',
+        'clouflare'
       ]);
     }
 
@@ -412,7 +461,8 @@ module.exports = function (grunt) {
       'test',
       'copy:dev',
       'ftp-deploy:development',
-      'ftp-deploy:staging'
+      'ftp-deploy:staging',
+      'clouflare'
     ]);
 
   });

@@ -1,15 +1,6 @@
 /* Themes
  */
 
-/* Custom gradient for html2canvas support
-*/
-@mixin custom-gradient($pos, $gradients...) {
-  $prefixes: webkit, moz, ms, o;
-  @each $prefix in $prefixes {
-    background-image: -#{$prefix}-linear-gradient($pos, $gradients);
-  }
-}
-
 /* Mixin to set text colors for dark/light themes
 */
 $white: #fff;

@@ -20,15 +20,6 @@
       )
     );
 
-    /* Funky notation for html2canvas - until it implements w3c gradients
-    */
-    @include custom-gradient(
-      left,
-      $color 0%,
-      $color 58%,
-      $color-third 58%,
-      $color-third 100%
-    );
   }
 
   .theme-third--#{$name} {
