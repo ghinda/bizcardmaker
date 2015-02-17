@@ -8,75 +8,16 @@ layout: page.html
 
     <div class="large-12 columns">
 
-      {{#if page.data.posted}}
-        <div class="post-meta">
-          Posted on
-          <time datetime="{{ page.data.posted }}">
-            {{formatDate page.data.posted "%B %d, %Y"}}
-          </time>
-        </div>
-      {{/if}}
-
-      {{#if page.data.picture}}
-        <img src="{{ page.data.picture}}" class="post-picture">
-      {{/if}}
-
       <h1>
         {{ title }}
       </h1>
-
+        
       {{> body}}
 
     </div>
 
   </article>
 
-  <footer class="row">
-
-    <div class="large-9 columns">
-
-      <ul class="inline-list">
-        <li>
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/about.html">About</a>
-        </li>
-        <li>
-          <a href="/faq.html">FAQ</a>
-        </li>
-        <li>
-          <a href="/privacy.html">Privacy</a>
-        </li>
-        <li>
-          <a href="/contact.html">Contact</a>
-        </li>
-        <li>
-          <a href="https://twitter.com/bizcardmakercom" target="_blank" class="follow-button">
-            <i class="fa fa-twitter"></i> @bizcardmakercom
-          </a>
-        </li>
-      </ul>
-
-      <p>
-        <a href="http://bizcardmaker.com" class="copy">Business Card Maker</a> is a project by <a href="http://ghinda.net">Ionuț Colceriu</a>.
-        Font families from <a href="https://www.google.com/fonts/">Google Fonts</a>.
-      </p>
-
-    </div>
-
-    <div class="large-3 columns">
-
-      <p class="text-right chrome-app">
-
-        <a href="https://chrome.google.com/webstore/detail/business-card-maker/dpchnngplfnmejdkfgpmfhifccngoiih" title="Get the Chrome app, for easier access." target="_blank">
-          <img src="/images/chrome-app.png" alt="Available in the Chrome Web Store">
-        </a>
-
-      </p>
-
-    </div>
-
-  </footer>
+  {{> footer}} 
 
 </div>

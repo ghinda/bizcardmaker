@@ -157,9 +157,12 @@ section {
 }
 
 article h1 {
-  margin: 0 0 emCalc(12);
+  margin: 0 0 emCalc(24);
 
+  color: desaturate($color1, 60%);
+  font-size: emCalc(24);
   line-height: 1em;
+  letter-spacing: emCalc(-0.5);
 }
 
 article h2 {
@@ -304,8 +307,8 @@ footer {
   list-style-type: none;
 
   li {
-    padding: 0 0 emCalc(40);
-    margin: 0 0 emCalc(40);
+    padding: 0 0 emCalc(80);
+    margin: 0 0 emCalc(80);
     border-bottom: 1px solid #efefef;
 
     &:last-child {
@@ -313,36 +316,34 @@ footer {
     }
   }
 
-  h2 {
-    margin: 0 0 emCalc(8);
+}
 
-    font-size: emCalc(32);
-  }
+.post-title {
+  margin: 0 0 emCalc(2);
+
+  font-size: emCalc(32);
+  font-weight: bold;
+  text-align: center;
 }
 
 .post-meta {
+  margin: 0 0 emCalc(28);
+  
   color: #666;
-  font-size: emCalc(12);
+  font-size: emCalc(18);
+  text-align: center;
 }
 
 .post-picture {
   overflow: hidden;
   display: block;
   width: 100%;
-  margin: 0 0 emCalc(16);
+  margin: 0 0 emCalc(12);
   border-radius: 5px;
 }
 
-.list-posts .post-picture {
-  margin-bottom: emCalc(8);
-}
-
 .post-summary {
-  margin: 0 0 emCalc(12);
-
-  h2 {
-    font-size: emCalc(20);
-  }
+  margin: 0;
 }
 
 .post-others {

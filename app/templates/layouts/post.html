@@ -1,31 +1,59 @@
 ---
-layout: content.html
+layout: page.html
 ---
 
-{{#markdown}}
-  {{>body}}
-{{/markdown}}
+<div class="page-content">
 
-<div class="post-others">
+  <article class="row">
 
-  <h4>
-    Catch up on the latest posts:
-  </h4>
+    <div class="large-12 columns">
 
-  <ul>
+      <h2 class="post-title">
+        {{#if page.picture}}
+          <img src="{{ page.picture}}" class="post-picture">
+        {{/if}}
 
-    {{#withSort posted 'data.posted'}}
-      {{#each pages }}
+        {{ page.title }}
+      </h2>
+    
+      <div class="post-meta">
+        <time datetime="{{ page.posted }}">
+          {{formatDate page.posted "%B %d, %Y"}}
+        </time>
+      </div>
 
-      <li>
-        <a href="/blog/{{ basename }}.html">
-          {{ data.title }}
-        </a>
-      </li>
+      {{#markdown}}
+        {{> body}}
+      {{/markdown}}
 
-      {{/each}}
-    {{/withSort}}
+      <div class="post-others">
 
-  </ul>
+        <h4>
+          Catch up on the latest posts:
+        </h4>
+
+        <ul>
+
+          {{#withSort posted 'page.posted'}}
+            {{#each pages }}
+
+            <li>
+              <a href="/blog/{{ basename }}.html">
+                {{ data.title }}
+              </a>
+            </li>
+
+            {{/each}}
+          {{/withSort}}
+
+        </ul>
+
+      </div>
+      
+    </div>
+
+  </article>
+
+  {{> footer}} 
 
 </div>
