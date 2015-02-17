@@ -111,7 +111,10 @@ module.exports = function (grunt) {
     },
     assemble: {
       options: {
-        layoutdir: '<%= config.app %>/templates/layouts'
+        layoutdir: '<%= config.app %>/templates/layouts',
+        partials: [
+          '<%= config.app %>/templates/partials/**/*.html'
+        ]
       },
       server: {
         options: {

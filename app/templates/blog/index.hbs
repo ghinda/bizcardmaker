@@ -11,17 +11,7 @@ layout: content.html
 
   <li>
 
-    <div class="post-meta">
-      Posted on
-
-      <a href="/blog/{{ basename }}.html">
-        <time datetime="{{ data.posted }}">
-          {{ formatDate data.posted "%d %B, %Y" }}
-        </time>
-      </a>
-    </div>
-
-    <h2>
+    <h2 class="post-title">
       <a href="/blog/{{ basename }}.html">
 
         {{#if data.picture}}
@@ -31,16 +21,21 @@ layout: content.html
         {{ data.title }}
       </a>
     </h2>
-
-    <div class="post-summary">
-      {{#markdown}}
-        {{truncate page 140 "..."}}
-      {{/markdown}}
+    
+    <div class="post-meta">
+      <time datetime="{{ data.posted }}">
+        {{formatDate data.posted "%B %d, %Y"}}
+      </time>
     </div>
 
-    <a href="/blog/{{ basename }}.html">
-      Read more
-    </a>
+    <div class="post-summary">
+      {{truncate page 180 "..."}} 
+      
+      <a href="/blog/{{ basename }}.html">
+        read more &raquo;
+      </a>
+    </div>
+
 
   </li>
 
