@@ -14,9 +14,9 @@
    height="280"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.4 r9939"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="chrome-tile-small.svg"
-   inkscape:export-filename="/media/Mokush/Dev/bizcardmaker/_artwork/chrome-tile-small.png"
+   inkscape:export-filename="/home/mokush/dev/bizcardmaker/artwork/chrome-tile-small.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -94,15 +94,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="160.93405"
-     inkscape:cy="230.92906"
+     inkscape:zoom="0.98994949"
+     inkscape:cx="134.63645"
+     inkscape:cy="163.20488"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
-     showgrid="true"
-     inkscape:window-width="1234"
+     showgrid="false"
+     inkscape:window-width="1238"
      inkscape:window-height="800"
-     inkscape:window-x="46"
+     inkscape:window-x="42"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
@@ -128,7 +128,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -146,7 +146,7 @@
        y="517.91394" />
     <g
        id="g3035"
-       transform="matrix(0.52342015,0,0,0.52342015,-175.91243,386.0796)">
+       transform="matrix(0.364341,0,0,0.364341,-45.470422,443.74153)">
       <rect
          ry="30"
          rx="30"
@@ -172,7 +172,7 @@
          inkscape:connector-curvature="0"
          id="rect3014-3"
          d="m 683.14838,410.70068 0,214.50081 218.71768,0 0,-214.51158 z m 25.23665,25.2259 168.24437,0 0,164.03826 -168.24437,0 z"
-         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:28.26667023;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:Sans;-inkscape-font-specification:Sans;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;baseline-shift:baseline;text-anchor:start;display:inline;overflow:visible;visibility:visible;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:28.26667023;marker:none;enable-background:accumulate" />
       <path
          sodipodi:nodetypes="ccccc"
          inkscape:connector-curvature="0"
@@ -204,5 +204,17 @@
          d="m 941.86606,599.96484 79.91604,0 0,25.23665 -79.91604,0 z"
          style="fill:#ffffff;fill-opacity:1;stroke:none" />
     </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:41.31104279px;line-height:125%;font-family:Sans;letter-spacing:-1.18064213px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       x="93.805374"
+       y="747.70319"
+       id="text3922"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3924"
+         x="93.805374"
+         y="747.70319"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';letter-spacing:-1.60000002px;fill:#ffffff">Business Card Maker</tspan></text>
   </g>
 </svg>
