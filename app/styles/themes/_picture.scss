@@ -225,11 +225,35 @@
 /* generate themes
  */
 
+/* old winter themes
+ * TODO delete once nobody wants them
+ */
+@include picture('half', false, 'winter');
+@include picture('half-black', true, 'winter');
+@include picture('top', false, 'winter');
+@include picture('top-black', true, 'winter');
+
+@include picture('half', false, 'winter2');
+@include picture('half-black', true, 'winter2');
+@include picture('top', false, 'winter2');
+@include picture('top-black', true, 'winter2');
+
+@include picture('half', false, 'winter3');
+@include picture('half-black', true, 'winter3');
+@include picture('top', false, 'winter3');
+@include picture('top-black', true, 'winter3');
+
+/* space theme
+ */
+
 @include picture('full', true, 'space');
 @include picture('half', false, 'space');
 @include picture('half-black', true, 'space');
 @include picture('top', false, 'space');
 @include picture('top-black', true, 'space');
+
+/* city theme
+ */
 
 @include picture('half', false, 'city');
 @include picture('half-black', true, 'city');
