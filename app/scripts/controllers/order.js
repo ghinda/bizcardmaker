@@ -419,7 +419,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     'model.order.region,' +
     'model.order.country,' +
     'model.order.postcode,' +
-    'model.order.address,' +
+    'model.order.address1,' +
     'model.order.address2,' +
 
     'model.order.shippingDetailsType' +
