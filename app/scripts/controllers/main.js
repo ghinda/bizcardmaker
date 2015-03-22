@@ -232,8 +232,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     var style = window.getComputedStyle(elem, null);
     var childFontSize = parseFloat(style.fontSize);
     var parentFontSize = parseFloat(parentStyle.fontSize);
-
-    console.log(childFontSize, parentFontSize);
     
     var properties = [ 'left', 'top', 'width', 'height' ];
     var inlineStyleValue = '';
