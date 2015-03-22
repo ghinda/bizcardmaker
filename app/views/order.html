@@ -574,16 +574,54 @@
 
         </div>
 
-        <div class="shipping-rates" ng-show="model.shippingRates.length || model.shippingRatesLoading || model.shippingAddressError" ng-class="{  'shipping-loading': model.shippingRatesLoading }">
+        <div class="shipping-rates" ng-class="{ 
+        'shipping-rates--visible' : ShippingRatesVisible(),
+        'shipping-loading': model.shippingRatesLoading,
+        'shipping-rates--error': (model.shippingAddressError && !model.shippingAddressError.ambiguos_address),
+        'shipping-rates--suggestions':  (model.shippingAddressError.ambiguos_address)
+        }">
 
           <h4 class="separator-order">
             <span>Choose shipping rates</span>
           </h4>
 
-          <div class="alert-box warning" ng-show="model.shippingAddressError">
+          <div class="alert-box warning shipping-rate-error" ng-show="model.shippingAddressError">
 
             <strong>There was an error with your shipping address. </strong>
             <p ng-bind="model.shippingAddressError"></p>
+
+          </div>
+          
+          <div class="alert-box info shipping-rate-suggestion">
+          
+            <h2>
+              <i class="fa fa-warning"></i>
+              We couldn't find your exact address.
+            </h2>
+
+            <p>
+              It's probably just a spelling mistake, so we looked for addresses close to the one you used.
+            </p>
+
+            <p>
+              <strong>
+                Please select your shipping address from the suggestions bellow:
+              </strong>
+            </p>
+
+            <div ng-repeat="suggestion in model.shippingAddressError.candidates">
+
+              <input type="radio" name="addressSuggestion" id="suggestion{{ $index }}" value="{{ $index }}" ng-model="model.shippingSuggestion" ng-change="SelectShippingCandidate(suggestion)">
+
+              <label for="suggestion{{ $index }}">
+                {{ suggestion.address }},dfg 
+                {{ suggestion.city }}, 
+                {{ suggestion.state }}, 
+                {{ suggestion.zipcode }}, 
+                {{ suggestion.country }}
+              </label>
+
+            </div>
 
           </div>
 

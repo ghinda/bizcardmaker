@@ -520,6 +520,65 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     }
 
   });
+  
+  $scope.ShippingRatesVisible = function() {
+    
+    var show = false;
+    
+    var namespace = 'order';
+    
+    // check if we're using a different shipping and billing address
+    if(model.order.shippingDetailsType === 'custom') {
+      namespace = 'shipping';
+    }
+    
+    // show the shipping rates only if we have 
+    // all the required fields filled-in.
+    if(model[namespace].city && model[namespace].region && model[namespace].country && model[namespace].postcode && model[namespace].address1) {
+      show = true;
+    }
+    
+    // if we're not loading, error-ing, or have the list of rates,
+    // don't show it.
+    if(!(model.shippingRates.length || model.shippingRatesLoading || model.shippingAddressError)) {
+      show = false;
+    }
+    
+    return show;
+  };
+  
+  $scope.SelectShippingCandidate = function(suggestion) {
+    
+    var namespace = 'order';
+    
+    // check if we're using a different shipping and billing address
+    if(model.order.shippingDetailsType === 'custom') {
+      namespace = 'shipping';
+    }
+    
+    model[namespace].city = suggestion.city;
+    model[namespace].postcode = suggestion.postcode;
+    model[namespace].address1 = suggestion.address;
+    model[namespace].address2 = '';
+    
+    // find object in list and select it
+    angular.forEach(model.regions, function(region) {
+      if(region.id === suggestion.state) {
+        model[namespace].region = region;
+        return false;
+      }
+    });
+    
+    if(suggestion.country === 'US') {
+      model[namespace].country = model.countries[0];
+    } else {
+      model[namespace].country = model.countries[1];
+    }
+    
+    console.log(namespace);
+    console.log(suggestion);
+    
+  };
 
   window.onbeforeunload = TabCloseAlert;
 

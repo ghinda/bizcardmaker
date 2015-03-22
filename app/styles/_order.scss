@@ -261,10 +261,19 @@
 
 }
 
+.button-send[disabled],
+.button-send[disabled]:hover {
+  background: #ddd;
+  
+  
+  color: #444;
+}
+
 /* Shipping rates
  */
 
 .shipping-rates {
+  display: none;
   padding: 0 0 emCalc(20);
 
   .loading-indicator {
@@ -283,6 +292,26 @@
 
 }
 
+.shipping-rate-suggestion,
+.shipping-rate-error {
+  display: none;
+}
+
+.shipping-rates--visible,
+.shipping-rates--error .shipping-rate-error,
+.shipping-rates--suggestions .shipping-rate-suggestion {
+  display: block;
+}
+
+.shipping-rate-suggestion h2 {
+  font-size: emCalc(24);
+}
+
+.shipping-rate-suggestion p {
+  margin: 0 0 emCalc(8) !important;
+  
+  font-size: emCalc(16);
+}
 
 .shipping-list {
   @include clearfix;
@@ -385,6 +414,9 @@
   }
 
 }
+
+/* Summary
+ */
 
 .order-summary {
 
