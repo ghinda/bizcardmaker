@@ -233,6 +233,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     var childFontSize = parseFloat(style.fontSize);
     var parentFontSize = parseFloat(parentStyle.fontSize);
 
+    console.log(childFontSize, parentFontSize);
+    
     var properties = [ 'left', 'top', 'width', 'height' ];
     var inlineStyleValue = '';
 
@@ -250,18 +252,22 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
         // recalculate depending on element fontSize
         // since it influences ems
         var emSize = (childFontSize / parentFontSize).toFixed(3);
-
-        if(emSize > 1) {
+        
+        // we don't need different conditionals for
+        // enlarging and shrinking.
+        // if shrinking conditional breaks shrinking.
+        // TODO clean this up if we don't need it any more.
+//         if(emSize > 1) {
 
           // when we enlarge
           newValue += (newValue - newValue * emSize) / emSize;
-
+/*
         } else {
 
           // when we shrink
           newValue += newValue - newValue * emSize;
 
-        }
+        }*/
 
         elem.style[prop] = newValue + 'em';
 
