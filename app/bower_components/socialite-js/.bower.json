@@ -50,11 +50,10 @@
   ],
   "_release": "0c0f27f235",
   "_resolution": {
-    "type": "branch",
-    "branch": "master",
-    "commit": "0c0f27f235fbf9f6024e6bc06faa27fdb9df6f40"
+    "type": "commit",
+    "commit": "0c0f27f235"
   },
   "_source": "git://github.com/tmort/Socialite.git",
-  "_target": "*",
+  "_target": "0c0f27f235",
   "_originalSource": "socialite-js"
 }
