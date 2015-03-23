@@ -376,7 +376,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     $timeout(function() {
 
       html2canvas($cardPreview, {
-        letterRendering: true,
+        //letterRendering: true,
         onrendered: function(canvas) {
 
           cleanFontTags($cardPreview);
