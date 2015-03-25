@@ -26,7 +26,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
 
   model.selectedSuggestion = 0;
-  model.addressError = false;
   model.shippingAddressError = '';
   model.shippingRatesLoading = false;
   model.error = '';
@@ -247,25 +246,10 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       model.orderLoading = false;
 
-      /*
-      if(err.addressError) {
-        model.addressError = err.addressError;
+      model.error = err.error || 'Please try again later.';
 
-        // track analytics
-        ga('send', 'event', 'Orders', 'Address error');
-
-      } else {
-      */
-
-        model.error = err.error || 'Please try again later.';
-
-        // track analytics
-        ga('send', 'event', 'Orders', 'Order error', model.error);
-
-      /*
-      }
-      */
-
+      // track analytics
+      ga('send', 'event', 'Orders', 'Order error', model.error);
 
     });
 
@@ -388,6 +372,9 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
           .finally(function() {
             
             if(model.shippingAddressError) {
+              // clear out existing shipping rates
+              model.shippingRates.length = 0;
+              
               // track analytics
               ga('send', 'event', 'Orders', 'Address error');
             }
