@@ -72,19 +72,11 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   var loadOffersTimer = $interval(loadOffers, 3000);
 
   $scope.$watch('model.order.country', function() {
-    // if not changing automatically
-    // from the address suggestions
-    if(!model.addressError) {
-      model.order.region = model.regions[model.order.country.id][0];
-    }
+    model.order.region = model.regions[model.order.country.id][0];
   });
 
   $scope.$watch('model.shipping.country', function() {
-    // if not changing automatically
-    // from the address suggestions
-    if(!model.addressError) {
-      model.shipping.region = model.regions[model.shipping.country.id][0];
-    }
+    model.shipping.region = model.regions[model.shipping.country.id][0];
   });
 
   $scope.$watch('model.order.shippingDetailsType', function() {
@@ -206,16 +198,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     }
 
-    if(model.addressError) {
-      // address is selected from suggested addresses
-      model.orderData.validate_address = false;
-    } else {
-      // validate address if not from suggested address
-      model.orderData.validate_address = true;
-    }
-
-    model.addressError = false;
-
     // if shipping is not included
     if(model.shippingRates.length) {
       var rate = model.shippingRates[model.selectedShippingRate * 1];
@@ -242,7 +224,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       model.orderLoading = false;
 
-      model.addressError = false;
       model.error = '';
       model.orderSuccess = true;
 
@@ -266,6 +247,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       model.orderLoading = false;
 
+      /*
       if(err.addressError) {
         model.addressError = err.addressError;
 
@@ -273,13 +255,16 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
         ga('send', 'event', 'Orders', 'Address error');
 
       } else {
+      */
 
         model.error = err.error || 'Please try again later.';
 
         // track analytics
         ga('send', 'event', 'Orders', 'Order error', model.error);
 
+      /*
       }
+      */
 
 
     });
@@ -334,6 +319,12 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   var debouncer;
 
   var getShippingRates = function() {
+    
+    // if not all the required fields are filled-in,
+    // don't make the request at all.
+    if(!$scope.ShippingRatesVisible()) {
+      return false;
+    }
 
     if(debouncer) {
       $timeout.cancel(debouncer);
@@ -374,7 +365,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
             address: parseAddress(shippingRates)
           })
           .then(function(res) {
-
+            
             // act on the result only if
             // it's for the currently selected offer
             if(selectedOffer === model.order.selectedOffer) {
@@ -385,10 +376,21 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
           })
           .catch(function(err) {
 
-            model.shippingAddressError = err.error;
+            // TODO ?! the error property is a string.
+            // just to be safe.
+            try {
+              model.shippingAddressError = JSON.parse(err.error);
+            } catch(e) {
+              model.shippingAddressError = err.error;
+            }
 
           })
           .finally(function() {
+            
+            if(model.shippingAddressError) {
+              // track analytics
+              ga('send', 'event', 'Orders', 'Address error');
+            }
 
             model.shippingRatesLoading = false;
 
@@ -426,6 +428,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   ']', getShippingRates);
 
 
+  /*
   // parse suggested address from the address error screen
   // to the proper order format to send
   $scope.$watch('model.selectedSuggestion', function() {
@@ -520,6 +523,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     }
 
   });
+*/
   
   $scope.ShippingRatesVisible = function() {
     
@@ -538,12 +542,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
       show = true;
     }
     
-    // if we're not loading, error-ing, or have the list of rates,
-    // don't show it.
-    if(!(model.shippingRates.length || model.shippingRatesLoading || model.shippingAddressError)) {
-      show = false;
-    }
-    
     return show;
   };
   
@@ -557,7 +555,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     }
     
     model[namespace].city = suggestion.city;
-    model[namespace].postcode = suggestion.postcode;
+    model[namespace].postcode = suggestion.zipcode;
     model[namespace].address1 = suggestion.address;
     model[namespace].address2 = '';
     
@@ -574,9 +572,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     } else {
       model[namespace].country = model.countries[1];
     }
-    
-    console.log(namespace);
-    console.log(suggestion);
     
   };
 

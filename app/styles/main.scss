@@ -27,6 +27,8 @@ $topbar-link-weight: bold;
 $topbar-link-bg-hover: $primary-color;
 $topbar-link-bg-active: darken($topbar-link-bg-hover, 10%);
 
+$alert-border-width: 0;
+
 @import '../bower_components/foundation/scss/foundation';
 
 
