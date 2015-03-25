@@ -212,23 +212,11 @@
         <div class="row">
           <div class="large-12 columns">
             <label>
-              Address line 1
+              Address
 
               <input type="text"
                 ng-model="model.order.address1"
                 required>
-
-            </label>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="large-12 columns">
-            <label>
-              Address line 2
-
-              <input type="text"
-                ng-model="model.order.address2">
 
             </label>
           </div>
@@ -454,23 +442,11 @@
           <div class="row">
             <div class="large-12 columns">
               <label>
-                Address line 1
+                Address
 
                 <input type="text"
                   ng-model="model.shipping.address1"
                   ng-required="model.order.shippingDetailsCustom">
-
-              </label>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="large-12 columns">
-              <label>
-                Address line 2
-
-                <input type="text"
-                  ng-model="model.shipping.address2">
 
               </label>
             </div>
@@ -513,7 +489,7 @@
               </strong>
             </p>
 
-            <div ng-repeat="suggestion in model.shippingAddressError.candidates">
+            <p ng-repeat="suggestion in model.shippingAddressError.candidates">
 
               <input type="radio" name="addressSuggestion" id="suggestion{{ $index }}" value="{{ $index }}" ng-click="SelectShippingCandidate(suggestion)">
 
@@ -525,7 +501,7 @@
                 {{ suggestion.country }}
               </label>
 
-            </div>
+            </p>
 
           </div>
 
