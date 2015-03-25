@@ -22,102 +22,6 @@
 
   </div>
 
-  <div class="order-address-error" ng-show="model.addressError">
-
-    <h2>
-      <i class="fa fa-warning"></i>
-      We couldn't find your exact address.
-    </h2>
-
-    <p>
-      It's probably just a spelling mistake, so we looked for addresses close to the one you used.
-    </p>
-
-    <p>
-      <strong>
-        Please select your shipping address from the suggestions bellow:
-      </strong>
-    </p>
-
-    <div class="row" ng-repeat="suggestion in model.addressError.suggestions">
-
-      <div class="large-12 columns">
-        <input type="radio" name="addressSuggestion" value="{{ $index }}" id="suggestion{{ $index }}" ng-model="model.selectedSuggestion">
-
-        <label for="suggestion{{ $index }}">
-          {{ suggestion.formatted_address }}
-        </label>
-
-      </div>
-    </div>
-
-    <div class="shipping-rates" ng-show="
-    (model.shippingRates.length || model.shippingRatesLoading || model.shippingAddressError)" ng-class="{  'shipping-loading': model.shippingRatesLoading }">
-
-      <h4 class="separator-order">
-        <span>Choose shipping rates</span>
-      </h4>
-
-      <div class="alert-box warning" ng-show="model.shippingAddressError">
-
-        <strong>There was an error with your shipping address. </strong>
-        <p ng-bind="model.shippingAddressError"></p>
-
-      </div>
-
-      <div class="loading-indicator">
-        <i class="fa fa-refresh fa-spin"></i>
-        Loading shipping rates..
-      </div>
-
-      <ul class="shipping-list">
-
-        <li ng-repeat="rate in model.shippingRates">
-
-          <label ng-class="{ 'active' : model.selectedShippingRate == $index }">
-
-            <input type="radio" name="shippingRates" ng-value="$index" ng-model="model.selectedShippingRate">
-
-            <h3 ng-bind="rate.carrier"></h3>
-
-            <p class="description">
-              <span ng-bind="rate.service_name" title="{{ rate.service_name }}"></span>
-            </p>
-
-            <p class="price">
-              <span ng-bind="rate.currency"></span>
-              <span ng-bind="(rate.price / 100).toFixed(2)"></span>
-            </p>
-
-          </label>
-
-        </li>
-
-      </ul>
-
-    </div>
-
-    <button type="button" class="button radius" ng-click="SendOrder($event)" ng-disabled="model.shippingRatesLoading || model.shippingAddressError">
-      Send Order
-
-      <strong ng-show="model.offers[model.order.selectedOffer]">
-        -
-
-        <span ng-bind="model.offers[model.order.selectedOffer].amount.currency"></span>
-
-        <span ng-show="!model.shippingRates.length" ng-bind="(model.offers[model.order.selectedOffer].amount.total / 100).toFixed(2)"></span>
-
-        <span ng-show="model.shippingRates.length" ng-bind="((model.shippingRates[model.selectedShippingRate].price + model.offers[model.order.selectedOffer].amount.total) / 100).toFixed(2)"></span>
-
-      </strong>
-    </button>
-
-    <a ng-click="model.addressError=false">
-      Return to Order Form
-    </a>
-
-  </div>
-
   <a class="close-reveal-modal">&#215;</a>
 
   <h2>
@@ -308,23 +212,11 @@
         <div class="row">
           <div class="large-12 columns">
             <label>
-              Address line 1
+              Address
 
               <input type="text"
                 ng-model="model.order.address1"
                 required>
-
-            </label>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="large-12 columns">
-            <label>
-              Address line 2
-
-              <input type="text"
-                ng-model="model.order.address2">
 
             </label>
           </div>
@@ -550,7 +442,7 @@
           <div class="row">
             <div class="large-12 columns">
               <label>
-                Address line 1
+                Address
 
                 <input type="text"
                   ng-model="model.shipping.address1"
@@ -560,30 +452,56 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="large-12 columns">
-              <label>
-                Address line 2
-
-                <input type="text"
-                  ng-model="model.shipping.address2">
-
-              </label>
-            </div>
-          </div>
-
         </div>
-
-        <div class="shipping-rates" ng-show="model.shippingRates.length || model.shippingRatesLoading || model.shippingAddressError" ng-class="{  'shipping-loading': model.shippingRatesLoading }">
+        
+        <div class="shipping-rates" ng-class="{ 
+        'shipping-rates--visible' : ShippingRatesVisible(),
+        'shipping-loading': model.shippingRatesLoading,
+        'shipping-rates--error': (model.shippingAddressError && !model.shippingAddressError.ambiguos_address),
+        'shipping-rates--suggestions':  (model.shippingAddressError.candidates.length)
+        }">
 
           <h4 class="separator-order">
             <span>Choose shipping rates</span>
           </h4>
 
-          <div class="alert-box warning" ng-show="model.shippingAddressError">
+          <div class="alert-box warning shipping-rate-error" ng-show="model.shippingAddressError">
 
             <strong>There was an error with your shipping address. </strong>
             <p ng-bind="model.shippingAddressError"></p>
+
+          </div>
+          
+          <div class="alert-box info shipping-rate-suggestion">
+          
+            <h2>
+              <i class="fa fa-warning"></i>
+              We couldn't find your exact address.
+            </h2>
+
+            <p>
+              It's probably just a spelling mistake, so we looked for addresses close to the one you used.
+            </p>
+
+            <p>
+              <strong>
+                Please select your shipping address from the suggestions bellow:
+              </strong>
+            </p>
+
+            <p ng-repeat="suggestion in model.shippingAddressError.candidates">
+
+              <input type="radio" name="addressSuggestion" id="suggestion{{ $index }}" value="{{ $index }}" ng-click="SelectShippingCandidate(suggestion)">
+
+              <label for="suggestion{{ $index }}">
+                {{ suggestion.address }}, 
+                {{ suggestion.city }}, 
+                {{ suggestion.state }}, 
+                {{ suggestion.zipcode }}, 
+                {{ suggestion.country }}
+              </label>
+
+            </p>
 
           </div>
 

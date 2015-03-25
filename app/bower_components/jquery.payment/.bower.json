@@ -13,6 +13,6 @@
     "commit": "1fc33e1cf9e35ec4cd7b81eb7a6d8065c66cc0e7"
   },
   "_source": "git://github.com/stripe/jquery.payment.git",
-  "_target": "~1.1.x",
+  "_target": "1.1.4",
   "_originalSource": "jquery.payment"
 }

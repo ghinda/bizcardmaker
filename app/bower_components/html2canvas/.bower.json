@@ -15,6 +15,6 @@
     "commit": "9a0d43d60bb67ef22507cc12cadead19645c990b"
   },
   "_source": "git://github.com/niklasvh/html2canvas.git",
-  "_target": "~0.5",
+  "_target": "0.5.0-alpha2",
   "_originalSource": "html2canvas"
 }

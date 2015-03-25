@@ -66,12 +66,6 @@
     }
   }
 
-  .alert-box {
-    p {
-      margin: 0;
-    }
-  }
-
   .privacy-agree {
     font-size: emCalc(12);
     color: darken($grey, 30%);
@@ -103,12 +97,22 @@
 
 }
 
+.modal-order .alert-box,
+.modal-order .payment-block {
+  padding: emCalc(8) emCalc(48);
+  margin: 0 emCalc(-48);
+  
+  font-size: 1em;
+}
+
+.modal-order .alert-box p {
+  margin: 0;
+}
+
 .modal-order .payment-block {
   position: relative;
-  padding: emCalc(8) emCalc(48);
   background: lighten($grey, 4%);
   border-radius: 2px;
-  margin: 0 emCalc(-48);
 
   h4 {
     margin: 0 0 emCalc(24) 0;
@@ -261,10 +265,19 @@
 
 }
 
+.button-send[disabled],
+.button-send[disabled]:hover {
+  background: #ddd;
+  
+  
+  color: #444;
+}
+
 /* Shipping rates
  */
 
 .shipping-rates {
+  display: none;
   padding: 0 0 emCalc(20);
 
   .loading-indicator {
@@ -283,6 +296,33 @@
 
 }
 
+.shipping-rate-suggestion,
+.shipping-rate-error {
+  display: none;
+}
+
+.shipping-rates--visible,
+.shipping-rates--error .shipping-rate-error,
+.shipping-rates--suggestions .shipping-rate-suggestion {
+  display: block;
+}
+
+.alert-box.shipping-rate-suggestion {
+  background-color: #f1c40f;
+
+  color: #333;
+  text-align: left;
+}
+
+.shipping-rate-suggestion h2 {
+  font-size: emCalc(24);
+}
+
+.shipping-rate-suggestion p {
+  margin: 0 0 emCalc(8) !important;
+  
+  font-size: emCalc(16);
+}
 
 .shipping-list {
   @include clearfix;
@@ -386,6 +426,9 @@
 
 }
 
+/* Summary
+ */
+
 .order-summary {
 
   table {
@@ -446,7 +489,6 @@
   }
 }
 
-.order-address-error,
 .order-loading,
 .order-success {
   position: absolute;
@@ -489,59 +531,7 @@
   }
 }
 
-$color-address-error: rgba(#f1c40f, .98);
 
-.reveal-modal.modal-order .order-address-error {
-  padding: emCalc(100) emCalc(60) 0;
-  background-color: $color-address-error;
-
-  color: #333;
-  text-align: left;
-
-  h2 {
-    margin: 0 0 emCalc(0) emCalc(-22);
-
-    font-size: emCalc(28);
-
-    i {
-      opacity: .2;
-    }
-  }
-
-  h2 + p {
-    font-size: emCalc(12);
-  }
-
-  button {
-    margin: emCalc(20) emCalc(20) 0 0;
-  }
-
-  button + a {
-    color: #333;
-    font-size: emCalc(12);
-    text-decoration: underline;
-  }
-
-  label {
-    max-width: emCalc(540);
-  }
-
-  .shipping-rates {
-    margin-top: emCalc(40);
-  }
-
-  .separator-order span {
-    background: $color-address-error;
-  }
-
-  .loading-indicator {
-    color: #000;
-  }
-
-  .shipping-list .active {
-    //background: darken($color-address-error, 40%);
-  }
-}
 
 /* Form Validation
 */

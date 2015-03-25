@@ -72,19 +72,11 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   var loadOffersTimer = $interval(loadOffers, 3000);
 
   $scope.$watch('model.order.country', function() {
-    // if not changing automatically
-    // from the address suggestions
-    if(!model.addressError) {
-      model.order.region = model.regions[model.order.country.id][0];
-    }
+    model.order.region = model.regions[model.order.country.id][0];
   });
 
   $scope.$watch('model.shipping.country', function() {
-    // if not changing automatically
-    // from the address suggestions
-    if(!model.addressError) {
-      model.shipping.region = model.regions[model.shipping.country.id][0];
-    }
+    model.shipping.region = model.regions[model.shipping.country.id][0];
   });
 
   $scope.$watch('model.order.shippingDetailsType', function() {
@@ -206,16 +198,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     }
 
-    if(model.addressError) {
-      // address is selected from suggested addresses
-      model.orderData.validate_address = false;
-    } else {
-      // validate address if not from suggested address
-      model.orderData.validate_address = true;
-    }
-
-    model.addressError = false;
-
     // if shipping is not included
     if(model.shippingRates.length) {
       var rate = model.shippingRates[model.selectedShippingRate * 1];
@@ -242,7 +224,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       model.orderLoading = false;
 
-      model.addressError = false;
       model.error = '';
       model.orderSuccess = true;
 
@@ -266,6 +247,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       model.orderLoading = false;
 
+      /*
       if(err.addressError) {
         model.addressError = err.addressError;
 
@@ -273,13 +255,16 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
         ga('send', 'event', 'Orders', 'Address error');
 
       } else {
+      */
 
         model.error = err.error || 'Please try again later.';
 
         // track analytics
         ga('send', 'event', 'Orders', 'Order error', model.error);
 
+      /*
       }
+      */
 
 
     });
@@ -334,6 +319,12 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   var debouncer;
 
   var getShippingRates = function() {
+    
+    // if not all the required fields are filled-in,
+    // don't make the request at all.
+    if(!$scope.ShippingRatesVisible()) {
+      return false;
+    }
 
     if(debouncer) {
       $timeout.cancel(debouncer);
@@ -374,7 +365,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
             address: parseAddress(shippingRates)
           })
           .then(function(res) {
-
+            
             // act on the result only if
             // it's for the currently selected offer
             if(selectedOffer === model.order.selectedOffer) {
@@ -385,10 +376,21 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
           })
           .catch(function(err) {
 
-            model.shippingAddressError = err.error;
+            // TODO ?! the error property is a string.
+            // just to be safe.
+            try {
+              model.shippingAddressError = JSON.parse(err.error);
+            } catch(e) {
+              model.shippingAddressError = err.error;
+            }
 
           })
           .finally(function() {
+            
+            if(model.shippingAddressError) {
+              // track analytics
+              ga('send', 'event', 'Orders', 'Address error');
+            }
 
             model.shippingRatesLoading = false;
 
@@ -413,113 +415,64 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     'model.shipping.country,' +
     'model.shipping.postcode,' +
     'model.shipping.address1,' +
-    'model.shipping.address2,' +
 
     'model.order.city,' +
     'model.order.region,' +
     'model.order.country,' +
     'model.order.postcode,' +
     'model.order.address1,' +
-    'model.order.address2,' +
 
     'model.order.shippingDetailsType' +
   ']', getShippingRates);
-
-
-  // parse suggested address from the address error screen
-  // to the proper order format to send
-  $scope.$watch('model.selectedSuggestion', function() {
-
-    if(model.addressError) {
-
-      // set shipping details from address suggestions
-      var validatedAddress = model.addressError.suggestions[model.selectedSuggestion];
-
-      var addressComponent = {
-        streetNumber: '',
-        street: '',
-        city: '',
-        region: '',
-        country: '',
-        postal_code: ''
-      };
-
-      angular.forEach(validatedAddress.address_components, function(addr) {
-
-        angular.forEach(addr.types, function(type) {
-
-          if(type === 'street_number') {
-            addressComponent.streetNumber = addr.long_name || addr.short_name;
-            return false;
-          }
-
-          if(type === 'route') {
-            addressComponent.street = addr.long_name || addr.short_name;
-            return false;
-          }
-
-          if(type === 'locality') {
-            addressComponent.city = addr.long_name || addr.short_name;
-            return false;
-          }
-
-          if(type === 'administrative_area_level_1') {
-            addressComponent.region = addr.short_name;
-            return false;
-          }
-
-          if(type === 'country') {
-            addressComponent.country = addr.long_name || addr.short_name;
-            return false;
-          }
-
-          if(type === 'postal_code') {
-            addressComponent.postal_code = addr.long_name || addr.short_name;
-            return false;
-          }
-
-        });
-
-      });
-
-      // parse the address into the angular model format
-      // not the api format
-      // since we'll parse it again in SendOrder
-      var parsedAddress = {};
-
-      parsedAddress.city = addressComponent.city;
-
-      // find the country and select it
-      // we can't just set the id because it will look bad
-      // when we return to the form with an address selected
-      angular.forEach(model.countries, function(country) {
-        if(country.id === addressComponent.country) {
-          parsedAddress.country = country;
-        }
-      });
-
-      // find the region and select it
-      angular.forEach(model.regions[addressComponent.country], function(region) {
-        if(region.id === addressComponent.region) {
-          parsedAddress.region = region;
-        }
-      });
-
-      parsedAddress.postcode = addressComponent.postal_code;
-      parsedAddress.address1 = addressComponent.streetNumber + ' ' + addressComponent.street;
-      parsedAddress.address2 = '';
-
-      // check if shipping details are custom
-      // and change either billing or shipping address
-      if(model.order.shippingDetailsCustom) {
-        angular.extend(model.shipping, parsedAddress);
-      } else {
-        angular.extend(model.order, parsedAddress);
-      }
-
+  
+  $scope.ShippingRatesVisible = function() {
+    
+    var show = false;
+    
+    var namespace = 'order';
+    
+    // check if we're using a different shipping and billing address
+    if(model.order.shippingDetailsType === 'custom') {
+      namespace = 'shipping';
     }
-
-  });
+    
+    // show the shipping rates only if we have 
+    // all the required fields filled-in.
+    if(model[namespace].city && model[namespace].region && model[namespace].country && model[namespace].postcode && model[namespace].address1) {
+      show = true;
+    }
+    
+    return show;
+  };
+  
+  $scope.SelectShippingCandidate = function(suggestion) {
+    
+    var namespace = 'order';
+    
+    // check if we're using a different shipping and billing address
+    if(model.order.shippingDetailsType === 'custom') {
+      namespace = 'shipping';
+    }
+    
+    model[namespace].city = suggestion.city;
+    model[namespace].postcode = suggestion.zipcode;
+    model[namespace].address1 = suggestion.address;
+    
+    // find object in list and select it
+    angular.forEach(model.regions, function(region) {
+      if(region.id === suggestion.state) {
+        model[namespace].region = region;
+        return false;
+      }
+    });
+    
+    if(suggestion.country === 'US') {
+      model[namespace].country = model.countries[0];
+    } else {
+      model[namespace].country = model.countries[1];
+    }
+    
+  };
 
   window.onbeforeunload = TabCloseAlert;
 
