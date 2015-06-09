@@ -360,13 +360,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
           })
           .catch(function(err) {
 
-            // TODO ?! the error property is a string.
-            // just to be safe.
-            try {
-              model.shippingAddressError = JSON.parse(err.error);
-            } catch(e) {
-              model.shippingAddressError = err.error;
-            }
+            model.shippingAddressError = err;
 
           })
           .finally(function() {
