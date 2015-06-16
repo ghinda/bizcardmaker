@@ -333,9 +333,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     angular.forEach(editors, function(e) {
       children = e.querySelectorAll('*');
       angular.forEach(children, function(c) {
-        // first turn font size=x to px
         if(c.tagName.toLowerCase() === 'font') {
-          c.style = '';
+          c.removeAttribute('style');
         }
       });
     });
@@ -374,11 +373,11 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // give it some time to resize the card
     // before taking the screenshot
     $timeout(function() {
-
+      
       html2canvas($cardPreview, {
         //letterRendering: true,
         onrendered: function(canvas) {
-
+          
           cleanFontTags($cardPreview);
 
           $timeout(function() {
@@ -400,7 +399,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     model.generatingPdf = true;
 
-    $scope.generatePicture().then(function(canvas) {
+    $scope.generatePicture()
+    .then(function(canvas) {
       model.generatingPdf = false;
 
       var doc = new jsPDF();
@@ -444,7 +444,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   $scope.DownloadPicture = function() {
 
-    $scope.generatePicture().then(function(canvas) {
+    $scope.generatePicture()
+    .then(function(canvas) {
 
       // make the canvas a blob, so we can download it with downloadify
       canvas.toBlob(
