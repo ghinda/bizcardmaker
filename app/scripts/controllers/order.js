@@ -58,14 +58,14 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       // select the first order
       model.order.selectedOffer = 0;
-      
+
       // cancel the retry timer, if the request was successful
       $interval.cancel(loadOffersTimer);
     });
   };
-  
+
   loadOffers();
-  
+
   // try reloading the offers every 3s
   // in case the api is down
   var loadOffersTimer = $interval(loadOffers, 3000);
@@ -246,10 +246,21 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       model.orderLoading = false;
 
-      model.error = err.error || 'Please try again later.';
+      model.error = 'Please try again later.';
 
-      // track analytics
-      ga('send', 'event', 'Orders', 'Order error', model.error);
+      if(err.error && err.error.response && err.error.response.text) {
+
+        var errorMessage = JSON.parse(err.error.response.text);
+
+        model.error = errorMessage.detailed_message;
+
+        // delete the credit card details, so we don't store them in ga
+        err.error.response.req.data.billing.credit_card = {};
+
+        // track analytics
+        ga('send', 'event', 'Orders', errorMessage.message, JSON.stringify(err.error.response));
+
+      }
 
     });
 
@@ -303,7 +314,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   var debouncer;
 
   var getShippingRates = function() {
-    
+
     // if not all the required fields are filled-in,
     // don't make the request at all.
     if(!$scope.ShippingRatesVisible()) {
@@ -349,7 +360,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
             address: parseAddress(shippingRates)
           })
           .then(function(res) {
-            
+
             // act on the result only if
             // it's for the currently selected offer
             if(selectedOffer === model.order.selectedOffer) {
@@ -364,13 +375,16 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
           })
           .finally(function() {
-            
+
             if(model.shippingAddressError) {
               // clear out existing shipping rates
               model.shippingRates.length = 0;
-              
+
               // track analytics
-              ga('send', 'event', 'Orders', 'Address error');
+              ga('send', 'event', 'Orders', 'Address error', JSON.stringify({
+                address: parseAddress(shippingRates),
+                error: model.shippingAddressError
+              }));
             }
 
             model.shippingRatesLoading = false;
@@ -405,40 +419,40 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
     'model.order.shippingDetailsType' +
   ']', getShippingRates);
-  
+
   $scope.ShippingRatesVisible = function() {
-    
+
     var show = false;
-    
+
     var namespace = 'order';
-    
+
     // check if we're using a different shipping and billing address
     if(model.order.shippingDetailsType === 'custom') {
       namespace = 'shipping';
     }
-    
-    // show the shipping rates only if we have 
+
+    // show the shipping rates only if we have
     // all the required fields filled-in.
     if(model[namespace].city && model[namespace].region && model[namespace].country && model[namespace].postcode && model[namespace].address1) {
       show = true;
     }
-    
+
     return show;
   };
-  
+
   $scope.SelectShippingCandidate = function(suggestion) {
-    
+
     var namespace = 'order';
-    
+
     // check if we're using a different shipping and billing address
     if(model.order.shippingDetailsType === 'custom') {
       namespace = 'shipping';
     }
-    
+
     model[namespace].city = suggestion.city;
     model[namespace].postcode = suggestion.zipcode;
     model[namespace].address1 = suggestion.address;
-    
+
     // find object in list and select it
     angular.forEach(model.regions, function(region) {
       if(region.id === suggestion.state) {
@@ -446,13 +460,13 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
         return false;
       }
     });
-    
+
     if(suggestion.country === 'US') {
       model[namespace].country = model.countries[0];
     } else {
       model[namespace].country = model.countries[1];
     }
-    
+
   };
 
   window.onbeforeunload = TabCloseAlert;
