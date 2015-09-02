@@ -6,6 +6,8 @@
  * @author Philippe Sawicki <https://github.com/philsawicki>
  */
 (function (window) {
+    'use strict';
+    
     // Retain a reference to the previous global error handler, in case it has been set:
     var originalWindowErrorCallback = window.onerror;
 
