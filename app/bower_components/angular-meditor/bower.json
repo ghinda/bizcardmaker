@@ -1,0 +1,31 @@
+{
+  "name": "angular-meditor",
+  "version": "1.3.0",
+  "authors": [
+    "Ionut Colceriu <contact@ghinda.net>"
+  ],
+  "ignore": [
+    "node_modules/",
+    "app/",
+    "public/",
+    ".sass-cache",
+    ".gitignore",
+    "npm-debug.log",
+    "CHANGELOG.md",
+    "Gruntfile.js",
+    "component.json",
+    "package.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ghinda/angular-meditor.git"
+  },
+  "dependencies": {
+    "angular": "~1.2",
+    "jquery": "~2"
+  },
+  "devDependencies": {
+    "bourbon": "~3",
+    "angular-route": "~1.2"
+  }
+}
