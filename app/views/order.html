@@ -199,7 +199,7 @@
           </div>
           <div class="large-3 columns">
             <label>
-              Postal code
+              ZIP code
 
               <input type="text"
                 ng-model="model.order.postcode"
@@ -429,7 +429,7 @@
             </div>
             <div class="large-3 columns">
               <label>
-                Postal code
+                ZIP code
 
                 <input type="text"
                   ng-model="model.shipping.postcode"
@@ -453,8 +453,8 @@
           </div>
 
         </div>
-        
-        <div class="shipping-rates" ng-class="{ 
+
+        <div class="shipping-rates" ng-class="{
         'shipping-rates--visible' : ShippingRatesVisible(),
         'shipping-loading': model.shippingRatesLoading,
         'shipping-rates--error': (model.shippingAddressError && !model.shippingAddressError.ambiguos_address),
@@ -471,9 +471,9 @@
             <p ng-bind="model.shippingAddressError"></p>
 
           </div>
-          
+
           <div class="alert-box info shipping-rate-suggestion">
-          
+
             <h2>
               <i class="fa fa-warning"></i>
               We couldn't find your exact address.
@@ -494,10 +494,10 @@
               <input type="radio" name="addressSuggestion" id="suggestion{{ $index }}" value="{{ $index }}" ng-click="SelectShippingCandidate(suggestion)">
 
               <label for="suggestion{{ $index }}">
-                {{ suggestion.address }}, 
-                {{ suggestion.city }}, 
-                {{ suggestion.state }}, 
-                {{ suggestion.zipcode }}, 
+                {{ suggestion.address }},
+                {{ suggestion.city }},
+                {{ suggestion.state }},
+                {{ suggestion.zipcode }},
                 {{ suggestion.country }}
               </label>
 
