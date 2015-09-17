@@ -261,8 +261,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     // change all values at the same time, for performance
     Object.keys(newValues).forEach(function(key) {
-      elem.style[key] = newValues[key]
-    })
+      elem.style[key] = newValues[key];
+    });
 
     // convert fontSize to em, only for font tags
     if(elem.tagName.toLowerCase() === 'font' && style.fontSize.indexOf('em') === -1) {
@@ -357,7 +357,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     html2canvas($cardClone, {
       //letterRendering: true,
       onrendered: function(canvas) {
-        document.body.removeChild($cardClone)
+        document.body.removeChild($cardClone);
         deferred.resolve(canvas);
       }
     });

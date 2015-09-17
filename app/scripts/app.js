@@ -35,7 +35,7 @@ if (typeof localStorage === 'object') {
     localStorage.setItem('localStorage', 1);
     localStorage.removeItem('localStorage');
   } catch (e) {
-    Storage.prototype._setItem = Storage.prototype.setItem;
-    Storage.prototype.setItem = function() {};
+    window.Storage.prototype._setItem = window.Storage.prototype.setItem;
+    window.Storage.prototype.setItem = function() {};
   }
 }
