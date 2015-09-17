@@ -27,3 +27,15 @@ app.run(function($rootScope){
   root.smallScreen = (screen.width <= 1024);
 
 });
+
+// Safari, in Private Browsing Mode, looks like it supports localStorage
+// but all calls to setItem throw QuotaExceededError.
+if (typeof localStorage === 'object') {
+  try {
+    localStorage.setItem('localStorage', 1);
+    localStorage.removeItem('localStorage');
+  } catch (e) {
+    Storage.prototype._setItem = Storage.prototype.setItem;
+    Storage.prototype.setItem = function() {};
+  }
+}

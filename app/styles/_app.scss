@@ -171,7 +171,11 @@ $card-border: 1px solid darken($white, 10%);
   border-width: 0;
   pointer-events: none;
 
-  font-size: 3.5em;
+  /* the card is 1.65.
+  * so the double width is:
+  * 2em + (2 * 0.65)
+  */
+  font-size: 3.3em;
 
   .no-picture {
     display: none;
@@ -634,4 +638,14 @@ $color-resize: lighten($color-handle, 20%);
   .fa-long-arrow-down {
     @include transform(rotate(-45deg));
   }
+}
+
+/* invisible card generation
+*/
+
+.card-invisible {
+  position: absolute;
+  left: 100%;
+  top: 100%;
+  pointer-events: none;
 }
