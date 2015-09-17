@@ -24,7 +24,7 @@
     "grunt-ng-annotate": "0.3.2",
     "grunt-protractor-runner": "1.2.1",
     "grunt-rev": "0.1.0",
-    "grunt-sass": "0.17.0",
+    "grunt-sass": "1.0.0",
     "grunt-usemin": "2.6.2",
     "matchdep": "0.3.0",
     "mocha": "^2.3.0",
