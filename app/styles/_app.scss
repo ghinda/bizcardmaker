@@ -171,11 +171,11 @@ $card-border: 1px solid darken($white, 10%);
   border-width: 0;
   pointer-events: none;
 
-  /* the card is 1.65.
-  * so the double width is:
-  * 2em + (2 * 0.65)
+  /* the card is 1.65 ~ 592px
+  * we want to make the card 1260px for 350dpi, 2.128x in size:
+  * 2.128em + (2.128 * 0.65)
   */
-  font-size: 3.3em;
+  font-size: 3.5em;
 
   .no-picture {
     display: none;

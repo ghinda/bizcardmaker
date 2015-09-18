@@ -98,7 +98,7 @@ module.exports = function (grunt) {
       test: [
         '<%= config.tests %>/media/themes',
         '<%= config.tests %>/media/themes-diff'
-      ] 
+      ]
     },
     jshint: {
       options: {
@@ -260,7 +260,7 @@ module.exports = function (grunt) {
     },
     karma: {
       unit: {
-        configFile: 'karma.conf.js',
+        configFile: 'tests/karma.conf.js',
         singleRun: true
       }
     },
@@ -358,7 +358,7 @@ module.exports = function (grunt) {
       'connect:livereload',
       'watch'
     ]);
-    
+
   });
 
 // 	grunt.registerTask('test', [
@@ -389,9 +389,9 @@ module.exports = function (grunt) {
     'jshint',
     'build'
   ]);
-  
+
   grunt.registerTask('test', function(target) {
-    
+
     grunt.task.run([
       'default',
       'connect:dist',
@@ -399,15 +399,15 @@ module.exports = function (grunt) {
       'protractor:themes',
       'execute:themes'
     ]);
-    
+
   });
-  
+
   var deployConfig = grunt.file.readJSON('deploy.json');
-  
+
   var purgeCloudflareCache = function() {
-    
+
     var done = this.async();
-    
+
     var https = require('https');
     var querystring = require('querystring');
 
@@ -433,21 +433,21 @@ module.exports = function (grunt) {
 
     // Set up the request
     var postReq = https.request(post_options, function(res) {
-        
+
       res.setEncoding('utf8');
       res.on('data', function (chunk) {
         console.log(chunk);
         done();
       });
-      
+
     });
 
     // post the data
     postReq.write(postData);
     postReq.end();
-    
+
   };
-  
+
   grunt.registerTask('cloudflare', purgeCloudflareCache);
 
   grunt.registerTask('deploy', function (target) {
