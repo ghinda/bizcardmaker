@@ -250,7 +250,15 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
       if(err.error && err.error.response && err.error.response.text) {
 
-        var errorMessage = JSON.parse(err.error.response.text);
+        // sometimes printchomp returns HTML inside the JSON
+        // this breaks the JSON
+        var errorMessage = {};
+        try {
+          errorMessage = JSON.parse(err.error.response.text);
+        } catch(e) {
+          ga('send', 'event', 'Orders', 'JSON error', JSON.stringify(err.error.response));
+          return false;
+        }
 
         model.error = errorMessage.detailed_message;
 
