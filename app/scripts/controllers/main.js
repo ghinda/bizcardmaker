@@ -530,10 +530,12 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     // hack to prevent automatic scrolling from contenteditable
     var $cardContent = document.querySelector('.card-content');
-    $cardContent.addEventListener('scroll', function(event) {
-      $cardContent.scrollTop = 0;
-      $cardContent.scrollLeft = 0;
-    });
+    if($cardContent) {
+      $cardContent.addEventListener('scroll', function(event) {
+        $cardContent.scrollTop = 0;
+        $cardContent.scrollLeft = 0;
+      });
+    }
 
     window.Socialite.load();
 
