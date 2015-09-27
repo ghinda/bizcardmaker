@@ -232,7 +232,7 @@ module.exports = function (grunt) {
             '*.*',
             //'bower_components/**/*',
             'bower_components/font-awesome/**/*',
-            'images/{,*/}*.*',
+            'images/**/*',
             'styles/fonts/*'
           ]
         }, {
