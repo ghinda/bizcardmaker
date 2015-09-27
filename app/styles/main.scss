@@ -384,7 +384,7 @@ footer {
 
 .social-buttons {
   display: table;
-  margin: 0;
+  margin: 0 0 emCalc(12);
   list-style-type: none;
 
   li {
@@ -394,11 +394,8 @@ footer {
     vertical-align: top;
   }
 
-  .socialite {
-    display: block;
-    background-position: 0 0;
+}
 
-    font-size: 10px;
-  }
-
+.btn-chrome {
+  margin-left: emCalc(-12);
 }
