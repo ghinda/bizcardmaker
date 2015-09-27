@@ -440,14 +440,18 @@ module.exports = function (grunt) {
 
     if (target === 'live') {
       return grunt.task.run([
-        'test',
+        //'test',
+        'default',
+
         'ftp-deploy:www',
         'cloudflare'
       ]);
     }
 
     grunt.task.run([
-      'test',
+      //'test',
+      'default',
+
       'copy:dev',
       'ftp-deploy:development',
       'ftp-deploy:staging',
