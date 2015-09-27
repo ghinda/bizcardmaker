@@ -26,7 +26,6 @@ module.exports = function(config) {
       '../app/bower_components/html2canvas/dist/html2canvas.js',
       '../app/bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js',
       '../app/bower_components/jquery.payment/lib/jquery.payment.js',
-      '../app/bower_components/socialite-js/socialite.js',
       '../app/scripts/**/*.js',
       '../app/views/*.html',
       'spec/**/*.js'

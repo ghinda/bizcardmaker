@@ -198,19 +198,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    imagemin: {
-      dist: {
-        options: {
-          cache: false
-        },
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/images',
-          src: '{,*/}*.{png,jpg,jpeg}',
-          dest: '<%= config.dist %>/images'
-        }]
-      }
-    },
     htmlmin: {
       dist: {
         files: [{
@@ -372,7 +359,6 @@ module.exports = function (grunt) {
     'clean:dist',
     'sass:dist',
     'assemble:dist',
-    'imagemin',
     'htmlmin',
     'useminPrepare',
     'ngtemplates',

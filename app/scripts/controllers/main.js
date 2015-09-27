@@ -537,8 +537,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       });
     }
 
-    window.Socialite.load();
-
   });
 
   $(document).on('opened', '[data-reveal]', function () {
