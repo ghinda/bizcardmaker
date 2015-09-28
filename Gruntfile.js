@@ -247,8 +247,7 @@ module.exports = function (grunt) {
     },
     karma: {
       unit: {
-        configFile: 'tests/karma.conf.js',
-        singleRun: true
+        configFile: 'tests/karma.conf.js'
       }
     },
     ngtemplates: {
