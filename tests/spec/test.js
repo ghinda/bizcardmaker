@@ -1,4 +1,3 @@
-
 describe('Themes', function () {
 
   var ctrl;
@@ -9,7 +8,7 @@ describe('Themes', function () {
 
   beforeEach(module('businessCardMaker'));
   beforeEach(module('templates'));
-  beforeEach(module('ngMockE2E'));
+  // beforeEach(module('ngMockE2E'));
 
   beforeEach(inject(function($controller, $rootScope, $compile, $templateCache, $httpBackend, $timeout) {
 
@@ -50,22 +49,24 @@ describe('Themes', function () {
 
     it('default image filename', function (done) {
 
-      this.timeout(10000);
+      var path = 'media/themes-orig/bizcardmaker-com-theme-border--black.jpg';
+
+      var img = document.createElement('img');
+      img.src = path;
+
+      document.body.appendChild(img);
 
       scope
-      .generatePicture()
-      .then(function(canvas) {
-        console.log(canvas);
+      .generatePicture({}, function(canvas) {
 
-        // console.log($templateCache.get('views/cardeditor.html'))
-        //expect(scope.model.imageFilename).to.equal('bizcardmaker-com.jpg');
+        var imgData = canvas.toDataURL('image/jpeg', 1.0);
+        // console.log(imgData);
+
         expect(true).to.equal(true)
 
         done();
 
       });
-
-      rootScope.$apply()
 
     });
 

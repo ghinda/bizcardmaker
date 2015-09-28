@@ -28,9 +28,24 @@ module.exports = function(config) {
       '../app/bower_components/jquery.payment/lib/jquery.payment.js',
       '../app/scripts/**/*.js',
       '../app/views/*.html',
-      'spec/**/*.js'
+      'spec/**/*.js',
+      {
+        pattern: 'media/**/*.jpg',
+        watched: false,
+        included: false,
+        served: true
+      },
+      {
+        pattern: '../app/images/**/*',
+        watched: false,
+        included: false,
+        served: true
+      }
     ],
 
+    proxies: {
+      // '/images/': '../app/images/'
+    },
 
     // list of files to exclude
     exclude: [
