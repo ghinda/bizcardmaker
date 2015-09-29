@@ -39,6 +39,12 @@ module.exports = function(config) {
         included: false,
         served: true
       },
+      {
+        pattern: 'app/bower_components/**/*',
+        watched: false,
+        included: false,
+        served: true
+      },
 
       {
         pattern: 'tests/media/**/*',
@@ -51,6 +57,7 @@ module.exports = function(config) {
     proxies: {
       '/images/': '/base/app/images/',
       '/styles/': '/base/.tmp/styles/',
+      '/bower_components/': '/base/app/bower_components/',
 
       '/media/': '/base/tests/media/',
     },
@@ -96,7 +103,10 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: [
+      'Chrome',
+      //'PhantomJS'
+    ],
 
 
     // Continuous Integration mode

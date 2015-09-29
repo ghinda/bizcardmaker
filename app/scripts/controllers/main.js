@@ -355,14 +355,19 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // double it up only after the px->em conversion
     $cardClone.classList.add('card-big');
 
+    console.log('generate');
+
     html2canvas($cardClone, {
       //letterRendering: true,
-      onrendered: function(canvas) {
-        document.body.removeChild($cardClone);
+    })
+    .then(function(canvas) {
+      document.body.removeChild($cardClone);
 
-        deferred.resolve(canvas);
-        cb(canvas);
-      }
+      deferred.resolve(canvas);
+      cb(canvas);
+    })
+    .catch(function(err) {
+      console.log(err);
     });
 
     return deferred.promise;
