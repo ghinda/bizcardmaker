@@ -355,19 +355,16 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // double it up only after the px->em conversion
     $cardClone.classList.add('card-big');
 
-    console.log('generate');
-
     html2canvas($cardClone, {
-      //letterRendering: true,
+      letterRendering: true
     })
     .then(function(canvas) {
       document.body.removeChild($cardClone);
 
       deferred.resolve(canvas);
+
+      // callback for Karma
       cb(canvas);
-    })
-    .catch(function(err) {
-      console.log(err);
     });
 
     return deferred.promise;

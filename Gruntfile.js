@@ -63,16 +63,6 @@ module.exports = function (grunt) {
           }
         }
       },
-// 			test: {
-// 				options: {
-// 					middleware: function (connect) {
-// 						return [
-// 							mountFolder(connect, '.tmp'),
-// 							mountFolder(connect, 'test')
-// 						];
-// 					}
-// 				}
-// 			},
       dist: {
         options: {
           middleware: function (connect) {
@@ -347,13 +337,6 @@ module.exports = function (grunt) {
 
   });
 
-// 	grunt.registerTask('test', [
-// 		'clean:server',
-// 		'concurrent:test',
-// 		'connect:test',
-// 		'karma'
-// 	]);
-
   grunt.registerTask('build', [
     'clean:dist',
     'sass:dist',
@@ -439,7 +422,7 @@ module.exports = function (grunt) {
 
     if (target === 'live') {
       return grunt.task.run([
-        //'test',
+        'test',
         'default',
 
         'ftp-deploy:www',
@@ -448,7 +431,7 @@ module.exports = function (grunt) {
     }
 
     grunt.task.run([
-      //'test',
+      'test',
       'default',
 
       'copy:dev',

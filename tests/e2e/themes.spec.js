@@ -12,7 +12,7 @@ describe('Themes', function () {
           return done();
         }
 
-        console.log('Async ', arr.length - j);
+        console.log('async ', arr.length - j);
 
         arr[j]();
         j++;

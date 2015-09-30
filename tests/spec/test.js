@@ -6,23 +6,58 @@ describe('Themes', function () {
   var timeout;
   var httpBackend;
 
-  //assuming data1,data2 are canvas data of images of the same size
-  function rmsDiff(data1, data2){
-    var squares = 0;
-    for(var i = 0; i < data1.length; i++) {
-      squares += (data1[i] - data2[i]) * (data1[i] - data2[i]);
+  var async = function(arr, delay, done) {
+    var j = 0;
+    var results = [];
+
+    var runner = function() {
+      setTimeout(function() {
+        if(j === arr.length) {
+          return done(results);
+        }
+
+        console.log('Async ', arr.length - j);
+
+        arr[j](function(res) {
+          results.push(res)
+        });
+        j++;
+        runner();
+      }, delay)
     }
-    var rms = Math.sqrt(squares / data1.length);
-    return rms;
+
+    runner();
+  };
+
+  function getImageData (width, height) {
+    var canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+
+    var context = canvas.getContext('2d');
+    context.clearRect(0, 0, width, height);
+    return context.createImageData(width, height);
   }
+
+  function rmsDiff (a, b) {
+    var diff = 0;
+
+		for (var i = 0; i < a.data.length / 4; i++) {
+			diff += Math.abs(a.data[4 * i + 0] - b.data[4 * i + 0]) / 255;
+			diff += Math.abs(a.data[4 * i + 1] - b.data[4 * i + 1]) / 255;
+			diff += Math.abs(a.data[4 * i + 2] - b.data[4 * i + 2]) / 255;
+		}
+
+		return 100 * diff / (a.width * b.height * 3);
+   }
 
   function getCanvasData(canvas) {
-    //Get the image data from the canvas.
+    // Get the image data from the canvas.
     var ctx = canvas.getContext('2d');
-    return ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    return ctx.getImageData(0, 0, canvas.width, canvas.height);
   }
 
-  function getImageData(img) {
+  function getImgData(img) {
     // Create an empty canvas element
     var canvas = document.createElement('canvas');
     canvas.width = img.width;
@@ -37,45 +72,46 @@ describe('Themes', function () {
 
   function themeTest($a, cb) {
 
-    var theme = $a.getAttribute("href").replace('#/?theme=', '');
-    var path = '/media/themes-orig/bizcardmaker-com-' + theme + '.jpg';
+    return function() {
 
-    window.location.hash = '#/?theme=' + theme;
+      var theme = $a.getAttribute('href').replace('#/?theme=', '');
+      var path = '/media/themes-orig/bizcardmaker-com-' + theme + '.jpg';
 
-    var img = document.createElement('img');
-    img.src = path;
+      var $card = document.querySelector('.card-preview');
 
-    img.addEventListener('load', function() {
+      $card.className = 'card-preview ' + theme;
 
-      console.log('load')
+      var img = document.createElement('img');
+      img.src = path;
+      img.style.maxWidth = 'none';
 
-      scope
-      .generatePicture({}, function(canvas) {
+      document.body.appendChild(img);
 
-        console.log('test done generate')
+      img.addEventListener('load', function() {
 
-        // var rms = rmsDiff(getImageData(img), getCanvasData(canvas));
-        var rms = 1;
-        console.log(rms);
+        scope
+        .generatePicture({}, function(canvas) {
+          img.width = canvas.width;
 
-        expect(rms).to.be.within(0, 2);
+          var rms = rmsDiff(getImgData(img), getCanvasData(canvas));
 
-        cb();
+          console.log(theme, rms);
+
+          cb(rms);
+        });
 
       });
 
-    });
+    }
 
   }
 
-  var j = 0;
-  function cb(len, done) {
-    return function() {
-      j++;
-      if(j === len) {
-        done();
-      }
-    }
+  function addCss(href) {
+    var link = document.createElement('link');
+    link.href = href;
+    link.rel = 'stylesheet';
+
+    document.head.appendChild(link);
   }
 
   beforeEach(module('businessCardMaker'));
@@ -101,11 +137,8 @@ describe('Themes', function () {
     $(document.body).append(element);
 
     // add the css
-    var link = document.createElement('link');
-    link.href = 'styles/main.css';
-    link.rel = 'stylesheet';
-
-    document.head.appendChild(link);
+    addCss('/styles/main.css');
+    addCss('/bower_components/angular-meditor/dist/meditor.css');
 
   }));
 
@@ -115,11 +148,19 @@ describe('Themes', function () {
 
     it('should test all themes', function (done) {
       var $themes = document.querySelectorAll('.themes-row a');
-      var i;
-      //for(i = 0; i < 2; i++) {
-        //themeTest($themes[0], cb(1, done));
-        themeTest($themes[0], done);
-      //}
+      var downloads = [];
+
+      for(var i = 0; i < $themes.length; i++) {
+        downloads.push(themeTest($themes[i]));
+      }
+
+      async(downloads, 1500, function(results) {
+        results.forEach(function(res) {
+          expect(res).to.be.within(0, 5);
+        });
+        done();
+      });
+
     });
 
 
