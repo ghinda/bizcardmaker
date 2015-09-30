@@ -1,11 +1,9 @@
-// Karma configuration
-var dir = __dirname.replace('/tests', '/app/');
-
+// Karma configuratio
 module.exports = function(config) {
   config.set({
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
-    basePath: '',
+    basePath: '..',
 
 
     // frameworks to use
@@ -15,22 +13,54 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      '../app/bower_components/jquery/dist/jquery.js',
-      '../app/bower_components/foundation/js/foundation/foundation.js',
-      '../app/bower_components/foundation/js/foundation/foundation.reveal.js',
-      '../app/bower_components/angular/angular.js',
-      '../app/bower_components/angular-route/angular-route.js',
-      '../app/bower_components/angular-touch/angular-touch.js',
-      '../app/bower_components/angular-meditor/dist/meditor.js',
-      '../app/bower_components/angular-mocks/angular-mocks.js',
-      '../app/bower_components/html2canvas/dist/html2canvas.js',
-      '../app/bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js',
-      '../app/bower_components/jquery.payment/lib/jquery.payment.js',
-      '../app/scripts/**/*.js',
-      '../app/views/*.html',
-      'spec/**/*.js'
+      'app/bower_components/jquery/dist/jquery.js',
+      'app/bower_components/foundation/js/foundation/foundation.js',
+      'app/bower_components/foundation/js/foundation/foundation.reveal.js',
+      'app/bower_components/angular/angular.js',
+      'app/bower_components/angular-route/angular-route.js',
+      'app/bower_components/angular-touch/angular-touch.js',
+      'app/bower_components/angular-meditor/dist/meditor.js',
+      'app/bower_components/angular-mocks/angular-mocks.js',
+      'app/bower_components/html2canvas/dist/html2canvas.js',
+      'app/bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js',
+      'app/bower_components/jquery.payment/lib/jquery.payment.js',
+      'app/scripts/**/*.js',
+      'app/views/*.html',
+      'tests/spec/**/*.js',
+      {
+        pattern: 'app/images/**/*',
+        watched: false,
+        included: false,
+        served: true
+      },
+      {
+        pattern: '.tmp/styles/**/*',
+        watched: false,
+        included: false,
+        served: true
+      },
+      {
+        pattern: 'app/bower_components/**/*',
+        watched: false,
+        included: false,
+        served: true
+      },
+
+      {
+        pattern: 'tests/media/**/*',
+        watched: false,
+        included: false,
+        served: true
+      },
     ],
 
+    proxies: {
+      '/images/': '/base/app/images/',
+      '/styles/': '/base/.tmp/styles/',
+      '/bower_components/': '/base/app/bower_components/',
+
+      '/media/': '/base/tests/media/',
+    },
 
     // list of files to exclude
     exclude: [
@@ -40,12 +70,12 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      '../app/views/*.html': ['ng-html2js']
+      'app/views/*.html': ['ng-html2js']
     },
 
     ngHtml2JsPreprocessor: {
       moduleName: 'templates',
-      stripPrefix: dir
+      stripPrefix: 'app/'
     },
 
     // test results reporter to use
@@ -73,11 +103,27 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: [
+      'Chrome',
+      // 'PhantomJS_Desktop',
+    ],
 
+    customLaunchers: {
+      'PhantomJS_Desktop': {
+        base: 'PhantomJS',
+          options: {
+            viewportSize: {
+              width: 1400,
+              height: 1000
+          }
+        }
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: true,
+
+    browserNoActivityTimeout: 1000000
   });
 };

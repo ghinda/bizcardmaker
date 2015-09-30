@@ -3,19 +3,41 @@
 
 describe('Themes', function () {
 
+  var async = function(arr, delay, done) {
+    var j = 0;
+
+    var runner = function() {
+      setTimeout(function() {
+        if(j === arr.length) {
+          return done();
+        }
+
+        console.log('async ', arr.length - j);
+
+        arr[j]();
+        j++;
+        runner();
+      }, delay)
+    }
+
+    runner();
+  };
+
   var downloadPicture = function(elem) {
 
-    elem.getAttribute('href')
-    .then(function(href) {
-      console.log('Downloading ', href);
-    });
+    return function() {
 
-    elem.click();
+      elem.getAttribute('href')
+      .then(function(href) {
+        console.log('Downloading ', href);
+      });
 
-    element(by.css('#js-download-button')).click();
-    element(by.css('#drop-downloads a[ng-click*="DownloadPicture()"]')).click();
+      elem
+      .click()
+      .then(element(by.css('#js-download-button')).click)
+      .then(element(by.css('#drop-downloads a[ng-click*="DownloadPicture()"]')).click)
 
-    browser.driver.sleep(1800);
+    }
 
   };
 
@@ -27,11 +49,23 @@ describe('Themes', function () {
 
   });
 
-  it('should download a picture of each theme', function () {
+  it('should download a picture of each theme', function (done) {
 
-    element.all(by.css('.themes-row a')).each(downloadPicture);
+    var downloads = [];
 
-    expect(true).toBe(true);
+    element.all(by.css('.themes-row a'))
+    .each(function(elem) {
+      downloads.push(downloadPicture(elem));
+    })
+    .then(function() {
+
+      async(downloads, 1500, function() {
+        expect(true).toBe(true);
+        done();
+      });
+
+    })
+
 
   });
 

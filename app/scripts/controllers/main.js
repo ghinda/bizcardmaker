@@ -327,9 +327,10 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   };
 
   // place business card on a canvas
-  $scope.generatePicture = function(opts) {
+  $scope.generatePicture = function(opts, cb) {
 
     opts = opts || {};
+    cb = cb || function() {};
 
     var deferred = $q.defer();
 
@@ -355,11 +356,15 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     $cardClone.classList.add('card-big');
 
     html2canvas($cardClone, {
-      //letterRendering: true,
-      onrendered: function(canvas) {
-        document.body.removeChild($cardClone);
-        deferred.resolve(canvas);
-      }
+      letterRendering: true
+    })
+    .then(function(canvas) {
+      document.body.removeChild($cardClone);
+
+      deferred.resolve(canvas);
+
+      // callback for Karma
+      cb(canvas);
     });
 
     return deferred.promise;
