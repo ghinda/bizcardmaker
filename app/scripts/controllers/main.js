@@ -13,6 +13,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   model.pdfData = '';
   model.pdfFilename = 'bizcardmaker-com.pdf';
 
+  model.loadingCard = false;
+
   model.storeDefaults = {
     card: {
       name: 'John Doe',
@@ -355,11 +357,14 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // double it up only after the px->em conversion
     $cardClone.classList.add('card-big');
 
+    model.loadingCard = true;
+
     html2canvas($cardClone, {
       letterRendering: true
     })
     .then(function(canvas) {
       document.body.removeChild($cardClone);
+      model.loadingCard = false;
 
       deferred.resolve(canvas);
 

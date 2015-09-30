@@ -28,7 +28,7 @@
 
       <div class="card-edit-container">
 
-        <div class="card-container js-card-container">
+        <div class="card-container js-card-container" ng-class="{ ' state-loading': model.loadingCard }">
           <div class="card-preview {{ model.store.theme }}">
 
             <div class="card-content">
