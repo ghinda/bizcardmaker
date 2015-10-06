@@ -7,7 +7,7 @@
  */
 (function (window) {
     'use strict';
-    
+
     // Retain a reference to the previous global error handler, in case it has been set:
     var originalWindowErrorCallback = window.onerror;
 
@@ -25,6 +25,12 @@
      *                                         firing of the default event handler.
      */
     window.onerror = function customErrorHandler (errorMessage, url, lineNumber, columnNumber, errorObject) {
+        // only track events from our scripts
+        url = url || '';
+        if(url.indexOf('//www.bizcardmaker.com/') === -1) {
+          return;
+        }
+
         // Send error details to Google Analytics, if the library is already available:
         if (typeof ga === 'function') {
             // In case the "errorObject" is available, use its data, else fallback
