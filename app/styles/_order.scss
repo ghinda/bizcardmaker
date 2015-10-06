@@ -101,7 +101,7 @@
 .modal-order .payment-block {
   padding: emCalc(8) emCalc(48);
   margin: 0 emCalc(-48);
-  
+
   font-size: 1em;
 }
 
@@ -268,8 +268,8 @@
 .button-send[disabled],
 .button-send[disabled]:hover {
   background: #ddd;
-  
-  
+
+
   color: #444;
 }
 
@@ -320,7 +320,7 @@
 
 .shipping-rate-suggestion p {
   margin: 0 0 emCalc(8) !important;
-  
+
   font-size: emCalc(16);
 }
 
@@ -578,4 +578,12 @@ input.ng-invalid {
 
 .manual-upload {
   display: none;
+}
+
+/* make the app layout fixed while the modal is shown
+ */
+.modal-opened > .top-bar,
+.modal-opened > .card-maker {
+  position: fixed;
+  width: 100%;
 }

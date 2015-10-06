@@ -460,8 +460,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   model.order = {};
   $scope.OpenOrderModal = function() {
 
-    var $modalOrder = $('#modal-order');
-
     // check if any content is overflowing
     var $content = document.querySelector('.card-content');
 
@@ -517,6 +515,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       model.openedModal = true;
     }
 
+    var $modalOrder = $('#modal-order');
+
     // generate image preview
     $scope.generatePicture().then(function(canvas) {
 
@@ -549,10 +549,14 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   });
 
+  // add a class on the body, when the modal is opened
+  // so we can set position: fixed on the background.
   $(document).on('opened', '[data-reveal]', function () {
-    // scroll to modal top when opened
-    var modal = $(this);
-    modal[0].scrollIntoView(true);
+    $(document.body).addClass('modal-opened');
+  });
+
+  $(document).on('closed', '[data-reveal]', function () {
+    $(document.body).removeClass('modal-opened');
   });
 
 });

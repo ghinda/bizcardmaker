@@ -165,9 +165,13 @@ $card-border: 1px solid darken($white, 10%);
 /* Enlarged card for high-quality generation
 */
 .card-container.card-big {
-  position: relative;
-  z-index: 10;
-  border-width: 0;
+  position: absolute;
+  /* we can't position it offscreen using top, because html2cavas
+   * will come out black.
+   */
+  top: 0;
+  left: 100%;
+  border: 0;
   pointer-events: none;
 
   /* the card is 1.65 ~ 592px
