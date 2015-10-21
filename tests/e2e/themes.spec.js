@@ -43,7 +43,11 @@ describe('Themes', function () {
 
   it('should open the page', function () {
 
-    browser.get('#/');
+    browser.get('/');
+
+    // hide the affiliate modal
+    browser
+    .executeScript('window.localStorage.setItem("bizcardmaker-affiliate-modal", "true");')
 
     expect(true).toBe(true);
 
