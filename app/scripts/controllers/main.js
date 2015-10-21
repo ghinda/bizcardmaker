@@ -4,7 +4,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   var $modalOrder;
   var $modalAffiliate;
   var affiliateStoreKey = 'bizcardmaker-affiliate-modal';
-  var affiliateStore = window.localStorage.getItem(affiliateStoreKey);
+  var affiliateStore = null;
 
   var model = $scope.model = {};
 
@@ -541,6 +541,12 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   };
 
   var showAffiliateModal = function() {
+    // if the affiliate store is not defined yet.
+    // for the e2e tests.
+    if(affiliateStore === null) {
+      affiliateStore = window.localStorage.getItem(affiliateStoreKey);
+    }
+
     if(affiliateStore !== 'true') {
       // open the reveal modal
       $modalAffiliate.foundation('reveal', 'open');

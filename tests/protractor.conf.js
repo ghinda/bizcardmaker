@@ -8,7 +8,7 @@ exports.config = {
   capabilities: {
     'browserName': 'chrome',
 
-    /* 
+    /*
     * Can be used to specify the phantomjs binary path.
     * This can generally be ommitted if you installed phantomjs globally.
     */
@@ -19,7 +19,7 @@ exports.config = {
     * See https://github.com/detro/ghostdriver#faq
     */
     'phantomjs.ghostdriver.cli.args': ['--loglevel=DEBUG'],
-    
+
     chromeOptions: {
       args: [ '--start-maximized' ],
       prefs: {
@@ -35,12 +35,11 @@ exports.config = {
       }
     }
   },
+  framework: 'jasmine2',
   rootElement: '.card-maker',
   jasmineNodeOpts: {
     showColors: true,
-    defaultTimeoutInterval: 3000000,
-    isVerbose : true,
-    includeStackTrace : true
+    defaultTimeoutInterval: 3000000
   }
 }
 
