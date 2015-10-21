@@ -53,6 +53,9 @@ describe('Themes', function () {
 
     var downloads = [];
 
+    // hide the affiliate modal
+    browser.executeScript('window.localStorage.setItem("bizcardmaker-affiliate-modal", "true");');
+
     element.all(by.css('.themes-row a'))
     .each(function(elem) {
       downloads.push(downloadPicture(elem));
