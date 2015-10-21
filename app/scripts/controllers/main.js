@@ -553,7 +553,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   $scope.$on('$includeContentLoaded', function() {
 
     $modalAffiliate = $('#modal-affiliate');
-    $modalOrder = $('#modal-order')
+    $modalOrder = $('#modal-order');
 
     // init foundation plugins
     $(document).foundation();
