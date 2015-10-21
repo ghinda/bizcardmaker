@@ -31,14 +31,10 @@ $alert-border-width: 0;
 
 @import '../bower_components/foundation/scss/foundation';
 
-
-/* Utils
- */
 @import 'utils';
-
-/* App
- */
 @import 'app';
+@import 'affiliate';
+@import 'order';
 
 /* Main
 */
