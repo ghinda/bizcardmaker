@@ -155,7 +155,6 @@ module.exports = function (grunt) {
       dist: {
         files: {
           src: [
-            '<%= config.dist %>/scripts/{,*/}*.js',
             '<%= config.dist %>/styles/{,*/}*.css',
             '<%= config.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
             '<%= config.dist %>/styles/fonts/*'
@@ -165,7 +164,6 @@ module.exports = function (grunt) {
     },
     useminPrepare: {
       html: [
-        //'<%= config.dist %>/{,*/}*.{html,hbs}'
         '<%= config.dist %>/{,*/}index.html'
       ],
       options: {
