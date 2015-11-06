@@ -573,6 +573,10 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       });
     }
 
+
+    affiliateStore = false;
+    showAffiliateModal();
+
   });
 
   // add a class on the body, when the modal is opened
