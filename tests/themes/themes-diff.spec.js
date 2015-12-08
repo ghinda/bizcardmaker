@@ -29,7 +29,7 @@ var compareFile = function(filename, callback) {
   var options = {
     file: diffFile,
     highlightColor: 'red',
-    tolerance: 0.0007
+    tolerance: 0.007
   };
 
   gm().compare(

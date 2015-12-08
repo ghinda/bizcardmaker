@@ -47,7 +47,7 @@ describe('Themes', function () {
 
     // hide the affiliate modal
     browser
-    .executeScript('window.localStorage.setItem("bizcardmaker-affiliate-modal", "true");')
+    .executeScript('window.localStorage.setItem("bizcardmaker-affiliate-hide-modal", "true");')
 
     expect(true).toBe(true);
 

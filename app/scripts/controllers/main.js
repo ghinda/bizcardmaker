@@ -2,9 +2,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   'use strict';
 
   var $modalOrder;
-  var $modalAffiliate;
-  var affiliateStoreKey = 'bizcardmaker-affiliate-modal';
-  var affiliateStore = null;
 
   var model = $scope.model = {};
 
@@ -425,8 +422,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // subscribe to newsletter
     newsletterSubscribe();
 
-    showAffiliateModal();
-
   };
 
   $scope.DownloadPicture = function() {
@@ -460,8 +455,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     // subscribe to newsletter
     newsletterSubscribe();
-
-    showAffiliateModal();
 
   };
 
@@ -540,25 +533,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   };
 
-  var showAffiliateModal = function() {
-    // if the affiliate store is not defined yet.
-    // for the e2e tests.
-    if(affiliateStore === null) {
-      affiliateStore = window.localStorage.getItem(affiliateStoreKey);
-    }
-
-    if(affiliateStore !== 'true') {
-      // open the reveal modal
-      $modalAffiliate.foundation('reveal', 'open');
-
-      affiliateStore = 'true';
-      window.localStorage.setItem(affiliateStoreKey, affiliateStore);
-    }
-  };
-
   $scope.$on('$includeContentLoaded', function() {
 
-    $modalAffiliate = $('#modal-affiliate');
     $modalOrder = $('#modal-order');
 
     // init foundation plugins
@@ -572,10 +548,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
         $cardContent.scrollLeft = 0;
       });
     }
-
-
-    affiliateStore = false;
-    showAffiliateModal();
 
   });
 

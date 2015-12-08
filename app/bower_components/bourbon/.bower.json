@@ -1,14 +1,43 @@
 {
   "name": "bourbon",
-  "homepage": "https://github.com/thoughtbot/bourbon",
-  "version": "3.1.8",
-  "_release": "3.1.8",
+  "description": "A simple and lightweight mixin library for Sass.",
+  "version": "3.2.4",
+  "main": "dist/_bourbon.scss",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "app",
+    "bin",
+    "bourbon.gemspec",
+    "features",
+    "LICENSE.md",
+    "lib",
+    "Gemfile",
+    "Gemfile.lock",
+    "package.json",
+    "Rakefile"
+  ],
+  "keywords": [
+    "css",
+    "mixins",
+    "sass",
+    "scss"
+  ],
+  "authors": [
+    "thoughtbot (http://thoughtbot.com)"
+  ],
+  "homepage": "http://bourbon.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thoughtbot/bourbon.git"
+  },
+  "_release": "3.2.4",
   "_resolution": {
     "type": "version",
-    "tag": "v3.1.8",
-    "commit": "60f0922585104768667b2710358bfc3a8424bff6"
+    "tag": "v3.2.4",
+    "commit": "2ef306b176fd86d78f8d07e78fd4678e2d655aeb"
   },
   "_source": "git://github.com/thoughtbot/bourbon.git",
-  "_target": "3.1.8",
+  "_target": "3.2.4",
   "_originalSource": "bourbon"
 }

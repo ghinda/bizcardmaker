@@ -2,7 +2,7 @@
  */
 
 .modal-affiliate {
-  width: emCalc(740);
+  width: emCalc(760);
   max-width: 100%;
 }
 
@@ -14,16 +14,28 @@
   text-align: center;
 }
 
+.item-affiliate span {
+  display: block;
+  padding-top: 1em;
+}
+
 .item-affiliate a:hover {
   text-decoration: none;
 }
 
-.item-affiliate a:hover span {
-  text-decoration: underline;
+.item-affiliate a:hover strong {
+  border-bottom: 2px solid lighten($color1, 40%);
 }
 
 .item-affiliate a:hover .icon-affiliate {
+  border-color: saturate($color1, 40%);
+  box-shadow: inset 0 0 200px lighten($color1, 52%);
+
   @include transform(scale(1.12));
+}
+
+.item-affiliate a:hover .icon-affiliate:before {
+  color: darken($color1, 20%);
 }
 
 .item-affiliate a:active .icon-affiliate {
@@ -33,14 +45,20 @@
   border-color: #666;
 }
 
+.item-affiliate p {
+  margin: .8em 0;
+
+  color: #666;
+  font-size: .8em;
+}
+
 .icon-affiliate {
   display: block;
   width: 2em;
   height: 2em;
-  margin: 0 auto .28em auto;
+  margin: 0 auto;
   border: .08em solid lighten($color1, 20%);
   border-radius: 100%;
-  @include transition(all .08s ease-out);
 
   color: $color1;
   font-size: 4.4em;
@@ -48,10 +66,38 @@
   text-align: center;
 }
 
+.icon-affiliate,
+.icon-affiliate:before {
+  @include transition(all .08s ease-out);
+}
+
 .icon-website {
   padding-left: .28em;
 }
 
 .affiliate-footer {
-  margin: 1em 0 0;
+  margin-top: 2em;
 }
+
+.affiliate-footer,
+.affiliate-footer label {
+  font-size: 14px;
+  line-height: 1em;
+}
+
+.affiliate-footer li {
+  padding-bottom: 0;
+}
+
+.affiliate-footer li:last-child {
+  text-align: right;
+}
+
+.affiliate-footer input {
+  margin: 0;
+}
+
+.affiliate-footer .fa {
+  color: #333;
+}
+
