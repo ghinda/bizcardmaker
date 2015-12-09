@@ -422,7 +422,6 @@ module.exports = function (grunt) {
     if (target === 'live') {
       return grunt.task.run([
         'test',
-        'default',
 
         'ftp-deploy:www',
         'cloudflare'
@@ -431,7 +430,6 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'test',
-      'default',
 
       'copy:dev',
       'ftp-deploy:development',
