@@ -24,7 +24,7 @@
 
     // get the localstorage value only on the first click.
     // for the e2e tests.
-    if(affiliateStore === null) {
+    if (affiliateStore === null) {
       affiliateStore = window.localStorage.getItem(affiliateStoreKey) || affiliateStoreDefault;
 
       affiliateStore = JSON.parse(affiliateStore);
@@ -36,12 +36,12 @@
     }
 
     // if the store expired, show it again
-    if(affiliateStore.modalHide === true && (Date.now() - affiliateStore.modalTime > expireTime)) {
+    if (affiliateStore.modalHide === true && (Date.now() - affiliateStore.modalTime > expireTime)) {
       affiliateStore.modalHide = false;
       $hideCheckbox.checked = false;
     }
 
-    if(affiliateStore.modalHide !== true) {
+    if (affiliateStore.modalHide !== true) {
       // open the reveal modal
       $($modal).foundation('reveal', 'open');
     }

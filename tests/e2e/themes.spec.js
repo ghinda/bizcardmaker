@@ -3,6 +3,12 @@
 
 describe('Themes', function () {
 
+  var affiliateStoreKey = 'bizcardmaker-affiliate';
+  var affiliateStore = JSON.stringify({
+    modalHide: true,
+    modalTime: Date.now()
+  });
+
   var async = function(arr, delay, done) {
     var j = 0;
 
@@ -45,9 +51,11 @@ describe('Themes', function () {
 
     browser.get('/');
 
+    var script = 'window.localStorage.setItem(\'' + affiliateStoreKey + '\', \'' +  affiliateStore + '\');';
+
     // hide the affiliate modal
     browser
-    .executeScript('window.localStorage.setItem("bizcardmaker-affiliate", "{\"modalHide\": true}");')
+    .executeScript(script)
 
     expect(true).toBe(true);
 
