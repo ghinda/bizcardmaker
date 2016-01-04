@@ -1,4 +1,4 @@
-/* global env
+/* env globals
  */
 
 // local testing urls

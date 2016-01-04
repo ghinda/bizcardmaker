@@ -133,7 +133,6 @@ app.factory('data', function($rootScope, $http, $q) {
 
   return {
     printchompUrl: printchompUrl,
-    env: env,
 
     model: model,
     GetOffers: GetOffers,

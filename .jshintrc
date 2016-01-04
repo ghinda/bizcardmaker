@@ -28,6 +28,9 @@
     "html2canvas": false,
     "Draggabilly": false,
     "Foundation": false,
-    "app": true
+    "app": true,
+    "env": true,
+    "apiUrl": true,
+    "printchompUrl": true
   }
 }

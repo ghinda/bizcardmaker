@@ -87,7 +87,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
   });
 
   // local testing
-  if(data.env === 'local' || data.env === 'dev') {
+  if (env === 'local' || env === 'dev') {
     model.order.city = 'Florence';
     model.order.postcode = '35630';
     model.order.address1 = '110 West College Street';
