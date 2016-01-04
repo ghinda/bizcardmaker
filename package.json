@@ -24,7 +24,7 @@
     "grunt-ng-annotate": "0.3.2",
     "grunt-protractor-runner": "1.2.1",
     "grunt-rev": "0.1.0",
-    "grunt-sass": "1.0.0",
+    "grunt-sass": "1.1.0",
     "grunt-usemin": "2.6.2",
     "karma": "^0.13.15",
     "karma-chai": "^0.1.0",

@@ -12,7 +12,7 @@
 
 .reveal-modal.modal-order {
   overflow: hidden;
-  max-width: emCalc(720);
+  max-width: emCalc(748);
   padding: emCalc(32);
 
   h2 {
@@ -187,7 +187,9 @@
 
     text-align: center;
 
-    @include transition (transform 0.08s ease-in);
+    @include transition-property(transform);
+    @include transition-duration(0.08s);
+    @include transition-timing-function(ease-in);
 
     input {
       display: none;
