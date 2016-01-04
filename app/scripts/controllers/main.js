@@ -318,18 +318,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   };
 
-  var newsletterSubscribe = function() {
-
-    // track email
-    var $content = $('.card-content');
-    var emailAddress = $('.email p', $content).text().trim();
-
-    data.NewsletterSubscribe({
-      email: emailAddress
-    });
-
-  };
-
   // place business card on a canvas
   $scope.generatePicture = function(opts, cb) {
 
@@ -419,9 +407,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     // track pdf download
     ga('send', 'event', 'Download', 'Download PDF', model.store.theme);
 
-    // subscribe to newsletter
-    newsletterSubscribe();
-
   };
 
   $scope.DownloadPicture = function() {
@@ -452,9 +437,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     // track download
     ga('send', 'event', 'Download', 'Download picture', model.store.theme);
-
-    // subscribe to newsletter
-    newsletterSubscribe();
 
   };
 

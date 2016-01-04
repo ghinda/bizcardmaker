@@ -5,35 +5,6 @@
 app.factory('data', function($rootScope, $http, $q) {
   'use strict';
 
-  // local testing urls
-  var printchompUrl = 'http://sandbox.printchomp.com';
-  var apiUrl = 'http://localhost:8080';
-  var env = 'local';
-
-  // dev
-  if(document.domain.indexOf('development.') !== -1) {
-    env = 'dev';
-  }
-
-  // stage
-  if(document.domain.indexOf('staging.') !== -1) {
-    env = 'stage';
-  }
-
-  // live
-  if(document.domain.indexOf('www.') !== -1) {
-    env = 'live';
-  }
-
-  if(env === 'dev') {
-    apiUrl = 'https://dev-bizcardmaker.rhcloud.com';
-  }
-
-  if(env === 'live' || env === 'stage') {
-    apiUrl = 'https://live-bizcardmaker.rhcloud.com';
-    printchompUrl = 'https://printchomp.com';
-  }
-
   // local model
   var model = {
     offers: []
@@ -160,19 +131,6 @@ app.factory('data', function($rootScope, $http, $q) {
     return deferred.promise;
   };
 
-  var NewsletterSubscribe = function(params) {
-    var deferred = $q.defer();
-
-    $http.post(apiUrl + '/newsletter/subscribe', params)
-    .success(function(response) {
-      deferred.resolve(response);
-    }).error(function(err) {
-      deferred.reject(err);
-    });
-
-    return deferred.promise;
-  };
-
   return {
     printchompUrl: printchompUrl,
     env: env,
@@ -180,9 +138,7 @@ app.factory('data', function($rootScope, $http, $q) {
     model: model,
     GetOffers: GetOffers,
     GetShipping: GetShipping,
-    SendOrder: SendOrder,
-
-    NewsletterSubscribe: NewsletterSubscribe
+    SendOrder: SendOrder
   };
 
 });
