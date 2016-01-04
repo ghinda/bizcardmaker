@@ -5,6 +5,12 @@
   'use strict';
 
   var $modal = document.querySelector('#modal-affiliate');
+
+  // if we're on a page without the modal
+  if (!$modal) {
+    return;
+  }
+
   var $hideCheckbox = $modal.querySelector('.js-checkbox-affiliate-hide');
   var affiliateStoreKey = 'bizcardmaker-affiliate';
   var affiliateStore = null;
