@@ -376,23 +376,48 @@ footer {
   }
 }
 
-/* Social buttons
+/* chrome web store button
  */
-
-.social-buttons {
-  display: table;
-  margin: 0 0 emCalc(12);
-  list-style-type: none;
-
-  li {
-    display: table-cell;
-    padding: 0 emCalc(12) 0 0;
-
-    vertical-align: top;
-  }
-
-}
 
 .btn-chrome {
   margin-left: emCalc(-12);
 }
+
+/* promo logonerds
+ */
+
+.promo-logonerds {
+  display: block;
+  padding: .6em;
+  margin: 0 0 .4em -2em;
+  background: #EFF5FF;
+  border-radius: .4em;
+  border: 2px solid transparent;
+}
+
+.promo-logonerds:hover {
+  border-color: $color1;
+  text-decoration: none;
+}
+
+.promo-logonerds h2 {
+  margin: 0 0 .4em;
+
+  color: $color1;
+  font-size: 1.4em;
+}
+
+.promo-logonerds h2 span {
+  color: #333;
+  font-size: .6em;
+}
+
+.promo-logonerds p {
+  margin: 0 0 .8em;
+  font-size: .8em;
+}
+
+.promo-logonerds p:last-child {
+  margin: 0;
+}
+
