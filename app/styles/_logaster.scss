@@ -28,6 +28,10 @@ button.btn-logaster:hover {
   display: block;
 }
 
+.btn-logaster * {
+  pointer-events: none;
+}
+
 .logaster-powered {
   padding-left: 1.6em;
 

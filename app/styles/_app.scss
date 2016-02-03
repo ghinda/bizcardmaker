@@ -520,47 +520,6 @@ $color-resize: lighten($color-handle, 20%);
     color: rgba($white, 0.8);
   }
 
-  .f-dropdown {
-    display: block;
-    min-width: emCalc(360);
-    border-radius: 3px;
-    border-color: $color2;
-
-    box-shadow: 0 2px 5px lighten($black, 60%);
-
-    &:before,
-    &:after {
-      left: auto;
-      right: emCalc(20);
-    }
-
-    &:after {
-      border-bottom-color: $color2;
-      margin-left: 0;
-      margin-right: -1px;
-    }
-
-    li {
-      font-size: emCalc(24);
-    }
-
-    small {
-      color: lighten($black, 20%);
-    }
-
-    a {
-      padding: emCalc(8) emCalc(24);
-
-      color: $black;
-
-      &:hover {
-        //background-color: lighten($color2, 40%);
-        color: $color2;
-        text-decoration: none;
-      }
-    }
-  }
-
   @include breakpoint(baby-bear) {
 
     > li {
@@ -569,7 +528,51 @@ $color-resize: lighten($color-handle, 20%);
     }
 
   }
+}
 
+.download-buttons .f-dropdown {
+  display: block;
+  min-width: emCalc(360);
+  border-radius: 3px;
+  border-color: $color2;
+
+  box-shadow: 0 2px 5px lighten($black, 60%);
+
+  &:before,
+  &:after {
+    left: auto;
+    right: emCalc(20);
+  }
+
+  &:after {
+    border-bottom-color: $color2;
+    margin-left: 0;
+    margin-right: -1px;
+  }
+
+  li {
+    font-size: emCalc(24);
+  }
+
+  small {
+    color: lighten($black, 20%);
+  }
+
+  a {
+    padding: emCalc(8) emCalc(24);
+
+    color: $black;
+
+    &:hover {
+      //background-color: lighten($color2, 40%);
+      color: $color2;
+      text-decoration: none;
+    }
+
+    * {
+      pointer-events: none;
+    }
+  }
 }
 
 .download-form {
