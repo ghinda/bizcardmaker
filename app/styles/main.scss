@@ -33,8 +33,9 @@ $alert-border-width: 0;
 
 @import 'utils';
 @import 'app';
-@import 'affiliate';
 @import 'order';
+@import 'affiliate';
+@import 'logaster';
 
 /* Main
 */
@@ -375,49 +376,3 @@ footer {
     }
   }
 }
-
-/* chrome web store button
- */
-
-.btn-chrome {
-  margin-left: emCalc(-12);
-}
-
-/* promo logonerds
- */
-
-.promo-logonerds {
-  display: block;
-  padding: .6em;
-  margin: 0 0 .4em -2em;
-  background: #EFF5FF;
-  border-radius: .4em;
-  border: 2px solid transparent;
-}
-
-.promo-logonerds:hover {
-  border-color: $color1;
-  text-decoration: none;
-}
-
-.promo-logonerds h2 {
-  margin: 0 0 .4em;
-
-  color: $color1;
-  font-size: 1.4em;
-}
-
-.promo-logonerds .promo-time {
-  color: #333;
-  font-size: .6em;
-}
-
-.promo-logonerds p {
-  margin: 0 0 .8em;
-  font-size: .8em;
-}
-
-.promo-logonerds p:last-child {
-  margin: 0;
-}
-
