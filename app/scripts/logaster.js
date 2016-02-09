@@ -12,7 +12,7 @@
   }
 
   var showLogasterModal = function (e) {
-    if (e && e.target && e.target.className.indexOf('js-btn-logaster') === -1) {
+    if (!window.util.closest(e.target, '.js-btn-logaster')) {
       return;
     }
 

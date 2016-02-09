@@ -23,8 +23,7 @@
   var i;
 
   var showAffiliateModal = function (e) {
-    var attrNgClick = e && e.target.getAttribute('ng-click') || '';
-    if (e && e.target && attrNgClick.indexOf('Download') === -1) {
+    if (!window.util.closest(e.target, '.js-affiliate-modal')) {
       return;
     }
 

@@ -568,10 +568,6 @@ $color-resize: lighten($color-handle, 20%);
       color: $color2;
       text-decoration: none;
     }
-
-    * {
-      pointer-events: none;
-    }
   }
 }
 
