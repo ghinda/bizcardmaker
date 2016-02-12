@@ -185,8 +185,12 @@ article h2 {
 .top-bar .title-area {
   overflow: hidden;
   height: 100%;
-  width: 280px;
   margin-right: emCalc(20);
+  width: emCalc(120);
+
+  @include breakpoint(mama-bear) {
+    width: emCalc(280);
+  }
 
   a {
     background-color: darken($color1, 12%);
@@ -199,12 +203,14 @@ article h2 {
 
 .top-bar .name h1.brand {
   font-weight: 400;
-  font-size: emCalc(20);
+  font-size: emCalc(18);
   letter-spacing: -1px;
 
   img {
-    width: emCalc(20);
+    margin-right: 4px;
+    width: 24px;
     opacity: .9;
+
     vertical-align: baseline;
   }
 
@@ -221,13 +227,6 @@ article h2 {
         opacity: 1;
       }
     }
-  }
-
-  p {
-    display: inline;
-    margin: 0;
-
-    font-size: 1em;
   }
 }
 
@@ -375,5 +374,16 @@ footer {
       left: emCalc(-68);
       top: emCalc(-14);
     }
+  }
+}
+
+/* show jivochat only on large screens
+ */
+
+body div#jivo-iframe-container {
+  display: none !important;
+
+  @include breakpoint(papa-bear) {
+    display: block;
   }
 }

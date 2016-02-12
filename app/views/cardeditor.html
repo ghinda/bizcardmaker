@@ -1,21 +1,15 @@
 <section class="themes-box">
-
-  <div class="row">
-    <div class="large-12 columns">
-      <h2>Choose a design</h2>
-    </div>
-  </div>
+  <h2 class="show-for-medium-up">
+    Choose a design
+  </h2>
 
   <div class="themes-row" id="js-themes">
-
     <a ng-href="#/?theme={{ theme.name }}" class="theme-item {{ theme.name }}-thumb" ng-repeat="theme in model.themes" ng-class="{ active: theme.name === model.store.theme }">
       <div class="theme-preview-container">
         <div class="theme-preview"></div>
       </div>
     </a>
-
   </div>
-
 </section>
 
 <section class="card-editor">

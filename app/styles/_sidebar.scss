@@ -2,9 +2,11 @@
  */
 
 .sidebar-right {
-  float: left;
+  position: relative;
+  z-index: -1;
+  float: right;
   width: emCalc(300);
-  margin-left: emCalc(60);
+  margin-right: emCalc(20);
 }
 
 .instructions-block {

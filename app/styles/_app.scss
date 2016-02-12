@@ -11,9 +11,10 @@
 html,
 body {
   height: 100%;
+  min-height: emCalc(560);
 }
 
-/* Flex layout
+/* flex layout
  */
 .card-maker {
   position: absolute;
@@ -32,18 +33,39 @@ body {
 }
 
 .themes-box {
-  width: 280px;
+  padding-left: emCalc(8);
+  padding-right: emCalc(8);
   overflow-y: scroll;
   overflow-x: hidden;
+  width: emCalc(120);
+
+  @include breakpoint(mama-bear) {
+    width: emCalc(280);
+  }
 }
 
 .card-editor {
-  width: 594px;
   margin-left: 20px;
   padding-bottom: 0;
+  width: emCalc(500);
+
+  font-size: .84em;
+
+  @include breakpoint(mama-bear) {
+    font-size: .92em;
+  }
+
+  @include breakpoint(papa-bear) {
+    width: emCalc(594);
+    font-size: 1em;
+  }
 }
 
-.btn-reset {
+.card-editor > h2 {
+  overflow: hidden;
+}
+
+.button.btn-reset {
   float: right;
   margin: 0;
 }
@@ -56,8 +78,6 @@ body {
 }
 
 .themes-row {
-  padding: 0 emCalc(10);
-  margin: 0;
   white-space: nowrap;
 
   .theme-item {
@@ -113,15 +133,21 @@ body {
 // 3.75 x 2.25 in - full bleed at 96ppi
 .card-container {
   position: relative;
-  margin-bottom: emCalc(20);
-
   width: emCalc(360);
   height: emCalc(216);
-
+  margin-bottom: emCalc(20);
   border: 1px solid darken($white, 10%);
   box-shadow: 0 2px 1px darken($white, 5%);
 
-  font-size: 1.65em;
+  font-size: 1.34em;
+
+  @include breakpoint(mama-bear) {
+    font-size: 1.4em;
+  }
+
+  @include breakpoint(papa-bear) {
+    font-size: 1.65em;
+  }
 }
 
 // padding 0.25 in for bleed and safe zone (.125 + .125)
@@ -152,8 +178,8 @@ body {
   height: 100%;
 }
 
-/* Enlarged card for high-quality generation
-*/
+/* enlarged card for high-quality generation
+ */
 .card-container.card-big {
   position: absolute;
   /* we can't position it offscreen using top, because html2cavas
@@ -427,7 +453,8 @@ $color-resize: lighten($color-handle, 20%);
 */
 .download-buttons {
   overflow: hidden;
-  width: emCalc(360);
+/*   width: emCalc(360); */
+  width: 100%;
   margin: 0;
 
   font-size: 1.65em;
