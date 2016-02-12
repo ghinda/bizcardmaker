@@ -34,6 +34,7 @@ $alert-border-width: 0;
 @import 'utils';
 @import 'app';
 @import 'order';
+@import 'sidebar';
 @import 'affiliate';
 @import 'logaster';
 
@@ -176,23 +177,23 @@ article h2 {
   z-index: 1;
   border-bottom: 1px solid darken($color1, 12%);
 
-  .title-area {
-    overflow: hidden;
-    height: 100%;
-    width: 22%;
-    margin-right: emCalc(20);
-
-    a {
-      background-color: darken($color1, 12%);
-
-      &:hover {
-        background-color: darken($color1, 8%);
-      }
-    }
-  }
-
   section {
     padding: 0;
+  }
+}
+
+.top-bar .title-area {
+  overflow: hidden;
+  height: 100%;
+  width: 280px;
+  margin-right: emCalc(20);
+
+  a {
+    background-color: darken($color1, 12%);
+
+    &:hover {
+      background-color: darken($color1, 8%);
+    }
   }
 }
 

@@ -1,0 +1,48 @@
+/* Right sidebar
+ */
+
+.sidebar-right {
+  float: left;
+  width: emCalc(300);
+  margin-left: emCalc(60);
+}
+
+.instructions-block {
+  margin-top: emCalc(60);
+
+  button {
+    margin: 0;
+  }
+
+  p {
+    position: relative;
+    margin:0 0 emCalc(32);
+
+    font-size: emCalc(14);
+    color: darken($grey, 60%);
+  }
+
+  .icon-instruction {
+    position: absolute;
+    top: emCalc(4);
+    left: emCalc(-24);
+
+    color: darken($grey, 20%);
+    font-size: emCalc(20);
+  }
+
+  .fa-long-arrow-down {
+    @include transform(rotate(-45deg));
+  }
+}
+
+/* safari warning
+ */
+
+.warning-safari {
+  display: none;
+}
+
+.warning-safari-show {
+  display: block;
+}

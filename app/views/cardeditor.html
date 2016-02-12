@@ -19,167 +19,109 @@
 </section>
 
 <section class="card-editor">
+  <h2>
+    Customize your business card
 
-  <div class="row">
+    <button type="button" class="button tiny radius muted btn-reset" ng-click="ResetCard()" title="Undo all the styling changes you made. The text and logo will stay the same.">
+      <i class="fa fa-undo"></i>
+      Reset changes
+    </button>
+  </h2>
 
-    <div class="large-8 columns">
+  <div class="card-container js-card-container" ng-class="{ ' state-loading': model.loadingCard }">
+    <div class="card-preview {{ model.store.theme }}">
 
-      <h2>Customize your business card</h2>
+      <div class="card-content">
 
-      <div class="card-edit-container">
+        <input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
 
-        <div class="card-container js-card-container" ng-class="{ ' state-loading': model.loadingCard }">
-          <div class="card-preview {{ model.store.theme }}">
+        <div class="card-picture" dr-container=".card-content" dr-model="model.store.position.picture" dr-grid="10">
 
-            <div class="card-content">
+          <label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
 
-              <input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
+            <i class="fa fa-picture-o"></i>
+            <span>Upload your logo</span>
 
-              <div class="card-picture" dr-container=".card-content" dr-model="model.store.position.picture" dr-grid="10">
+            <img ng-src="{{ model.cardPicture }}">
 
-                <label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
+          </label>
+        </div>
 
-                  <i class="fa fa-picture-o"></i>
-                  <span>Upload your logo</span>
+        <div class="card-item person" dr-container=".card-content" dr-model="model.store.position.person" dr-grid="10">
 
-                  <img ng-src="{{ model.cardPicture }}">
-
-                </label>
-              </div>
-
-              <div class="card-item person" dr-container=".card-content" dr-model="model.store.position.person" dr-grid="10">
-
-                <p meditor ng-model="model.store.card.name" class="fn"></p>
-                <p meditor ng-model="model.store.card.position" class="title"></p>
-
-              </div>
-
-              <div class="card-item details" dr-container=".card-content" dr-model="model.store.position.details" dr-grid="10">
-
-                <p meditor ng-model="model.store.card.organization" class="org"></p>
-                <p meditor ng-model="model.store.card.location" class="location"></p>
-                <p meditor ng-model="model.store.card.phone" class="tel"></p>
-
-              </div>
-
-              <div class="card-item email" dr-container=".card-content" dr-model="model.store.position.email" dr-grid="10">
-
-                <p meditor ng-model="model.store.card.email"></p>
-
-              </div>
-
-              <div class="card-item url" dr-container=".card-content" dr-model="model.store.position.url" dr-grid="10">
-
-                <p meditor ng-model="model.store.card.url"></p>
-
-              </div>
-
-            </div>
-
-          </div>
+          <p meditor ng-model="model.store.card.name" class="fn"></p>
+          <p meditor ng-model="model.store.card.position" class="title"></p>
 
         </div>
 
-        <ul class="download-buttons">
-          <li>
+        <div class="card-item details" dr-container=".card-content" dr-model="model.store.position.details" dr-grid="10">
 
-            <button type="button" class="button secondary" id="js-order-button" ng-click="OpenOrderModal()">
-              <i class="fa fa-shopping-cart"></i>
-              Cards starting at $9.99!
+          <p meditor ng-model="model.store.card.organization" class="org"></p>
+          <p meditor ng-model="model.store.card.location" class="location"></p>
+          <p meditor ng-model="model.store.card.phone" class="tel"></p>
 
-              <small>Get your business card printed and delivered at the best quality and price! </small>
-            </button>
+        </div>
 
-            <p class="printchomp-text">
-              Powered by
-              <a href="https://www.printchomp.com/" target="_blank">
-                Printchomp
-              </a>
-            </p>
+        <div class="card-item email" dr-container=".card-content" dr-model="model.store.position.email" dr-grid="10">
 
-          </li>
-          <li>
+          <p meditor ng-model="model.store.card.email"></p>
 
-            <a data-dropdown="drop-downloads" class="button muted dropdown" id="js-download-button">
-              <i class="fa fa-arrow-circle-o-down"></i>
-              <span>Download as...</span>
-            </a>
+        </div>
 
-            <ul id="drop-downloads" data-dropdown-content class="f-dropdown">
-              <li>
-                <a ng-click="DownloadPdf()" class="js-newsletter-subscribe js-affiliate-modal">
-                  <i class="fa fa-file-text"></i>
-                  Download as PDF
-                </a>
-              </li>
-              <li>
-                <a ng-click="DownloadPicture()" class="js-newsletter-subscribe js-affiliate-modal">
-                  <i class="fa fa-picture-o"></i>
-                  Download as JPEG
-                </a>
-              </li>
-            </ul>
+        <div class="card-item url" dr-container=".card-content" dr-model="model.store.position.url" dr-grid="10">
 
-          </li>
-        </ul>
+          <p meditor ng-model="model.store.card.url"></p>
 
-      </div>
+        </div>
 
-    </div>
-
-    <div class="large-4 columns show-for-large-up">
-
-      <div class="alert-box warning radius" ng-if="model.isSafari">
-        You seem to be using Safari. If you're having issues editing or downloading your business card, please try using
-
-        <a href="https://www.google.com/chrome/browser/
-" target="_blank"><strong>Google Chrome</strong></a>.
-      </div>
-
-      <div class="instructions-block">
-        <p>
-          <button type="button" class="button tiny radius muted" ng-click="ResetCard()">
-            <i class="fa fa-undo"></i>
-            Reset all the changes you made
-          </button>
-        </p>
-        <p>
-          <i class="fa fa-edit icon-instruction"></i>
-          Click on any of the details on the card, to edit them.
-        </p>
-        <p>
-          <i class="fa fa-font icon-instruction"></i>
-          Double click or select the text to change its style, size or font.
-        </p>
-        <p>
-          <i class="fa fa-arrows icon-instruction"></i>
-          Drag elements around using the dotted borders that show up when placing the mouse over them.
-        </p>
-        <p>
-          <i class="fa fa-long-arrow-down icon-instruction"></i>
-          Resize the picture or text boxes by dragging the bottom right corner of the dotted box.
-        </p>
-      </div>
-
-      <button class="button btn-logaster js-btn-logaster">
-        Create a logo
-
-        <small>
-          Get a great looking logo in minutes
-        </small>
-      </button>
-
-      <div class="logaster-powered">
-        Powered by
-        <a href="https://www.logaster.com/ref/bizcardmaker.html" target="_blank">
-          <img src="images/logo-logaster.png" alt="Logaster">
-        </a>
       </div>
 
     </div>
 
   </div>
 
+  <ul class="download-buttons">
+    <li>
+
+      <button type="button" class="button secondary" id="js-order-button" ng-click="OpenOrderModal()">
+        <i class="fa fa-shopping-cart"></i>
+        Cards starting at $9.99!
+
+        <small>Get your business card printed and delivered at the best quality and price! </small>
+      </button>
+
+      <p class="printchomp-text">
+        Powered by
+        <a href="https://www.printchomp.com/" target="_blank">
+          Printchomp
+        </a>
+      </p>
+
+    </li>
+    <li>
+
+      <a data-dropdown="drop-downloads" class="button muted dropdown" id="js-download-button">
+        <i class="fa fa-arrow-circle-o-down"></i>
+        <span>Download as...</span>
+      </a>
+
+      <ul id="drop-downloads" data-dropdown-content class="f-dropdown">
+        <li>
+          <a ng-click="DownloadPdf()" class="js-newsletter-subscribe js-affiliate-modal">
+            <i class="fa fa-file-text"></i>
+            Download as PDF
+          </a>
+        </li>
+        <li>
+          <a ng-click="DownloadPicture()" class="js-newsletter-subscribe js-affiliate-modal">
+            <i class="fa fa-picture-o"></i>
+            Download as JPEG
+          </a>
+        </li>
+      </ul>
+
+    </li>
+  </ul>
 </section>
 
 <div ng-include="'views/order.html'"></div>

@@ -4,7 +4,8 @@ title: ''
 ---
 
 <div class="card-maker" ng-app="businessCardMaker">
-  <div ng-class="{ 'card-small-screen': root.smallScreen }" ng-view></div>
+  <div class="app-view" ng-view></div>
+  {{> sidebar }}
 </div>
 
 {{> affiliate }}

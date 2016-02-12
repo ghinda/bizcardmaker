@@ -15,39 +15,37 @@ body {
 
 /* Flex layout
  */
-.card-maker,
-.card-maker > div {
-  height: 100%;
-
-  @include clearfix;
-}
-
 .card-maker {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
+  height: 100%;
   padding-top: 52px;
 }
 
+.app-view,
 .themes-box,
 .card-editor {
   float: left;
   height: 100%;
-
-  /* Can't use overflow on card-editor, because it breaks
-   * html2canvas
-   */
 }
 
 .themes-box {
-  width: 22%;
-  overflow: auto;
+  width: 280px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .card-editor {
-  width: 78%;
+  width: 594px;
+  margin-left: 20px;
   padding-bottom: 0;
+}
+
+.btn-reset {
+  float: right;
+  margin: 0;
 }
 
 /* Themes
@@ -111,11 +109,6 @@ body {
 
 /* Editor
 */
-.card-edit-container {
-  @include clearfix;
-}
-
-$card-border: 1px solid darken($white, 10%);
 
 // 3.75 x 2.25 in - full bleed at 96ppi
 .card-container {
@@ -125,7 +118,7 @@ $card-border: 1px solid darken($white, 10%);
   width: emCalc(360);
   height: emCalc(216);
 
-  border: $card-border;
+  border: 1px solid darken($white, 10%);
   box-shadow: 0 2px 1px darken($white, 5%);
 
   font-size: 1.65em;
@@ -142,8 +135,6 @@ $card-border: 1px solid darken($white, 10%);
   // +
   // (350/15/0.25) - additional 25% because of font-size .75em
   padding: emCalc(24 + 6);
-
-  //@include transition(background 0.1s ease-in);
 
   font-size: .75em;
 
@@ -177,6 +168,8 @@ $card-border: 1px solid darken($white, 10%);
   * we want to make the card 1260px for 350dpi, 2.128x in size:
   * 2.128em + (2.128 * 0.65)
   */
+  width: 1260px;
+  height: 756px;
   font-size: 3.5em;
 
   .no-picture {
@@ -196,16 +189,12 @@ $card-border: 1px solid darken($white, 10%);
   }
 }
 
+/* add a border when printing the pdf
+ * TODO remove when priting a single card in the pdf
+ */
 .card-print .card-preview {
-  border: $card-border;
+  border: 1px solid darken($white, 10%);
 }
-
-/* mobile borwser data uri limitation fix
-* Print low-quality
-*/
-/*.card-small-screen .card-big {
-  font-size: .1em;
-}*/
 
 /* Picture upload
 */
@@ -607,37 +596,6 @@ $color-resize: lighten($color-handle, 20%);
 
     width: 50%;
     padding: 0 emCalc(40) 0 emCalc(88);
-  }
-}
-
-/* Right sidebar
- */
-.instructions-block {
-  margin-top: emCalc(44);
-
-  button {
-    margin: 0;
-  }
-
-  p {
-    position: relative;
-    margin:0 0 emCalc(32);
-
-    font-size: emCalc(14);
-    color: darken($grey, 60%);
-  }
-
-  .icon-instruction {
-    position: absolute;
-    top: emCalc(4);
-    left: emCalc(-24);
-
-    color: darken($grey, 20%);
-    font-size: emCalc(20);
-  }
-
-  .fa-long-arrow-down {
-    @include transform(rotate(-45deg));
   }
 }
 
