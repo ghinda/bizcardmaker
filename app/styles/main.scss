@@ -384,6 +384,6 @@ body div#jivo-iframe-container {
   display: none !important;
 
   @include breakpoint(papa-bear) {
-    display: block;
+    display: block !important;
   }
 }
