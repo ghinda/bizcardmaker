@@ -449,9 +449,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     $modalOrder = $('#modal-order');
 
-    // init foundation plugins
-    $(document).foundation();
-
     // hack to prevent automatic scrolling from contenteditable
     var $cardContent = document.querySelector('.card-content');
     if($cardContent) {
@@ -461,16 +458,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
       });
     }
 
-  });
-
-  // add a class on the body, when the modal is opened
-  // so we can set position: fixed on the background.
-  $(document).on('opened', '[data-reveal]', function () {
-    $(document.body).addClass('modal-opened');
-  });
-
-  $(document).on('closed', '[data-reveal]', function () {
-    $(document.body).removeClass('modal-opened');
   });
 
 });
