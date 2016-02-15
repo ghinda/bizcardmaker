@@ -449,6 +449,10 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     $modalOrder = $('#modal-order');
 
+    // init foundation dropdown
+    // for the download buttons
+    $(document).foundation();
+
     // hack to prevent automatic scrolling from contenteditable
     var $cardContent = document.querySelector('.card-content');
     if($cardContent) {
