@@ -5,6 +5,7 @@
   'use strict';
 
   var themeActive = '';
+  var $themeActive;
   var $container = document.querySelector('.themes-box');
 
   function hashChange () {
@@ -19,13 +20,15 @@
     }
 
     // uncheck previous active theme
-    var $themeActive = $container.querySelector('.active');
+    $themeActive = $container.querySelector('.active');
     if ($themeActive) {
       window.util.removeClass($themeActive, 'active');
     }
 
     $themeActive = $container.querySelector('.js-' + themeActive);
-    window.util.addClass($themeActive, 'active');
+    if ($themeActive) {
+      window.util.addClass($themeActive, 'active');
+    }
   }
 
   hashChange();
