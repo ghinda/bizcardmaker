@@ -43,47 +43,47 @@
 
   function hasClass (node, className) {
     if (!node.className) {
-      return false
+      return false;
     }
-    var tempClass = ' ' + node.className + ' '
-    className = ' ' + className + ' '
+    var tempClass = ' ' + node.className + ' ';
+    className = ' ' + className + ' ';
 
     if (tempClass.indexOf(className) !== -1) {
-      return true
+      return true;
     }
 
-    return false
+    return false;
   }
 
   function addClass (node, className) {
     // class is already added
     if (hasClass(node, className)) {
-      return node.className
+      return node.className;
     }
 
     if (node.className) {
-      className = ' ' + className
+      className = ' ' + className;
     }
 
-    node.className += className
+    node.className += className;
 
     return node.className;
-  };
+  }
 
   function removeClass (node, className) {
-    var spaceBefore = ' ' + className
-    var spaceAfter = className + ' '
+    var spaceBefore = ' ' + className;
+    var spaceAfter = className + ' ';
 
     if (node.className.indexOf(spaceBefore) !== -1) {
-      node.className = node.className.replace(spaceBefore, '')
+      node.className = node.className.replace(spaceBefore, '');
     } else if (node.className.indexOf(spaceAfter) !== -1) {
-      node.className = node.className.replace(spaceAfter, '')
+      node.className = node.className.replace(spaceAfter, '');
     } else {
-      node.className = node.className.replace(className, '')
+      node.className = node.className.replace(className, '');
     }
 
     return node.className;
-  };
+  }
 
   window.util = {
     closest: closest,

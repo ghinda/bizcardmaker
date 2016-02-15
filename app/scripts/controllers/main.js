@@ -116,7 +116,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   }
 
   $scope.$on('$locationChangeStart', function(){
-    var theme = $location.search()['theme']
+    var theme = $location.search().theme;
 
     // reset card styles when changing themes
     // except the text data

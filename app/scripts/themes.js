@@ -4,11 +4,11 @@
 (function() {
   'use strict';
 
-  var themeActive = ''
+  var themeActive = '';
   var $container = document.querySelector('.themes-box');
 
   function hashChange () {
-    themeActive = util.hash('theme')
+    themeActive = window.util.hash('theme');
 
     // if no theme in the url
     if (!themeActive) {
@@ -21,11 +21,11 @@
     // uncheck previous active theme
     var $themeActive = $container.querySelector('.active');
     if ($themeActive) {
-      util.removeClass($themeActive, 'active')
+      window.util.removeClass($themeActive, 'active');
     }
 
-    $themeActive = $container.querySelector('.js-' + themeActive)
-    util.addClass($themeActive, 'active')
+    $themeActive = $container.querySelector('.js-' + themeActive);
+    window.util.addClass($themeActive, 'active');
   }
 
   hashChange();
