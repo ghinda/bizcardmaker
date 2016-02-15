@@ -101,20 +101,19 @@ module.exports = function (grunt) {
     },
     assemble: {
       options: {
+        collections: [{
+          name: 'posted',
+          inflection: 'post',
+          sortby: 'posted',
+          sortorder: 'descending'
+        }],
+        data: './themes.json',
         layoutdir: '<%= config.app %>/templates/layouts',
         partials: [
           '<%= config.app %>/templates/partials/**/*.html'
         ]
       },
       server: {
-        options: {
-          collections: [{
-            name: 'posted',
-            inflection: 'post',
-            sortby: 'posted',
-            sortorder: 'descending'
-          }]
-        },
         files: [{
           expand: true,
           cwd: '<%= config.app %>/templates',
@@ -123,14 +122,6 @@ module.exports = function (grunt) {
         }]
       },
       dist: {
-        options: {
-          collections: [{
-            name: 'posted',
-            inflection: 'post',
-            sortby: 'posted',
-            sortorder: 'descending'
-          }]
-        },
         files: [{
           expand: true,
           cwd: '<%= config.app %>/templates',
