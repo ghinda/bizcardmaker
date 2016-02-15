@@ -5,7 +5,7 @@
   'use strict';
 
   var newsletterSubscribe = function(e) {
-    if (!e.target.classList.contains('js-newsletter-subscribe')) {
+    if (!window.util.closest(e.target, '.js-newsletter-subscribe')) {
       return;
     }
 
