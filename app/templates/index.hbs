@@ -12,7 +12,7 @@ title: ''
 
       <div class="themes-row" id="js-themes">
         {{#each themes.list}}
-            <a ng-href="#/?theme={{ this.name }}" class="theme-item {{ this.name }}-thumb">
+            <a href="#/?theme={{ this.name }}" class="theme-item {{ this.name }}-thumb js-{{ this.name }}">
               <div class="theme-preview-container">
                 <div class="theme-preview"></div>
               </div>

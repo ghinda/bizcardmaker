@@ -109,12 +109,11 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     });
   };
 
-  // select the first theme if no theme selected
-  // TODO set first name in HTML
-  var themeName = model.store.theme;
-
-  // TODO get it from HTML?
-  $location.search('theme', themeName);
+  // if we have a stored theme
+  // set it as active.
+  if (model.store.theme) {
+    $location.search('theme', model.store.theme);
+  }
 
   $scope.$on('$locationChangeStart', function(){
     var theme = $location.search()['theme']
