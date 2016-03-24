@@ -49,6 +49,9 @@
     if (affiliateStore.modalHide !== true) {
       // open the reveal modal
       $($modal).foundation('reveal', 'open');
+
+      // track affiliate modal views
+      ga('send', 'event', 'Affiliate', 'View affiliate modal');
     }
   };
 
