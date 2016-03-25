@@ -8,7 +8,7 @@ window.GeneratePdf = (function () {
     card: [ 3.75, 2.25 ],
     margin: 0.35,
     trim: 0.125
-  }
+  };
 
   var cardWidth = config.card[0];
   var cardHeight = config.card[1];
