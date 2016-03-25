@@ -8,6 +8,11 @@
   var $themeActive;
   var $container = document.querySelector('.themes-box');
 
+  // if we're on a page without the themes
+  if (!$container) {
+    return;
+  }
+
   function hashChange () {
     themeActive = window.util.hash('theme');
 
