@@ -215,13 +215,6 @@ body {
   }
 }
 
-/* add a border when printing the pdf
- * TODO remove when priting a single card in the pdf
- */
-.card-print .card-preview {
-  border: 1px solid darken($white, 10%);
-}
-
 /* Picture upload
 */
 .file-upload {
