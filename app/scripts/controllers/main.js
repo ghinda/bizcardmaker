@@ -249,9 +249,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   };
 
   // place business card on a canvas
-  $scope.generatePicture = function(opts, cb) {
-
-    opts = opts || {};
+  $scope.generatePicture = function(cb) {
     cb = cb || function() {};
 
     var deferred = $q.defer();
@@ -261,11 +259,6 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
     var $cardClone = document.querySelector('.js-card-container').cloneNode(true);
     $cardClone.classList.add('card-invisible');
-
-    // when generating pdfs
-    if(opts.pdf) {
-      $cardClone.classList.add('card-print');
-    }
 
     // add the card to the dom before converting to em
     // so we can getComputedStyle
@@ -297,46 +290,14 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
   };
 
   $scope.DownloadPdf = function() {
-
-    $scope.generatePicture({
-      pdf: true
-    })
+    $scope.generatePicture()
     .then(function(canvas) {
-
-      var doc = new jsPDF();
-
       var imgData = canvas.toDataURL('image/jpeg', 1.0);
-
-      // full bleed size 3.75 x 2.25 (in) / 95.25 x 57.15 (mm)
-
-      var width = 95.25,
-        height = 57.15;
-
-      // place images on page
-      for(var i = 0; i < 2; i++) {
-        for(var j = 0; j < 5; j++) {
-          doc.addImage(imgData, 'JPEG', 4 + i * (width + 0.5), 4 + j * (height + 0.5), width, height);
-        }
-      }
-
-      //doc.save(model.pdfFilename);
-
-      // save using saveAs to work-around safari issues
-      // https://github.com/MrRio/jsPDF/issues/303
-      // https://github.com/MrRio/jsPDF/issues/196
-
-      // saveAs is global from FileSaver.js
-      // FileSaver is included in jsPdf
-      saveAs(
-        doc.output('blob'),
-        model.pdfFilename
-      );
-
+      window.GeneratePdf(model.pdfFilename, imgData);
     });
 
     // track pdf download
     ga('send', 'event', 'Download', 'Download PDF', model.store.theme);
-
   };
 
   $scope.DownloadPicture = function() {
