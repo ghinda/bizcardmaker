@@ -446,31 +446,10 @@ $color-resize: lighten($color-handle, 20%);
 */
 .download-buttons {
   overflow: hidden;
-/*   width: emCalc(360); */
   width: 100%;
   margin: 0;
 
   font-size: 1.65em;
-
-  .printchomp-text {
-    display: block;
-    margin: emCalc(8) 0 0 emCalc(80);
-
-    color: #479CAB;
-    font-size: emCalc(11);
-
-    a {
-      display: inline-block;
-      width: 100px;
-      height: 33px;
-      margin-left: emCalc(8);
-      overflow: hidden;
-      background: url(../images/printchomp-logo.png);
-
-      text-indent: -100%;
-      vertical-align: middle;
-    }
-  }
 
   > li {
     display: block;
@@ -479,7 +458,7 @@ $color-resize: lighten($color-handle, 20%);
 
     font-size: emCalc(12);
 
-    &:first-child {
+    &.order-btn {
       width: 60%;
     }
 
@@ -536,6 +515,28 @@ $color-resize: lighten($color-handle, 20%);
       width: 50%;
     }
 
+  }
+}
+
+.partner-text {
+  display: block;
+  margin: emCalc(8) 0 0 emCalc(80);
+
+  color: #479CAB;
+  font-size: emCalc(11);
+
+  a {
+    display: inline-block;
+    width: 100px;
+    height: 33px;
+    margin-left: emCalc(8);
+    overflow: hidden;
+    background-image: url(../images/printchomp-logo.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    text-indent: -100%;
+    vertical-align: middle;
   }
 }
 
