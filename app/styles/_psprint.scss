@@ -1,0 +1,78 @@
+/* printglobe ab test
+ */
+
+li.order-btn-psprint {
+  display: none;
+}
+
+.test-psprint .order-btn-printchomp {
+  display: none;
+}
+
+.test-psprint .order-btn-psprint {
+  display: block;
+}
+
+.test-psprint .order-btn .button {
+  padding-left: 16px;
+  padding-right: 4px;
+}
+
+.test-psprint .partner-text {
+  margin-left: 48px;
+
+  color: #333;
+  font-size: 12px;
+}
+
+.test-psprint .partner-text a {
+  width: 140px;
+  height: 21px;
+  background-image: url(../images/psprint-logo.png);
+}
+
+li.order-btn,
+.download-buttons {
+  overflow: visible;
+}
+
+.order-btn .button {
+  position: relative;
+}
+
+.button-promo {
+  position: absolute;
+  top: -12px;;
+  left: -8px;
+  height: 24px;
+  padding: 4px;
+  background: #EB278D;
+
+  font-size: 12px;
+}
+
+.button-promo:before {
+  content: '';
+  display: block;
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  left: 0;
+  top: 24px;
+  border-width: 8px 0 0 8px;
+  border-style: solid;
+  border-color: #941457 transparent;
+}
+
+.button-promo:after {
+  content: '';
+  display: block;
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  right: -12px;
+  top: 0;
+  border-width: 12px 0 12px 12px;
+  border-style: solid;
+  border-color: transparent #EB278D;
+}

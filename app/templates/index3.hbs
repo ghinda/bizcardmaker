@@ -1,0 +1,32 @@
+---
+layout: page.html
+title: ''
+---
+
+<div class="card-maker test-psprint" ng-app="businessCardMaker">
+  <div class="app-view">
+    <section class="themes-box">
+      <h2 class="show-for-medium-up">
+        Choose a design
+      </h2>
+
+      <div class="themes-row" id="js-themes">
+        {{#each themes.list}}
+            <a href="#/?theme={{ this.name }}" class="theme-item {{ this.name }}-thumb js-{{ this.name }}">
+              <div class="theme-preview-container">
+                <div class="theme-preview"></div>
+              </div>
+            </a>
+        {{/each}}
+
+      </div>
+    </section>
+
+    <section class="card-editor" ng-controller="MainCtrl" ng-include="'views/cardeditor.html'"></section>
+  </div>
+
+  {{> sidebar }}
+</div>
+
+{{> affiliate }}
+{{> logaster }}
