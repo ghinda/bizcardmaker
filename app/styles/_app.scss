@@ -518,6 +518,14 @@ $color-resize: lighten($color-handle, 20%);
   }
 }
 
+.order-btn .button {
+  white-space: nowrap;
+}
+
+.order-btn small {
+  white-space: normal;
+}
+
 .partner-text {
   display: block;
   margin: emCalc(8) 0 0 emCalc(80);
