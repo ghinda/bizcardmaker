@@ -43,5 +43,10 @@ length:j))}}}var x=f('__utmx'),xx=f('__utmxx'),h=l.hash;d.write(
 '&utmx='+(x?x:'')+'&utmxx='+(xx?xx:'')+'&utmxtime='+new Date().
 valueOf()+(h?'&utmxhash='+escape(h.substr(1)):'')+
 '" type="text/javascript" charset="utf-8"><\/sc'+'ript>')})();
-</script><script>utmx('url','A/B');</script>
+</script>
+<script>
+if (window.location.host.indexOf('localhost') === -1) {
+  utmx('url','A/B');
+}
+</script>
 <!-- End of Google Analytics Content Experiment code -->
