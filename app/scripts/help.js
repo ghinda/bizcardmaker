@@ -10,9 +10,9 @@
     return;
   }
 
-  var storeKey = 'bizcardmakerHideHelpPopup'
+  var storeKey = 'bizcardmakerHideHelpPopup';
   var activePopupClass = 'popup-help-show';
-  var hidePopup = window.localStorage.getItem(storeKey) || false
+  var hidePopup = window.localStorage.getItem(storeKey) || false;
 
   var toggleHelpPopup = function (e) {
     if (
@@ -23,18 +23,18 @@
     }
 
     if (window.util.hasClass(document.body, activePopupClass)) {
-      window.util.removeClass(document.body, activePopupClass)
+      window.util.removeClass(document.body, activePopupClass);
       // don't show the popup again once it's closed
-      window.localStorage.setItem(storeKey, 'true')
+      window.localStorage.setItem(storeKey, 'true');
     } else {
-      window.util.addClass(document.body, activePopupClass)
+      window.util.addClass(document.body, activePopupClass);
     }
   };
 
   if (!hidePopup) {
     toggleHelpPopup({
       target: $btnHelp
-    })
+    });
   }
 
   document.body.addEventListener('click', toggleHelpPopup);

@@ -4,7 +4,12 @@
 .sidebar-right {
   float: right;
   width: emCalc(300);
+  padding-top: 4em;
   margin-right: emCalc(20);
+}
+
+.sidebar-banner {
+  margin-bottom: 4em;
 }
 
 /* safari warning
