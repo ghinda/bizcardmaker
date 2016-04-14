@@ -4,36 +4,12 @@
 .sidebar-right {
   float: right;
   width: emCalc(300);
+  padding-top: 4em;
   margin-right: emCalc(20);
 }
 
-.instructions-block {
-  margin-top: emCalc(60);
-
-  button {
-    margin: 0;
-  }
-
-  p {
-    position: relative;
-    margin:0 0 emCalc(32);
-
-    font-size: emCalc(14);
-    color: darken($grey, 60%);
-  }
-
-  .icon-instruction {
-    position: absolute;
-    top: emCalc(4);
-    left: emCalc(-24);
-
-    color: darken($grey, 20%);
-    font-size: emCalc(20);
-  }
-
-  .fa-long-arrow-down {
-    @include transform(rotate(-45deg));
-  }
+.sidebar-banner {
+  margin-bottom: 4em;
 }
 
 /* safari warning

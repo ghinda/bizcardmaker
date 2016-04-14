@@ -5,7 +5,6 @@
   'use strict';
 
   var init = function() {
-
   };
   
   Foundation.global.namespace = '';
@@ -18,5 +17,4 @@
   });
 
   $(document).ready(init);
-
 })();
