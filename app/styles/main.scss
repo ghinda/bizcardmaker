@@ -35,6 +35,8 @@ $alert-border-width: 0;
 @import 'app';
 @import 'order';
 @import 'sidebar';
+@import 'help';
+
 @import 'affiliate';
 @import 'logaster';
 @import 'printglobe';
@@ -261,10 +263,9 @@ article h2 {
   vertical-align: middle;
 }
 
-.top-menu .fa-twitter {
+.top-menu a > .fa {
   font-size: emCalc(36);
   line-height: 1em;
-
   vertical-align: middle;
 }
 
