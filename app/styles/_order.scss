@@ -97,7 +97,7 @@
 
 }
 
-.modal-order .alert-box,
+.modal-order .callout,
 .modal-order .payment-block {
   padding: emCalc(8) emCalc(48);
   margin: 0 emCalc(-48);
@@ -105,7 +105,7 @@
   font-size: 1em;
 }
 
-.modal-order .alert-box p {
+.modal-order .callout p {
   margin: 0;
 }
 
@@ -309,7 +309,7 @@
   display: block;
 }
 
-.alert-box.shipping-rate-suggestion {
+.callout.shipping-rate-suggestion {
   background-color: #f1c40f;
 
   color: #333;
