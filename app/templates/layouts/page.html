@@ -53,20 +53,6 @@
       {{/if}}
     </div>
 
-    <!--<ul class="title-area">
-      <li class="name">
-
-        <h1 class="brand">
-          <a href="/">
-            <img src="/images/bizcardmaker-logo.png" alt="Business Card Maker Logo">
-
-            Business Card Maker
-          </a>
-        </h1>
-
-      </li>
-    </ul>-->
-
     <div class="top-bar-right show-for-medium-up">
       <ul class="menu">
         <li>
@@ -83,11 +69,13 @@
         <li>
           <a href="/contact.html">Contact</a>
         </li>
-        <li>
-          <a class="btn-nav-help btn-nav-icon">
-            <i class="fa fa-question-circle"></i>
-          </a>
-        </li>
+        {{#is title ''}}
+          <li>
+            <a class="btn-nav-help btn-nav-icon">
+              <i class="fa fa-question-circle"></i>
+            </a>
+          </li>
+        {{/is}}
         <li>
           <a href="https://twitter.com/bizcardmakercom" target="_blank" class="btn-nav-icon">
             <i class="fa fa-twitter"></i>
