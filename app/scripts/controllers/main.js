@@ -406,8 +406,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   };
 
-  var allTemplates = 2
-  var loadedTemplates = 0
+  var allTemplates = 2;
+  var loadedTemplates = 0;
   $scope.$on('$includeContentLoaded', function() {
     // when loading all the includes
     loadedTemplates++;
