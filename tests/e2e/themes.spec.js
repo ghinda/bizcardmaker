@@ -30,9 +30,7 @@ describe('Themes', function () {
   };
 
   var downloadPicture = function(elem) {
-
     return function() {
-
       elem.getAttribute('href')
       .then(function(href) {
         console.log('Downloading ', href);
@@ -40,11 +38,11 @@ describe('Themes', function () {
 
       elem
       .click()
-      .then(element(by.css('#js-download-button')).click)
-      .then(element(by.css('#drop-downloads a[ng-click*="DownloadPicture()"]')).click)
-
+      .then(element(by.css('.js-download-dropdown-btn')).click)
+      .then(element(by.css('.dropdown-download-files button[ng-click*="DownloadPicture()"]')).click)
+      // close the dropdown
+      .then(element(by.css('.js-download-dropdown-btn')).click);
     }
-
   };
 
   it('should open the page', function () {

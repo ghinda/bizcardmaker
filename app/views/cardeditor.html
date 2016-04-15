@@ -143,12 +143,12 @@
   </li>
   <li>
 
-    <a data-toggle="drop-downloads" class="button muted button-download float-right">
+    <a data-toggle="drop-downloads" class="button muted button-download js-download-dropdown-btn float-right">
       <i class="fa fa-arrow-circle-o-down"></i>
       <span>Download as...</span>
     </a>
 
-    <div id="drop-downloads" class="dropdown-pane bottom dropdown-download-files" data-dropdown>
+    <div id="drop-downloads" class="dropdown-pane bottom dropdown-download-files" data-dropdown data-close-on-click="true">
       <button type="button" ng-click="DownloadPdf()" class="js-newsletter-subscribe js-affiliate-modal button-download-file">
         <i class="fa fa-file-text"></i>
         Download as PDF
