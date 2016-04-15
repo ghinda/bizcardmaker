@@ -111,7 +111,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
   $scope.SendOrder = function(event) {
 
-    var $modalOrder = $('#modal-order');
+    var $modalOrder = $('.modal-order');
 
     // scroll to modal top
     var scrollToModal = function() {

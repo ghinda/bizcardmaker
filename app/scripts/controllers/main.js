@@ -394,7 +394,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     $scope.generatePicture().then(function(canvas) {
 
       // open the reveal modal
-      $modalOrder.foundation('reveal', 'open');
+      $modalOrder.foundation('open');
 
       var jpegUrl = canvas.toDataURL('image/jpeg');
       model.imagePreview = jpegUrl;
@@ -414,6 +414,8 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     if (loadedTemplates !== allTemplates) {
       return;
     }
+
+    $modalOrder = $('.modal-order');
 
     // init foundation plugins - modal and dropdown
     $(document.querySelector('.card-editor')).foundation();

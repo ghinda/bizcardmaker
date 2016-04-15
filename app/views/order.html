@@ -1,4 +1,4 @@
-<div id="modal-order" class="reveal-modal modal-order" ng-controller="OrderCtrl" data-reveal>
+<div class="reveal modal-order" ng-controller="OrderCtrl" data-reveal>
 
   <div class="order-loading" ng-show="model.orderLoading">
 
@@ -22,7 +22,9 @@
 
   </div>
 
-  <a class="close-reveal-modal">&#215;</a>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
 
   <h2>
     Order Cards
@@ -35,7 +37,7 @@
 
     <div class="large-12 columns">
 
-      <div class="callout warning" ng-show="model.error">
+      <div class="callout alert" ng-show="model.error">
 
         <strong>There was an error with your order. </strong>
         <p ng-bind="model.error"></p>
@@ -76,7 +78,7 @@
               <span ng-bind="offer.details"></span>
             </p>
 
-            <span class="button secondary small radius btn-choose-offer">
+            <span class="button secondary small btn-choose-offer">
               Choose Offer
             </span>
 
@@ -609,7 +611,7 @@
 
         </div>
 
-        <button type="submit" class="button radius button-send js-newsletter-subscribe" ng-disabled="!model.offers.length || model.shippingRatesLoading || model.shippingAddressError">
+        <button type="submit" class="button large button-send js-newsletter-subscribe" ng-disabled="!model.offers.length || model.shippingRatesLoading || model.shippingAddressError">
 
           <i class="fa fa-shopping-cart"></i>
           Send Order

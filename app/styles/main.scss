@@ -1,23 +1,17 @@
 /* bizcardmaker.com
- * Website
+ * everything styles
  */
 
-/* Bourbon
+/* bourbon
  */
 @import '../bower_components/bourbon/app/assets/stylesheets/bourbon';
 
-/* Globals
+/* variables
  */
 $color1: #2854a1;
 $color2: lighten(saturate($color1, 40%), 20%);
 $white: #fff;
 $grey: #e6e6e6;
-
-/* Foundation
- */
-
-@import '../bower_components/foundation-sites/scss/foundation';
-@include foundation-everything();
 
 @import 'utils';
 @import 'website';
