@@ -99,6 +99,13 @@ a {
   }
 }
 
+.reveal {
+  border: 0;
+  border-radius: 3px;
+
+  box-shadow: 0 0 .8em rgba(0,0,0,.6);
+}
+
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;

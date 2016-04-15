@@ -5,18 +5,8 @@ var app = angular.module('businessCardMaker', [
   'ngRoute',
   'ngTouch',
   'angular-meditor'
-]).config(function($routeProvider) {
+]).config(function() {
   'use strict';
-
-  $routeProvider
-  .when('/', {
-    templateUrl: 'views/cardeditor.html',
-    controller: 'MainCtrl',
-    reloadOnSearch: false
-  }).otherwise({
-    redirectTo: '/'
-  });
-
 });
 
 app.run(function($rootScope){

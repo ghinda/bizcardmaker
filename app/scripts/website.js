@@ -4,17 +4,12 @@
 (function() {
   'use strict';
 
-  var init = function() {
-  };
-  
-  Foundation.global.namespace = '';
+  $(document).foundation();
 
   // foundation properties
-  $(document).foundation({
-    reveal: {
-      animation_speed: 80
-    }
-  });
-
-  $(document).ready(init);
+//   $(document).foundation({
+//     reveal: {
+//       animation_speed: 80
+//     }
+//   });
 })();
