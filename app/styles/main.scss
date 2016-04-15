@@ -15,19 +15,6 @@ $grey: #e6e6e6;
 
 /* Foundation
  */
-/* $primary-color: shade($color1, 5%); */
-/* $secondary-color: $color2; */
-$button-border-width: 0px;
-/*
-$topbar-bg: $color1;
-$topbar-height: 3.25rem;
-
-$topbar-link-color: tint($color1, 70%);
-$topbar-link-weight: bold;
-$topbar-link-bg-hover: $primary-color;
-$topbar-link-bg-active: darken($topbar-link-bg-hover, 10%);*/
-
-$alert-border-width: 0;
 
 @import '../bower_components/foundation-sites/scss/foundation';
 @include foundation-everything();

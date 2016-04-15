@@ -6,7 +6,7 @@
 *,
 *:after,
 *:before {
-  @include box-sizing(border-box);
+  box-sizing: border-box;
 }
 
 body {
@@ -159,7 +159,6 @@ article h2 {
   position: relative;
   z-index: 1;
   padding: 0;
-/*   border-bottom: 1px solid darken($color1, 12%); */
   background: $color1;
 }
 
@@ -253,7 +252,7 @@ article h2 {
 
   color: lighten($color1, 48%);
   font-size: 0.75em;
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
   text-transform: uppercase;
 }

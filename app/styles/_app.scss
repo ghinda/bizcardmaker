@@ -383,7 +383,7 @@ $color-resize: lighten($color-handle, 20%);
   z-index: 0;
   opacity: 0;
 
-  @include box-sizing(content-box);
+  box-sizing: content-box;
   display: block;
   width: 100%;
   height: 100%;
@@ -483,19 +483,6 @@ $color-resize: lighten($color-handle, 20%);
     vertical-align: top;
   }
 
-  .button.dropdown {
-    min-height: 0;
-    border: 0;
-    background-color: $grey;
-    box-shadow: none;
-
-    font-size: emCalc(12);
-
-    &:after {
-      border-color: #444 transparent transparent;
-    }
-  }
-
   .fa {
     width: emCalc(20);
   }
@@ -516,6 +503,60 @@ $color-resize: lighten($color-handle, 20%);
     }
 
   }
+}
+
+.button.button-download {
+  position: relative;
+  width: 100%;
+  min-height: auto;
+  padding: 1em 2em;
+  background-color: $grey;
+  box-shadow: none;
+
+  font-size: emCalc(12);
+
+  &:after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 2em;
+    display: block;
+    margin-top: -3px;
+    border-width: 5px 5px 0;
+    border-style: solid;
+    border-color: #444 transparent transparent;
+  }
+}
+
+.dropdown-download-files {
+  padding: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 4px rgba(0,0,0,.2);
+}
+
+.dropdown-download-files:after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 1.68em;
+  display: block;
+  border-width: 0 5px 5px;
+  border-style: solid;
+  border-color: transparent transparent #fff;
+}
+
+.button-download-file {
+  display: block;
+  width: 100%;
+  padding: .6em 1em;
+
+  font-size: 1.32em;
+}
+
+.button-download-file:hover {
+  background: #efefef;
+
+  color: $color2;
 }
 
 .order-btn .button {

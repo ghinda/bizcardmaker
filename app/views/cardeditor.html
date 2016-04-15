@@ -121,25 +121,22 @@
   </li>
   <li>
 
-    <a data-toggle="drop-downloads" class="button float-right">
+    <a data-toggle="drop-downloads" class="button muted button-download float-right">
       <i class="fa fa-arrow-circle-o-down"></i>
       <span>Download as...</span>
     </a>
 
-    <ul id="drop-downloads" class="dropdown-pane bottom" data-dropdown>
-      <li>
-        <a ng-click="DownloadPdf()" class="js-newsletter-subscribe js-affiliate-modal">
-          <i class="fa fa-file-text"></i>
-          Download as PDF
-        </a>
-      </li>
-      <li>
-        <a ng-click="DownloadPicture()" class="js-newsletter-subscribe js-affiliate-modal">
-          <i class="fa fa-picture-o"></i>
-          Download as JPEG
-        </a>
-      </li>
-    </ul>
+    <div id="drop-downloads" class="dropdown-pane bottom dropdown-download-files" data-dropdown>
+      <button type="button" ng-click="DownloadPdf()" class="js-newsletter-subscribe js-affiliate-modal button-download-file">
+        <i class="fa fa-file-text"></i>
+        Download as PDF
+      </button>
+
+      <button type="button" ng-click="DownloadPicture()" class="js-newsletter-subscribe js-affiliate-modal button-download-file">
+        <i class="fa fa-picture-o"></i>
+        Download as JPEG
+      </button>
+    </div>
 
   </li>
 </ul>
