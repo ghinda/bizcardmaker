@@ -226,11 +226,6 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
       model.error = '';
       model.orderSuccess = true;
 
-      // hide the modal in 5s
-      $timeout(function() {
-        $modalOrder.foundation('reveal', 'close');
-      }, 5000);
-
       // track analytics
       ga('send', 'event', 'Orders', 'Successful order', model.orderData.offer.id);
     }, function(err) {
