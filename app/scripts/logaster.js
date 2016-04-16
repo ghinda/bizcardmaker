@@ -17,7 +17,7 @@
     }
 
     // open the reveal modal
-    $($modal).foundation('reveal', 'open');
+    $($modal).foundation('open');
   };
 
   var closeModal = function (e) {
@@ -25,7 +25,7 @@
       return;
     }
 
-    $($modal).foundation('reveal', 'close');
+    $($modal).foundation('close');
     e.preventDefault();
   };
 

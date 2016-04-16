@@ -54,11 +54,7 @@
   line-height: 1em;
 }
 
-.affiliate-footer li {
-  padding-bottom: 0;
-}
-
-.affiliate-footer li:last-child {
+.affiliate-footer .column:last-child {
   text-align: right;
 }
 
@@ -68,8 +64,4 @@
 
 .affiliate-footer .fa {
   color: #333;
-}
-
-.affiliate-track {
-  position: absolute;
 }

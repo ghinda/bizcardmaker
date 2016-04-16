@@ -394,7 +394,7 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
     $scope.generatePicture().then(function(canvas) {
 
       // open the reveal modal
-      $modalOrder.foundation('reveal', 'open');
+      $modalOrder.foundation('open');
 
       var jpegUrl = canvas.toDataURL('image/jpeg');
       model.imagePreview = jpegUrl;
@@ -406,13 +406,19 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   };
 
+  var allTemplates = 2;
+  var loadedTemplates = 0;
   $scope.$on('$includeContentLoaded', function() {
+    // when loading all the includes
+    loadedTemplates++;
+    if (loadedTemplates !== allTemplates) {
+      return;
+    }
 
-    $modalOrder = $('#modal-order');
+    $modalOrder = $('.modal-order');
 
-    // init foundation dropdown
-    // for the download buttons
-    $(document).foundation();
+    // init foundation plugins - modal and dropdown
+    $(document.querySelector('.card-editor')).foundation();
 
     // hack to prevent automatic scrolling from contenteditable
     var $cardContent = document.querySelector('.card-content');

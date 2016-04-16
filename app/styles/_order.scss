@@ -10,8 +10,9 @@
   text-align: center;
 }
 
-.reveal-modal.modal-order {
+.reveal.modal-order {
   overflow: hidden;
+  width: 100%;
   max-width: emCalc(748);
   padding: emCalc(32);
 
@@ -97,7 +98,7 @@
 
 }
 
-.modal-order .alert-box,
+.modal-order .callout,
 .modal-order .payment-block {
   padding: emCalc(8) emCalc(48);
   margin: 0 emCalc(-48);
@@ -105,7 +106,7 @@
   font-size: 1em;
 }
 
-.modal-order .alert-box p {
+.modal-order .callout p {
   margin: 0;
 }
 
@@ -309,7 +310,7 @@
   display: block;
 }
 
-.alert-box.shipping-rate-suggestion {
+.callout.shipping-rate-suggestion {
   background-color: #f1c40f;
 
   color: #333;
@@ -510,12 +511,6 @@
   }
 }
 
-.reveal-modal .close-reveal-modal {
-  z-index: 100;
-
-  color: #555;
-}
-
 .order-success {
   z-index: 99;
 }
@@ -566,14 +561,6 @@ body input.cc-number {
 input.ng-invalid {
   border: 1px solid #c0392b !important;
 }
-
-/* fix choppyness issues with modal and joyride overlays
- */
-.joyride-modal-bg,
-.reveal-modal-bg {
-  @include transform(translate3d(0,0,0));
-}
-
 
 /* Manual upload button
  */

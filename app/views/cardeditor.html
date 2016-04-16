@@ -1,7 +1,7 @@
 <h2>
   Customize your business card
 
-  <button type="button" class="button tiny radius muted btn-reset" ng-click="ResetCard()" title="Undo all the styling changes you made. The text and logo will stay the same.">
+  <button type="button" class="button small muted btn-reset" ng-click="ResetCard()" title="Undo all the styling changes you made. The text and logo will stay the same.">
     <i class="fa fa-undo"></i>
     Reset changes
   </button>
@@ -79,7 +79,7 @@
   </li>
   <li class="order-btn order-btn-printglobe">
 
-    <a href="http://www.shareasale.com/r.cfm?u=1215865&b=543588&m=50699&afftrack=&urllink=www%2Eprintglobe%2Ecom%2Fbusiness%2Dcards" target=_"blank" class="button secondary tip-right" data-tooltip aria-haspopup="true" title="1. Design and download the business card here, for free. <br /> 2. Upload the card to PrintGlobe, and get it printed.">
+    <a href="http://www.shareasale.com/r.cfm?u=1215865&b=543588&m=50699&afftrack=&urllink=www%2Eprintglobe%2Ecom%2Fbusiness%2Dcards" target=_"blank" class="button secondary tip-right" data-toggle="tip-printglobe">
       <i class="fa fa-shopping-cart"></i>
       Order Premium Business Cards
 
@@ -87,6 +87,17 @@
         High quality, affordable priced business cards for a truly professional look.
       </small>
     </a>
+
+    <div id="tip-printglobe" class="dropdown-pane right tip-detailed" data-dropdown data-hover="true" data-hover-pane="true">
+      <ol>
+        <li>
+          Design and download the business card here, for free.
+        </li>
+        <li>
+          Upload the card to PrintGlobe, and get it printed.
+        </li>
+      </ol>
+    </div>
 
     <p class="partner-text">
       Powered by
@@ -98,7 +109,7 @@
   </li>
   <li class="order-btn order-btn-psprint">
 
-    <a href="http://www.shareasale.com/r.cfm?b=283670&u=1215865&m=22819&urllink=&afftrack=" target=_"blank" class="button secondary tip-right" data-tooltip aria-haspopup="true" title="1. Design and download the business card here, for free. <br /> 2. Upload the card to PsPrint, and get it printed.">
+    <a href="http://www.shareasale.com/r.cfm?b=283670&u=1215865&m=22819&urllink=&afftrack=" target=_"blank" class="button secondary tip-right" data-toggle="tip-psprint">
       <i class="fa fa-shopping-cart"></i>
       Order Premium Business Cards
 
@@ -106,10 +117,21 @@
         High quality, affordable priced business cards for a truly professional look.
       </small>
 
-      <span class="button-promo">
+      <!--<span class="button-promo">
         <strong>50% Off</strong> Ends 04.15.16
-      </span>
+      </span>-->
     </a>
+
+    <div id="tip-psprint" class="dropdown-pane right tip-detailed" data-dropdown data-hover="true" data-hover-pane="true">
+      <ol>
+        <li>
+          Design and download the business card here, for free.
+        </li>
+        <li>
+          Upload the card to PsPrint, and get it printed.
+        </li>
+      </ol>
+    </div>
 
     <p class="partner-text">
       Powered by
@@ -121,25 +143,22 @@
   </li>
   <li>
 
-    <a data-dropdown="drop-downloads" class="button muted dropdown" id="js-download-button">
+    <a data-toggle="drop-downloads" class="button muted button-download js-download-dropdown-btn float-right">
       <i class="fa fa-arrow-circle-o-down"></i>
       <span>Download as...</span>
     </a>
 
-    <ul id="drop-downloads" data-dropdown-content class="f-dropdown">
-      <li>
-        <a ng-click="DownloadPdf()" class="js-newsletter-subscribe js-affiliate-modal">
-          <i class="fa fa-file-text"></i>
-          Download as PDF
-        </a>
-      </li>
-      <li>
-        <a ng-click="DownloadPicture()" class="js-newsletter-subscribe js-affiliate-modal">
-          <i class="fa fa-picture-o"></i>
-          Download as JPEG
-        </a>
-      </li>
-    </ul>
+    <div id="drop-downloads" class="dropdown-pane bottom dropdown-download-files" data-dropdown data-close-on-click="true">
+      <button type="button" ng-click="DownloadPdf()" class="js-newsletter-subscribe js-affiliate-modal button-download-file">
+        <i class="fa fa-file-text"></i>
+        Download as PDF
+      </button>
+
+      <button type="button" ng-click="DownloadPicture()" class="js-newsletter-subscribe js-affiliate-modal button-download-file">
+        <i class="fa fa-picture-o"></i>
+        Download as JPEG
+      </button>
+    </div>
 
   </li>
 </ul>

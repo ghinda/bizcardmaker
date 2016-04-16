@@ -17,8 +17,9 @@
   <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
 
   <!-- build:css({.tmp,app}) /styles/website.css -->
-  <link rel="stylesheet" href="/styles/main.css">
+  <link rel="stylesheet" href="/bower_components/foundation-sites/dist/foundation.css">
   <link rel="stylesheet" href="/bower_components/angular-meditor/dist/meditor.css">
+  <link rel="stylesheet" href="/styles/main.css">
   <!-- endbuild -->
 </head>
 <body>
@@ -29,41 +30,32 @@
 
   <nav class="top-bar">
 
-    <ul class="title-area">
-      <li class="name">
+    <div class="top-bar-title">
+      <h1>
+        <a href="/">
+          <img src="/images/bizcardmaker-logo.png" alt="Business Card Maker Logo">
 
-        <h1 class="brand">
-          <a href="/">
-            <img src="/images/bizcardmaker-logo.png" alt="Business Card Maker Logo">
+          Business Card Maker
+        </a>
+      </h1>
+    </div>
 
-            Business Card Maker
-          </a>
-        </h1>
-
-      </li>
-    </ul>
-
-    <section class="top-bar-section">
-
+    <div class="top-bar-left">
       {{#if title}}
-
         {{#if page.posted }}
-
           <h2>
             Blog
           </h2>
-
         {{ else }}
-
           <a href="/" class="button radius secondary left btn-start js-guide-btn">
             Get started
           </a>
-
         {{/if}}
-
       {{/if}}
+    </div>
 
-      <ul class="inline-list top-menu right show-for-medium-up">
+    <div class="top-bar-right show-for-medium">
+      <ul class="menu">
         <li>
           <a href="/about.html">About</a>
         </li>
@@ -78,18 +70,20 @@
         <li>
           <a href="/contact.html">Contact</a>
         </li>
-        <li id="btn-nav-help">
-          <a class="btn-nav-help">
-            <i class="fa fa-question-circle"></i>
-          </a>
-        </li>
+        {{#is title ''}}
+          <li>
+            <a class="btn-nav-help btn-nav-icon">
+              <i class="fa fa-question-circle"></i>
+            </a>
+          </li>
+        {{/is}}
         <li>
-          <a href="https://twitter.com/bizcardmakercom" target="_blank">
+          <a href="https://twitter.com/bizcardmakercom" target="_blank" class="btn-nav-icon">
             <i class="fa fa-twitter"></i>
           </a>
         </li>
       </ul>
-    </section>
+    </div>
   </nav>
 
   {{> body }}
@@ -110,11 +104,16 @@
 
   <script src="/bower_components/jquery.payment/lib/jquery.payment.js"></script>
 
-  <script src="/bower_components/foundation/js/vendor/modernizr.js"></script>
-  <script src="/bower_components/foundation/js/foundation/foundation.js"></script>
-  <script src="/bower_components/foundation/js/foundation/foundation.tooltip.js"></script>
-  <script src="/bower_components/foundation/js/foundation/foundation.dropdown.js"></script>
-  <script src="/bower_components/foundation/js/foundation/foundation.reveal.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.core.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.keyboard.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.box.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.triggers.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.mediaQuery.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.motion.js"></script>
+
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.tooltip.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.dropdown.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.reveal.js"></script>
   <!-- endbuild -->
 
   <!-- build:js({.tmp,app}) /scripts/app.js -->
