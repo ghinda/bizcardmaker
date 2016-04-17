@@ -1,7 +1,9 @@
 /* DragResize directive
  */
 
-app.directive('drModel', function ($document, $timeout) {
+app.directive('drModel', [
+'$document', '$timeout',
+function ($document, $timeout) {
   'use strict';
 
   return {
@@ -307,4 +309,4 @@ app.directive('drModel', function ($document, $timeout) {
 
     }
   };
-});
+}]);

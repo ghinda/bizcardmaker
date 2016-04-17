@@ -1,4 +1,6 @@
-app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
+app.controller('MainCtrl', [
+'$rootScope', '$scope', '$routeParams', '$location', '$timeout', '$q', 'data',
+function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
   'use strict';
 
   var $modalOrder;
@@ -431,4 +433,4 @@ app.controller('MainCtrl', function($rootScope, $scope, $routeParams, $location,
 
   });
 
-});
+}]);

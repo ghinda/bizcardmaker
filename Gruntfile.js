@@ -6,6 +6,55 @@ var mountFolder = function (connect, dir) {
   return connect.static(require('path').resolve(dir));
 };
 
+var files = {
+  app: [
+    'scripts/util.js',
+    'scripts/env.js',
+    'scripts/modal.js',
+    'scripts/help.js',
+    'scripts/safari.js',
+    'scripts/logaster.js',
+    'scripts/affiliates.js',
+    'scripts/newsletter.js',
+    'scripts/themes.js',
+    'scripts/pdf.js',
+    'scripts/app.js',
+    'scripts/directives/fileread.js',
+    'scripts/directives/payment.js',
+    'scripts/directives/drag.js',
+    'scripts/controllers/main.js',
+    'scripts/controllers/order.js',
+    'scripts/services/data.js',
+
+    'scripts/website.js'
+  ],
+  plugins: [
+    'bower_components/jquery/dist/jquery.js'',
+    'bower_components/angular/angular.js'',
+    'bower_components/angular-touch/angular-touch.js'',
+    'bower_components/angular-route/angular-route.js'',
+    'bower_components/angular-meditor/dist/meditor.js'',
+
+    'bower_components/html2canvas/dist/html2canvas.js'',
+    'bower_components/jspdf/dist/jspdf.debug.js'',
+
+    'bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js'',
+
+    'bower_components/jquery.payment/lib/jquery.payment.js'',
+
+    'bower_components/foundation-sites/dist/plugins/foundation.core.js'',
+    'bower_components/foundation-sites/dist/plugins/foundation.util.keyboard.js'',
+    'bower_components/foundation-sites/dist/plugins/foundation.util.box.js'',
+    'bower_components/foundation-sites/dist/plugins/foundation.util.triggers.js'',
+    'bower_components/foundation-sites/dist/plugins/foundation.util.mediaQuery.js'',
+    'bower_components/foundation-sites/dist/plugins/foundation.util.motion.js'',
+
+    'bower_components/foundation-sites/dist/plugins/foundation.tooltip.js'',
+    'bower_components/foundation-sites/dist/plugins/foundation.dropdown.js'',
+    'bower_components/foundation-sites/dist/plugins/foundation.reveal.js''
+  ]
+}
+
 module.exports = function (grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -232,7 +281,7 @@ module.exports = function (grunt) {
     ngtemplates: {
       dist: {
         options: {
-          usemin: '<%= config.dist %>/scripts/app.js',
+          concat: 'generated',
           module: 'businessCardMaker'
         },
         cwd: '<%= config.app %>',
@@ -244,18 +293,19 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          cwd: '.tmp/concat/scripts',
-          src: 'app.js',
-          dest: '.tmp/concat/scripts'
+          cwd: 'app/scripts',
+          src: '**/*.js',
+          dest: '.tmp/scripts'
         }]
       }
     },
     uglify: {
       options: {
-        sourceMap: true,
         compress: {
           drop_console: true
-        }
+        },
+        mangle: false,
+        sourceMap: true
       }
     },
     protractor: {
@@ -309,6 +359,40 @@ module.exports = function (grunt) {
     }
   });
 
+  // monkey-patch the uglify and concat tasks
+  // so that uglify handles js concatenation itself, for sourcemaps.
+  grunt.registerTask('useminPatch', function () {
+    var concat = grunt.config('concat');
+    var uglify = grunt.config('uglify');
+
+    var concatFiles = concat.generated.files.slice();
+    var newConcatFiles = [];
+    var newUglifyFiles = [];
+
+    concatFiles.forEach(function (file, index) {
+      if (file.dest.indexOf('.js') !== -1) {
+        file.dest = file.dest.replace('.tmp/concat/', 'public/');
+        newUglifyFiles.push(file);
+      } else {
+        newConcatFiles.push(file);
+      }
+    });
+
+    uglify.generated = {
+      files: newUglifyFiles
+    };
+
+    concat.generated = {
+      files: newConcatFiles
+    };
+
+    console.log(uglify.generated.files);
+
+    grunt.config('concat', concat);
+    grunt.config('uglify', uglify);
+
+  });
+
   grunt.registerTask('server', function (target) {
     if (target === 'dist') {
       return grunt.task.run([
@@ -334,11 +418,15 @@ module.exports = function (grunt) {
     'htmlmin',
     'useminPrepare',
     'ngtemplates',
+    'useminPatch',
     'copy:dist',
     'concat',
-    'ngAnnotate',
+    //'ngAnnotate',
     'cssmin',
     'uglify',
+
+    'rollup',
+
     'rev',
     'usemin'
   ]);

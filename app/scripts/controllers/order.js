@@ -1,4 +1,6 @@
-app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, $interval, data) {
+app.controller('OrderCtrl', [
+'$rootScope', '$scope', '$routeParams', '$location', '$timeout', '$q', '$interval', 'data',
+function($rootScope, $scope, $routeParams, $location, $timeout, $q, $interval, data) {
   'use strict';
 
   var model = $scope.model || {};
@@ -468,4 +470,4 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
   window.onbeforeunload = TabCloseAlert;
 
-});
+}]);
