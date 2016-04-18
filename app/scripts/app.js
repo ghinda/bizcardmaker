@@ -5,13 +5,11 @@ var app = angular.module('businessCardMaker', [
   'ngRoute',
   'ngTouch',
   'angular-meditor'
-]).config(function() {
-  'use strict';
-});
+]);
 
-app.run(function($rootScope){
+app.run([ '$rootScope', function($rootScope){
   'use strict';
 
   var root = $rootScope.root = {};
-});
+}]);
 

@@ -1,10 +1,4 @@
 'use strict';
-var LIVERELOAD_PORT = 35729;
-var lrSnippet = require('connect-livereload')({ port: LIVERELOAD_PORT });
-
-var mountFolder = function (connect, dir) {
-  return connect.static(require('path').resolve(dir));
-};
 
 module.exports = function (grunt) {
   // load all grunt tasks
@@ -35,7 +29,7 @@ module.exports = function (grunt) {
       },
       livereload: {
         options: {
-          livereload: LIVERELOAD_PORT
+          livereload: true
         },
         files: [
           '{.tmp,<%= config.app %>/views}/{,*/}*.html',
@@ -48,28 +42,23 @@ module.exports = function (grunt) {
     connect: {
       options: {
         port: 9000,
-        // Change this to '0.0.0.0' to access the server from outside.
         hostname: '0.0.0.0'
       },
       livereload: {
         options: {
-          middleware: function (connect) {
-            return [
-              lrSnippet,
-              mountFolder(connect, '.tmp'),
-              mountFolder(connect, config.app),
-              mountFolder(connect, config.tests)
-            ];
-          }
+          livereload: true,
+          base: [
+            '.tmp',
+            config.app,
+            config.tests
+          ]
         }
       },
       dist: {
         options: {
-          middleware: function (connect) {
-            return [
-              mountFolder(connect, config.dist)
-            ];
-          }
+          base: [
+            config.dist
+          ]
         }
       }
     },
@@ -232,7 +221,7 @@ module.exports = function (grunt) {
     ngtemplates: {
       dist: {
         options: {
-          usemin: '<%= config.dist %>/scripts/app.js',
+          usemin: '/scripts/app.js',
           module: 'businessCardMaker'
         },
         cwd: '<%= config.app %>',
@@ -245,17 +234,22 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '.tmp/concat/scripts',
-          src: 'app.js',
+          src: '**/*.js',
           dest: '.tmp/concat/scripts'
         }]
       }
     },
+    concat: {
+      options: {
+        sourceMap: true
+      }
+    },
     uglify: {
       options: {
-        sourceMap: true,
         compress: {
           drop_console: true
-        }
+        },
+        sourceMap: true
       }
     },
     protractor: {

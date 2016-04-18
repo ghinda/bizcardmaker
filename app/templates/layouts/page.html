@@ -17,10 +17,12 @@
   <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
 
   <!-- build:css({.tmp,app}) /styles/website.css -->
-  <link rel="stylesheet" href="/bower_components/foundation-sites/dist/foundation.css">
+  <link rel="stylesheet" href="/bower_components/foundation-sites/dist/foundation.min.css">
   <link rel="stylesheet" href="/bower_components/angular-meditor/dist/meditor.css">
   <link rel="stylesheet" href="/styles/main.css">
   <!-- endbuild -->
+
+  {{> rollbar}}
 </head>
 <body>
 
@@ -116,7 +118,7 @@
   <script src="/bower_components/foundation-sites/dist/plugins/foundation.reveal.js"></script>
   <!-- endbuild -->
 
-  <!-- build:js({.tmp,app}) /scripts/app.js -->
+  <!-- build:js(.tmp) /scripts/app.js -->
   <script src="/scripts/util.js"></script>
   <script src="/scripts/env.js"></script>
   <script src="/scripts/modal.js"></script>
@@ -125,7 +127,6 @@
   <script src="/scripts/logaster.js"></script>
   <script src="/scripts/affiliates.js"></script>
   <script src="/scripts/newsletter.js"></script>
-  <script src="/scripts/logger.js"></script>
   <script src="/scripts/themes.js"></script>
   <script src="/scripts/pdf.js"></script>
   <script src="/scripts/app.js"></script>
@@ -137,7 +138,7 @@
   <script src="/scripts/services/data.js"></script>
   <!-- endbuild -->
 
-  <!-- build:js({.tmp,app}) /scripts/website.js -->
+  <!-- build:js(app) /scripts/website.js -->
   <script src="/scripts/website.js"></script>
   <!-- endbuild -->
 

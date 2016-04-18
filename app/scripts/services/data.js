@@ -2,7 +2,9 @@
 * Data service
 */
 
-app.factory('data', function($rootScope, $http, $q) {
+app.factory('data', [
+'$rootScope', '$http', '$q',
+function($rootScope, $http, $q) {
   'use strict';
 
   // local model
@@ -140,4 +142,4 @@ app.factory('data', function($rootScope, $http, $q) {
     SendOrder: SendOrder
   };
 
-});
+}]);

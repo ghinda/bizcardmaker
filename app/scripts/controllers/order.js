@@ -1,4 +1,6 @@
-app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location, $timeout, $q, $interval, data) {
+app.controller('OrderCtrl', [
+'$rootScope', '$scope', '$routeParams', '$location', '$timeout', '$q', '$interval', 'data',
+function($rootScope, $scope, $routeParams, $location, $timeout, $q, $interval, data) {
   'use strict';
 
   var model = $scope.model || {};
@@ -52,6 +54,8 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
     return data.printchompUrl + url;
   };
 
+  var loadOffersTimer;
+
   var loadOffers = function() {
     data.GetOffers().then(function(offers) {
       model.offers = offers.offers;
@@ -68,7 +72,7 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
   // try reloading the offers every 3s
   // in case the api is down
-  var loadOffersTimer = $interval(loadOffers, 3000);
+  loadOffersTimer = $interval(loadOffers, 3000);
 
   $scope.$watch('model.order.country', function() {
     model.order.region = model.regions[model.order.country.id][0];
@@ -468,4 +472,4 @@ app.controller('OrderCtrl', function($rootScope, $scope, $routeParams, $location
 
   window.onbeforeunload = TabCloseAlert;
 
-});
+}]);
