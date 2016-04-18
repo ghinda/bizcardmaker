@@ -5,6 +5,4 @@
   'use strict';
 
   $(document).foundation();
-
-  window.util.addClass('zer');
 })();

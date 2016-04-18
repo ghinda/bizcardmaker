@@ -17,11 +17,12 @@
   <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.css">
 
   <!-- build:css({.tmp,app}) /styles/website.css -->
-  <link rel="stylesheet" href="/bower_components/foundation-sites/dist/foundation.css">
+  <link rel="stylesheet" href="/bower_components/foundation-sites/dist/foundation.min.css">
   <link rel="stylesheet" href="/bower_components/angular-meditor/dist/meditor.css">
   <link rel="stylesheet" href="/styles/main.css">
   <!-- endbuild -->
 
+  {{> rollbar}}
 </head>
 <body>
 
@@ -91,8 +92,55 @@
 
   {{> help }}
 
-  <script src="/scripts/plugins.js"></script>
+  <!-- build:js(app) /scripts/plugins.js -->
+  <script src="/bower_components/jquery/dist/jquery.js"></script>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/bower_components/angular-touch/angular-touch.js"></script>
+  <script src="/bower_components/angular-route/angular-route.js"></script>
+  <script src="/bower_components/angular-meditor/dist/meditor.js"></script>
+
+  <script src="/bower_components/html2canvas/dist/html2canvas.js"></script>
+  <script src="/bower_components/jspdf/dist/jspdf.debug.js"></script>
+
+  <script src="/bower_components/blueimp-canvas-to-blob/js/canvas-to-blob.js"></script>
+
+  <script src="/bower_components/jquery.payment/lib/jquery.payment.js"></script>
+
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.core.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.keyboard.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.box.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.triggers.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.mediaQuery.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.util.motion.js"></script>
+
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.tooltip.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.dropdown.js"></script>
+  <script src="/bower_components/foundation-sites/dist/plugins/foundation.reveal.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js(.tmp) /scripts/app.js -->
+  <script src="/scripts/util.js"></script>
+  <script src="/scripts/env.js"></script>
+  <script src="/scripts/modal.js"></script>
+  <script src="/scripts/help.js"></script>
+  <script src="/scripts/safari.js"></script>
+  <script src="/scripts/logaster.js"></script>
+  <script src="/scripts/affiliates.js"></script>
+  <script src="/scripts/newsletter.js"></script>
+  <script src="/scripts/themes.js"></script>
+  <script src="/scripts/pdf.js"></script>
   <script src="/scripts/app.js"></script>
+  <script src="/scripts/directives/fileread.js"></script>
+  <script src="/scripts/directives/payment.js"></script>
+  <script src="/scripts/directives/drag.js"></script>
+  <script src="/scripts/controllers/main.js"></script>
+  <script src="/scripts/controllers/order.js"></script>
+  <script src="/scripts/services/data.js"></script>
+  <!-- endbuild -->
+
+  <!-- build:js(app) /scripts/website.js -->
+  <script src="/scripts/website.js"></script>
+  <!-- endbuild -->
 
   <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

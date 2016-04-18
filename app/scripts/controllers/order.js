@@ -54,6 +54,8 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q, $interval, d
     return data.printchompUrl + url;
   };
 
+  var loadOffersTimer;
+
   var loadOffers = function() {
     data.GetOffers().then(function(offers) {
       model.offers = offers.offers;
@@ -70,7 +72,7 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q, $interval, d
 
   // try reloading the offers every 3s
   // in case the api is down
-  var loadOffersTimer = $interval(loadOffers, 3000);
+  loadOffersTimer = $interval(loadOffers, 3000);
 
   $scope.$watch('model.order.country', function() {
     model.order.region = model.regions[model.order.country.id][0];
