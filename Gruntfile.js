@@ -229,16 +229,6 @@ module.exports = function (grunt) {
         dest: '.tmp/scripts/templates.js'
       }
     },
-    ngAnnotate: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '.tmp/concat/scripts',
-          src: '**/*.js',
-          dest: '.tmp/concat/scripts'
-        }]
-      }
-    },
     concat: {
       options: {
         sourceMap: true
@@ -249,7 +239,11 @@ module.exports = function (grunt) {
         compress: {
           drop_console: true
         },
-        sourceMap: true
+        sourceMap: true,
+        sourceMapIn: function(uglifySource) {
+          return uglifySource + '.map';
+        },
+        sourceMapIncludeSources: true
       }
     },
     protractor: {
@@ -330,7 +324,6 @@ module.exports = function (grunt) {
     'ngtemplates',
     'copy:dist',
     'concat',
-    'ngAnnotate',
     'cssmin',
     'uglify',
     'rev',
