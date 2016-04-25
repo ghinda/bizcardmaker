@@ -491,8 +491,6 @@ $color-resize: lighten($color-handle, 20%);
     display: block;
     padding-top: emCalc(4);
     padding-left: emCalc(44);
-
-    color: rgba($white, 0.8);
   }
 
   @include breakpoint(baby-bear) {
@@ -560,11 +558,16 @@ $color-resize: lighten($color-handle, 20%);
 }
 
 .order-btn .button {
+  color: #fff;
   white-space: nowrap;
 }
 
 .order-btn small {
   white-space: normal;
+}
+
+.price-promo {
+  font-weight: bold;
 }
 
 .partner-text {
