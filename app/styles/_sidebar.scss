@@ -2,14 +2,21 @@
  */
 
 .sidebar-right {
+  display: none;
   float: right;
-  width: emCalc(300);
-  padding-top: 4em;
-  margin-right: emCalc(20);
+  min-height: 100%;
+  width: 22em;
+  padding: 0 1.6em 0 2.8em;
+
+  background: #fafafa;
 }
 
-.sidebar-banner {
-  margin-bottom: 4em;
+/* show for 1240px and up
+ */
+@media (min-width: 77.5em) {
+  .sidebar-right {
+    display: block;
+  }
 }
 
 /* safari warning
