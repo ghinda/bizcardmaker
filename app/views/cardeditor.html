@@ -62,7 +62,7 @@
 <ul class="download-buttons">
   <li class="order-btn order-btn-printchomp">
 
-    <button type="button" class="button secondary" id="js-order-button" ng-click="OpenOrderModal()">
+    <button type="button" class="button secondary js-order-btn-printchomp" ng-click="OpenOrderModal()">
       <i class="fa fa-shopping-cart"></i>
       Cards starting at $9.99!
 
@@ -77,9 +77,9 @@
     </p>
 
   </li>
-  <li class="order-btn order-btn-psprint">
+  <li class="order-btn order-btn-psprint" ng-click="DownloadPicture()">
 
-    <a href="http://www.shareasale.com/r.cfm?b=283670&u=1215865&m=22819&urllink=&afftrack=" target=_"blank" class="button secondary tip-right" data-toggle="tip-psprint">
+    <button class="button secondary js-order-btn-psprint">
       <i class="fa fa-shopping-cart"></i>
       Cards starting at $7.32!
 
@@ -90,18 +90,7 @@
       <span class="button-promo">
         <strong>60% Off!</strong> Ends 05.15.16
       </span>
-    </a>
-
-    <div id="tip-psprint" class="dropdown-pane right tip-detailed" data-dropdown data-hover="true" data-hover-pane="true">
-      <ol>
-        <li>
-          Design and download the business card here, for free.
-        </li>
-        <li>
-          Upload the JPEG file to PsPrint.com, and get it printed.
-        </li>
-      </ol>
-    </div>
+    </button>
 
     <p class="partner-text">
       Powered by
