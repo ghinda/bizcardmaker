@@ -402,10 +402,6 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
       model.imagePreview = jpegUrl;
 
     });
-
-    // track analytics
-    ga('send', 'event', 'Orders', 'Begin order');
-
   };
 
   var allTemplates = 2;
