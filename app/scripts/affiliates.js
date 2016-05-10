@@ -78,11 +78,4 @@
   $modal.addEventListener('click', closeModal);
   document.body.addEventListener('click', showAffiliateModal);
   $hideCheckbox.addEventListener('change', changeAffiliateHideStore);
-
-
-  setTimeout(function () {
-  showAffiliateModal({
-    target: document.querySelector('.js-affiliate-modal')
-  })
-  }, 200)
 })();
