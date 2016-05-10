@@ -604,7 +604,7 @@ $color-resize: lighten($color-handle, 20%);
   border-radius: 3px;
   border-color: $color2;
 
-  box-shadow: 0 2px 5px lighten($black, 60%);
+  box-shadow: 0 2px 5px lighten(#000, 60%);
 
   &:before,
   &:after {
@@ -623,13 +623,13 @@ $color-resize: lighten($color-handle, 20%);
   }
 
   small {
-    color: lighten($black, 20%);
+    color: lighten(#000, 20%);
   }
 
   a {
     padding: emCalc(8) emCalc(24);
 
-    color: $black;
+    color: #000;
 
     &:hover {
       //background-color: lighten($color2, 40%);
