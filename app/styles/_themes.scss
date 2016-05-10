@@ -3,16 +3,12 @@
 
 /* Mixin to set text colors for dark/light themes
 */
-$white: #fff;
-$black: #000;
 
 @mixin theme($type) {
+  $color: #fff;
 
-  @if $type == dark {
-    $color: $white;
-  }
-  @else if $type == light {
-    $color: $black;
+  @if $type == 'light' {
+    $color: #000;
   }
 
   color: $color;
