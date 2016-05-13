@@ -101,11 +101,11 @@
       affiliateStore = window.localStorage.getItem(affiliateStoreKey) || affiliateStoreDefault;
 
       affiliateStore = JSON.parse(affiliateStore);
+    }
 
-      // migration from initial version where value was not an object
-      if (typeof affiliateStore !== 'object') {
-        affiliateStore = JSON.parse(affiliateStoreDefault);
-      }
+    // don't show the modal for e2e tests
+    if (affiliateStore.forceHide) {
+      return;
     }
 
     // if the store expired, show it again
