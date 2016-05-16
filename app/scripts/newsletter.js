@@ -11,7 +11,7 @@
 
     // track email
     var $content = document.querySelector('.card-content');
-    var emailAddress = $content.querySelector('.email p').innerText.trim();
+    var emailAddress = $content.querySelector('.email p').textContent.trim();
 
     var xhr = new window.XMLHttpRequest();
     xhr.open('POST', apiUrl + '/newsletter/subscribe');
