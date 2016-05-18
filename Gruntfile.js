@@ -5,6 +5,8 @@ module.exports = function (grunt) {
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
   grunt.loadNpmTasks('assemble');
 
+  var deployConfig = grunt.file.readJSON('deploy.json');
+
   // configurable paths
   var config = {
     app: 'app',
@@ -294,6 +296,15 @@ module.exports = function (grunt) {
         src: '<%= config.dist %>',
         dest: './releases/www/'
       }
+    },
+    cloudflare_purge: {
+      default: {
+        options: {
+          apiKey: deployConfig.cloudflare.key,
+          email: deployConfig.cloudflare.email,
+          zone: deployConfig.cloudflare.zone
+        }
+      }
     }
   });
 
@@ -347,13 +358,6 @@ module.exports = function (grunt) {
 
   });
 
-  var purge = require('./purge-cloudflare')(grunt)
-
-  grunt.registerTask('cloudflare', function () {
-    var done = this.async();
-    purge(done)
-  });
-
   grunt.registerTask('deploy', function (target) {
 
     if (target === 'live') {
@@ -361,7 +365,7 @@ module.exports = function (grunt) {
         'test',
 
         'ftp-deploy:www',
-        'cloudflare'
+        'cloudflare_purge'
       ]);
     }
 
@@ -371,7 +375,7 @@ module.exports = function (grunt) {
       'copy:dev',
       'ftp-deploy:development',
       'ftp-deploy:staging',
-      'cloudflare'
+      'cloudflare_purge'
     ]);
 
   });
