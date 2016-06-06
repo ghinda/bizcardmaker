@@ -592,12 +592,6 @@ $color-resize: lighten($color-handle, 20%);
   }
 }
 
-/* test if clicks increase
- */
-.partner-text {
-  display: none;
-}
-
 .download-buttons .f-dropdown {
   display: block;
   min-width: emCalc(360);
