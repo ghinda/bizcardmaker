@@ -24,24 +24,14 @@
       src: '/images/affiliate/banner-weebly-eshop.gif'
     },
     {
-      name: 'tinyprints-thankyou',
-      href: 'http://shareasale.com/r.cfm?b=524136&u=1215865&m=12808&urllink=&afftrack=',
-      src: '/images/affiliate/banner-tinyprints-thankyou.jpg'
-    },
-    {
-      name: 'tinyprints-birthday',
-      href: 'http://shareasale.com/r.cfm?b=192703&u=1215865&m=12808&urllink=&afftrack=',
-      src: '/images/affiliate/banner-tinyprints-birthday.gif'
-    },
-    {
       name: 'logaster',
       href: 'https://www.logaster.com/ref/bizcardmaker/f6a48978.html',
       src: '/images/affiliate/banner-logaster.png'
     },
     {
-      name: 'logaster-custom',
-      href: 'https://www.logaster.com/ref/bizcardmaker/f6a48978.html',
-      src: '/images/affiliate/banner-logaster-custom.png'
+      name: 'freshbooks',
+      href: 'http://www.dpbolvw.net/click-7930103-11352007-1403794779000',
+      src: '/images/affiliate/banner-freshbooks.gif'
     }
   ];
 
