@@ -5,7 +5,7 @@ describe('Themes', function () {
 
   var affiliateStoreKey = 'bizcardmaker-affiliate';
   var affiliateStore = JSON.stringify({
-    forceHide: true
+    modalHide: true
   });
 
   var async = function(arr, delay, done) {
