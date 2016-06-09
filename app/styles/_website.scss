@@ -128,6 +128,41 @@ label {
   color: #000;
 }
 
+/* center layout on large screens
+ */
+@media screen and (min-width: 78em) {
+  body {
+    position: relative;
+    max-width: 78em;
+    margin: 0 auto;
+  }
+
+  html:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    display: block;
+    width: 100%;
+    height: 52px;
+    background: #2854a1;
+    background-image: linear-gradient(to right, #1c3a70 50%, #2854a1 51%, #2854a1);
+  }
+
+  html:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: calc(-50% - 21.5em);
+    z-index: -2;
+    display: block;
+    height: 100%;
+    width: 100%;
+    background: #e6e6e6;
+  }
+}
+
 /* Sections
  */
 section {
