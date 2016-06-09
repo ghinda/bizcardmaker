@@ -150,7 +150,7 @@ label {
     background-image: linear-gradient(to right, #1c3a70 50%, #2854a1 51%, #2854a1);
   }
 
-  html:after {
+  .page-app:after {
     content: '';
     position: absolute;
     top: 0;
