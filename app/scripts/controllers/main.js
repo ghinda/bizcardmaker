@@ -1,6 +1,6 @@
 app.controller('MainCtrl', [
-'$rootScope', '$scope', '$routeParams', '$location', '$timeout', '$q', 'data',
-function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
+'$rootScope', '$scope', '$routeParams', '$location', '$timeout', '$q',
+function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
   'use strict';
 
   var $modalOrder;
@@ -404,7 +404,7 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q, data) {
     });
   };
 
-  var allTemplates = 2;
+  var allTemplates = 1;
   var loadedTemplates = 0;
   $scope.$on('$includeContentLoaded', function() {
     // when loading all the includes
