@@ -1,31 +1,24 @@
-/* psprint ab test
+/* psprint button
  */
 
-li.order-btn-psprint {
-  display: none;
-}
-
-.test-psprint .order-btn-printchomp {
-  display: none;
-}
-
-.test-psprint .order-btn-psprint {
+.order-btn-psprint {
   display: block;
 }
 
-.test-psprint .order-btn .button {
+.order-btn .button {
   padding-left: 16px;
   padding-right: 4px;
 }
 
-.test-psprint .partner-text {
+.partner-text {
+  margin-top: 1em;
   margin-left: 48px;
 
   color: #333;
   font-size: 12px;
 }
 
-.test-psprint .partner-text a {
+.partner-text a {
   width: 140px;
   height: 21px;
   background-image: url(../images/psprint-logo.png);

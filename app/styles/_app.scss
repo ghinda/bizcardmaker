@@ -527,6 +527,7 @@ $color-resize: lighten($color-handle, 20%);
 }
 
 .dropdown-download-files {
+  width: 16.4em;
   padding: 0;
   border-radius: 3px;
   box-shadow: 0 0 4px rgba(0,0,0,.2);
@@ -583,7 +584,6 @@ $color-resize: lighten($color-handle, 20%);
     height: 33px;
     margin-left: emCalc(8);
     overflow: hidden;
-    background-image: url(../images/printchomp-logo.png);
     background-repeat: no-repeat;
     background-size: contain;
 
