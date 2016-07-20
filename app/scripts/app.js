@@ -3,7 +3,6 @@
 
 var app = angular.module('businessCardMaker', [
   'ngRoute',
-  'ngTouch',
   'angular-meditor'
 ]);
 
