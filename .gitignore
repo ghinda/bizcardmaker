@@ -3,6 +3,7 @@ node_modules
 .sass-cache
 public/
 npm-debug.log
+package-lock.json
 deploy.json
 tests/media/themes
 tests/media/themes-diff

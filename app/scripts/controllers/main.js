@@ -19,6 +19,10 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
 
   model.loadingCard = false;
 
+  var expire = new Date();
+  expire.setDate(expire.getDate() + 23);
+  model.promoExpire = expire;
+
   model.storeDefaults = {
     card: {
       name: 'John Doe',
