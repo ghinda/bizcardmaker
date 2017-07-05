@@ -4,8 +4,6 @@ module.exports = function (grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  var deployConfig = grunt.file.readJSON('deploy.json');
-
   // configurable paths
   var config = {
     app: 'app',
@@ -267,41 +265,16 @@ module.exports = function (grunt) {
         src: [ 'tests/themes/themes-diff.js' ]
       }
     },
-    'ftp-deploy': {
-      development: {
-        auth: {
-          host: 'server134.web-hosting.com',
-          authPath: 'deploy.json',
-          authKey: 'namecheap'
-        },
-        src: '<%= config.dist %>',
-        dest: './releases/development/'
+    buildcontrol: {
+      options: {
+        dir: '<%= config.dist %>',
+        commit: true,
+        push: true
       },
-      staging: {
-        auth: {
-          host: 'server134.web-hosting.com',
-          authPath: 'deploy.json',
-          authKey: 'namecheap'
-        },
-        src: '<%= config.dist %>',
-        dest: './releases/staging/'
-      },
-      www: {
-        auth: {
-          host: 'server134.web-hosting.com',
-          authPath: 'deploy.json',
-          authKey: 'namecheap'
-        },
-        src: '<%= config.dist %>',
-        dest: './releases/www/'
-      }
-    },
-    cloudflare_purge: {
-      default: {
+      site: {
         options: {
-          apiKey: deployConfig.cloudflare.key,
-          email: deployConfig.cloudflare.email,
-          zone: deployConfig.cloudflare.zone
+          remote: 'git@github.com:ghinda/bizcardmaker.git',
+          branch: 'production'
         }
       }
     }
@@ -363,8 +336,7 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'test',
 
-        'ftp-deploy:www',
-        'cloudflare_purge'
+        'buildcontrol'
       ]);
     }
 
@@ -372,9 +344,7 @@ module.exports = function (grunt) {
       'test',
 
       'copy:dev',
-      'ftp-deploy:development',
-      'ftp-deploy:staging',
-      'cloudflare_purge'
+      'buildcontrol'
     ]);
 
   });
