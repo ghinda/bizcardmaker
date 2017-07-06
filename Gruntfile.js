@@ -271,10 +271,16 @@ module.exports = function (grunt) {
         commit: true,
         push: true
       },
-      site: {
+      production: {
         options: {
           remote: 'git@github.com:ghinda/bizcardmaker.git',
           branch: 'production'
+        }
+      },
+      development: {
+        options: {
+          remote: 'git@github.com:ghinda/bizcardmaker.git',
+          branch: 'development'
         }
       }
     }
@@ -336,7 +342,7 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'test',
 
-        'buildcontrol'
+        'buildcontrol:production'
       ]);
     }
 
@@ -344,7 +350,7 @@ module.exports = function (grunt) {
       'test',
 
       'copy:dev',
-      'buildcontrol'
+      'buildcontrol:development'
     ]);
 
   });
