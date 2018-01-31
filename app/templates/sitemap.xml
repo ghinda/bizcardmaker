@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {{#each pages}}
+    <url>
+        <loc>https://www.bizcardmaker.com/{{remove dirname "public/"}}/{{basename}}{{ext}}</loc>
+        <lastmod>{{ data.posted }}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
+  {{/each}}
+</urlset>

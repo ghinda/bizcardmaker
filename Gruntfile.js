@@ -113,7 +113,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.app %>/templates',
-          src: '**/*.hbs',
+          src: '**/*.{hbs,xml}',
           dest: '<%= config.dist %>'
         }]
       }
