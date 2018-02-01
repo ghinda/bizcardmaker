@@ -68,10 +68,12 @@ describe('Themes', function () {
     })
     .then(function() {
 
-      async(downloads, 1500, function() {
-        expect(true).toBe(true);
-        done();
-      });
+      setTimeout(() => {
+        async(downloads, 1500, function() {
+          expect(true).toBe(true);
+          done();
+        });
+      }, 1500)
 
     })
 
