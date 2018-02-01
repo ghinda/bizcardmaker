@@ -18,7 +18,7 @@ layout: page.html
     
       <div class="post-meta">
         <time datetime="{{ page.posted }}">
-          {{formatDate page.posted "%B %d, %Y"}}
+          {{moment page.posted "MMMM D, YYYY"}}
         </time>
       </div>
 
@@ -38,7 +38,7 @@ layout: page.html
             {{#each pages }}
 
             <li>
-              <a href="/blog/{{ basename }}.html">
+              <a href="/blog/{{ this.basename }}.html">
                 {{ data.title }}
               </a>
             </li>

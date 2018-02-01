@@ -8,7 +8,7 @@
     "gm": "1.23.0",
     "grunt": "1.0.1",
     "grunt-angular-templates": "1.1.0",
-    "grunt-assemble": "^0.5.0",
+    "grunt-assemble": "^0.6.0",
     "grunt-build-control": "^0.7.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-concat": "^1.0.1",

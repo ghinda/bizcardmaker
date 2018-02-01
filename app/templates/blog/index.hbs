@@ -12,7 +12,7 @@ layout: content.html
   <li>
 
     <h2 class="post-title">
-      <a href="/blog/{{ basename }}.html">
+      <a href="/blog/{{ this.basename }}.html">
 
         {{#if data.picture}}
           <img src="{{ data.picture}}" class="post-picture">
@@ -24,14 +24,14 @@ layout: content.html
     
     <div class="post-meta">
       <time datetime="{{ data.posted }}">
-        {{formatDate data.posted "%B %d, %Y"}}
+        {{moment data.posted "MMMM D, YYYY"}}
       </time>
     </div>
 
     <div class="post-summary">
       {{truncate page 180 "..."}} 
       
-      <a href="/blog/{{ basename }}.html">
+      <a href="/blog/{{ this.basename }}.html">
         read more &raquo;
       </a>
     </div>
