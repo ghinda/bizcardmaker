@@ -99,7 +99,7 @@ module.exports = function (grunt) {
         layoutdir: '<%= config.app %>/templates/layouts',
         partials: [
           '<%= config.app %>/templates/partials/**/*.html'
-        ]
+        ],
       },
       server: {
         files: [{
@@ -113,7 +113,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.app %>/templates',
-          src: '**/*.hbs',
+          src: '**/*.{hbs,xml}',
           dest: '<%= config.dist %>'
         }]
       }
@@ -209,6 +209,9 @@ module.exports = function (grunt) {
           src: [
             'generated/*'
           ]
+        }, {
+          src: '<%= config.dist %>/sitemap.html',
+          dest: '<%= config.dist %>/sitemap.xml'
         }]
       }
     },
@@ -325,7 +328,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('test', function(target) {
-
     grunt.task.run([
       'default',
       'connect:dist',
@@ -333,11 +335,9 @@ module.exports = function (grunt) {
       'protractor:themes',
       'execute:themes'
     ]);
-
   });
 
   grunt.registerTask('deploy', function (target) {
-
     if (target === 'live') {
       return grunt.task.run([
         'test',
@@ -352,7 +352,6 @@ module.exports = function (grunt) {
       'copy:dev',
       'buildcontrol:development'
     ]);
-
   });
 
 };
