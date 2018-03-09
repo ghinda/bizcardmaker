@@ -136,7 +136,8 @@ module.exports = function (grunt) {
           src: [
             '<%= config.dist %>/styles/{,*/}*.css',
             '<%= config.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
-            '<%= config.dist %>/styles/fonts/*'
+            '<%= config.dist %>/styles/fonts/*',
+            '!<%= config.dist %>/images/banner-social.png'
           ]
         }
       }
