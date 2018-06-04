@@ -14,7 +14,7 @@
    height="280"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="chrome-tile-small.svg"
    inkscape:export-filename="/home/mokush/dev/bizcardmaker/artwork/chrome-tile-small.png"
    inkscape:export-xdpi="90"
@@ -94,15 +94,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994949"
-     inkscape:cx="134.63645"
-     inkscape:cy="163.20488"
+     inkscape:zoom="1.979899"
+     inkscape:cx="191.25742"
+     inkscape:cy="113.36898"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1238"
-     inkscape:window-height="800"
-     inkscape:window-x="42"
+     inkscape:window-width="1884"
+     inkscape:window-height="1051"
+     inkscape:window-x="36"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
      showguides="true"
@@ -206,15 +206,14 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:41.31104279px;line-height:125%;font-family:Sans;letter-spacing:-1.18064213px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:-1.18064213px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
        x="93.805374"
        y="747.70319"
-       id="text3922"
-       sodipodi:linespacing="125%"><tspan
+       id="text3922"><tspan
          sodipodi:role="line"
          id="tspan3924"
          x="93.805374"
          y="747.70319"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';letter-spacing:-1.60000002px;fill:#ffffff">Business Card Maker</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:41.31104279px;line-height:1.25;font-family:'Open Sans';-inkscape-font-specification:'Open Sans';letter-spacing:-1.60000002px;fill:#ffffff">Business Card Maker</tspan></text>
   </g>
 </svg>
