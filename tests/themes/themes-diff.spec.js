@@ -44,7 +44,7 @@ var compareFile = function(filename, callback) {
 
       if(isEqual === true) {
         // remove the diff file if the images are the same
-        fs.unlink(diffFile);
+        fs.unlinkSync(diffFile);
       }
 
       if(callback) {
