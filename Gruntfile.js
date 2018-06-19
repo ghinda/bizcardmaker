@@ -3,6 +3,7 @@
 module.exports = function (grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
+  grunt.loadTasks('tasks');
 
   // configurable paths
   var config = {
@@ -269,6 +270,11 @@ module.exports = function (grunt) {
           branch: 'gh-pages'
         }
       },
+    },
+    swPrecache: {
+      test: {
+        rootDir: '<%= config.dist %>'
+      }
     }
   });
 
@@ -302,7 +308,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'swPrecache'
   ]);
 
   grunt.registerTask('default', [

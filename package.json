@@ -34,7 +34,8 @@
     "matchdep": "1.0.1",
     "mocha": "3.1.2",
     "phantomjs": "^2.1.7",
-    "protractor": "^5.3.2"
+    "protractor": "^5.3.2",
+    "sw-precache": "^5.2.1"
   },
   "engines": {
     "node": ">=0.8.0"
