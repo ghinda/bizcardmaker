@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../../app/scripts/website.js"],"names":["$","document","foundation"],"mappings":"CAGA,WACE,YAEAA,GAAEC,UAAUC","file":"website.js","sourcesContent":["/* Business Card Maker website\n*/\n\n(function() {\n  'use strict';\n\n  $(document).foundation();\n})();\n"]}
