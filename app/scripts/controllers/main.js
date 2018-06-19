@@ -3,8 +3,6 @@ app.controller('MainCtrl', [
 function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
   'use strict';
 
-  var $modalOrder;
-
   var model = $scope.model = {};
 
   model.cardPictureFile = '';
@@ -52,7 +50,6 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
   var storedDetails = window.localStorage.getItem('bizcardmaker-store');
 
   if(storedDetails) {
-    //angular.copy(angular.fromJson(storedDetails), model.store);
     angular.extend(model.store, angular.fromJson(storedDetails));
   }
 
@@ -240,7 +237,7 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
       });
     });
 
-    // fix dragged possitions
+    // fix dragged positions
     var lists = container.querySelectorAll('.card-item[style]');
     var picture = container.querySelector('.card-picture[style]');
 
@@ -337,77 +334,6 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
 
   };
 
-  model.openedModal = false;
-  model.order = {};
-  $scope.OpenOrderModal = function() {
-
-    // check if any content is overflowing
-    var $content = document.querySelector('.card-content');
-
-    // round values for scrollw/h and clientw/h manually
-    // because of
-    // https://code.google.com/p/chromium/issues/detail?id=360889
-    // summary:
-    // chrome still doesn't return the exact float-point value for
-    // scrollW/H
-
-    // round everything UP
-    var scrollWidth = Math.ceil($content.scrollWidth);
-    var scrollHeight = Math.ceil($content.scrollHeight);
-
-    var clientWidth = Math.ceil($content.clientWidth);
-    var clientHeight = Math.ceil($content.clientHeight);
-
-    // instead of just checking to see if the scroll area is larger
-    // than the safe-zone,
-    // we check if it's larger by more than 5 pixels
-    // because browsers are crazy
-    var widthOverflow = (Math.abs(scrollWidth - clientWidth) > 5);
-    var heightOverflow = (Math.abs(scrollHeight - clientHeight) > 5);
-
-    var isOverflowing = widthOverflow || heightOverflow;
-
-    var overflowMessage = 'Oops! \n' +
-    'Some of the details on your card will be cut during the printing process. \n\n' +
-    'To make sure this doesn\'t happen, please try: \n' +
-    '* Shortening some of text lines \n' +
-    '* Moving the elements closer to the card center \n';
-
-    if(isOverflowing) {
-
-      window.alert(overflowMessage);
-
-      // track analytics
-      ga('send', 'event', 'Orders', 'Overflow error');
-
-      return false;
-    }
-
-    // if this is the first time we're opening the modal,
-    // copy the details to be used in the order form.
-    // if the modal was previously opened, leave the details alone
-    if(!model.openedModal) {
-
-      model.order.email = $('.email p', $content).text().trim();
-      model.order.name = $('.fn', $content).text().trim();
-      model.order.phone = $('.tel', $content).text().trim();
-      model.order.city = $('.locality', $content).text().trim();
-
-      model.openedModal = true;
-    }
-
-    // generate image preview
-    $scope.generatePicture().then(function(canvas) {
-
-      // open the reveal modal
-      $modalOrder.foundation('open');
-
-      var jpegUrl = canvas.toDataURL('image/jpeg');
-      model.imagePreview = jpegUrl;
-
-    });
-  };
-
   var allTemplates = 1;
   var loadedTemplates = 0;
   $scope.$on('$includeContentLoaded', function() {
@@ -416,8 +342,6 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
     if (loadedTemplates !== allTemplates) {
       return;
     }
-
-    $modalOrder = $('.modal-order');
 
     // init foundation plugins - modal and dropdown
     $(document.querySelector('.card-editor')).foundation();

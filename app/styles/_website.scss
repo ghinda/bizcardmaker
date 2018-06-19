@@ -430,14 +430,3 @@ dl dd {
   margin-bottom: 2em;
 }
 
-/* show jivochat only on large screens
- */
-
-body div#jivo-iframe-container {
-  display: none !important;
-
-  @include breakpoint(papa-bear) {
-    display: block !important;
-  }
-}
-

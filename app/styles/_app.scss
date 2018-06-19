@@ -729,25 +729,3 @@ $color-resize: lighten($color-handle, 20%);
     @include transform(rotate(360deg));
   }
 }
-
-/* printglobe-psprint tips
- */
-
-.tip-detailed {
-  padding: .6em 1em;
-  border-radius: 3px;
-  background: #333;
-
-  color: #fff;
-  font-size: .72em;
-}
-
-.tip-detailed:before {
-  content: '';
-  position: absolute;
-  top: 1em;
-  left: -5px;
-  border-width: 5px 5px 5px 0;
-  border-style: solid;
-  border-color: transparent #333;
-}
