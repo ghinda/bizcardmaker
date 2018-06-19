@@ -298,9 +298,6 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
       var imgData = canvas.toDataURL('image/jpeg', 1.0);
       window.GeneratePdf(model.pdfFilename, imgData);
     });
-
-    // track pdf download
-    ga('send', 'event', 'Download', 'Download PDF', model.store.theme);
   };
 
   $scope.DownloadPicture = function() {
@@ -328,10 +325,6 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
       );
 
     });
-
-    // track download
-    ga('send', 'event', 'Download', 'Download picture', model.store.theme);
-
   };
 
   var allTemplates = 1;
