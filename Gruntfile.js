@@ -177,18 +177,6 @@ module.exports = function (grunt) {
       }
     },
     copy: {
-      dev: {
-        files: [{
-          expand: true,
-          dot: true,
-          cwd: '<%= config.app %>/dev',
-          dest: '<%= config.dist %>',
-          src: [
-            'CNAME',
-            '*.*'
-          ]
-        }]
-      },
       dist: {
         files: [{
           expand: true,
@@ -198,7 +186,6 @@ module.exports = function (grunt) {
           src: [
             'CNAME',
             '*.*',
-            //'bower_components/**/*',
             'bower_components/font-awesome/**/*',
             'images/**/*',
             'styles/fonts/*'
@@ -273,20 +260,15 @@ module.exports = function (grunt) {
       options: {
         dir: '<%= config.dist %>',
         commit: true,
-        push: true
+        push: true,
+        connectCommits: false
       },
       production: {
         options: {
           remote: 'git@github.com:ghinda/bizcardmaker.git',
-          branch: 'production'
+          branch: 'gh-pages'
         }
       },
-      development: {
-        options: {
-          remote: 'git@github.com:ghinda/bizcardmaker.git',
-          branch: 'development'
-        }
-      }
     }
   });
 
@@ -328,7 +310,7 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  grunt.registerTask('test', function(target) {
+  grunt.registerTask('test', function() {
     grunt.task.run([
       'default',
       'connect:dist',
@@ -338,20 +320,10 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('deploy', function (target) {
-    if (target === 'live') {
-      return grunt.task.run([
-        'test',
-
-        'buildcontrol:production'
-      ]);
-    }
-
-    grunt.task.run([
+  grunt.registerTask('deploy', function () {
+    return grunt.task.run([
       'test',
-
-      'copy:dev',
-      'buildcontrol:development'
+      'buildcontrol:production'
     ]);
   });
 
