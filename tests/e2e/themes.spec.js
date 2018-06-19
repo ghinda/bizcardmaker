@@ -2,12 +2,6 @@
  */
 
 describe('Themes', function () {
-
-  var affiliateStoreKey = 'bizcardmaker-affiliate';
-  var affiliateStore = JSON.stringify({
-    modalHide: true
-  });
-
   var async = function(arr, delay, done) {
     var j = 0;
 
@@ -45,17 +39,8 @@ describe('Themes', function () {
   };
 
   it('should open the page', function () {
-
     browser.get('/');
-
-    var script = 'window.localStorage.setItem(\'' + affiliateStoreKey + '\', \'' +  affiliateStore + '\');';
-
-    // hide the affiliate modal
-    browser
-    .executeScript(script)
-
     expect(true).toBe(true);
-
   });
 
   it('should download a picture of each theme', function (done) {
