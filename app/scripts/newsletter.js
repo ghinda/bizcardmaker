@@ -1,8 +1,10 @@
 /* subscribe to newsletter modal
+ * WARNING Disabled. Not loaded on the site.
 */
 
 (function() {
   'use strict';
+  var apiUrl = 'https://live-bizcardmaker.rhcloud.com';
 
   var newsletterSubscribe = function(e) {
     if (!window.util.closest(e.target, '.js-newsletter-subscribe')) {
