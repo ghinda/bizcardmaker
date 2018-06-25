@@ -342,10 +342,16 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
     // hack to prevent automatic scrolling from contenteditable
     var $cardContent = document.querySelector('.card-content');
     if($cardContent) {
+      /* Feature detection */
+      var passiveSupported = false;
+      try {
+        window.addEventListener('test', null, Object.defineProperty({}, 'passive', { get: function() { passiveSupported = true; } }));
+      } catch(err) {}
+
       $cardContent.addEventListener('scroll', function(event) {
         $cardContent.scrollTop = 0;
         $cardContent.scrollLeft = 0;
-      }, {passive: true});
+      }, passiveSupported ? {passive: true} : true);
     }
 
   });
