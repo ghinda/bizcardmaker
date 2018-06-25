@@ -114,9 +114,17 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.app %>/templates',
-          src: '**/*.{hbs,xml}',
+          src: '**/*.hbs',
           dest: '<%= config.dist %>'
         }]
+      },
+      sitemap: {
+        options: {
+          ext: '.xml'
+        },
+        files: {
+          '<%= config.dist %>/sitemap.xml': '<%= config.app %>/templates/sitemap.xml',
+        }
       }
     },
     sass: {
@@ -198,9 +206,6 @@ module.exports = function (grunt) {
           src: [
             'generated/*'
           ]
-        }, {
-          src: '<%= config.dist %>/sitemap.html',
-          dest: '<%= config.dist %>/sitemap.xml'
         }]
       }
     },
@@ -300,6 +305,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'sass:dist',
     'assemble:dist',
+    'assemble:sitemap',
     'htmlmin',
     'useminPrepare',
     'ngtemplates',
