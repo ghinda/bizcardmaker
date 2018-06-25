@@ -30,10 +30,7 @@ module.exports = function(grunt) {
         rootDir + '/bower_components/font-awesome/fonts/*.*',
       ],
       stripPrefix: rootDir + '/',
-      runtimeCaching: [{
-        urlPattern: /\/bower_components\/font-awesome\/fonts\//,
-        handler: 'networkFirst'
-      }],
+      ignoreUrlParametersMatching: [/^v/],
       // verbose defaults to false, but for the purposes of this demo, log more.
       verbose: true
     };
