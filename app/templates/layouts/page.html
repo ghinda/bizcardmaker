@@ -155,11 +155,13 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
   <script>
-    WebFont.load({
-      google: {
-        families: ['Open Sans:400,700']
-      }
-    });
+    if (typeof WebFont !== 'undefined') {
+      WebFont.load({
+        google: {
+          families: ['Open Sans:400,700']
+        }
+      });
+    }
   </script>
 </body>
 </html>
