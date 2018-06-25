@@ -345,7 +345,7 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
       $cardContent.addEventListener('scroll', function(event) {
         $cardContent.scrollTop = 0;
         $cardContent.scrollLeft = 0;
-      });
+      }, {passive: true});
     }
 
   });
