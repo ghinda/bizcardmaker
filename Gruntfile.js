@@ -21,7 +21,7 @@ module.exports = function (grunt) {
       },
       assemble: {
         files: [ '<%= config.app %>/templates/{,*/}*.{hbs,html}' ],
-        tasks: [ 'assemble:server' ]
+        tasks: [ 'assemble:server', 'sitemap:server' ]
       },
       sass: {
         files: [ '<%= config.app %>/styles/{,*/}*.{scss,sass}' ],
@@ -106,7 +106,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.app %>/templates',
-          src: '**/*.hbs',
+          src: '**/*.{hbs,xml}',
           dest: '.tmp'
         }]
       },
@@ -114,17 +114,9 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.app %>/templates',
-          src: '**/*.hbs',
+          src: '**/*.{hbs,xml}',
           dest: '<%= config.dist %>'
         }]
-      },
-      sitemap: {
-        options: {
-          ext: '.xml'
-        },
-        files: {
-          '<%= config.dist %>/sitemap.xml': '<%= config.app %>/templates/sitemap.xml',
-        }
       }
     },
     sass: {
@@ -277,10 +269,20 @@ module.exports = function (grunt) {
       },
     },
     swPrecache: {
-      test: {
+      dist: {
         rootDir: '<%= config.dist %>'
       }
     }
+  });
+
+  grunt.registerTask('sitemap', function (target) {
+    var dist = config.dist;
+    if (target === 'server') {
+      dist = '.tmp';
+    }
+
+    grunt.file.copy(`${dist}/sitemap.html`, `${dist}/sitemap.xml`);
+    grunt.file.delete(`${dist}/sitemap.html`);
   });
 
   grunt.registerTask('server', function (target) {
@@ -295,6 +297,7 @@ module.exports = function (grunt) {
       'clean:server',
       'sass:server',
       'assemble:server',
+      'sitemap:server',
       'connect:livereload',
       'watch'
     ]);
@@ -305,7 +308,7 @@ module.exports = function (grunt) {
     'clean:dist',
     'sass:dist',
     'assemble:dist',
-    'assemble:sitemap',
+    'sitemap',
     'htmlmin',
     'useminPrepare',
     'ngtemplates',
