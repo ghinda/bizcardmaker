@@ -8,13 +8,25 @@
 
   {{> help}}
 
-  <button class="button btn-logaster js-btn-logaster">
-    Create a logo
+  <div class="card-logaster">
+    <h2>
+      Create your personal logo
+    </h2>
 
-    <small>
-      Get a great looking new logo in a minute.
-    </small>
-  </button>
+    <form method="get" action="https://www.logaster.com/v3/logo/" target="_blank">
+      <img style="border:0; float: left;" src="https://partner.logaster.com/scripts/imp.php?a_aid=bizcardmaker&amp;a_bid=f6a48978" width="1" height="1" alt=""/>
+
+      <label for="t">
+        What's your brand name?
+      </label>
+      <div class="card-logaster-form">
+        <input type="text" name="t" id="t" placeholder="Brand Name Inc" autocomplete="off" value="">
+        <button type="submit" id="next-btn" class="button btn-logaster">
+          Create a logo
+        </button>
+      </div>
+    </form>
+  </div>
 
   <div class="logaster-powered">
     Powered by
