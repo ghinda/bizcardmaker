@@ -1,5 +1,7 @@
 'use strict';
 
+const sass = require('sass');
+
 module.exports = function (grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
@@ -120,6 +122,9 @@ module.exports = function (grunt) {
       }
     },
     sass: {
+      options: {
+        implementation: sass,
+      },
       dist: {
         files: {
           '.tmp/styles/main.css': '<%= config.app %>/styles/main.scss'

@@ -1,0 +1,64 @@
+/* gorgias templates popup
+ */
+
+.gtemplates-popup {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.6rem;
+  z-index: 9999;
+  width: 13.4rem;
+  background-color: #f4f5f7;
+  border-radius: 3px;
+  box-shadow: 0 1px 12px hsla(0,0,0,.05);
+
+  font-size: .8rem;
+
+  transition: .3s all cubic-bezier(.17,.67,.51,1.5);
+  transform: translate3d(0,0,0);
+  opacity: 1;
+}
+
+.gtemplates-popup p {
+  margin: 0;
+  padding: .6rem;
+}
+
+.gtemplates-popup a {
+  display: block;
+  padding: .6rem;
+  background-color: hsla(206, 81%, 60%, .1);
+  border-radius: 0 0 3px 3px;
+
+  color: #1c3a70;
+  font-weight: bold;
+}
+
+.gtemplates-popup a:hover {
+  background-color: hsla(206, 81%, 60%, .2);
+}
+
+.gtemplates-close {
+  position: absolute;
+  top: -1.2rem;
+  right: 0;
+  padding: .2rem .6rem;
+  background-color: #707c92;
+  border-radius: 1rem;
+  opacity: .7;
+
+  color: #fff;
+  font-size: .6rem;
+}
+
+.gtemplates-close:hover {
+  opacity: 1;
+}
+
+.gtemplates-popup-hide {
+  transform: translate3d(0, 10px, 0);
+  opacity: 0;
+  visibility: hidden;
+  height: 0;
+  overflow: hidden;
+}
+

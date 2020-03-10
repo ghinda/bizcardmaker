@@ -715,7 +715,7 @@ $color-resize: lighten($color-handle, 20%);
     border-color: #fff #fff #fff transparent;
     border-radius: 100%;
 
-    @include transform(translate3d(-50%, %50, 0));
+    @include transform(translate3d(-50%, 50%, 0));
     @include animation(rotate 1s infinite linear);
   }
 

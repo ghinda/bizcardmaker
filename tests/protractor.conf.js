@@ -4,6 +4,7 @@
 var themeDir = __dirname + '/media/themes';
 
 exports.config = {
+  directConnect: true,
   baseUrl: 'http://localhost:9000/',
   capabilities: {
     'browserName': 'chrome',
