@@ -1,25 +1,26 @@
-<div class="reveal modal-logaster js-modal-logaster" data-reveal>
-
+<div class="card-logaster">
   <h2>
-    Get a new logo
-
-    <small>
-      Create your logo in a minute. Fast and simple.
-    </small>
+    Create your personal logo
   </h2>
 
-  <div class="widget-logaster">
-    <img style="border:0" src="https://partner.logaster.com/scripts/imp.php?a_aid=bizcardmaker&amp;a_bid=751524a1" width="1" height="1" alt="" /><script type="application/javascript" src="https://www.logaster.com/api/cl/"></script>
-  </div>
+  <form method="get" action="https://www.logaster.com/logo/" target="_blank">
+    <img style="border:0; float: left;" src="https://partner.logaster.com/scripts/imp.php?a_aid=bizcardmaker&amp;a_bid=f6a48978" width="1" height="1" alt=""/>
 
-  <div class="logaster-powered">
-    Powered by
-    <a href="https://www.logaster.com/ref/bizcardmaker.html" target="_blank">
-      <img src="images/logo-logaster.png" alt="Logaster">
-    </a>
-  </div>
+    <label for="t">
+      What's your brand name?
+    </label>
+    <div class="card-logaster-form">
+      <input type="text" name="t" id="t" placeholder="Brand Name Inc" autocomplete="off" value="">
+      <button type="submit" id="next-btn" class="button btn-logaster">
+        Create a logo
+      </button>
+    </div>
+  </form>
+</div>
 
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
+<div class="logaster-powered">
+  Powered by
+  <a href="https://www.logaster.com/ref/bizcardmaker.html" target="_blank">
+    <img src="images/logo-logaster.png" alt="Logaster">
+  </a>
 </div>

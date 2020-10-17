@@ -8,7 +8,7 @@
 
 $logasterBg: #27ae60;
 
-button.btn-logaster {
+.btn-logaster {
   margin-bottom: .4em;
   padding: .6em 1em;
   border-radius: 3px;
@@ -19,7 +19,7 @@ button.btn-logaster {
   text-align: left;
 }
 
-button.btn-logaster:hover {
+.btn-logaster:hover {
   background: lighten($logasterBg, 8%);
 }
 
