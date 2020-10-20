@@ -70,3 +70,23 @@ li.order-btn,
   border-style: solid;
   border-color: transparent #EB278D;
 }
+
+
+/* pgprint test
+ */
+.pgprint .order-btn-psprint,
+.order-btn-pgprint {
+  display: none !important;
+}
+
+.pgprint .order-btn-pgprint {
+  display: block !important;
+  position: relative;
+}
+
+.order-btn-pgprint .partner-text a {
+  height: 36px;
+  background-image: url(../images/logo-pgprint.png);
+}
+
+
