@@ -1,7 +1,7 @@
-/* psprint button
+/* print affiliate button
  */
 
-.order-btn-psprint {
+.order-btn {
   display: block;
   position: relative;
 }
@@ -21,8 +21,8 @@
 
 .partner-text a {
   width: 140px;
-  height: 21px;
-  background-image: url(../images/psprint-logo.png);
+  height: 34px;
+  background-image: url(../images/logo-pgprint.png);
 }
 
 li.order-btn,
@@ -72,21 +72,8 @@ li.order-btn,
 }
 
 
-/* pgprint test
+/* pgprint
  */
-.pgprint .order-btn-psprint,
-.order-btn-pgprint {
-  display: none !important;
-}
 
-.pgprint .order-btn-pgprint {
-  display: block !important;
-  position: relative;
-}
-
-.order-btn-pgprint .partner-text a {
-  height: 36px;
-  background-image: url(../images/logo-pgprint.png);
-}
 
 

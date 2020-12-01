@@ -7,7 +7,7 @@
   var events = [
     {
       selector: '.js-track-order',
-      arguments: ['Orders', 'Clicked PsPrint button'],
+      arguments: ['Orders', 'Clicked Print Order button'],
     },
     {
       selector: '.js-track-pdf',

@@ -1,0 +1,35 @@
+/* logo affiliate
+ */
+
+$btnLogoBg: #27ae60;
+
+.btn-logo {
+  margin-bottom: .4em;
+  padding: .6em 1em;
+  border-radius: 3px;
+  background: $btnLogoBg;
+  box-shadow: inset 0 -2px 0 darken($btnLogoBg, 8%);
+
+  font-size: emCalc(20);
+  text-align: left;
+}
+
+.btn-logo:hover {
+  background: lighten($btnLogoBg, 8%);
+}
+
+.btn-logo small {
+  display: block;
+}
+
+.affiliate-logo-powered {
+  margin-left: 1.6em;
+
+  font-size: emCalc(12);
+}
+
+.affiliate-logo-powered img {
+  margin-left: emCalc(4);
+  width: emCalc(160);
+}
+
