@@ -10,6 +10,7 @@
     "grunt-angular-templates": "1.1.0",
     "grunt-assemble": "^0.6.0",
     "grunt-build-control": "^0.7.1",
+    "grunt-cli": "^1.4.2",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^1.0.2",
@@ -43,6 +44,10 @@
   },
   "dependencies": {},
   "scripts": {
-    "update": "webdriver-manager update"
+    "update": "webdriver-manager update",
+    "start": "grunt server",
+    "build": "grunt",
+    "test": "grunt test",
+    "deploy": "grunt deploy"
   }
 }

@@ -1,4 +1,4 @@
-/* gorgias templates popup
+/* briskine popup
 */
 
 (function() {
