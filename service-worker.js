@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["404.html","0ee7f4808599a5785f68814a81f370b6"],["about.html","48930b3e9e01a395d1397da15354d274"],["bower_components/font-awesome/css/font-awesome.css","8e12157da5fc90094ae4113ba110456b"],["bower_components/font-awesome/fonts/FontAwesome.otf","668743fe7258676f8ef8f9b47d2a623e"],["bower_components/font-awesome/fonts/fontawesome-webfont.eot","45c73723862c6fc5eb3d6961db2d71fb"],["bower_components/font-awesome/fonts/fontawesome-webfont.svg","76a4f23c6be74fd309e0d0fd2c27a5de"],["bower_components/font-awesome/fonts/fontawesome-webfont.ttf","7c87870ab40d63cfb8870c1f183f9939"],["bower_components/font-awesome/fonts/fontawesome-webfont.woff","dfb02f8f6d0cedc009ee5887cc68f1f3"],["bower_components/font-awesome/fonts/fontawesome-webfont.woff2","4b5a84aaf1c9485e060c503a0ff8cadb"],["contact.html","9cb84e8b1626834da48ef94559024735"],["faq.html","ae4e8472716663aaf32d799133822df6"],["images/0fda48b1.mastercard.png","fd7db61b7b9d8bcf1e0cd430b1aecc14"],["images/188b6f18.chrome-app.png","060b85e0f4005f63c38f497fe99f114a"],["images/1c615d83.bizcardmaker-logo.png","3662d30f3ea2b5c361ed7ae011985705"],["images/34039045.logo-smashinglogo.png","26cbebc3e867790094d1d74d07377231"],["images/412c2eb7.discover.png","1a1618bb6fbbd55b8ede597f45078240"],["images/51a2a106.creditcard-cvc.png","deb15424da9814edab4d8dfce9d68eec"],["images/705cea10.ssl-seal.png","30209ac61e662baf284af432f92dc72e"],["images/7a1bd1c1.logo-pgprint.png","6cb18f30283bfd36c54264f8e98ab347"],["images/9949e6dc.logo-logaster.png","76495006b8979f6508845e789f6b1931"],["images/abc3f918.amex.png","94b87a4fb9e6d76bca1cd5b2c097bd7b"],["images/b440ad14.social-promo-banner.png","44367f69afb32d162a03bc65514461b3"],["images/banner-social.png","fde8c14bbd77a593be883f94b0458c30"],["images/blog/05e82d8e.icon-chat.png","66de6e5ec68694dfa9f7969ed222ce0c"],["images/blog/09294d20.theme-new-space.jpg","b4979eab6d365e4392b80e478499e448"],["images/blog/1309add2.pdf-download-new.png","41f964eeb451a027e51a22a37c77ece7"],["images/blog/2bd25fd4.theme-new-autumn.png","5a7ee31393cb3e9ff76560f97d83a112"],["images/blog/35dabb99.post-picture-default.png","228309c13dd76fb3969e572901dda3d1"],["images/blog/3601a92a.theme-new-city-lights.jpg","95768ec0f33999fa0a47d5df423fd03f"],["images/blog/479647b9.icon-shipping.png","cdfeaa3d1ce4db2752f32e935c35ae74"],["images/blog/5e733bdf.post-picture-februrary.png","33c1f14fb8bd4b639e734d79b9f4a90c"],["images/blog/7b806157.post-picture-september.png","f75a6501064ebbca6c9f7caee96b1abb"],["images/blog/81eca085.post-picture-october.png","efe24ea45caf03f942db91d0743c869e"],["images/blog/8eb3cea9.icon-new-themes.png","b3e8b807fe516da09cdd6722223fa687"],["images/blog/943010ca.theme-new-line.png","1c4dd638ff7e2534227120d66b9cee24"],["images/blog/a14a34bb.icon-new-ui.png","091af63dcd59a51dd33afed23ac83ef2"],["images/blog/b23848c7.post-picture-pdf-download.png","7e8e587c50a617c2edd8c79f51148863"],["images/blog/b50519ce.icon-lower-prices.png","c97f8bfffd3e4f7eb7f80523b7bc2037"],["images/blog/c668ae9a.post-picture-auto-save.png","565e76369d59cfeccd6b4c98db09237e"],["images/blog/d64a09b5.icon-cdn.png","4525247fb4fc3db71c71e42404dc9342"],["images/d1f72431.psprint-logo.png","9fafec0906ff2e17efcf384b25ca2827"],["images/d84dab78.visa.png","c48e103e5c2588c56af1e7e5e11971d7"],["images/themes/2498ff12.food.png","013677de5ebc506aa9be7a7ce9955ee6"],["images/themes/603ee68b.winter3.jpg","f45ecd5a9f3d2b75cf1c5fc33c739381"],["images/themes/780f2731.restaurant.png","1b45c2e7c69e265ff0576ca60105a58a"],["images/themes/8485953f.space.jpg","a680e71b7582605172f62ff405022b1d"],["images/themes/a9da552a.winter.jpg","91eebe3e752e996b10b0194be6a73f3e"],["images/themes/bd0bb253.winter2.jpg","e4c3a83f3ccd8517e1e2c1f984f424df"],["images/themes/cd05a154.school.png","3d3992779e81746c8f9e51e5fcfe11d6"],["images/themes/ec9d3b56.stardust.png","81bd6cdf3df8d40a7eb2100d60dc1147"],["images/themes/eca09f8b.city.jpg","d10d38f94a6f1c160a5da0c2727a6a46"],["images/themes/efb374ab.diagonals.png","da6fd3fb2299140af059abe1cafc50cc"],["index.html","2688a00f256e79bbbb60b80d6cd2604a"],["privacy.html","cc6e6b168baa1f2a62c27238fe597c10"],["scripts/app.js","474bb627a385af03fbe41527eee1da32"],["scripts/plugins.js","e8bcf6ecaf8d208bd722187bfb346b94"],["scripts/website.js","c468236311872e2775ff3d1bfa904afc"],["styles/4333eeaf.website.css","0a1c07d4bb4b1c6b7da44e3d0d5f5a3a"]];
+var precacheConfig = [["404.html","0ee7f4808599a5785f68814a81f370b6"],["about.html","26940a53f3d6033e39028a61e84d812a"],["bower_components/font-awesome/css/font-awesome.css","8e12157da5fc90094ae4113ba110456b"],["bower_components/font-awesome/fonts/FontAwesome.otf","668743fe7258676f8ef8f9b47d2a623e"],["bower_components/font-awesome/fonts/fontawesome-webfont.eot","45c73723862c6fc5eb3d6961db2d71fb"],["bower_components/font-awesome/fonts/fontawesome-webfont.svg","76a4f23c6be74fd309e0d0fd2c27a5de"],["bower_components/font-awesome/fonts/fontawesome-webfont.ttf","7c87870ab40d63cfb8870c1f183f9939"],["bower_components/font-awesome/fonts/fontawesome-webfont.woff","dfb02f8f6d0cedc009ee5887cc68f1f3"],["bower_components/font-awesome/fonts/fontawesome-webfont.woff2","4b5a84aaf1c9485e060c503a0ff8cadb"],["contact.html","aaf965ea1bc4ec6316fe56d906eced9d"],["faq.html","7bdfdcd8999f695ecab1437f862a589d"],["images/1c615d83.bizcardmaker-logo.png","3662d30f3ea2b5c361ed7ae011985705"],["images/27ac7977.chrome-app.png","060b85e0f4005f63c38f497fe99f114a"],["images/57d57b04.logo-smashinglogo.png","26cbebc3e867790094d1d74d07377231"],["images/6b05c353.social-promo-banner.png","44367f69afb32d162a03bc65514461b3"],["images/7817d503.logo-pgprint.png","6cb18f30283bfd36c54264f8e98ab347"],["images/banner-social.png","fde8c14bbd77a593be883f94b0458c30"],["images/blog/0203aad4.icon-new-themes.png","b3e8b807fe516da09cdd6722223fa687"],["images/blog/05e82d8e.icon-chat.png","66de6e5ec68694dfa9f7969ed222ce0c"],["images/blog/21cc7e3e.post-picture-october.png","efe24ea45caf03f942db91d0743c869e"],["images/blog/28ca53db.icon-cdn.png","4525247fb4fc3db71c71e42404dc9342"],["images/blog/28f869fb.theme-new-city-lights.jpg","95768ec0f33999fa0a47d5df423fd03f"],["images/blog/435ab4f2.icon-new-ui.png","091af63dcd59a51dd33afed23ac83ef2"],["images/blog/43dc8eb7.post-picture-september.png","f75a6501064ebbca6c9f7caee96b1abb"],["images/blog/480c1c62.post-picture-februrary.png","33c1f14fb8bd4b639e734d79b9f4a90c"],["images/blog/5957db53.pdf-download-new.png","41f964eeb451a027e51a22a37c77ece7"],["images/blog/5ad0e61a.theme-new-space.jpg","b4979eab6d365e4392b80e478499e448"],["images/blog/6917b466.icon-shipping.png","cdfeaa3d1ce4db2752f32e935c35ae74"],["images/blog/69ef3570.post-picture-auto-save.png","565e76369d59cfeccd6b4c98db09237e"],["images/blog/7a558ccd.theme-new-autumn.png","5a7ee31393cb3e9ff76560f97d83a112"],["images/blog/83971dae.icon-lower-prices.png","c97f8bfffd3e4f7eb7f80523b7bc2037"],["images/blog/c5c1040d.post-picture-default.png","228309c13dd76fb3969e572901dda3d1"],["images/blog/e0c12145.post-picture-pdf-download.png","7e8e587c50a617c2edd8c79f51148863"],["images/blog/f1e3f7b6.theme-new-line.png","1c4dd638ff7e2534227120d66b9cee24"],["images/f0e96e27.logo-brandcrowd.svg","f0e96e27e98555a928a6855ee8965930"],["images/themes/0a156dbf.winter2.jpg","e4c3a83f3ccd8517e1e2c1f984f424df"],["images/themes/2425de7d.stardust.png","81bd6cdf3df8d40a7eb2100d60dc1147"],["images/themes/2b22e46e.space.jpg","a680e71b7582605172f62ff405022b1d"],["images/themes/38e26696.winter.jpg","91eebe3e752e996b10b0194be6a73f3e"],["images/themes/80cd7ffe.food.png","013677de5ebc506aa9be7a7ce9955ee6"],["images/themes/980787b2.school.png","3d3992779e81746c8f9e51e5fcfe11d6"],["images/themes/9f4fa917.city.jpg","d10d38f94a6f1c160a5da0c2727a6a46"],["images/themes/b9da87bc.restaurant.png","1b45c2e7c69e265ff0576ca60105a58a"],["images/themes/cf96a055.winter3.jpg","f45ecd5a9f3d2b75cf1c5fc33c739381"],["images/themes/efb374ab.diagonals.png","da6fd3fb2299140af059abe1cafc50cc"],["index.html","c54e32282c1fe518ed94e2533f072652"],["privacy.html","894eba4dae85b263cf7c555748d9ab99"],["scripts/app.js","474bb627a385af03fbe41527eee1da32"],["scripts/plugins.js","e8bcf6ecaf8d208bd722187bfb346b94"],["scripts/website.js","c468236311872e2775ff3d1bfa904afc"],["styles/cb812521.website.css","a31db0616bf6e9f6a8ddcb1734fe5780"]];
 var cacheName = 'sw-precache-v3-bizcardmaker-' + (self.registration ? self.registration.scope : '');
 
 
@@ -45,7 +45,7 @@ var ignoreUrlParametersMatching = [/^v/];
 
 
 
-var addDirectoryIndex = function (originalUrl, index) {
+var addDirectoryIndex = function(originalUrl, index) {
     var url = new URL(originalUrl);
     if (url.pathname.slice(-1) === '/') {
       url.pathname += index;
@@ -53,7 +53,7 @@ var addDirectoryIndex = function (originalUrl, index) {
     return url.toString();
   };
 
-var cleanResponse = function (originalResponse) {
+var cleanResponse = function(originalResponse) {
     // If this is not a redirected response, then we don't have to do anything.
     if (!originalResponse.redirected) {
       return Promise.resolve(originalResponse);
@@ -75,7 +75,7 @@ var cleanResponse = function (originalResponse) {
     });
   };
 
-var createCacheKey = function (originalUrl, paramName, paramValue,
+var createCacheKey = function(originalUrl, paramName, paramValue,
                            dontCacheBustUrlsMatching) {
     // Create a new URL object to avoid modifying originalUrl.
     var url = new URL(originalUrl);
@@ -91,7 +91,7 @@ var createCacheKey = function (originalUrl, paramName, paramValue,
     return url.toString();
   };
 
-var isPathWhitelisted = function (whitelist, absoluteUrlString) {
+var isPathWhitelisted = function(whitelist, absoluteUrlString) {
     // If the whitelist is empty, then consider all URLs to be whitelisted.
     if (whitelist.length === 0) {
       return true;
@@ -104,7 +104,7 @@ var isPathWhitelisted = function (whitelist, absoluteUrlString) {
     });
   };
 
-var stripIgnoredUrlParameters = function (originalUrl,
+var stripIgnoredUrlParameters = function(originalUrl,
     ignoreUrlParametersMatching) {
     var url = new URL(originalUrl);
     // Remove the hash; see https://github.com/GoogleChrome/sw-precache/issues/290
