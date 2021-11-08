@@ -1,15 +1,17 @@
 /* Utils
 */
 
+@use "sass:math";
+
 $em-base: 16 !default;
 
 @function strip-unit($num) {
-  @return $num / ($num * 0 + 1);
+  @return math.div($num, $num * 0 + 1);
 }
 
 // Converts "px" to "em" using the ($)em-base
 @function convert-to-em($value)  {
-  $value: strip-unit($value) / strip-unit($em-base) * 1em;
+  $value: math.div(strip-unit($value), strip-unit($em-base)) * 1em;
   @if ($value == 0em) { $value: 0; } // Turn 0em into 0
   @return $value;
 }

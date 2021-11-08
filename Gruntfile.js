@@ -254,9 +254,10 @@ module.exports = function (grunt) {
         }
       }
     },
-    execute: {
+    run: {
       themes: {
-        src: [ 'tests/themes/themes-diff.js' ]
+        cmd: 'node',
+        args: [ 'tests/themes/themes-diff.js' ]
       }
     },
     buildcontrol: {
@@ -337,7 +338,7 @@ module.exports = function (grunt) {
       'connect:dist',
       'clean:test',
       'protractor:themes',
-      'execute:themes'
+      'run:themes'
     ]);
   });
 
