@@ -105,20 +105,7 @@ module.exports = function(config) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [
       'Chrome',
-      // 'PhantomJS_Desktop',
     ],
-
-    customLaunchers: {
-      'PhantomJS_Desktop': {
-        base: 'PhantomJS',
-          options: {
-            viewportSize: {
-              width: 1400,
-              height: 1000
-          }
-        }
-      }
-    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
