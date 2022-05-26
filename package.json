@@ -6,7 +6,7 @@
     "chai": "^4.0.0",
     "connect-livereload": "^0.6.0",
     "gm": "^1.23.0",
-    "grunt": "^1.0.1",
+    "grunt": "^1.5.3",
     "grunt-angular-templates": "^1.1.0",
     "grunt-assemble": "^0.6.0",
     "grunt-build-control": "^0.7.1",
