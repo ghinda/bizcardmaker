@@ -208,11 +208,7 @@ article h2 {
 .top-bar-title {
   overflow: hidden;
   margin-right: emCalc(20);
-  width: emCalc(120);
-
-  @include breakpoint(mama-bear) {
-    width: emCalc(280);
-  }
+  width: emCalc(280);
 }
 
 .top-bar-title a {

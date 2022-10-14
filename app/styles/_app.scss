@@ -23,35 +23,47 @@ body {
   width: 100%;
   height: 100%;
   padding-top: 52px;
+
+  display: flex;
 }
 
-.app-view,
-.themes-box,
-.card-editor {
-  float: left;
+.app-view {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+  width: 100%;
+
+  @include breakpoint(mama-bear) {
+    flex-direction: row;
+    width: auto;
+  }
 }
 
 .themes-box {
   padding-left: emCalc(8);
   padding-right: emCalc(8);
-  overflow-y: scroll;
-  overflow-x: hidden;
-  width: emCalc(120);
+  overflow-x: scroll;
+  width: 100%;
 
   @include breakpoint(mama-bear) {
     width: emCalc(280);
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
 }
 
 .card-editor {
-  margin-left: 20px;
+  padding-left: 0.5em;
   padding-bottom: 0;
-  width: emCalc(500);
+  width: 100%;
 
-  font-size: .84em;
+  font-size: .78em;
 
   @include breakpoint(mama-bear) {
+    width: emCalc(500);
+    margin-left: 20px;
+    padding-left: 0;
+
     font-size: .92em;
   }
 
@@ -68,6 +80,11 @@ body {
 .button.btn-reset {
   float: right;
   margin: 0;
+  display: none;
+
+  @include breakpoint(mama-bear) {
+    display: block;
+  }
 }
 
 /* Themes
@@ -81,13 +98,19 @@ body {
   white-space: nowrap;
 
   .theme-item {
-    display: block;
+    display: inline-block;
     position: relative;
     height: emCalc(60);
+    width: emCalc(60);
     padding: emCalc(6);
     margin: 0 0 emCalc(4);
     border-radius: 3px;
     background-color: $white;
+
+    @include breakpoint(mama-bear) {
+      display: block;
+      width: 100%;
+    }
 
     .theme-preview-container {
       overflow: hidden;
@@ -139,7 +162,7 @@ body {
   border: 1px solid darken($white, 10%);
   box-shadow: 0 2px 1px darken($white, 5%);
 
-  font-size: 1.34em;
+  font-size: 1.3em;
 
   @include breakpoint(mama-bear) {
     font-size: 1.4em;
@@ -463,10 +486,12 @@ $color-resize: lighten($color-handle, 20%);
     }
 
     &:last-child {
-      width: 38%;
+      width: 95%;
       margin-left: 2%;
 
-      font-size: .7em;
+      @include breakpoint(mama-bear) {
+        width: 38%;
+      }
     }
 
   }
@@ -511,7 +536,7 @@ $color-resize: lighten($color-handle, 20%);
   background-color: $grey;
   box-shadow: none;
 
-  font-size: emCalc(12);
+  font-size: 16px;
 
   &:after {
     content: '';
@@ -556,6 +581,14 @@ $color-resize: lighten($color-handle, 20%);
   background: #efefef;
 
   color: $color2;
+}
+
+.order-btn  {
+  display: none !important;
+
+  @include breakpoint(mama-bear) {
+    display: block !important;
+  }
 }
 
 .order-btn .button {
