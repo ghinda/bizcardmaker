@@ -63,16 +63,13 @@
 
   .theme-half--#{$name},
   .theme-half--#{$name}-thumb .theme-preview {
-    @include background-image(
-      linear-gradient(
-        left,
-        $color 0%,
-        $color 50%,
-        #fff 50%,
-        #fff 100%
-      )
+    background-image: linear-gradient(
+      to right,
+      $color 0%,
+      $color 50%,
+      #fff 50%,
+      #fff 100%
     );
-    
   }
 
   .theme-half--#{$name} {

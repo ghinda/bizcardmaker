@@ -10,16 +10,13 @@
 
   .theme-third--#{$name},
   .theme-third--#{$name}-thumb .theme-preview {
-    @include background-image(
-      linear-gradient(
-        left,
-        $color 0%,
-        $color 58%,
-        $color-third 58%,
-        $color-third 100%
-      )
+    background-image: linear-gradient(
+      to right,
+      $color 0%,
+      $color 58%,
+      $color-third 58%,
+      $color-third 100%
     );
-
   }
 
   .theme-third--#{$name} {

@@ -51,7 +51,7 @@
     vertical-align: middle;
     text-transform: uppercase;
 
-    @include transform(rotate(-16deg));
+    transform: rotate(-16deg);
   }
 
 }

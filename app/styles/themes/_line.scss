@@ -4,6 +4,14 @@
 /* Mixin
  */
 
+@mixin clearfix {
+  &::after {
+    clear: both;
+    content: "";
+    display: block;
+  }
+}
+
 @mixin line($name, $color, $dark: false) {
 
   .theme-line--#{$name}-thumb,

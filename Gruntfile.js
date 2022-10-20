@@ -206,11 +206,6 @@ module.exports = function (grunt) {
         }]
       }
     },
-    karma: {
-      unit: {
-        configFile: 'tests/karma.conf.js'
-      }
-    },
     ngtemplates: {
       dist: {
         options: {
