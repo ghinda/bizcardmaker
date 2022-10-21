@@ -49,58 +49,62 @@
 </head>
 <body>
 
-  <nav class="top-bar">
+  <div class="container-main">
 
-    <div class="top-bar-title">
-      <h1>
-        <a href="/">
-          <img src="/images/bizcardmaker-logo.png" alt="Business Card Maker Logo">
+    <nav class="top-bar">
 
-          Business Card Maker
-        </a>
-      </h1>
-    </div>
+      <div class="top-bar-title">
+        <h1>
+          <a href="/">
+            <img src="/images/bizcardmaker-logo.png" alt="Business Card Maker Logo">
 
-    <div class="top-bar-left">
-      {{#if title}}
-        {{#if page.posted }}
-          <h2>
-            Blog
-          </h2>
-        {{ else }}
-          <a href="/" class="button radius secondary left btn-start js-guide-btn">
-            Get started
+            Business Card Maker
           </a>
+        </h1>
+      </div>
+
+      <div class="top-bar-left">
+        {{#if title}}
+          {{#if page.posted }}
+            <h2>
+              Blog
+            </h2>
+          {{ else }}
+            <a href="/" class="button radius secondary left btn-start js-guide-btn">
+              Get started
+            </a>
+          {{/if}}
         {{/if}}
-      {{/if}}
-    </div>
+      </div>
 
-    <div class="top-bar-right show-for-medium">
-      <ul class="menu">
-        <li>
-          <a href="/about.html">About</a>
-        </li>
-        <li>
-          <a href="/faq.html">FAQ</a>
-        </li>
-        <li>
-          <a href="/blog/index.html">
-            Blog
-          </a>
-        </li>
-        <li>
-          <a href="/contact.html">Contact</a>
-        </li>
-        <li>
-          <a href="https://twitter.com/bizcardmakercom" target="_blank" class="btn-nav-icon">
-            <i class="fa fa-twitter"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+      <div class="top-bar-right show-for-medium">
+        <ul class="menu">
+          <li>
+            <a href="/about.html">About</a>
+          </li>
+          <li>
+            <a href="/faq.html">FAQ</a>
+          </li>
+          <li>
+            <a href="/blog/index.html">
+              Blog
+            </a>
+          </li>
+          <li>
+            <a href="/contact.html">Contact</a>
+          </li>
+          <li>
+            <a href="https://twitter.com/bizcardmakercom" target="_blank" class="btn-nav-icon">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-  {{> body }}
+    {{> body }}
+
+  </div>
 
   <!-- build:js(app) /scripts/plugins.js -->
   <script src="/bower_components/jquery/dist/jquery.js"></script>

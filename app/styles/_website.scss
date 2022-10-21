@@ -116,7 +116,7 @@ label {
 /* center layout on large screens
  */
 @media screen and (min-width: 78em) {
-  body {
+  .container-main {
     position: relative;
     max-width: 78em;
     margin: 0 auto;
