@@ -1,0 +1,104 @@
+<section class="card-editor" ng-controller="MainCtrl">
+
+  <h2>
+    Customize your business card
+
+    <button type="button" class="button small muted btn-reset" ng-click="ResetCard()" title="Undo all the styling changes you made. The text and logo will stay the same.">
+      <i class="fa fa-undo"></i>
+      Reset changes
+    </button>
+  </h2>
+
+  <div class="card-container js-card-container" ng-class="{ ' state-loading': model.loadingCard }">
+    <div class="card-preview \{{ model.store.theme }}">
+
+      <div class="card-content">
+
+        <input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
+
+        <div class="card-picture" dr-container=".card-content" dr-model="model.store.position.picture" dr-grid="10">
+
+          <label for="picture-upload" ng-class="{ 'no-picture': !model.cardPicture }" title="Click to upload your own logo">
+
+            <i class="fa fa-picture-o"></i>
+            <span>Upload your logo</span>
+
+            <img ng-src="\{{ model.cardPicture }}">
+
+          </label>
+        </div>
+
+        <div class="card-item person" dr-container=".card-content" dr-model="model.store.position.person" dr-grid="10">
+
+          <p meditor ng-model="model.store.card.name" class="fn"></p>
+          <p meditor ng-model="model.store.card.position" class="title"></p>
+
+        </div>
+
+        <div class="card-item details" dr-container=".card-content" dr-model="model.store.position.details" dr-grid="10">
+
+          <p meditor ng-model="model.store.card.organization" class="org"></p>
+          <p meditor ng-model="model.store.card.location" class="location"></p>
+          <p meditor ng-model="model.store.card.phone" class="tel"></p>
+
+        </div>
+
+        <div class="card-item email" dr-container=".card-content" dr-model="model.store.position.email" dr-grid="10">
+
+          <p meditor ng-model="model.store.card.email"></p>
+
+        </div>
+
+        <div class="card-item url" dr-container=".card-content" dr-model="model.store.position.url" dr-grid="10">
+
+          <p meditor ng-model="model.store.card.url"></p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <ul class="download-buttons">
+    <li class="order-btn">
+      <a href="https://shrsl.com/2kegh" class="button secondary js-track-order" target="_blank">
+        <i class="fa fa-shopping-cart"></i>
+        Get Printed Business Cards
+
+        <small>
+          Get 500 premium quality printed business cards for only <del>$28.45</del> <strong>$19.15</strong>!
+        </small>
+      </a>
+
+      <p class="partner-text">
+        Powered by
+        <a href="https://shrsl.com/2kegh" target="_blank">
+          PGPrint
+        </a>
+      </p>
+    </li>
+    <li>
+
+      <a data-toggle="drop-downloads" class="button muted button-download js-download-dropdown-btn float-right">
+        <i class="fa fa-arrow-circle-o-down"></i>
+        <span>Download as...</span>
+      </a>
+
+      <div id="drop-downloads" class="dropdown-pane bottom dropdown-download-files" data-dropdown data-close-on-click="true">
+        <button type="button" ng-click="DownloadPdf()" class="button-download-file js-track-pdf">
+          <i class="fa fa-file-text"></i>
+          Download as PDF
+        </button>
+
+        <button type="button" ng-click="DownloadPicture()" class="button-download-file js-track-picture">
+          <i class="fa fa-picture-o"></i>
+          Download as JPEG
+        </button>
+      </div>
+
+    </li>
+  </ul>
+
+</section>

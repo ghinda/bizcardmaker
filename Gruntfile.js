@@ -177,7 +177,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= config.dist %>',
-          src: ['*.html', 'views/*.html'],
+          src: ['*.html'],
           dest: '<%= config.dist %>'
         }]
       }
@@ -204,17 +204,6 @@ module.exports = function (grunt) {
             'generated/*'
           ]
         }]
-      }
-    },
-    ngtemplates: {
-      dist: {
-        options: {
-          usemin: '/scripts/app.js',
-          module: 'businessCardMaker'
-        },
-        cwd: '<%= config.app %>',
-        src: 'views/{,*/}*.html',
-        dest: '.tmp/scripts/templates.js'
       }
     },
     concat: {
@@ -312,7 +301,6 @@ module.exports = function (grunt) {
     'sitemap',
     'htmlmin',
     'useminPrepare',
-    'ngtemplates',
     'copy:dist',
     'concat',
     'cssmin',
