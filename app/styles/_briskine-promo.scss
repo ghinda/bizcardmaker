@@ -1,0 +1,37 @@
+/* briskine promo
+ */
+
+$btnLogoBg: #27ae60;
+
+.btn-briskine {
+  position: relative;
+  padding: .2em;
+  border-radius: 3px;
+  box-shadow: none;
+  background-color: transparent;
+
+  color: #333;
+  font-size: 18px;
+  text-align: left;
+}
+
+.btn-briskine:hover,
+.btn-briskine:focus {
+  background: $grey;
+
+  color: #333;
+}
+
+.btn-briskine small {
+  display: block;
+  font-size: 12px;
+}
+
+.btn-briskine .btn-icon {
+  position: absolute;
+  left: -1.8em;
+  top: .3em;
+
+  width: 24px;
+  height: 24px;
+}

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /* Card editor app
  */
 
@@ -92,7 +94,7 @@ body,
 */
 .themes-box {
   padding-bottom: 0;
-  background-color: darken($white, 10%);
+  background-color: color.adjust($white, $lightness: -10%, $space: hsl);
 }
 
 .themes-row {
@@ -133,7 +135,7 @@ body,
 
     &.active {
       background-color: $color2;
-      box-shadow: inset 0 -2px 0 darken($color1, 10%);
+      box-shadow: inset 0 -2px 0 color.adjust($color1, $lightness: -10%, $space: hsl);
 
       .theme-preview {
         opacity: .9;
@@ -160,8 +162,8 @@ body,
   width: emCalc(360);
   height: emCalc(216);
   margin-bottom: emCalc(20);
-  border: 1px solid darken($white, 10%);
-  box-shadow: 0 2px 1px darken($white, 5%);
+  border: 1px solid color.adjust($white, $lightness: -10%, $space: hsl);
+  box-shadow: 0 2px 1px color.adjust($white, $lightness: -5%, $space: hsl);
 
   font-size: 1.3em;
 
@@ -398,7 +400,7 @@ body,
 */
 
 $color-handle: #555;
-$color-resize: lighten($color-handle, 20%);
+$color-resize: color.adjust($color-handle, $lightness: 20%, $space: hsl);
 
 .drag-handle {
   position: absolute;
@@ -470,7 +472,8 @@ $color-resize: lighten($color-handle, 20%);
 */
 .download-buttons {
   overflow: hidden;
-  width: 100%;
+  display: flex;
+  gap: .6em;
   margin: 0;
 
   font-size: 1.65em;
@@ -481,20 +484,6 @@ $color-resize: lighten($color-handle, 20%);
     vertical-align: top;
 
     font-size: emCalc(12);
-
-    &.order-btn {
-      width: 60%;
-    }
-
-    &:last-child {
-      width: 95%;
-      margin-left: 2%;
-
-      @include breakpoint(mama-bear) {
-        width: 38%;
-      }
-    }
-
   }
 
   .button {
@@ -518,15 +507,6 @@ $color-resize: lighten($color-handle, 20%);
     padding-top: emCalc(4);
     padding-left: emCalc(44);
   }
-
-  @include breakpoint(baby-bear) {
-
-    > li {
-      float: left;
-      width: 50%;
-    }
-
-  }
 }
 
 .button.button-download {
@@ -538,18 +518,6 @@ $color-resize: lighten($color-handle, 20%);
   box-shadow: none;
 
   font-size: 16px;
-
-  &:after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    right: 2em;
-    display: block;
-    margin-top: -3px;
-    border-width: 5px 5px 0;
-    border-style: solid;
-    border-color: #444 transparent transparent;
-  }
 }
 
 .dropdown-download-files {
@@ -570,101 +538,8 @@ $color-resize: lighten($color-handle, 20%);
   border-color: transparent transparent #fff;
 }
 
-.button-download-file {
-  display: block;
-  width: 100%;
-  padding: .6em 1em;
-
-  font-size: 1.32em;
-}
-
-.button-download-file:hover {
-  background: #efefef;
-
-  color: $color2;
-}
-
-.order-btn  {
-  display: none !important;
-
-  @include breakpoint(mama-bear) {
-    display: block !important;
-  }
-}
-
-.order-btn .button {
-  color: #fff;
-  white-space: nowrap;
-}
-
-.order-btn small {
-  white-space: normal;
-}
-
 .price-promo {
   font-weight: bold;
-}
-
-.partner-text {
-  display: block;
-  margin: emCalc(8) 0 0 emCalc(80);
-
-  color: #479CAB;
-  font-size: emCalc(11);
-
-  a {
-    display: inline-block;
-    width: 100px;
-    height: 33px;
-    margin-left: emCalc(8);
-    overflow: hidden;
-    background-repeat: no-repeat;
-    background-size: contain;
-
-    text-indent: -100%;
-    vertical-align: middle;
-  }
-}
-
-.download-buttons .f-dropdown {
-  display: block;
-  min-width: emCalc(360);
-  border-radius: 3px;
-  border-color: $color2;
-
-  box-shadow: 0 2px 5px lighten(#000, 60%);
-
-  &:before,
-  &:after {
-    left: auto;
-    right: emCalc(20);
-  }
-
-  &:after {
-    border-bottom-color: $color2;
-    margin-left: 0;
-    margin-right: -1px;
-  }
-
-  li {
-    font-size: emCalc(24);
-  }
-
-  small {
-    color: lighten(#000, 20%);
-  }
-
-  a {
-    padding: emCalc(8) emCalc(24);
-
-    color: #000;
-
-    &:hover {
-      //background-color: lighten($color2, 40%);
-      color: $color2;
-      text-decoration: none;
-    }
-  }
 }
 
 .download-form {
@@ -675,8 +550,8 @@ $color-resize: lighten($color-handle, 20%);
 
 .download-note {
   padding: emCalc(5);
-  border-color: darken($white, 10%);
-  background-color: darken($white, 5%);
+  border-color: color.adjust($white, $lightness: -10%, $space: hsl);
+  background-color: color.adjust($white, $lightness: -5%, $space: hsl);
 
   font-size: 1em;
 
@@ -695,7 +570,7 @@ $color-resize: lighten($color-handle, 20%);
 .region-notice {
   display: block;
 
-  color: darken($white, 60%);
+  color: color.adjust($white, $lightness: -60%, $space: hsl);
   font-size: emCalc(12);
 
   @include breakpoint(baby-bear) {

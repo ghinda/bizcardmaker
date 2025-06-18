@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /* bizcardmaker.com
  * website styles
  * everything except the app styles, or stuff not in other modules
@@ -50,7 +52,7 @@ label {
   border: 0;
   border-radius: 3px;
   background: $color1;
-  box-shadow: inset 0 -2px 0 darken($color1, 10%);
+  box-shadow: inset 0 -2px 0 color.adjust($color1, $lightness: -10%, $space: hsl);
 
   line-height: normal;
 
@@ -60,36 +62,36 @@ label {
 
   &:hover,
   &:focus {
-    background-color: lighten($color1, 5%);
+    background-color: color.adjust($color1, $lightness: 5%, $space: hsl);
 
     text-decoration: none;
   }
 
   &:active {
-    background-color: darken($color1, 10%);
+    background-color: color.adjust($color1, $lightness: -10%, $space: hsl);
 
-    box-shadow: inset 0 2px 1px darken($color1, 20%);
+    box-shadow: inset 0 2px 1px color.adjust($color1, $lightness: -20%, $space: hsl);
   }
 
   &.secondary {
     background: $color2;
-    box-shadow: inset 0 -2px 0 darken($color2, 10%);
+    box-shadow: inset 0 -2px 0 color.adjust($color2, $lightness: -10%, $space: hsl);
 
     &:hover,
     &:focus {
-      background-color: lighten($color2, 5%);
+      background-color: color.adjust($color2, $lightness: 5%, $space: hsl);
     }
 
     &:active {
-      background-color: darken($color2, 10%);
+      background-color: color.adjust($color2, $lightness: -10%, $space: hsl);
 
-      box-shadow: inset 0 2px 1px darken($color2, 20%);
+      box-shadow: inset 0 2px 1px color.adjust($color2, $lightness: -20%, $space: hsl);
     }
   }
 
   &.muted {
     background-color: $grey;
-    box-shadow: inset 0 -2px 0 darken($grey, 10%);
+    box-shadow: inset 0 -2px 0 color.adjust($grey, $lightness: -10%, $space: hsl);
 
     color: #444;
 
@@ -102,13 +104,13 @@ label {
     }
 
     &:hover {
-      background-color: lighten($grey, 5%);
+      background-color: color.adjust($grey, $lightness: 5%, $space: hsl);
     }
 
     &:active {
-      background-color: darken($grey, 10%);
+      background-color: color.adjust($grey, $lightness: -10%, $space: hsl);
 
-      box-shadow: inset 0 2px 1px darken($grey, 20%);
+      box-shadow: inset 0 2px 1px color.adjust($grey, $lightness: -20%, $space: hsl);
     }
   }
 }
@@ -170,7 +172,7 @@ section {
 article h1 {
   margin: 0 0 emCalc(24);
 
-  color: desaturate($color1, 60%);
+  color: color.adjust($color1, $saturation: -60%, $space: hsl);
   font-size: emCalc(24);
   line-height: 1em;
   letter-spacing: emCalc(-0.5);
@@ -197,10 +199,10 @@ article h2 {
 }
 
 .top-bar-title a {
-  background-color: darken($color1, 12%);
+  background-color: color.adjust($color1, $lightness: -12%, $space: hsl);
 
   &:hover {
-    background-color: darken($color1, 8%);
+    background-color: color.adjust($color1, $lightness: -8%, $space: hsl);
   }
 }
 
@@ -253,7 +255,7 @@ article h2 {
 .top-bar-left h2 {
   margin: 0;
 
-  color: lighten($color1, 48%);
+  color: color.adjust($color1, $lightness: 48%, $space: hsl);
   font-size: 1.25em;
   vertical-align: middle;
 }
@@ -274,7 +276,7 @@ article h2 {
 .top-bar .menu a {
   padding: 0 1.4em;
 
-  color: lighten($color1, 48%);
+  color: color.adjust($color1, $lightness: 48%, $space: hsl);
   font-size: 0.75em;
   font-weight: 700;
   text-decoration: none;
@@ -283,7 +285,7 @@ article h2 {
 
 .top-bar .menu a:hover,
 .top-bar .menu a:active {
-  background-color: darken($color1, 4%);
+  background-color: color.adjust($color1, $lightness: -4%, $space: hsl);
 
   color: #fff;
 }

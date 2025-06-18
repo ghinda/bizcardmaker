@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /* Themes
  */
 
@@ -39,7 +41,7 @@
     padding: emCalc(14) 0;
     background: #f1c40f;
     border-radius: 100%;
-    box-shadow: 0 1px 1px darken(#f1c40f, 12%);
+    box-shadow: 0 1px 1px color.adjust(#f1c40f, $lightness: -12%, $space: hsl);
 
     content: 'NEW';
     color: #fff;

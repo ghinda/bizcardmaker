@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /* Line theme
  */
 
@@ -17,7 +19,7 @@
   .theme-line--#{$name}-thumb,
   .theme-line--#{$name} {
 
-    $color-line: lighten(saturate($color, 60%), 20%);
+    $color-line: color.adjust(color.adjust($color, $saturation: 60%, $space: hsl), $lightness: 20%, $space: hsl);
 
     background-color: $color;
 
@@ -100,9 +102,9 @@
         font-size: emCalc(10);
 
         @if $dark == true {
-          color: lighten($color, 40%);
+          color: color.adjust($color, $lightness: 40%, $space: hsl);
         } @else {
-          color: darken($color, 40%);
+          color: color.adjust($color, $lightness: -40%, $space: hsl);
         }
       }
 

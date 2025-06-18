@@ -62,42 +62,17 @@
   </div>
 
   <ul class="download-buttons">
-    <li class="order-btn">
-      <a href="https://shrsl.com/2kegh" class="button secondary js-track-order" target="_blank">
-        <i class="fa fa-shopping-cart"></i>
-        Get Printed Business Cards
-
-        <small>
-          Get 500 premium quality printed business cards for only <del>$28.45</del> <strong>$19.15</strong>!
-        </small>
-      </a>
-
-      <p class="partner-text">
-        Powered by
-        <a href="https://shrsl.com/2kegh" target="_blank">
-          PGPrint
-        </a>
-      </p>
+    <li>
+      <button type="button" ng-click="DownloadPdf()" class="button muted button-download js-track-pdf">
+        <i class="fa fa-file-pdf-o"></i>
+        Download PDF
+      </button>
     </li>
     <li>
-
-      <a data-toggle="drop-downloads" class="button muted button-download js-download-dropdown-btn float-right">
-        <i class="fa fa-arrow-circle-o-down"></i>
-        <span>Download as...</span>
-      </a>
-
-      <div id="drop-downloads" class="dropdown-pane bottom dropdown-download-files" data-dropdown data-close-on-click="true">
-        <button type="button" ng-click="DownloadPdf()" class="button-download-file js-track-pdf">
-          <i class="fa fa-file-text"></i>
-          Download as PDF
-        </button>
-
-        <button type="button" ng-click="DownloadPicture()" class="button-download-file js-track-picture">
-          <i class="fa fa-picture-o"></i>
-          Download as JPEG
-        </button>
-      </div>
-
+      <button type="button" ng-click="DownloadPicture()" class="button muted button-download js-track-picture">
+        <i class="fa fa-file-image-o"></i>
+        Download JPEG
+      </button>
     </li>
   </ul>
 

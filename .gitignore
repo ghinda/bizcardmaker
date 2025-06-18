@@ -6,8 +6,4 @@ npm-debug.log
 deploy.json
 tests/media/themes
 tests/media/themes-diff
-
-# Editor
-.kateproject
-.kateproject.d
-*.kate-swp
+test-results/

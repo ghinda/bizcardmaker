@@ -18,14 +18,13 @@ Make sure you have Node.js `>=0.8.0` installed.
 Run the initial setup with:
 
 ```
-  npm install -g grunt-cli
   npm install
 ```
 
 Run the app in development mode with:
 
 ```
-  grunt server
+  npm start
 ```
 
 Before finishing up a feature, check the final build with:

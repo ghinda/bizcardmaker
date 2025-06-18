@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /* Diagonals theme
  */
 
@@ -30,7 +32,7 @@
     color: #000;
 
     &:hover {
-      background-color: darken($white, 10%);
+      background-color: color.adjust($white, $lightness: -10%, $space: hsl);
     }
 
     a {

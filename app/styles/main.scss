@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /* bizcardmaker.com
  * everything styles
  */
@@ -5,7 +7,7 @@
 /* variables
  */
 $color1: #2854a1;
-$color2: lighten(saturate($color1, 40%), 20%);
+$color2: color.adjust(color.adjust($color1, $saturation: 40%, $space: hsl), $lightness: 20%, $space: hsl);
 $white: #fff;
 $grey: #e6e6e6;
 
@@ -15,6 +17,4 @@ $grey: #e6e6e6;
 @import 'sidebar';
 @import 'help';
 
-@import 'affiliate-logo';
-@import 'affiliate-print';
-@import 'gorgiastemplates';
+@import 'briskine-promo';

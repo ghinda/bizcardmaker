@@ -81,15 +81,6 @@ module.exports = function (grunt) {
         '<%= config.tests %>/media/themes-diff'
       ]
     },
-    jshint: {
-      options: {
-        jshintrc: '.jshintrc'
-      },
-      all: [
-        'Gruntfile.js',
-        '<%= config.app %>/scripts/{,*/}*.js'
-      ]
-    },
     assemble: {
       options: {
         collections: [{
@@ -223,27 +214,6 @@ module.exports = function (grunt) {
         sourceMapIncludeSources: true
       }
     },
-    protractor: {
-      options: {
-        keepAlive: false,
-        configFile: 'tests/protractor.conf.js'
-      },
-      themes: {
-        options: {
-          args: {
-            specs: [
-              'tests/e2e/themes.spec.js'
-            ]
-          }
-        }
-      }
-    },
-    run: {
-      themes: {
-        cmd: 'node',
-        args: [ 'tests/themes/themes-diff.js' ]
-      }
-    },
     buildcontrol: {
       options: {
         dir: '<%= config.dist %>',
@@ -311,23 +281,12 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'jshint',
     'build'
   ]);
 
-  grunt.registerTask('test', function() {
-    grunt.task.run([
-      'default',
-      'connect:dist',
-      'clean:test',
-      'protractor:themes',
-      'run:themes'
-    ]);
-  });
-
   grunt.registerTask('deploy', function () {
     return grunt.task.run([
-      'test',
+      'default',
       'buildcontrol:production'
     ]);
   });

@@ -1,3 +1,5 @@
+@use "sass:color";
+
 /* Corners theme
  */
 
@@ -97,9 +99,9 @@
     .theme-preview:before,
     .theme-preview:after {
       @if $dark == true {
-        background-color: lighten($color, 20%);
+        background-color: color.adjust($color, $lightness: 20%, $space: hsl);
       } @else {
-        background-color: darken($color, 20%);
+        background-color: color.adjust($color, $lightness: -20%, $space: hsl);
       }
     }
   }
