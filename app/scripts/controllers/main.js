@@ -1,6 +1,6 @@
 app.controller('MainCtrl', [
-'$rootScope', '$scope', '$routeParams', '$location', '$timeout', '$q',
-function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
+'$rootScope', '$scope', '$location', '$timeout', '$q',
+function($rootScope, $scope, $location, $timeout, $q) {
   'use strict';
 
   var model = $scope.model = {};
@@ -348,7 +348,7 @@ function($rootScope, $scope, $routeParams, $location, $timeout, $q) {
         window.addEventListener('test', null, Object.defineProperty({}, 'passive', { get: function() { passiveSupported = true; } }));
       } catch(err) {}
 
-      $cardContent.addEventListener('scroll', function(event) {
+      $cardContent.addEventListener('scroll', function () {
         $cardContent.scrollTop = 0;
         $cardContent.scrollLeft = 0;
       }, passiveSupported ? {passive: true} : true);

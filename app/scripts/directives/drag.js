@@ -3,7 +3,7 @@
 
 app.directive('drModel', [
 '$document', '$timeout',
-function ($document, $timeout) {
+function () {
   'use strict';
 
   return {
@@ -59,7 +59,7 @@ function ($document, $timeout) {
         return Math.floor(val/grid) * grid;
       };
 
-      var setContainment = function (argument) {
+      var setContainment = function () {
 
         // get size and position
         var dragRect = $dragHandle.getBoundingClientRect();
@@ -132,7 +132,7 @@ function ($document, $timeout) {
 
       };
 
-      var mouseup = function (e) {
+      var mouseup = function () {
 
         if(!dragActive && !resizeActive) {
           return;
@@ -233,7 +233,7 @@ function ($document, $timeout) {
       var scrollTop;
       var scrollLeft;
 
-      var disableScroll = function(e) {
+      var disableScroll = function () {
 
         if(!dragActive) {
           scrollTop = $body.scrollTop;

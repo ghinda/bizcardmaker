@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "@playwright/test": "^1.47.1",
+    "bower": "^1.8.14",
     "connect-livereload": "^0.6.0",
     "gm": "^1.23.0",
     "grunt": "^1.0.1",
@@ -31,7 +32,7 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "update": "webdriver-manager update",
+    "bower-update": "bower update",
     "start": "grunt server",
     "server:dist": "grunt server:dist",
     "build": "grunt",

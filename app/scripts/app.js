@@ -2,13 +2,12 @@
 */
 
 var app = angular.module('businessCardMaker', [
-  'ngRoute',
   'angular-meditor'
 ]);
 
 app.run([ '$rootScope', function($rootScope){
   'use strict';
 
-  var root = $rootScope.root = {};
+  $rootScope.root = {};
 }]);
 

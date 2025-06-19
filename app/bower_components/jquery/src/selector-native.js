@@ -3,40 +3,46 @@ define( [
 	"./var/document",
 	"./var/documentElement",
 	"./var/hasOwn",
-	"./var/indexOf"
-], function( jQuery, document, documentElement, hasOwn, indexOf ) {
+	"./var/indexOf",
+	"./var/slice",
+
+	// The following utils are attached directly to the jQuery object.
+	"./selector/contains",
+	"./selector/escapeSelector"
+], function( jQuery, document, documentElement, hasOwn, indexOf, slice ) {
+
+"use strict";
 
 /*
- * Optional (non-Sizzle) selector module for custom builds.
+ * Optional limited selector module for custom builds.
  *
  * Note that this DOES NOT SUPPORT many documented jQuery
  * features in exchange for its smaller size:
  *
- * Attribute not equal selector
- * Positional selectors (:first; :eq(n); :odd; etc.)
- * Type selectors (:input; :checkbox; :button; etc.)
- * State-based selectors (:animated; :visible; :hidden; etc.)
- * :has(selector)
- * :not(complex selector)
- * custom selectors via Sizzle extensions
- * Leading combinators (e.g., $collection.find("> *"))
- * Reliable functionality on XML fragments
- * Requiring all parts of a selector to match elements under context
- *   (e.g., $div.find("div > *") now matches children of $div)
- * Matching against non-elements
- * Reliable sorting of disconnected nodes
- * querySelectorAll bug fixes (e.g., unreliable :focus on WebKit)
+ * * Attribute not equal selector (!=)
+ * * Positional selectors (:first; :eq(n); :odd; etc.)
+ * * Type selectors (:input; :checkbox; :button; etc.)
+ * * State-based selectors (:animated; :visible; :hidden; etc.)
+ * * :has(selector)
+ * * :not(complex selector)
+ * * custom selectors via jQuery extensions
+ * * Leading combinators (e.g., $collection.find("> *"))
+ * * Reliable functionality on XML fragments
+ * * Requiring all parts of a selector to match elements under context
+ *     (e.g., $div.find("div > *") now matches children of $div)
+ * * Matching against non-elements
+ * * Reliable sorting of disconnected nodes
+ * * querySelectorAll bug fixes (e.g., unreliable :focus on WebKit)
  *
- * If any of these are unacceptable tradeoffs, either use Sizzle or
- * customize this stub for the project's specific needs.
+ * If any of these are unacceptable tradeoffs, either use the full
+ * selector engine or  customize this stub for the project's specific
+ * needs.
  */
 
 var hasDuplicate, sortInput,
 	sortStable = jQuery.expando.split( "" ).sort( sortOrder ).join( "" ) === jQuery.expando,
 	matches = documentElement.matches ||
 		documentElement.webkitMatchesSelector ||
-		documentElement.mozMatchesSelector ||
-		documentElement.oMatchesSelector ||
 		documentElement.msMatchesSelector;
 
 function sortOrder( a, b ) {
@@ -111,6 +117,15 @@ function uniqueSort( results ) {
 }
 
 jQuery.extend( {
+
+	// This method cannot be shared with the main selector module
+	// as it does in 4.x because of an edge case quirk of putting
+	// disconnected elements in the preferred document before other
+	// elements in the full selector module. This will be a minor
+	// breaking change in 4.0.0.
+	uniqueSort: uniqueSort,
+	unique: uniqueSort,
+
 	find: function( selector, context, results, seed ) {
 		var elem, nodeType,
 			i = 0;
@@ -118,13 +133,13 @@ jQuery.extend( {
 		results = results || [];
 		context = context || document;
 
-		// Same basic safeguard as Sizzle
+		// Same basic safeguard as in the full selector module
 		if ( !selector || typeof selector !== "string" ) {
 			return results;
 		}
 
-		// Early return if context is not an element or document
-		if ( ( nodeType = context.nodeType ) !== 1 && nodeType !== 9 ) {
+		// Early return if context is not an element, document or document fragment
+		if ( ( nodeType = context.nodeType ) !== 1 && nodeType !== 9 && nodeType !== 11 ) {
 			return [];
 		}
 
@@ -140,46 +155,6 @@ jQuery.extend( {
 
 		return results;
 	},
-	uniqueSort: uniqueSort,
-	unique: uniqueSort,
-	text: function( elem ) {
-		var node,
-			ret = "",
-			i = 0,
-			nodeType = elem.nodeType;
-
-		if ( !nodeType ) {
-
-			// If no nodeType, this is expected to be an array
-			while ( ( node = elem[ i++ ] ) ) {
-
-				// Do not traverse comment nodes
-				ret += jQuery.text( node );
-			}
-		} else if ( nodeType === 1 || nodeType === 9 || nodeType === 11 ) {
-
-			// Use textContent for elements
-			return elem.textContent;
-		} else if ( nodeType === 3 || nodeType === 4 ) {
-			return elem.nodeValue;
-		}
-
-		// Do not include comment or processing instruction nodes
-
-		return ret;
-	},
-	contains: function( a, b ) {
-		var adown = a.nodeType === 9 ? a.documentElement : a,
-			bup = b && b.parentNode;
-		return a === bup || !!( bup && bup.nodeType === 1 && adown.contains( bup ) );
-	},
-	isXMLDoc: function( elem ) {
-
-		// documentElement is verified for cases where it doesn't yet exist
-		// (such as loading iframes in IE - #4833)
-		var documentElement = elem && ( elem.ownerDocument || elem ).documentElement;
-		return documentElement ? documentElement.nodeName !== "HTML" : false;
-	},
 	expr: {
 		attrHandle: {},
 		match: {
@@ -189,6 +164,10 @@ jQuery.extend( {
 		}
 	}
 } );
+
+jQuery.fn.uniqueSort = function() {
+	return this.pushStack( jQuery.uniqueSort( slice.apply( this ) ) );
+};
 
 jQuery.extend( jQuery.find, {
 	matches: function( expr, elements ) {
@@ -200,7 +179,7 @@ jQuery.extend( jQuery.find, {
 	attr: function( elem, name ) {
 		var fn = jQuery.expr.attrHandle[ name.toLowerCase() ],
 
-			// Don't get fooled by Object.prototype properties (jQuery #13807)
+			// Don't get fooled by Object.prototype properties (jQuery trac-13807)
 			value = fn && hasOwn.call( jQuery.expr.attrHandle, name.toLowerCase() ) ?
 				fn( elem, name, jQuery.isXMLDoc( elem ) ) :
 				undefined;
