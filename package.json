@@ -25,8 +25,7 @@
     "grunt-usemin": "^3.1.1",
     "jshint": "^2.13.6",
     "matchdep": "^2.0.0",
-    "sass": "^1.26.2",
-    "sw-precache": "^5.2.1"
+    "sass": "^1.26.2"
   },
   "engines": {
     "node": ">=0.8.0"

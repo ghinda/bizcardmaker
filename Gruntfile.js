@@ -227,11 +227,6 @@ module.exports = function (grunt) {
           branch: 'gh-pages'
         }
       },
-    },
-    swPrecache: {
-      dist: {
-        rootDir: '<%= config.dist %>'
-      }
     }
   });
 
@@ -277,7 +272,6 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'swPrecache'
   ]);
 
   grunt.registerTask('default', [
