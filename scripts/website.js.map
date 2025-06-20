@@ -1,1 +1,1 @@
-{"version":3,"file":"website.js","sources":["../../../app/scripts/sw.js"],"names":["navigator","window","addEventListener","serviceWorker","register","then","registration","err"],"mappings":"AAAG,kBAAoBA,WACrBC,OAAOC,iBAAgB,OAAS,WAC9BF,UAAUG,cAAcC,SAAQ,oBAAoB,EAAGC,KAAK,SAASC,KAGlE,SAASC,IAGZ,CACF,CAAA"}
+{"version":3,"file":"website.js","sources":[],"names":[],"mappings":""}
