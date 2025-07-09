@@ -58,12 +58,12 @@ body,
 .card-editor {
   padding-left: 0.5em;
   padding-bottom: 0;
-  width: 100%;
+  width: emCalc(478);
 
   font-size: .78em;
 
   @include breakpoint(mama-bear) {
-    width: emCalc(500);
+    width: emCalc(506);
     margin-left: 20px;
     padding-left: 0;
 
@@ -71,7 +71,7 @@ body,
   }
 
   @include breakpoint(papa-bear) {
-    width: emCalc(594);
+    width: emCalc(596);
     font-size: 1em;
   }
 }
