@@ -9,12 +9,14 @@
     </button>
   </h2>
 
+  <div class="card-wrapper">
+
   <div class="card-container js-card-container" ng-class="{ ' state-loading': model.loadingCard }">
     <div class="card-preview \{{ model.store.theme }}">
 
       <div class="card-content">
 
-        <input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile">
+        <input type="file" id="picture-upload" class="file-upload" fileread="model.cardPictureFile" data-capture="exclude">
 
         <div class="card-picture" dr-container=".card-content" dr-model="model.store.position.picture" dr-grid="10">
 
@@ -58,6 +60,8 @@
       </div>
 
     </div>
+
+  </div>
 
   </div>
 

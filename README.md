@@ -9,7 +9,7 @@
 
 Business Card Maker is mainly built with [AngularJS](https://angularjs.org/) and [Foundation](http://foundation.zurb.com/).
 
-It uses [HTML2Canvas](http://html2canvas.hertzen.com/) and [jsPDF](http://parall.ax/products/jspdf) to generate the final business card, as a picture or PDF.
+It uses [snapDOM](https://github.com/zumerlab/snapdom) and [jsPDF](http://parall.ax/products/jspdf) to generate the final business card, as a picture or PDF.
 
 ## Development
 

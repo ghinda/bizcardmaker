@@ -161,9 +161,6 @@ body,
   position: relative;
   width: emCalc(360);
   height: emCalc(216);
-  margin-bottom: emCalc(20);
-  border: 1px solid color.adjust($white, $lightness: -10%, $space: hsl);
-  box-shadow: 0 2px 1px color.adjust($white, $lightness: -5%, $space: hsl);
 
   font-size: 1.3em;
 
@@ -174,6 +171,12 @@ body,
   @include breakpoint(papa-bear) {
     font-size: 1.65em;
   }
+}
+
+.card-wrapper {
+  border: 1px solid color.adjust($white, $lightness: -10%, $space: hsl);
+  box-shadow: 0 2px 1px color.adjust($white, $lightness: -5%, $space: hsl);
+  margin-bottom: emCalc(20);
 }
 
 // padding 0.25 in for bleed and safe zone (.125 + .125)
@@ -239,6 +242,23 @@ body,
     transition: none;
     transition-delay: 0;
   }
+}
+
+.card-print {
+  // border: 0;
+  // box-shadow: none;
+}
+
+.card-print .no-picture {
+  display: none;
+}
+
+.card-print .drag-handle,
+.card-print .resize-handle {
+  opacity: 0;
+
+  transition: none;
+  transition-delay: 0;
 }
 
 /* Picture upload

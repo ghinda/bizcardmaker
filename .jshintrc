@@ -1,7 +1,7 @@
 {
   "node": true,
   "browser": true,
-  "esnext": true,
+  "esversion": 8,
   "bitwise": true,
   "camelcase": false,
   "curly": true,
@@ -21,16 +21,8 @@
   "globals": {
     "angular": false,
     "$": false,
-    "jQuery": false,
-    "ga": false,
+    "snapdom": false,
     "jsPDF": false,
-    "saveAs": false,
-    "html2canvas": false,
-    "Draggabilly": false,
-    "Foundation": false,
-    "app": true,
-    "env": true,
-    "apiUrl": true,
-    "printchompUrl": true
+    "app": true
   }
 }

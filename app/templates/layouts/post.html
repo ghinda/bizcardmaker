@@ -15,12 +15,6 @@ layout: page.html
 
         {{ page.title }}
       </h2>
-    
-      <div class="post-meta">
-        <time datetime="{{ page.posted }}">
-          {{moment page.posted "MMMM D, YYYY"}}
-        </time>
-      </div>
 
       {{#markdown}}
         {{> body}}
