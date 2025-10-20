@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "devDependencies": {
-    "@playwright/test": "^1.47.1",
+    "@playwright/test": "^1.56.1",
     "bower": "^1.8.14",
     "connect-livereload": "^0.6.0",
     "gm": "^1.23.0",
